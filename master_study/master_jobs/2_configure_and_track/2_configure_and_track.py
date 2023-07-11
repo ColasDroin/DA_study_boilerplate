@@ -16,7 +16,7 @@ import xtrack as xt
 import tree_maker
 import xmask as xm
 import xmask.lhc as xlhc
-from gen_config_orbit_correction import generate_orbit_correction_setup
+from misc import generate_orbit_correction_setup
 
 
 # ==================================================================================================
@@ -272,6 +272,7 @@ def configure_collider(
     config_collider,
     skip_beam_beam=False,
     save_collider=False,
+    save_config=False,
     return_collider_before_bb=False,
 ):
     # Generate configuration files for orbit correction
@@ -330,7 +331,25 @@ def configure_collider(
 
     if save_collider:
         # Save the final collider before tracking
-        collider.to_json("final_collider.json")
+        print('Saving "collider.json')
+        if save_config:
+            collider_dict = collider.to_dict()
+            collider_dict["config_yaml"] = config_collider
+
+            class NpEncoder(json.JSONEncoder):
+                def default(self, obj):
+                    if isinstance(obj, np.integer):
+                        return int(obj)
+                    if isinstance(obj, np.floating):
+                        return float(obj)
+                    if isinstance(obj, np.ndarray):
+                        return obj.tolist()
+                    return super(NpEncoder, self).default(obj)
+
+            with open("collider.json", "w") as fid:
+                json.dump(collider_dict, fid, cls=NpEncoder)
+        else:
+            collider.to_json("collider.json")
 
     if return_collider_before_bb:
         return collider, config_bb, collider_before_bb

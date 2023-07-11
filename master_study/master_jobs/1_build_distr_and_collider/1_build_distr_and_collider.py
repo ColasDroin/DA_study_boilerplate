@@ -124,6 +124,25 @@ def build_collider_from_mad(config_mad):
     return collider
 
 
+def activate_RF_and_twiss(collider):
+    # Define a RF system (values are not so immportant as they're defined later)
+    print("--- Now Computing Twiss assuming:")
+    dic_rf = {"vrf400": 16.0, "lagrf400.b1": 0.5, "lagrf400.b2": 0.0}
+    for knob, val in dic_rf.items():
+        print(f"    {knob} = {val}")
+    print("---")
+
+    collider.build_trackers()
+    for knob, val in dic_rf.items():
+        collider.vars[knob] = val
+
+    tw = collider.lhcb1.twiss()
+    print("--- Now displaying Twiss result at all IPS ---")
+    print(tw[:, "ip.*"])
+
+    return collider
+
+
 def clean():
     # Remove all the temporaty files created in the process of building collider
     os.remove("mad_collider.log")
@@ -151,6 +170,9 @@ def build_distr_and_collider(config_file="config.yaml"):
 
     # Build collider from mad model
     collider = build_collider_from_mad(config_mad)
+
+    # Twiss to ensure eveyrthing is ok
+    collider = activate_RF_and_twiss(collider)
 
     # Clean temporary files
     clean()
