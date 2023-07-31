@@ -36,7 +36,7 @@ d_config_particles["n_r"] = 2 * 16 * (d_config_particles["r_max"] - d_config_par
 d_config_particles["n_angles"] = 5
 
 # Number of split for parallelization
-d_config_particles["n_split"] = 1
+d_config_particles["n_split"] = 8
 
 # ==================================================================================================
 # --- Optics collider parameters (generation 1)
@@ -56,8 +56,7 @@ d_config_mad = {"beam_config": {"lhcb1": {}, "lhcb2": {}}, "links": {}}
 ### For run III
 d_config_mad["links"]["acc-models-lhc"] = "/afs/cern.ch/eng/lhc/optics/runIII"
 # ! updated later
-# d_config_mad["optics_file"] = "acc-models-lhc/RunIII_dev/Proton_2024/V0/opticsfile.40"
-array_optics = [f"acc-models-lhc/RunIII_dev/Proton_2024/V0/opticsfile.{x}" for x in range(23, 50)]
+d_config_mad["optics_file"] = "acc-models-lhc/RunIII_dev/Proton_2024/V0/opticsfile.49"
 d_config_mad["ver_hllhc_optics"] = None
 d_config_mad["ver_lhc_run"] = 3.0
 
@@ -178,7 +177,7 @@ d_config_beambeam["mask_with_filling_pattern"]["i_bunch_b1"] = None
 d_config_beambeam["mask_with_filling_pattern"]["i_bunch_b2"] = None
 # Set this variable to False if you intend to scan the bunch number (but ensure both bunches indices
 # are defined later)
-check_bunch_number = True
+check_bunch_number = False
 if check_bunch_number:
     # Bunch number (ignored if pattern_fname is None (in which case the simulation considers all bunch
     # elements), must be specified otherwise)
@@ -244,7 +243,7 @@ d_config_collider["config_beambeam"] = d_config_beambeam
 d_config_simulation = {}
 
 # Number of turns to track
-d_config_simulation["n_turns"] = 200
+d_config_simulation["n_turns"] = 1000000
 
 # Initial off-momentum
 d_config_simulation["delta_max"] = 27.0e-5
@@ -258,8 +257,8 @@ d_config_simulation["beam"] = "lhcb1"
 # Below, the user chooses if the gen 2 collider must be dumped, along with the corresponding
 # configuration.
 # ==================================================================================================
-dump_collider = True
-dump_config_in_collider = True
+dump_collider = False
+dump_config_in_collider = False
 
 # ==================================================================================================
 # --- Machine parameters being scanned (generation 2)
@@ -268,8 +267,12 @@ dump_config_in_collider = True
 # optimal DA (e.g. tune, chroma, etc).
 # ==================================================================================================
 
-# No parameter scanned for now
+# Scan first bunch of each family
+l_bunch_to_scan = []
+for l_of_bunch_per_family in d_filling_scheme["beam1_identical_bunches"]:
+    l_bunch_to_scan.append(int(l_of_bunch_per_family[0]))
 
+l_bunch_to_scan = l_bunch_to_scan
 # ==================================================================================================
 # --- Make tree for the simulations (generation 1)
 #
@@ -278,118 +281,124 @@ dump_config_in_collider = True
 # distribution, and build a collider with only the optics set.
 # ==================================================================================================
 children = {}
-for idx_optics, optics in enumerate(array_optics):
-    # Update optics and beam energy
-    d_config_mad["optics_file"] = optics
 
-    # Get the new knob configuration
-    with open(
-        d_config_mad["links"]["acc-models-lhc"] + optics.split("acc-models-lhc")[1], "r"
-    ) as fid:
-        lines = fid.readlines()
+# Get the new knob configuration
+with open(
+    d_config_mad["links"]["acc-models-lhc"] + d_config_mad["optics_file"].split("acc-models-lhc")[1], "r"
+) as fid:
+    lines = fid.readlines()
 
-    # Get energy
+# Get energy
+found = False
+for line in lines:
+    if line.strip().startswith("NRJ"):
+        beam_energy_tot = float(line.split(":=")[1].split(";")[0].strip())
+        found = True
+        break
+if not found:
+    raise ValueError(f"Energy not found in {d_config_mad['optics_file']}")
+
+# Set energy
+d_config_mad["beam_config"]["lhcb1"]["beam_energy_tot"] = beam_energy_tot
+d_config_mad["beam_config"]["lhcb2"]["beam_energy_tot"] = beam_energy_tot
+
+# Copy optics with a deep copy to avoid mutating the dictionnary for all the children
+children["base_collider"] = {
+    "config_particles": d_config_particles,
+    "config_mad": copy.deepcopy(d_config_mad),
+    "children": {},
+}
+
+# ==================================================================================================
+# --- Complete tree for the simulations (generation 2)
+#
+# We now set a second generation for the tree. This second generation contains the tracking
+# parameters, as well as a default set of parameters for the colliders (defined above), that we
+# mutate according to the parameters we want to scan.
+# ! Caution when mutating the dictionnary in this function, you have to pass a deepcopy to children,
+# ! otherwise the dictionnary will be mutated for all the children.
+# ==================================================================================================
+
+# Update appropriate knobs in the collider configuration from the new knob configuration
+for knob in [
+    "on_x1",
+    "on_sep1",
+    "on_oh1",
+    "on_ov1",
+    "phi_IR1",
+    "on_x5",
+    "on_sep5",
+    "on_oh5",
+    "on_ov5",
+    "phi_IR5",
+    "on_x2h",
+    "on_sep2h",
+    "on_x2v",
+    "on_sep2v",
+    "on_a2",
+    "on_o2",
+    "on_oh2",
+    "on_ov2",
+    "phi_IR2",
+    "on_x8h",
+    "on_sep8h",
+    "on_x8v",
+    "on_sep8v",
+    "on_a8",
+    "on_o8",
+    "on_oh8",
+    "on_ov8",
+    "phi_IR8",
+]:
     found = False
     for line in lines:
-        if line.strip().startswith("NRJ"):
-            beam_energy_tot = float(line.split(":=")[1].split(";")[0].strip())
+        if line.strip().startswith(knob):
+            d_config_knobs[knob] = float(line.split(":=")[1].split(";")[0].strip())
             found = True
+
+            # Impose zero separation at IP1 and IP5
+            if knob == "on_sep1" or knob == "on_sep5":
+                d_config_knobs[knob] = 0.0
+            # Give a good initial condition for luminosity leveling optimization in IP2/8
+            if knob == "on_sep8h" or knob == "on_sep2h":
+                d_config_knobs[knob] = d_config_knobs[knob] * 0.01
+            if knob == "on_x5":
+                d_config_knobs[knob] = -d_config_knobs[knob]
             break
     if not found:
-        raise ValueError(f"Energy not found in {optics}")
+        raise ValueError(f"Knob {knob} not found in knobs.json")
 
-    # Set energy
-    d_config_mad["beam_config"]["lhcb1"]["beam_energy_tot"] = beam_energy_tot
-    d_config_mad["beam_config"]["lhcb2"]["beam_energy_tot"] = beam_energy_tot
+d_config_collider["config_knobs_and_tuning"]["knob_settings"] = d_config_knobs
 
-    # Copy optics with a deep copy to avoid mutating the dictionnary for all the children
-    children[f"collider_{idx_optics:02}"] = {
-        "config_particles": d_config_particles,
-        "config_mad": copy.deepcopy(d_config_mad),
-        "children": {},
+track_array = np.arange(d_config_particles["n_split"])
+for idx_job, (track, bunch_nb) in enumerate(itertools.product(track_array, l_bunch_to_scan)):
+    # Mutate the appropriate collider parameters
+    for beam in ["lhcb1", "lhcb2"]:
+        d_config_collider["config_beambeam"]["mask_with_filling_pattern"]["i_bunch_b1"] = int(
+            bunch_nb
+        )
+        d_config_collider["config_beambeam"]["mask_with_filling_pattern"]["i_bunch_b2"] = int(
+            bunch_nb
+        )
+
+    # Complete the dictionnary for the tracking
+    d_config_simulation["particle_file"] = f"../particles/{track:02}.parquet"
+    d_config_simulation["collider_file"] = f"../collider/collider.json"
+
+    # Add a child to the second generation, with all the parameters for the collider and tracking
+    children["base_collider"]["children"][f"xtrack_{idx_job:04}"] = {
+        "config_simulation": copy.deepcopy(d_config_simulation),
+        "config_collider": copy.deepcopy(d_config_collider),
+        "log_file": "tree_maker.log",
+        "dump_collider": dump_collider,
+        "dump_config_in_collider": dump_config_in_collider,
     }
-
-    # ==================================================================================================
-    # --- Complete tree for the simulations (generation 2)
-    #
-    # We now set a second generation for the tree. This second generation contains the tracking
-    # parameters, as well as a default set of parameters for the colliders (defined above), that we
-    # mutate according to the parameters we want to scan.
-    # ! Caution when mutating the dictionnary in this function, you have to pass a deepcopy to children,
-    # ! otherwise the dictionnary will be mutated for all the children.
-    # ==================================================================================================
-
-    # Update appropriate knobs in the collider configuration from the new knob configuration
-    for knob in [
-        "on_x1",
-        "on_sep1",
-        "on_oh1",
-        "on_ov1",
-        "phi_IR1",
-        "on_x5",
-        "on_sep5",
-        "on_oh5",
-        "on_ov5",
-        "phi_IR5",
-        "on_x2h",
-        "on_sep2h",
-        "on_x2v",
-        "on_sep2v",
-        "on_a2",
-        "on_o2",
-        "on_oh2",
-        "on_ov2",
-        "phi_IR2",
-        "on_x8h",
-        "on_sep8h",
-        "on_x8v",
-        "on_sep8v",
-        "on_a8",
-        "on_o8",
-        "on_oh8",
-        "on_ov8",
-        "phi_IR8",
-    ]:
-        found = False
-        for line in lines:
-            if line.strip().startswith(knob):
-                d_config_knobs[knob] = float(line.split(":=")[1].split(";")[0].strip())
-                found = True
-
-                # Impose zero separation at IP1 and IP5
-                if knob == "on_sep1" or knob == "on_sep5":
-                    d_config_knobs[knob] = 0.0
-                # Give a good initial condition for luminosity leveling optimization in IP2/8
-                if knob == "on_sep8h" or knob == "on_sep2h":
-                    d_config_knobs[knob] = d_config_knobs[knob] * 0.01
-                if knob == "on_x5":
-                    d_config_knobs[knob] = -d_config_knobs[knob]
-                break
-        if not found:
-            raise ValueError(f"Knob {knob} not found in knobs.json")
-
-    d_config_collider["config_knobs_and_tuning"]["knob_settings"] = d_config_knobs
-
-    track_array = np.arange(d_config_particles["n_split"])
-    for idx_job, track in enumerate(track_array):
-        # Complete the dictionnary for the tracking
-        d_config_simulation["particle_file"] = f"../particles/{track:02}.parquet"
-        d_config_simulation["collider_file"] = f"../collider/collider.json"
-
-        # Add a child to the second generation, with all the parameters for the collider and tracking
-        children[f"collider_{idx_optics:02}"]["children"][f"xtrack_{idx_job:04}"] = {
-            "config_simulation": copy.deepcopy(d_config_simulation),
-            "config_collider": copy.deepcopy(d_config_collider),
-            "log_file": "tree_maker.log",
-            "dump_collider": dump_collider,
-            "dump_config_in_collider": dump_config_in_collider,
-        }
 
 # ==================================================================================================
 # --- Simulation configuration
 # ==================================================================================================
 # Load the tree_maker simulation configuration
-config = yaml.safe_load(open("config_htc.yaml"))
+config = yaml.safe_load(open("config.yaml"))
 
 # # Set the root children to the ones defined above
 config["root"]["children"] = children
@@ -401,7 +410,7 @@ config["root"]["setup_env_script"] = os.getcwd() + "/../miniforge/bin/activate"
 # --- Build tree and write it to the filesystem
 # ==================================================================================================
 # Define study name
-study_name = "all_optics_2024_reverted"
+study_name = "bbb_scan_2024"
 
 # Creade folder that will contain the tree
 if not os.path.exists("scans/" + study_name):
