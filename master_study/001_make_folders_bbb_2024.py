@@ -54,7 +54,7 @@ d_config_mad = {"beam_config": {"lhcb1": {}, "lhcb2": {}}, "links": {}}
 # Optic file path (version, and round or flat)
 
 ### For run III
-d_config_mad["links"]["acc-models-lhc"] = "/afs/cern.ch/eng/lhc/optics/runIII"
+d_config_mad["links"]["acc-models-lhc"] = "../modules/runIII"
 # ! updated later
 d_config_mad["optics_file"] = "acc-models-lhc/RunIII_dev/Proton_2024/V0/opticsfile.49"
 d_config_mad["ver_hllhc_optics"] = None
@@ -140,7 +140,7 @@ d_config_beambeam["nemitt_y"] = 2.2e-6
 # The scheme should consist of a json file containing two lists of booleans (one for each beam),
 # representing each bucket of the LHC.
 filling_scheme_path = os.path.abspath(
-    "master_jobs/filling_scheme/25ns_2464b_2452_1842_1821_236bpi_12inj_hybrid.json"
+    "master_jobs/filling_scheme/25ns_2464b_2452_1842_1821_236bpi_12inj_hybrid_converted_with_identical_bunches.json"
 )
 
 # Alternatively, one can get a fill directly from LPC from, e.g.:
@@ -243,7 +243,7 @@ d_config_collider["config_beambeam"] = d_config_beambeam
 d_config_simulation = {}
 
 # Number of turns to track
-d_config_simulation["n_turns"] = 1000000
+d_config_simulation["n_turns"] = 200
 
 # Initial off-momentum
 d_config_simulation["delta_max"] = 27.0e-5
@@ -272,7 +272,7 @@ l_bunch_to_scan = []
 for l_of_bunch_per_family in d_filling_scheme["beam1_identical_bunches"]:
     l_bunch_to_scan.append(int(l_of_bunch_per_family[0]))
 
-l_bunch_to_scan = l_bunch_to_scan
+l_bunch_to_scan = l_bunch_to_scan[:2]
 # ==================================================================================================
 # --- Make tree for the simulations (generation 1)
 #

@@ -6,7 +6,7 @@
       job_executable: 1_build_distr_and_collider.py # has to be a python file
       files_to_clone: # relative to the template folder
         - optics_specific_tools_runIII.py
-      run_on: 'local_pc'
+      run_on: 'slurm'
     2: # Launch the pymask and prepare the colliders
       job_folder: '../../master_jobs/2_configure_and_track'
       job_executable: 2_configure_and_track.py # has to be a python file
