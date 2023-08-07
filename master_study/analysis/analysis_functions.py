@@ -71,7 +71,16 @@ def load_config(config_path):
     return config
 
 
-def get_title_from_conf(conf_mad, conf_collider, type_crossing=None, betx=None, bety=None):
+def get_title_from_conf(
+    conf_mad,
+    conf_collider,
+    type_crossing=None,
+    betx=None,
+    bety=None,
+    Nb=True,
+    levelling="",
+    CC=False,
+):
     # LHC version
     try:
         LHC_version = conf_mad["links"]["acc-models-lhc"].split("modules/")[1]
@@ -80,39 +89,73 @@ def get_title_from_conf(conf_mad, conf_collider, type_crossing=None, betx=None, 
     except:
         LHC_version = conf_mad["links"]["acc-models-lhc"].split("optics/")[1]
         if LHC_version == "runIII":
-            LHC_version = "run III"
+            LHC_version = "Run III"
+        if "2023" in conf_mad["optics_file"]:
+            LHC_version = LHC_version + " (2023)"
+        elif "2024" in conf_mad["optics_file"]:
+            LHC_version = LHC_version + " (2024)"
 
-    # Round or flat optics
-    if "flatcc" in conf_mad["optics_file"]:
-        optics = "Flat optics"
-    else:
-        optics = "Round optics"
+    # Energy
+    energy_value = float(conf_mad["beam_config"]["lhcb1"]["beam_energy_tot"]) / 1000
+    energy = f"$E = {{{energy_value:.1f}}}$ $TeV$"
 
     # Levelling
-    if conf_collider["skip_leveling"]:
-        levelling = "Start of levelling"
-    else:
-        levelling = "End of levelling"
+    levelling = levelling
+    if levelling != "":
+        levelling += " ."
 
     # Crab cavities
-    if "on_crab1" in conf_collider["config_knobs_and_tuning"]["knob_settings"]:
-        if conf_collider["config_knobs_and_tuning"]["knob_settings"]["on_crab1"] is not None:
-            crab_cavities = "CC ON"
+    if CC:
+        if "on_crab1" in conf_collider["config_knobs_and_tuning"]["knob_settings"]:
+            if conf_collider["config_knobs_and_tuning"]["knob_settings"]["on_crab1"] is not None:
+                crab_cavities = "CC ON. "
+            else:
+                crab_cavities = "CC OFF. "
         else:
-            crab_cavities = "CC OFF"
+            crab_cavities = "NO CC. "
     else:
-        crab_cavities = "NO CC"
+        crab_cavities = ""
 
     # Bunch number
     bunch_number_value = conf_collider["config_beambeam"]["mask_with_filling_pattern"]["i_bunch_b1"]
     bunch_number = f"Bunch {bunch_number_value}"
 
     # Bunch intensity
-    bunch_intensity = (
-        f"$N_b \simeq $"
-        + latex_float(float(conf_collider["config_beambeam"]["num_particles_per_bunch"]))
-        + "ppb"
-    )
+    if Nb:
+        try:
+            bunch_intensity_value = conf_collider["config_beambeam"][
+                "num_particles_per_bunch_after_optimization"
+            ]
+        except:
+            bunch_intensity_value = conf_collider["config_beambeam"]["num_particles_per_bunch"]
+        bunch_intensity = f"$N_b \simeq $" + latex_float(float(bunch_intensity_value)) + " ppb, "
+    else:
+        bunch_intensity = ""
+
+    try:
+        luminosity_value_1_5 = conf_collider["config_beambeam"][
+            "luminosity_ip1_5_after_optimization"
+        ]
+        luminosity_value_2 = conf_collider["config_beambeam"]["luminosity_ip2_after_optimization"]
+        luminosity_value_8 = conf_collider["config_beambeam"]["luminosity_ip8_after_optimization"]
+    except:
+        luminosity_value_1_5 = None
+        luminosity_value_2 = None
+        luminosity_value_8 = None
+    if luminosity_value_1_5 is not None:
+        luminosity_1_5 = (
+            f"$L_{{1/5}} = $" + latex_float(float(luminosity_value_1_5)) + "cm$^{-2}$s$^{-1}$, "
+        )
+        luminosity_2 = (
+            f"$L_{{2}} = $" + latex_float(float(luminosity_value_2)) + "cm$^{-2}$s$^{-1}$, "
+        )
+        luminosity_8 = (
+            f"$L_{{8}} = $" + latex_float(float(luminosity_value_8)) + "cm$^{-2}$s$^{-1}$"
+        )
+    else:
+        luminosity_1_5 = ""
+        luminosity_2 = ""
+        luminosity_8 = ""
 
     # Beta star # ! Manually encoded for now
     if "flathv" in conf_mad["optics_file"]:
@@ -134,13 +177,18 @@ def get_title_from_conf(conf_mad, conf_collider, type_crossing=None, betx=None, 
 
     # Crossing angle at IP1/5
     if "flathv" in conf_mad["optics_file"] or type_crossing == "flathv":
-        phi = r"$\Phi/2_{IP1(H)/5(V)}$"
+        phi_1 = r"$\Phi/2_{IP1(H)}$"
+        phi_5 = r"$\Phi/2_{IP5(V)}$"
     elif "flatvh" in conf_mad["optics_file"] or type_crossing == "flatvh":
-        phi = r"$\Phi/2_{IP1(V)/5(H)}$"
+        phi_1 = r"$\Phi/2_{IP1(V)}$"
+        phi_5 = r"$\Phi/2_{IP5(H)}$"
     else:
         raise ValueError("Optics configuration not automatized yet")
-    xing_value_IP15 = conf_collider["config_knobs_and_tuning"]["knob_settings"]["on_x1"]
-    xing_IP15 = phi + f"$= {{{xing_value_IP15}}} \mu rad$"
+    xing_value_IP1 = conf_collider["config_knobs_and_tuning"]["knob_settings"]["on_x1"]
+    xing_IP1 = phi_1 + f"$= {{{xing_value_IP1:.0f}}}$" + f" $\mu rad$"
+
+    xing_value_IP5 = conf_collider["config_knobs_and_tuning"]["knob_settings"]["on_x5"]
+    xing_IP5 = phi_5 + f"$= {{{xing_value_IP5:.0f}}}$" + f" $\mu rad$"
 
     # Bunch length
     bunch_length_value = conf_collider["config_beambeam"]["sigma_z"] * 100
@@ -150,11 +198,30 @@ def get_title_from_conf(conf_mad, conf_collider, type_crossing=None, betx=None, 
     xing_value_IP8h = conf_collider["config_knobs_and_tuning"]["knob_settings"]["on_x8h"]
     xing_value_IP8v = conf_collider["config_knobs_and_tuning"]["knob_settings"]["on_x8v"]
     if xing_value_IP8v != 0 and xing_value_IP8h == 0:
-        xing_IP8 = r"$\Phi/2_{IP8,V}$" + f"$= {{{xing_value_IP8v}}}$ $\mu rad$"
+        xing_IP8 = r"$\Phi/2_{IP8,V}$" + f"$= {{{xing_value_IP8v:.0f}}}$ $\mu rad$"
     elif xing_value_IP8v == 0 and xing_value_IP8h != 0:
-        xing_IP8 = r"$\Phi/2_{IP8,H}$" + f"$= {{{xing_value_IP8h}}}$ $\mu rad$"
+        xing_IP8 = r"$\Phi/2_{IP8,H}$" + f"$= {{{xing_value_IP8h:.0f}}}$ $\mu rad$"
     else:
         raise ValueError("Optics configuration not automatized yet")
+
+    # Crosing angle at IP2
+    xing_value_IP2h = conf_collider["config_knobs_and_tuning"]["knob_settings"]["on_x2h"]
+    xing_value_IP2v = conf_collider["config_knobs_and_tuning"]["knob_settings"]["on_x2v"]
+    if xing_value_IP2v != 0 and xing_value_IP2h == 0:
+        xing_IP2 = r"$\Phi/2_{IP2,V}$" + f"$= {{{xing_value_IP2v:.0f}}}$ $\mu rad$"
+    elif xing_value_IP8v == 0 and xing_value_IP8h != 0:
+        xing_IP2 = r"$\Phi/2_{IP2,H}$" + f"$= {{{xing_value_IP2h:.0f}}}$ $\mu rad$"
+    else:
+        raise ValueError("Optics configuration not automatized yet")
+
+    # Polarity IP 2 and 8
+    polarity_value_IP2 = conf_collider["config_knobs_and_tuning"]["knob_settings"][
+        "on_alice_normalized"
+    ]
+    polarity_value_IP8 = conf_collider["config_knobs_and_tuning"]["knob_settings"][
+        "on_lhcb_normalized"
+    ]
+    polarity = f"$polarity$ $IP_{{2/8}} = {{{polarity_value_IP2}}}/{{{polarity_value_IP8}}}$"
 
     # Normalized emittance
     emittance_value = round(conf_collider["config_beambeam"]["nemitt_x"] / 1e-6, 2)
@@ -178,28 +245,33 @@ def get_title_from_conf(conf_mad, conf_collider, type_crossing=None, betx=None, 
     ].split("filling_scheme/")[1]
     if "12inj" in filling_scheme_value:
         filling_scheme_value = filling_scheme_value.split("12inj")[0] + "12inj"
-    filling_scheme = f"$F. Scheme:$ {filling_scheme_value}"
+    filling_scheme = f"{filling_scheme_value}"
     title = (
         LHC_version
         + ". "
-        + optics
+        + energy
         + ". "
         + levelling
-        + ". "
         + crab_cavities
-        + ". "
-        + bunch_number
-        + "."
-        + "\n"
         + bunch_intensity
-        + ", "
+        + "\n"
+        + luminosity_1_5
+        + luminosity_2
+        + luminosity_8
+        + "\n"
         + beta
         + ", "
-        + xing_IP15
+        + polarity
         + "\n"
-        + bunch_length
+        + xing_IP1
+        + ", "
+        + xing_IP5
+        + ", "
+        + xing_IP2
         + ", "
         + xing_IP8
+        + "\n"
+        + bunch_length
         + ", "
         + emittance
         + ", "
@@ -210,6 +282,9 @@ def get_title_from_conf(conf_mad, conf_collider, type_crossing=None, betx=None, 
         + coupling
         + "\n"
         + filling_scheme
+        + ". "
+        + bunch_number
+        + "."
     )
     return title
 
@@ -224,6 +299,9 @@ def plot_heatmap(
     type_crossing=None,
     betx=None,
     bety=None,
+    Nb=True,
+    levelling="",
+    CC=False,
 ):
     # Get numpy array from dataframe
     data_array = df_to_plot.to_numpy()
@@ -291,7 +369,14 @@ def plot_heatmap(
     if conf_mad is not None and conf_collider is not None:
         ax.set_title(
             get_title_from_conf(
-                conf_mad, conf_collider, type_crossing=type_crossing, betx=betx, bety=bety
+                conf_mad,
+                conf_collider,
+                type_crossing=type_crossing,
+                betx=betx,
+                bety=bety,
+                Nb=Nb,
+                levelling=levelling,
+                CC=CC,
             ),
             fontsize=10,
         )
