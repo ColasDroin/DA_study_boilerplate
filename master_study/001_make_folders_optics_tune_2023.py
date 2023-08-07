@@ -54,7 +54,7 @@ d_config_mad = {"beam_config": {"lhcb1": {}, "lhcb2": {}}, "links": {}}
 # Optic file path (version, and round or flat)
 
 ### For run III
-d_config_mad["links"]["acc-models-lhc"] = "../modules/runIII"
+d_config_mad["links"]["acc-models-lhc"] = "../../../../modules/runIII"
 # ! updated later
 # d_config_mad["optics_file"] = "acc-models-lhc/RunIII_dev/Proton_2024/V0/opticsfile.40"
 array_optics = [f"acc-models-lhc/RunIII_dev/Proton_2023/opticsfile.{x}" for x in range(23, 49)][:1]
@@ -285,7 +285,7 @@ for idx_optics, optics in enumerate(array_optics):
 
     # Get the new knob configuration
     with open(
-        d_config_mad["links"]["acc-models-lhc"] + optics.split("acc-models-lhc")[1], "r"
+        '../'.join(d_config_mad["links"]["acc-models-lhc"].split('../')[3:]) + d_config_mad["optics_file"].split("acc-models-lhc")[1], "r"
     ) as fid:
         lines = fid.readlines()
 
