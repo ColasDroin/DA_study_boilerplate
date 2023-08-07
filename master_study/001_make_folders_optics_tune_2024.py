@@ -36,7 +36,7 @@ d_config_particles["n_r"] = 2 * 16 * (d_config_particles["r_max"] - d_config_par
 d_config_particles["n_angles"] = 5
 
 # Number of split for parallelization
-d_config_particles["n_split"] = 1
+d_config_particles["n_split"] = 8
 
 # ==================================================================================================
 # --- Optics collider parameters (generation 1)
@@ -57,7 +57,7 @@ d_config_mad = {"beam_config": {"lhcb1": {}, "lhcb2": {}}, "links": {}}
 d_config_mad["links"]["acc-models-lhc"] = "/afs/cern.ch/eng/lhc/optics/runIII"
 # ! updated later
 # d_config_mad["optics_file"] = "acc-models-lhc/RunIII_dev/Proton_2024/V0/opticsfile.40"
-array_optics = [f"acc-models-lhc/RunIII_dev/Proton_2023/opticsfile.{x}" for x in range(23, 49)]
+array_optics = [f"acc-models-lhc/RunIII_dev/Proton_2024/V0/opticsfile.{x}" for x in range(23, 50)]
 d_config_mad["ver_hllhc_optics"] = None
 d_config_mad["ver_lhc_run"] = 3.0
 
@@ -258,8 +258,8 @@ d_config_simulation["beam"] = "lhcb1"
 # Below, the user chooses if the gen 2 collider must be dumped, along with the corresponding
 # configuration.
 # ==================================================================================================
-dump_collider = True
-dump_config_in_collider = True
+dump_collider = False
+dump_config_in_collider = False
 
 # ==================================================================================================
 # --- Machine parameters being scanned (generation 2)
@@ -268,7 +268,8 @@ dump_config_in_collider = True
 # optimal DA (e.g. tune, chroma, etc).
 # ==================================================================================================
 
-# No parameter scanned for now
+# Scan tune with step of 0.001 (need to round to correct for numpy numerical instabilities)
+array_qx = np.round(np.arange(62.305, 62.330, 0.001), decimals=4)
 
 # ==================================================================================================
 # --- Make tree for the simulations (generation 1)
@@ -362,8 +363,8 @@ for idx_optics, optics in enumerate(array_optics):
                 # Give a good initial condition for luminosity leveling optimization in IP2/8
                 if knob == "on_sep8h" or knob == "on_sep2h":
                     d_config_knobs[knob] = d_config_knobs[knob] * 0.01
-                # if knob == "on_x5":
-                #    d_config_knobs[knob] = -d_config_knobs[knob]
+                if knob == "on_x5":
+                   d_config_knobs[knob] = -d_config_knobs[knob]
                 break
         if not found:
             raise ValueError(f"Knob {knob} not found in knobs.json")
@@ -371,7 +372,13 @@ for idx_optics, optics in enumerate(array_optics):
     d_config_collider["config_knobs_and_tuning"]["knob_settings"] = d_config_knobs
 
     track_array = np.arange(d_config_particles["n_split"])
-    for idx_job, track in enumerate(track_array):
+    for idx_job, track, qx in enumerate(track_array, array_qx):
+        
+        # Mutate the appropriate collider parameters
+        for beam in ["lhcb1", "lhcb2"]:
+            d_config_collider["config_knobs_and_tuning"]["qx"][beam] = float(qx)
+            d_config_collider["config_knobs_and_tuning"]["qy"][beam] = float(qx-2+0.005)
+        
         # Complete the dictionnary for the tracking
         d_config_simulation["particle_file"] = f"../particles/{track:02}.parquet"
         d_config_simulation["collider_file"] = f"../collider/collider.json"
@@ -389,7 +396,7 @@ for idx_optics, optics in enumerate(array_optics):
 # --- Simulation configuration
 # ==================================================================================================
 # Load the tree_maker simulation configuration
-config = yaml.safe_load(open("config_htc.yaml"))
+config = yaml.safe_load(open("config.yaml"))
 
 # # Set the root children to the ones defined above
 config["root"]["children"] = children
@@ -401,7 +408,7 @@ config["root"]["setup_env_script"] = os.getcwd() + "/../miniforge/bin/activate"
 # --- Build tree and write it to the filesystem
 # ==================================================================================================
 # Define study name
-study_name = "all_optics_2023"
+study_name = "optics_tune_2024"
 
 # Creade folder that will contain the tree
 if not os.path.exists("scans/" + study_name):
