@@ -277,7 +277,7 @@ def luminosity_leveling(
             targets.append(
                 xt.TargetLuminosity(
                     ip_name=ip_name,
-                    luminosity=np.log(config_this_ip["luminosity"]),
+                    luminosity=config_this_ip["luminosity"],
                     crab=False,
                     tol=1e30,  # 0.01 * config_this_ip["luminosity"],
                     f_rev=f_rev,
@@ -286,6 +286,7 @@ def luminosity_leveling(
                     sigma_z=config_beambeam["sigma_z"],
                     nemitt_x=config_beambeam["nemitt_x"],
                     nemitt_y=config_beambeam["nemitt_y"],
+                    log=True,
                 )
             )
 
@@ -355,11 +356,11 @@ def luminosity_leveling_ip1_5(
     cross_section,
     crab=False,
 ):
-    def f(I):
-        # Get Twiss
-        twiss_b1 = collider["lhcb1"].twiss()
-        twiss_b2 = collider["lhcb2"].twiss()
+    # Get Twiss
+    twiss_b1 = collider["lhcb1"].twiss()
+    twiss_b2 = collider["lhcb2"].twiss()
 
+    def compute_lumi(I):
         luminosity = xt.lumi.luminosity_from_twiss(
             n_colliding_bunches=config_collider["config_lumi_leveling_ip1_5"][
                 "num_colliding_bunches"
@@ -373,6 +374,10 @@ def luminosity_leveling_ip1_5(
             twiss_b2=twiss_b2,
             crab=crab,
         )
+        return luminosity
+
+    def f(I):
+        luminosity = compute_lumi(I)
 
         PU = (
             luminosity
@@ -406,7 +411,7 @@ def luminosity_leveling_ip1_5(
         print(
             f"Optimization for leveling in IP 1/5 succeeded with I={res.x:.2e} particles per bunch"
         )
-    return res.x
+    return res.x, compute_lumi(res.x)
 
 
 if __name__ == "__main__":
