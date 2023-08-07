@@ -54,7 +54,7 @@ d_config_mad = {"beam_config": {"lhcb1": {}, "lhcb2": {}}, "links": {}}
 # Optic file path (version, and round or flat)
 
 ### For run III
-d_config_mad["links"]["acc-models-lhc"] = "/afs/cern.ch/eng/lhc/optics/runIII"
+d_config_mad["links"]["acc-models-lhc"] = "../modules/runIII"
 # ! updated later
 # d_config_mad["optics_file"] = "acc-models-lhc/RunIII_dev/Proton_2024/V0/opticsfile.40"
 array_optics = [f"acc-models-lhc/RunIII_dev/Proton_2024/V0/opticsfile.{x}" for x in range(23, 50)]
@@ -372,7 +372,7 @@ for idx_optics, optics in enumerate(array_optics):
     d_config_collider["config_knobs_and_tuning"]["knob_settings"] = d_config_knobs
 
     track_array = np.arange(d_config_particles["n_split"])
-    for idx_job, track, qx in enumerate(track_array, array_qx):
+    for idx_job, (track, qx) in enumerate(itertools.product(track_array, array_qx)):
         
         # Mutate the appropriate collider parameters
         for beam in ["lhcb1", "lhcb2"]:

@@ -54,10 +54,10 @@ d_config_mad = {"beam_config": {"lhcb1": {}, "lhcb2": {}}, "links": {}}
 # Optic file path (version, and round or flat)
 
 ### For run III
-d_config_mad["links"]["acc-models-lhc"] = "/afs/cern.ch/eng/lhc/optics/runIII"
+d_config_mad["links"]["acc-models-lhc"] = "../modules/runIII"
 # ! updated later
 # d_config_mad["optics_file"] = "acc-models-lhc/RunIII_dev/Proton_2024/V0/opticsfile.40"
-array_optics = [f"acc-models-lhc/RunIII_dev/Proton_2023/opticsfile.{x}" for x in range(23, 49)]
+array_optics = [f"acc-models-lhc/RunIII_dev/Proton_2023/opticsfile.{x}" for x in range(23, 49)][:1]
 d_config_mad["ver_hllhc_optics"] = None
 d_config_mad["ver_lhc_run"] = 3.0
 
@@ -244,7 +244,7 @@ d_config_collider["config_beambeam"] = d_config_beambeam
 d_config_simulation = {}
 
 # Number of turns to track
-d_config_simulation["n_turns"] = 200
+d_config_simulation["n_turns"] = 1000
 
 # Initial off-momentum
 d_config_simulation["delta_max"] = 27.0e-5
@@ -269,7 +269,7 @@ dump_config_in_collider = False
 # ==================================================================================================
 
 # Scan tune with step of 0.001 (need to round to correct for numpy numerical instabilities)
-array_qx = np.round(np.arange(62.305, 62.330, 0.001), decimals=4)
+array_qx = np.round(np.arange(62.305, 62.330, 0.001), decimals=4)[:5]
 
 # ==================================================================================================
 # --- Make tree for the simulations (generation 1)
@@ -372,7 +372,7 @@ for idx_optics, optics in enumerate(array_optics):
     d_config_collider["config_knobs_and_tuning"]["knob_settings"] = d_config_knobs
 
     track_array = np.arange(d_config_particles["n_split"])
-    for idx_job, track, qx in enumerate(track_array, array_qx):
+    for idx_job, (track, qx) in enumerate(itertools.product(track_array, array_qx)):
         
         # Mutate the appropriate collider parameters
         for beam in ["lhcb1", "lhcb2"]:
