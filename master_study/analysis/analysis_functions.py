@@ -99,28 +99,31 @@ def get_title_from_conf(
     energy_value = float(conf_mad["beam_config"]["lhcb1"]["beam_energy_tot"]) / 1000
     energy = f"$E = {{{energy_value:.1f}}}$ $TeV$"
 
-    # Levelling
-    levelling = levelling
-    if levelling != "":
-        levelling += " ."
 
-    # Crab cavities
-    if CC:
-        if "on_crab1" in conf_collider["config_knobs_and_tuning"]["knob_settings"]:
-            if conf_collider["config_knobs_and_tuning"]["knob_settings"]["on_crab1"] is not None:
-                crab_cavities = "CC ON. "
-            else:
-                crab_cavities = "CC OFF. "
-        else:
-            crab_cavities = "NO CC. "
-    else:
-        crab_cavities = ""
-
-    # Bunch number
-    bunch_number_value = conf_collider["config_beambeam"]["mask_with_filling_pattern"]["i_bunch_b1"]
-    bunch_number = f"Bunch {bunch_number_value}"
 
     if conf_collider is not None:
+
+        # Levelling
+        levelling = levelling
+        if levelling != "":
+            levelling += " ."
+        
+
+        # Bunch number
+        bunch_number_value = conf_collider["config_beambeam"]["mask_with_filling_pattern"]["i_bunch_b1"]
+        bunch_number = f"Bunch {bunch_number_value}"
+
+        # Crab cavities
+        if CC:
+            if "on_crab1" in conf_collider["config_knobs_and_tuning"]["knob_settings"]:
+                if conf_collider["config_knobs_and_tuning"]["knob_settings"]["on_crab1"] is not None:
+                    crab_cavities = "CC ON. "
+                else:
+                    crab_cavities = "CC OFF. "
+            else:
+                crab_cavities = "NO CC. "
+        else:
+            crab_cavities = ""
 
         # Bunch intensity
         if Nb:
@@ -289,7 +292,7 @@ def get_title_from_conf(
             + "."
         )
     else:
-        title = LHC_version + ". " + energy + ". " + levelling + crab_cavities + bunch_number + "."
+        title = LHC_version + ". " + energy + ". " 
     return title
 
 
@@ -311,6 +314,8 @@ def plot_heatmap(
     symmetric = True,
     mask_lower_triangle = True,
     plot_diagonal_lines = True,
+    xaxis_ticks_on_top = True,
+    title = None,
 ):
     # Get numpy array from dataframe
     data_array = df_to_plot.to_numpy()
@@ -379,7 +384,7 @@ def plot_heatmap(
         ax.plot([0, 1000], [-4, 996], color="black", linestyle="--", linewidth=1)
 
     # Define title and axis labels
-    if conf_mad is not None and conf_collider is not None:
+    if title is None:
         ax.set_title(
             get_title_from_conf(
                 conf_mad,
@@ -393,16 +398,20 @@ def plot_heatmap(
             ),
             fontsize=10,
         )
+    else:
+        ax.set_title(title, fontsize=10)
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     ax.set_xlim(0 - 0.5, data_array.shape[1] - 0.5)
     ax.set_ylim(0 - 0.5, data_array.shape[0] - 0.5)
 
     # Ticks on top
-    ax.xaxis.tick_top()
+    if xaxis_ticks_on_top:
+        ax.xaxis.tick_top()
     # Rotate the tick labels and set their alignment.
-    plt.setp(ax.get_xticklabels(), rotation=-30, ha="right", rotation_mode="anchor")
-
+    plt.setp(ax.get_xticklabels(), rotation=-30,rotation_mode="anchor", ha="left")#, rotation_mode="anchor")
+    #ax.tick_params(axis='x', which='major', pad=5)
+    
     # Create colorbar
     cbar = ax.figure.colorbar(im, ax=ax, fraction=0.026, pad=0.04)
     cbar.ax.set_ylabel("Minimum DA (" + r"$\sigma$" + ")", rotation=90, va="bottom", labelpad=15)
