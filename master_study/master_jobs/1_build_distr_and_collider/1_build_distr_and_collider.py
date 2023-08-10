@@ -62,8 +62,8 @@ def build_particle_distribution(config_particles):
 
     # Define particle distribution as a cartesian product of the above
     particle_list = [
-        (particle_id, ii[0], ii[1])
-        for particle_id, ii in enumerate(itertools.product(radial_list, theta_list))
+        (particle_id, ii[1], ii[0])
+        for particle_id, ii in enumerate(itertools.product(theta_list, radial_list))
     ]
 
     # Split distribution into several chunks for parallelization
