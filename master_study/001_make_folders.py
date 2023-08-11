@@ -11,7 +11,7 @@ import shutil
 import copy
 import json
 from user_defined_functions import (
-    generate_run_sh_htc,
+    generate_run_sh,
     get_worst_bunch,
     reformat_filling_scheme_from_lpc_alt,
 )
@@ -193,8 +193,8 @@ d_config_beambeam["mask_with_filling_pattern"][
 ] = filling_scheme_path  # If None, a full fill is assumed
 
 
-d_config_beambeam["mask_with_filling_pattern"]["i_bunch_b1"] = 847
-d_config_beambeam["mask_with_filling_pattern"]["i_bunch_b2"] = 847
+d_config_beambeam["mask_with_filling_pattern"]["i_bunch_b1"] = None
+d_config_beambeam["mask_with_filling_pattern"]["i_bunch_b2"] = None
 # Set this variable to False if you intend to scan the bunch number (but ensure both bunches indices
 # are defined later)
 check_bunch_number = True
@@ -360,7 +360,7 @@ config = yaml.safe_load(open("config.yaml"))
 config["root"]["children"] = children
 
 # Set miniconda environment path in the config
-config["root"]["setup_env_script"] = os.getcwd() + "/../miniforge/bin/activate"
+config["root"]["setup_env_script"] = os.getcwd() + "/../activate_miniforge.sh"
 
 # ==================================================================================================
 # --- Build tree and write it to the filesystem
@@ -383,7 +383,7 @@ print("--- %s seconds ---" % (time.time() - start_time))
 
 # From python objects we move the nodes to the filesystem.
 start_time = time.time()
-root.make_folders(generate_run_sh_htc)
+root.make_folders(generate_run_sh)
 print("The tree folders are ready.")
 print("--- %s seconds ---" % (time.time() - start_time))
 

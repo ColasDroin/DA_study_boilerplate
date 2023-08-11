@@ -73,7 +73,7 @@ def load_config(config_path):
 
 def get_title_from_conf(
     conf_mad,
-    conf_collider = None,
+    conf_collider=None,
     type_crossing=None,
     betx=None,
     bety=None,
@@ -99,24 +99,25 @@ def get_title_from_conf(
     energy_value = float(conf_mad["beam_config"]["lhcb1"]["beam_energy_tot"]) / 1000
     energy = f"$E = {{{energy_value:.1f}}}$ $TeV$"
 
-
-
     if conf_collider is not None:
-
         # Levelling
         levelling = levelling
         if levelling != "":
             levelling += " ."
-        
 
         # Bunch number
-        bunch_number_value = conf_collider["config_beambeam"]["mask_with_filling_pattern"]["i_bunch_b1"]
+        bunch_number_value = conf_collider["config_beambeam"]["mask_with_filling_pattern"][
+            "i_bunch_b1"
+        ]
         bunch_number = f"Bunch {bunch_number_value}"
 
         # Crab cavities
         if CC:
             if "on_crab1" in conf_collider["config_knobs_and_tuning"]["knob_settings"]:
-                if conf_collider["config_knobs_and_tuning"]["knob_settings"]["on_crab1"] is not None:
+                if (
+                    conf_collider["config_knobs_and_tuning"]["knob_settings"]["on_crab1"]
+                    is not None
+                ):
                     crab_cavities = "CC ON. "
                 else:
                     crab_cavities = "CC OFF. "
@@ -133,7 +134,9 @@ def get_title_from_conf(
                 ]
             except:
                 bunch_intensity_value = conf_collider["config_beambeam"]["num_particles_per_bunch"]
-            bunch_intensity = f"$N_b \simeq $" + latex_float(float(bunch_intensity_value)) + " ppb, "
+            bunch_intensity = (
+                f"$N_b \simeq $" + latex_float(float(bunch_intensity_value)) + " ppb, "
+            )
         else:
             bunch_intensity = ""
 
@@ -141,8 +144,12 @@ def get_title_from_conf(
             luminosity_value_1_5 = conf_collider["config_beambeam"][
                 "luminosity_ip1_5_after_optimization"
             ]
-            luminosity_value_2 = conf_collider["config_beambeam"]["luminosity_ip2_after_optimization"]
-            luminosity_value_8 = conf_collider["config_beambeam"]["luminosity_ip8_after_optimization"]
+            luminosity_value_2 = conf_collider["config_beambeam"][
+                "luminosity_ip2_after_optimization"
+            ]
+            luminosity_value_8 = conf_collider["config_beambeam"][
+                "luminosity_ip8_after_optimization"
+            ]
         except:
             luminosity_value_1_5 = None
             luminosity_value_2 = None
@@ -292,7 +299,7 @@ def get_title_from_conf(
             + "."
         )
     else:
-        title = LHC_version + ". " + energy + ". " 
+        title = LHC_version + ". " + energy + ". "
     return title
 
 
@@ -309,13 +316,13 @@ def plot_heatmap(
     Nb=True,
     levelling="",
     CC=False,
-    xlabel = "Horizontal tune " + r"$Q_x$",
-    ylabel = "Vertical tune " + r"$Q_y$",
-    symmetric = True,
-    mask_lower_triangle = True,
-    plot_diagonal_lines = True,
-    xaxis_ticks_on_top = True,
-    title = None,
+    xlabel="Horizontal tune " + r"$Q_x$",
+    ylabel="Vertical tune " + r"$Q_y$",
+    symmetric=True,
+    mask_lower_triangle=True,
+    plot_diagonal_lines=True,
+    xaxis_ticks_on_top=True,
+    title=None,
 ):
     # Get numpy array from dataframe
     data_array = df_to_plot.to_numpy()
@@ -409,9 +416,11 @@ def plot_heatmap(
     if xaxis_ticks_on_top:
         ax.xaxis.tick_top()
     # Rotate the tick labels and set their alignment.
-    plt.setp(ax.get_xticklabels(), rotation=-30,rotation_mode="anchor", ha="left")#, rotation_mode="anchor")
-    #ax.tick_params(axis='x', which='major', pad=5)
-    
+    plt.setp(
+        ax.get_xticklabels(), rotation=-30, rotation_mode="anchor", ha="left"
+    )  # , rotation_mode="anchor")
+    # ax.tick_params(axis='x', which='major', pad=5)
+
     # Create colorbar
     cbar = ax.figure.colorbar(im, ax=ax, fraction=0.026, pad=0.04)
     cbar.ax.set_ylabel("Minimum DA (" + r"$\sigma$" + ")", rotation=90, va="bottom", labelpad=15)

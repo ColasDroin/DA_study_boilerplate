@@ -43,7 +43,15 @@ def read_configuration(config_path="config.yaml"):
         config = ryaml.load(fid)
     config_sim = config["config_simulation"]
     config_collider = config["config_collider"]
-    return config, config_sim, config_collider
+
+    # Also read configuration from previous generation
+    try:
+        with open("../" + config_path, "r") as fid:
+            config_mad = ryaml.load(fid)
+    except:
+        with open("../1_build_distr_and_collider/" + config_path, "r") as fid:
+            config_mad = ryaml.load(fid)
+    return config, config_sim, config_collider, config_mad
 
 
 def generate_configuration_correction_files(output_folder="correction"):
@@ -353,6 +361,7 @@ def configure_beam_beam(collider, config_bb):
 def configure_collider(
     config_sim,
     config_collider,
+    config_mad,
     skip_beam_beam=False,
     save_collider=False,
     save_config=False,
@@ -426,7 +435,11 @@ def configure_collider(
         print('Saving "collider.json')
         if save_config:
             collider_dict = collider.to_dict()
-            collider_dict["config_yaml"] = config_collider
+            config_dict = {
+                "config_mad": config_mad,
+                "config_collider": config_collider,
+            }
+            collider_dict["config_yaml"] = config_dict 
 
             class NpEncoder(json.JSONEncoder):
                 def default(self, obj):
@@ -437,10 +450,11 @@ def configure_collider(
                     if isinstance(obj, np.ndarray):
                         return obj.tolist()
                     return super(NpEncoder, self).default(obj)
-
+            #  collider.set_metadata(config_dict)
             with open("collider.json", "w") as fid:
                 json.dump(collider_dict, fid, cls=NpEncoder)
         else:
+            
             collider.to_json("collider.json")
 
     if return_collider_before_bb:
@@ -505,7 +519,7 @@ def track(collider, particles, config_sim, save_input_particles=False):
 # ==================================================================================================
 def configure_and_track(config_path="config.yaml"):
     # Get configuration
-    config, config_sim, config_collider = read_configuration(config_path)
+    config, config_sim, config_collider, config_mad = read_configuration(config_path)
 
     # Tag start of the job
     tree_maker_tagging(config, tag="started")
@@ -514,6 +528,7 @@ def configure_and_track(config_path="config.yaml"):
     collider, config_bb = configure_collider(
         config_sim,
         config_collider,
+        config_mad,
         save_collider=config["dump_collider"],
         save_config=config["dump_config_in_collider"],
     )
