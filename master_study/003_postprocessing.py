@@ -77,6 +77,12 @@ for node in root.generation(1):
         df_sim["num_particles_per_bunch"] = dic_child_collider["config_beambeam"][
             "num_particles_per_bunch"
         ]
+        df_sim["i_oct_b1"] = dic_child_collider["config_knobs_and_tuning"]["knob_settings"][
+            "i_oct_b1"
+        ]
+        df_sim["i_oct_b2"] = dic_child_collider["config_knobs_and_tuning"]["knob_settings"][
+            "i_oct_b2"
+        ]
 
         # Merge with particle data
         df_sim_with_particle = pd.merge(df_sim, particle, on=["particle_id"])
@@ -97,7 +103,7 @@ if df_lost_particles.empty:
     print("No unstable particles found, the output dataframe will be empty.")
 
 # Group by working point (Update this with the knobs you want to group by !)
-group_by_parameters = ["name base collider", "qx", "qy"]
+group_by_parameters = ["name base collider", "qx", "qy", "i_oct_b1", "i_oct_b2"]
 # We always want to keep beam in the final result
 group_by_parameters = ["beam"] + group_by_parameters
 l_parameters_to_keep = [

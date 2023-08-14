@@ -302,6 +302,7 @@ def plot_heatmap(
     Nb=True,
     levelling="",
     CC=False,
+    extended_diagonal=False,
 ):
     # Get numpy array from dataframe
     data_array = df_to_plot.to_numpy()
@@ -329,13 +330,30 @@ def plot_heatmap(
     # Smooth data for contours
     # make the matrix symmetric by replacing the lower triangle with the upper triangle
     data_smoothed = np.copy(data_array)
-    data_smoothed[np.isnan(data_array)] = 0
-    data_smoothed = data_smoothed + data_smoothed.T - np.diag(data_array.diagonal())
+    data_smoothed[np.isnan(data_array)] = 0.0
+    if not extended_diagonal:
+        data_smoothed = data_smoothed + data_smoothed.T - np.diag(data_array.diagonal())
+    else:
+        # sum the upper and lower triangle, but not the intersection of the two matrices
+        intersection = np.zeros_like(data_smoothed)
+        for x in range(data_smoothed.shape[0]):
+            for y in range(data_smoothed.shape[1]):
+                if np.min((data_smoothed[x, y], data_smoothed[y, x])) == 0.0:
+                    intersection[x, y] = 0.0
+                else:
+                    intersection[x, y] = data_smoothed[y, x]
+        data_smoothed = data_smoothed + data_smoothed.T - intersection
+
     data_smoothed = gaussian_filter(data_smoothed, 0.7)
 
     # Mask the lower triangle of the smoothed matrix
-    mask = np.tri(data_smoothed.shape[0], k=-1)
-    mx = np.ma.masked_array(data_smoothed, mask=mask.T)
+    if not extended_diagonal:
+        mask = np.tri(data_smoothed.shape[0], k=-1)
+        mx = np.ma.masked_array(data_smoothed, mask=mask.T)
+    else:
+        mask = np.tri(data_smoothed.shape[0], k=-5)
+        mx = np.ma.masked_array(data_smoothed, mask=mask.T)
+        # mx = data_smoothed
 
     # Plot contours if requested
     if plot_contours:
@@ -361,9 +379,14 @@ def plot_heatmap(
     # ! Diagonal lines must be plotted after the contour lines, because of bug in matplotlib
     # ! Careful, depending on how the tunes were defined, may be shifted by 1
     # Diagonal lines
-    ax.plot([0, 1000], [1, 1001], color="tab:blue", linestyle="--", linewidth=1)
-    ax.plot([0, 1000], [-9, 991], color="tab:blue", linestyle="--", linewidth=1)
-    ax.plot([0, 1000], [-4, 996], color="black", linestyle="--", linewidth=1)
+    if extended_diagonal:
+        ax.plot([0, 1000], [5, 1005], color="tab:blue", linestyle="--", linewidth=1)
+        ax.plot([0, 1000], [-5, 995], color="tab:blue", linestyle="--", linewidth=1)
+        ax.plot([0, 1000], [0, 1000], color="black", linestyle="--", linewidth=1)
+    else:
+        ax.plot([0, 1000], [1, 1001], color="tab:blue", linestyle="--", linewidth=1)
+        ax.plot([0, 1000], [-9, 991], color="tab:blue", linestyle="--", linewidth=1)
+        ax.plot([0, 1000], [-4, 996], color="black", linestyle="--", linewidth=1)
 
     # Define title and axis labels
     if conf_mad is not None and conf_collider is not None:
