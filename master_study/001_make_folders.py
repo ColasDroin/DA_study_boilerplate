@@ -338,8 +338,6 @@ for idx_job, (track, qx, qy) in enumerate(itertools.product(track_array, array_q
         "log_file": "tree_maker.log",
         "dump_collider": dump_collider,
         "dump_config_in_collider": dump_config_in_collider,
-        "dump_collider": dump_collider,
-        "dump_config_in_collider": dump_config_in_collider,
     }
 
 # ==================================================================================================
