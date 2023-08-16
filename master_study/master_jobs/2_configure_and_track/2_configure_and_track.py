@@ -6,7 +6,7 @@ simple scripting for reproducibility, to allow rebuilding the collider from a di
 # --- Imports
 # ==================================================================================================
 import json
-import yaml
+import ruamel.yaml
 import time
 import logging
 import numpy as np
@@ -17,6 +17,10 @@ import tree_maker
 import xmask as xm
 import xmask.lhc as xlhc
 from misc import generate_orbit_correction_setup
+from misc import luminosity_leveling, luminosity_leveling_ip1_5
+
+# Initialize yaml reader
+ryaml = ruamel.yaml.YAML()
 
 
 # ==================================================================================================
@@ -36,10 +40,18 @@ def tree_maker_tagging(config, tag="started"):
 def read_configuration(config_path="config.yaml"):
     # Read configuration for simulations
     with open(config_path, "r") as fid:
-        config = yaml.safe_load(fid)
+        config = ryaml.load(fid)
     config_sim = config["config_simulation"]
     config_collider = config["config_collider"]
-    return config, config_sim, config_collider
+
+    # Also read configuration from previous generation
+    try:
+        with open("../" + config_path, "r") as fid:
+            config_mad = ryaml.load(fid)
+    except:
+        with open("../1_build_distr_and_collider/" + config_path, "r") as fid:
+            config_mad = ryaml.load(fid)
+    return config, config_sim, config_collider, config_mad
 
 
 def generate_configuration_correction_files(output_folder="correction"):
@@ -150,19 +162,108 @@ def compute_collision_from_scheme(config_bb):
 # ==================================================================================================
 # --- Function to do the Levelling
 # ==================================================================================================
-def do_levelling(config_collider, config_bb, n_collisions_ip8, collider):
+def do_levelling(
+    config_collider, config_bb, n_collisions_ip2, n_collisions_ip8, collider, n_collisions_ip1_and_5
+):
     # Read knobs and tuning settings from config file (already updated with the number of collisions)
     config_lumi_leveling = config_collider["config_lumi_leveling"]
 
     # Update the number of bunches in the configuration file
+    config_lumi_leveling["ip2"]["num_colliding_bunches"] = int(n_collisions_ip2)
     config_lumi_leveling["ip8"]["num_colliding_bunches"] = int(n_collisions_ip8)
 
-    # Level luminosity
-    xlhc.luminosity_leveling(
-        collider, config_lumi_leveling=config_lumi_leveling, config_beambeam=config_bb
+    # First level luminosity in IP 1/5 changing the intensity
+    if "config_lumi_leveling_ip1_5" in config_collider:
+        print("Leveling luminosity in IP 1/5 varying the intensity")
+        # Update the number of bunches in the configuration file
+        config_collider["config_lumi_leveling_ip1_5"]["num_colliding_bunches"] = int(
+            n_collisions_ip1_and_5
+        )
+
+        # Get crab cavities
+        if "on_crab1" in config_collider["config_knobs_and_tuning"]["knob_settings"]:
+            crab = config_collider["config_knobs_and_tuning"]["knob_settings"]["on_crab1"]
+        else:
+            crab = False
+
+        # Get cross section and frequency for pile-up computation
+        cross_section = 81e-27
+
+        # Do the levelling
+        try:
+            I, L_1_5 = luminosity_leveling_ip1_5(
+                collider,
+                config_collider,
+                config_bb,
+                cross_section,
+                crab=False,
+            )
+        except ValueError:
+            print("There was a problem during the luminosity leveling in IP1/5... Ignoring it.")
+            I = config_bb["num_particles_per_bunch"]
+            L_1_5 = 0
+        initial_I = config_bb["num_particles_per_bunch"]
+        config_bb["num_particles_per_bunch"] = I
+
+    # Set up the constraints for lumi optimization in IP8
+    additional_targets_lumi = []
+    if "constraints" in config_lumi_leveling["ip8"]:
+        for constraint in config_lumi_leveling["ip8"]["constraints"]:
+            obs, beam, sign, val, at = constraint.split("_")
+            target = xt.TargetInequality(obs, sign, float(val), at=at, line=beam, tol=1e-6)
+            additional_targets_lumi.append(target)
+
+    # Then level luminosity in IP 2/8 changing the separation
+    luminosity_leveling(
+        collider,
+        config_lumi_leveling=config_lumi_leveling,
+        config_beambeam=config_bb,
+        additional_targets_lumi=additional_targets_lumi,
     )
 
-    return collider
+    # Get the final luminoisty in IP 2/8
+    twiss_b1 = collider["lhcb1"].twiss()
+    twiss_b2 = collider["lhcb2"].twiss()
+    try:
+        (L_2, L_8) = [
+            xt.lumi.luminosity_from_twiss(
+                n_colliding_bunches=n_collisions,
+                num_particles_per_bunch=I,
+                ip_name=ip,
+                nemitt_x=config_bb["nemitt_x"],
+                nemitt_y=config_bb["nemitt_y"],
+                sigma_z=config_bb["sigma_z"],
+                twiss_b1=twiss_b1,
+                twiss_b2=twiss_b2,
+                crab=crab,
+            )
+            for n_collisions, ip in zip([n_collisions_ip2, n_collisions_ip8], ["ip2", "ip8"])
+        ]
+    except ValueError:
+        print("There was a problem during the luminosity leveling in IP2/8... Ignoring it.")
+        L_2 = 0
+        L_8 = 0
+
+    # Update configuration
+    config_bb["num_particles_per_bunch_after_optimization"] = float(I)
+    config_bb["num_particles_per_bunch"] = float(initial_I)
+    config_bb["luminosity_ip1_5_after_optimization"] = float(L_1_5)
+    config_bb["luminosity_ip2_after_optimization"] = float(L_2)
+    config_bb["luminosity_ip8_after_optimization"] = float(L_8)
+    config_collider["config_lumi_leveling"]["ip2"]["final_on_sep2h"] = float(
+        collider.vars["on_sep2h"]._value
+    )
+    config_collider["config_lumi_leveling"]["ip2"]["final_on_sep2v"] = float(
+        collider.vars["on_sep2v"]._value
+    )
+    config_collider["config_lumi_leveling"]["ip8"]["final_on_sep8h"] = float(
+        collider.vars["on_sep8h"]._value
+    )
+    config_collider["config_lumi_leveling"]["ip8"]["final_on_sep8v"] = float(
+        collider.vars["on_sep8v"]._value
+    )
+
+    return collider, config_collider
 
 
 # ==================================================================================================
@@ -270,6 +371,7 @@ def configure_beam_beam(collider, config_bb):
 def configure_collider(
     config_sim,
     config_collider,
+    config_mad,
     skip_beam_beam=False,
     save_collider=False,
     save_config=False,
@@ -296,13 +398,22 @@ def configure_collider(
     )
 
     # Compute the number of collisions in the different IPs
-    n_collisions_ip1_and_5, n_collisions_ip2, n_collisions_ip8 = compute_collision_from_scheme(
-        config_bb
-    )
+    (
+        n_collisions_ip1_and_5,
+        n_collisions_ip2,
+        n_collisions_ip8,
+    ) = compute_collision_from_scheme(config_bb)
 
     # Do the leveling if requested
     if "config_lumi_leveling" in config_collider and not config_collider["skip_leveling"]:
-        collider = do_levelling(config_collider, config_bb, n_collisions_ip8, collider)
+        collider, config_collider = do_levelling(
+            config_collider,
+            config_bb,
+            n_collisions_ip2,
+            n_collisions_ip8,
+            collider,
+            n_collisions_ip1_and_5,
+        )
     else:
         print(
             "No leveling is done as no configuration has been provided, or skip_leveling"
@@ -334,7 +445,11 @@ def configure_collider(
         print('Saving "collider.json')
         if save_config:
             collider_dict = collider.to_dict()
-            collider_dict["config_yaml"] = config_collider
+            config_dict = {
+                "config_mad": config_mad,
+                "config_collider": config_collider,
+            }
+            collider_dict["config_yaml"] = config_dict
 
             class NpEncoder(json.JSONEncoder):
                 def default(self, obj):
@@ -346,6 +461,7 @@ def configure_collider(
                         return obj.tolist()
                     return super(NpEncoder, self).default(obj)
 
+            #  collider.set_metadata(config_dict)
             with open("collider.json", "w") as fid:
                 json.dump(collider_dict, fid, cls=NpEncoder)
         else:
@@ -413,13 +529,19 @@ def track(collider, particles, config_sim, save_input_particles=False):
 # ==================================================================================================
 def configure_and_track(config_path="config.yaml"):
     # Get configuration
-    config, config_sim, config_collider = read_configuration(config_path)
+    config, config_sim, config_collider, config_mad = read_configuration(config_path)
 
     # Tag start of the job
     tree_maker_tagging(config, tag="started")
 
     # Configure collider (not saved, since it may trigger overload of afs)
-    collider, config_bb = configure_collider(config_sim, config_collider, save_collider=False)
+    collider, config_bb = configure_collider(
+        config_sim,
+        config_collider,
+        config_mad,
+        save_collider=config["dump_collider"],
+        save_config=config["dump_config_in_collider"],
+    )
 
     # Prepare particle distribution
     particles = prepare_particle_distribution(config_sim, collider, config_bb)
@@ -429,6 +551,9 @@ def configure_and_track(config_path="config.yaml"):
 
     # Save output
     pd.DataFrame(particles.to_dict()).to_parquet("output_particles.parquet")
+
+    with open(config_path, "w") as fid:
+        ryaml.dump(config, fid)
 
     # Remote the correction folder, and potential C files remaining
     try:

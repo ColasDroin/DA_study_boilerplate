@@ -17,7 +17,7 @@ import pandas as pd
 import tree_maker
 
 # Import user-defined optics-specific tools
-import optics_specific_tools as ost
+import optics_specific_tools_hlhc15 as ost
 
 
 # ==================================================================================================

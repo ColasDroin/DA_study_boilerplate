@@ -23,18 +23,7 @@ cd example_DA_study
 source make_miniforge.sh
 ```
 
-This should install conda along with the required python modules. If something goes wrong, you can execute the commands in the ```make_miniforge.sh``` script manually, one line after the other.
-
-Then do:
-  
-```bash
-cd modules/xmask/
-git submodule init
-git submodule update
-```
-
-Git may trigger an error after ```git submodule init```, in which case you can mark the directory as safe using the command suggested by git, and enter ```git submodule init``` and ```git submodule update``` again. If this still doesn't work, you can try to manually get into ```modules/xmask/xmask/lhc``` , manually remove ```lhcerrors``` with ```rm -rf lhcerrors``` (which is potentially empty), and finally git clone ```https://github.com/lhcopt/lhcerrors.git```.
-
+This should install conda along with the required python modules. If something goes wrong, you can execute the commands in the ```make_miniforge.sh``` script manually, one line after the other. Git may trigger an error after ```git submodule init```, in which case you can mark the directory as safe using the command suggested by git, and enter ```git submodule init``` and ```git submodule update``` again. If this still doesn't work, you can try to manually get into ```modules/xmask/xmask/lhc``` , manually remove ```lhcerrors``` with ```rm -rf lhcerrors``` (which is potentially empty), and finally git clone ```https://github.com/lhcopt/lhcerrors.git```.
 
 ## Running a simple parameter scan simulation
 
