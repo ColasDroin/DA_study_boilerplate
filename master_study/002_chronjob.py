@@ -10,7 +10,7 @@ import os
 # ==================================================================================================
 class cluster:
     def __init__(self, run_on="local_pc"):
-        if run_on in ["local_pc", "htc", "slurm"]:
+        if run_on in ["local_pc", "htc", "slurm", "htc_docker"]:
             self.run_on = run_on
         else:
             import sys
@@ -35,7 +35,18 @@ class cluster:
                 fid.write("error  = error.txt\n")
                 fid.write("output = output.txt\n")
                 fid.write("log  = log.txt\n")
+            elif self.run_on == "htc_docker":
+                fid.write("# This is a HTCondor submission file using Docker\n")
+                fid.write("error  = error.txt\n")
+                fid.write("output = output.txt\n")
+                fid.write("log  = log.txt\n")
+                fid.write("universe = vanilla\n")
+                fid.write(
+                    "+SingularityImage ="
+                    ' "/cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cdroin/da-study-docker:latest"\n'
+                )
                 # fid.write("transfer_output_files=config.yaml\n")
+
                 # if user has defined a htc_job_flavor in config.yaml otherwise default is "espresso"
                 if (
                     "htc_job_flavor"
@@ -68,18 +79,19 @@ class cluster:
                             "sbatch --ntasks=2 --partition=slurm_hpc_acc --output=output.txt "
                             f"{path_node}/run.sh\n"
                         )
-                    elif self.run_on == "htc":
+                    elif self.run_on == "htc" or self.run_on == "htc_docker":
                         # initialdir is needed so that each job has it own output, error and log.txt
                         fid.write(f"initialdir = {path_node}\n")
                         fid.write(f"executable = {path_node}/run.sh\nqueue\n")
+
             # tail
-            if self.run_on == "local_pc":
-                fid.write(f"#{self.run_on}\n")
-            elif self.run_on == "lsf":
-                fid.write(f"#{self.run_on}\n")
-            elif self.run_on == "slurm":
-                fid.write(f"#{self.run_on}\n")
-            elif self.run_on == "htc":
+            if (
+                self.run_on == "local_pc"
+                or self.run_on == "lsf"
+                or self.run_on == "slurm"
+                or self.run_on == "htc"
+                or self.run_on == "htc_docker"
+            ):
                 fid.write(f"#{self.run_on}\n")
 
     def submit(self, filename):
@@ -90,7 +102,7 @@ class cluster:
             os.system(f"bash {filename}")
         elif self.run_on == "slurm":
             os.system(f"bash {filename}")
-        elif self.run_on == "htc":
+        elif self.run_on == "htc" or self.run_on == "htc_docker":
             os.system(f"condor_submit {filename}")
 
     def running_jobs(self):
@@ -112,7 +124,7 @@ class cluster:
             return []
         elif self.run_on == "slurm":
             return []
-        elif self.run_on == "htc":
+        elif self.run_on == "htc" or self.run_on == "htc_docker":
             return []
 
     def queuing_jobs(self):
