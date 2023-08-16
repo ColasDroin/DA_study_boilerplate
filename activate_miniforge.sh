@@ -1,12 +1,18 @@
 # Get current directory
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-# Check if  the job is launched from htcondor
-if [[ $PWD == *"pool/condor"* ]]
-# source the make_miniforge.sh script, concatenating the path to the script directory
+# Get if docker miniconda exists
+FILE=/usr/local/DA_study/miniforge_docker/bin/activate
+
+# Check if  the job is launched from docker
+if [[ -f "$FILE" ]];
+
+# Source the make_miniforge.sh script
 then
-    source $SCRIPT_DIR/make_miniforge.sh
-# Only activate environment 
+    source $FILE
+# Activate miniforge from afs
 else
     source $SCRIPT_DIR/miniforge/bin/activate
 fi
+
+
