@@ -323,6 +323,7 @@ def plot_heatmap(
     plot_diagonal_lines=True,
     xaxis_ticks_on_top=True,
     title=None,
+    add_vline = None,
 ):
     # Get numpy array from dataframe
     data_array = df_to_plot.to_numpy()
@@ -429,6 +430,10 @@ def plot_heatmap(
     # Add QR code
     if link is not None:
         fig = add_QR_code(fig, link)
+        
+    if add_vline is not None:
+        plt.axvline(add_vline, color="black", linestyle="--", linewidth=1)
+        plt.text(add_vline, 25, r'Bunch intensity $\simeq \beta^*_{2023} = 0.3/0.3$', fontsize=8)
 
     plt.savefig("plots/output_" + study_name + ".pdf", bbox_inches="tight")
     plt.show()
