@@ -294,6 +294,7 @@ def plot_heatmap(
     study_name,
     link=None,
     plot_contours=True,
+    green_contour=6,
     conf_mad=None,
     conf_collider=None,
     type_crossing=None,
@@ -362,7 +363,8 @@ def plot_heatmap(
             np.arange(0.5, data_array.shape[0]),
             mx,
             colors="black",
-            levels=list(np.arange(3, 6, 0.5)) + list(np.arange(6.5, 10, 0.5)),
+            levels=list(np.arange(3, green_contour, 0.5))
+            + list(np.arange(green_contour + 0.5, 10, 0.5)),
             linewidths=0.2,
         )
         ax.clabel(CSS, inline=True, fontsize=6)
@@ -371,7 +373,7 @@ def plot_heatmap(
             np.arange(0.5, data_array.shape[0]),
             mx,
             colors="green",
-            levels=[6],
+            levels=[green_contour],
             linewidths=1,
         )
         ax.clabel(CS2, inline=1, fontsize=6)
