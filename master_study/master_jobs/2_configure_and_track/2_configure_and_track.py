@@ -223,6 +223,7 @@ def do_levelling(
         config_lumi_leveling=config_lumi_leveling,
         config_beambeam=config_bb,
         additional_targets_lumi=additional_targets_lumi,
+        crab=crab,
     )
 
     # Get the final luminoisty in IP 2/8
