@@ -182,10 +182,13 @@ def do_levelling(
         )
 
         # Get crab cavities
+        crab = False
         if "on_crab1" in config_collider["config_knobs_and_tuning"]["knob_settings"]:
-            crab = config_collider["config_knobs_and_tuning"]["knob_settings"]["on_crab1"]
-        else:
-            crab = False
+            crab_val = float(
+                config_collider["config_knobs_and_tuning"]["knob_settings"]["on_crab1"]
+            )
+            if crab_val > 0:
+                crab = True
 
         # Get cross section and frequency for pile-up computation
         cross_section = 81e-27
