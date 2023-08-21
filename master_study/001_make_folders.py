@@ -121,8 +121,8 @@ d_config_knobs["i_oct_b2"] = 60.0
 # Leveling in IP 1/5
 d_config_leveling_ip1_5 = {"constraints": {}}
 d_config_leveling_ip1_5["luminosity"] = 2.0e34
-d_config_leveling_ip1_5["constraints"]["max_intensity"] = 1.8e11
-d_config_leveling_ip1_5["constraints"]["max_PU"] = 70
+d_config_leveling_ip1_5["constraints"]["max_intensity"] = 2.3e11
+d_config_leveling_ip1_5["constraints"]["max_PU"] = 160
 
 
 # Define dictionary for the leveling settings
