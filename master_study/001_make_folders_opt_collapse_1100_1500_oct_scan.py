@@ -111,8 +111,8 @@ d_config_knobs["on_x8h"] = 0.0
 d_config_knobs["on_x8v"] = 170
 
 # Crab cavities
-d_config_knobs["on_crab1"] = -190
-d_config_knobs["on_crab5"] = -190
+d_config_knobs["on_crab1"] = 0
+d_config_knobs["on_crab5"] = 0
 
 # Octupoles # ! This is being scanned
 d_config_knobs["i_oct_b1"] = 60.0
@@ -125,9 +125,9 @@ d_config_knobs["on_disp"] = 0
 
 # Leveling in IP 1/5
 d_config_leveling_ip1_5 = {"constraints": {}}
-d_config_leveling_ip1_5["luminosity"] = 2.0e34
-d_config_leveling_ip1_5["constraints"]["max_intensity"] = 1.8e11
-d_config_leveling_ip1_5["constraints"]["max_PU"] = 70
+d_config_leveling_ip1_5["luminosity"] = 2.5e34
+d_config_leveling_ip1_5["constraints"]["max_intensity"] = 2.3e11
+d_config_leveling_ip1_5["constraints"]["max_PU"] = 160
 
 
 # Define dictionary for the leveling settings
@@ -150,8 +150,8 @@ d_config_beambeam = {"mask_with_filling_pattern": {}}
 
 # Beam settings
 d_config_beambeam["num_particles_per_bunch"] = 1.4e11
-d_config_beambeam["nemitt_x"] = 2.5e-6
-d_config_beambeam["nemitt_y"] = 2.5e-6
+d_config_beambeam["nemitt_x"] = 2.3e-6
+d_config_beambeam["nemitt_y"] = 2.3e-6
 
 # Filling scheme (in json format)
 # The scheme should consist of a json file containing two lists of booleans (one for each beam),
@@ -283,7 +283,7 @@ dump_config_in_collider = False
 # ==================================================================================================
 # Scan tune with step of 0.001 (need to round to correct for numpy numerical instabilities)
 array_qx = np.round(np.arange(62.305, 62.330, 0.001), decimals=4)
-array_I = np.linspace(-600, 600, 13, endpoint=True)
+array_I = np.linspace(-600, 600, 25, endpoint=True)
 
 # In case one is doing a tune-tune scan, to decrease the size of the scan, we can ignore the
 # working points too close to resonance. Otherwise just delete this variable in the loop at the end
