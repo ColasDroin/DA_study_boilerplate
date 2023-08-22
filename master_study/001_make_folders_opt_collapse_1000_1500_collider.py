@@ -111,18 +111,19 @@ d_config_knobs["on_x8h"] = 0.0
 d_config_knobs["on_x8v"] = 170
 
 # Crab cavities
-d_config_knobs["on_crab1"] = -190
-d_config_knobs["on_crab5"] = -190
+d_config_knobs["on_crab1"] = 0
+d_config_knobs["on_crab5"] = 0
 
 # Octupoles
 d_config_knobs["i_oct_b1"] = 60.0
 d_config_knobs["i_oct_b2"] = 60.0
+d_config_knobs["on_disp"] = 0
 
 ### leveling configuration
 
 # Leveling in IP 1/5
 d_config_leveling_ip1_5 = {"constraints": {}}
-d_config_leveling_ip1_5["luminosity"] = 2.0e34
+d_config_leveling_ip1_5["luminosity"] = 2.5e34
 d_config_leveling_ip1_5["constraints"]["max_intensity"] = 2.3e11
 d_config_leveling_ip1_5["constraints"]["max_PU"] = 160
 
@@ -147,8 +148,8 @@ d_config_beambeam = {"mask_with_filling_pattern": {}}
 
 # Beam settings
 d_config_beambeam["num_particles_per_bunch"] = 1.4e11
-d_config_beambeam["nemitt_x"] = 2.5e-6
-d_config_beambeam["nemitt_y"] = 2.5e-6
+d_config_beambeam["nemitt_x"] = 2.3e-6
+d_config_beambeam["nemitt_y"] = 2.3e-6
 
 # Filling scheme (in json format)
 # The scheme should consist of a json file containing two lists of booleans (one for each beam),
