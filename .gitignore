@@ -36,3 +36,6 @@ master_study/old/*
 
 # AFS files
 .__afs*
+
+# Singularity images
+*.sif
