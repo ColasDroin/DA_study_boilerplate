@@ -39,3 +39,7 @@ master_study/old/*
 
 # Singularity images
 *.sif
+
+# Slurm output
+*error.txt
+*output.txt
