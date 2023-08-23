@@ -103,8 +103,8 @@ d_config_knobs = {}
 
 
 # Octupoles
-d_config_knobs["i_oct_b1"] = 0.  # 60
-d_config_knobs["i_oct_b2"] = 0.  # 60
+d_config_knobs["i_oct_b1"] = 0.0  # 60
+d_config_knobs["i_oct_b2"] = 0.0  # 60
 
 ### leveling configuration
 
@@ -244,7 +244,7 @@ d_config_collider["config_beambeam"] = d_config_beambeam
 d_config_simulation = {}
 
 # Number of turns to track
-d_config_simulation["n_turns"] = 200
+d_config_simulation["n_turns"] = 1000000
 
 # Initial off-momentum
 d_config_simulation["delta_max"] = 27.0e-5
@@ -269,7 +269,7 @@ dump_config_in_collider = False
 # ==================================================================================================
 
 # Scan tune with step of 0.001 (need to round to correct for numpy numerical instabilities)
-array_qx = np.round(np.arange(62.305, 62.330, 0.001), decimals=4)[:1]
+array_qx = np.round(np.arange(62.305, 62.330, 0.001), decimals=4)
 
 # ==================================================================================================
 # --- Make tree for the simulations (generation 1)
@@ -279,13 +279,15 @@ array_qx = np.round(np.arange(62.305, 62.330, 0.001), decimals=4)[:1]
 # distribution, and build a collider with only the optics set.
 # ==================================================================================================
 children = {}
-for idx_optics, optics in enumerate(array_optics[:1]):
+for idx_optics, optics in enumerate(array_optics):
     # Update optics and beam energy
     d_config_mad["optics_file"] = optics
 
     # Get the new knob configuration
     with open(
-        '../'.join(d_config_mad["links"]["acc-models-lhc"].split('../')[3:]) + d_config_mad["optics_file"].split("acc-models-lhc")[1], "r"
+        "../".join(d_config_mad["links"]["acc-models-lhc"].split("../")[3:])
+        + d_config_mad["optics_file"].split("acc-models-lhc")[1],
+        "r",
     ) as fid:
         lines = fid.readlines()
 
@@ -364,7 +366,7 @@ for idx_optics, optics in enumerate(array_optics[:1]):
                 if knob == "on_sep8h" or knob == "on_sep2h":
                     d_config_knobs[knob] = d_config_knobs[knob] * 0.01
                 if knob == "on_x5":
-                   d_config_knobs[knob] = -d_config_knobs[knob]
+                    d_config_knobs[knob] = -d_config_knobs[knob]
                 break
         if not found:
             raise ValueError(f"Knob {knob} not found in knobs.json")
@@ -373,12 +375,11 @@ for idx_optics, optics in enumerate(array_optics[:1]):
 
     track_array = np.arange(d_config_particles["n_split"])
     for idx_job, (track, qx) in enumerate(itertools.product(track_array, array_qx)):
-        
         # Mutate the appropriate collider parameters
         for beam in ["lhcb1", "lhcb2"]:
             d_config_collider["config_knobs_and_tuning"]["qx"][beam] = float(qx)
-            d_config_collider["config_knobs_and_tuning"]["qy"][beam] = float(qx-2+0.005)
-        
+            d_config_collider["config_knobs_and_tuning"]["qy"][beam] = float(qx - 2 + 0.005)
+
         # Complete the dictionnary for the tracking
         d_config_simulation["particle_file"] = f"../particles/{track:02}.parquet"
         d_config_simulation["collider_file"] = f"../collider/collider.json"
