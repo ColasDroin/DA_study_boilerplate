@@ -174,12 +174,12 @@ def get_title_from_conf(
 
         # Beta star # ! Manually encoded for now
         if "flathv" in conf_mad["optics_file"]:
-            bet1 = r"$\beta^{*}_{y,IP1}$"
-            bet2 = r"$\beta^{*}_{x,IP1}$"
+            bet1 = r"$\beta^{*}_{y,1}$"
+            bet2 = r"$\beta^{*}_{x,1}$"
         # If betas are given, we always define betx first, whatever the crossing
         elif "flatvh" in conf_mad["optics_file"] or (betx is not None and bety is not None):
-            bet1 = r"$\beta^{*}_{x,IP1}$"
-            bet2 = r"$\beta^{*}_{y,IP1}$"
+            bet1 = r"$\beta^{*}_{x,1}$"
+            bet2 = r"$\beta^{*}_{y,1}$"
         if betx is not None and bety is not None:
             beta = bet1 + f"$= {{{betx}}}$" + " m, " + bet2 + f"$= {{{bety}}}$" + " m"
         else:
@@ -192,14 +192,14 @@ def get_title_from_conf(
 
         # Crossing angle at IP1/5
         if "flathv" in conf_mad["optics_file"] or type_crossing == "flathv":
-            phi_1 = r"$\Phi/2_{IP1(H)}$"
-            phi_5 = r"$\Phi/2_{IP5(V)}$"
+            phi_1 = r"$\Phi/2_{1(H)}$"
+            phi_5 = r"$\Phi/2_{5(V)}$"
         elif "flatvh" in conf_mad["optics_file"] or type_crossing == "flatvh":
-            phi_1 = r"$\Phi/2_{IP1(V)}$"
-            phi_5 = r"$\Phi/2_{IP5(H)}$"
+            phi_1 = r"$\Phi/2_{1(V)}$"
+            phi_5 = r"$\Phi/2_{5(H)}$"
         else:
-            phi_1 = r"$\Phi/2_{IP1(H)}$"
-            phi_5 = r"$\Phi/2_{IP5(V)}$"
+            phi_1 = r"$\Phi/2_{1(H)}$"
+            phi_5 = r"$\Phi/2_{5(V)}$"
         # else:
         #     raise ValueError("Optics configuration not automatized yet")
         xing_value_IP1 = conf_collider["config_knobs_and_tuning"]["knob_settings"]["on_x1"]
@@ -216,9 +216,9 @@ def get_title_from_conf(
         xing_value_IP8h = conf_collider["config_knobs_and_tuning"]["knob_settings"]["on_x8h"]
         xing_value_IP8v = conf_collider["config_knobs_and_tuning"]["knob_settings"]["on_x8v"]
         if xing_value_IP8v != 0 and xing_value_IP8h == 0:
-            xing_IP8 = r"$\Phi/2_{IP8,V}$" + f"$= {{{xing_value_IP8v:.0f}}}$ $\mu rad$"
+            xing_IP8 = r"$\Phi/2_{8,V}$" + f"$= {{{xing_value_IP8v:.0f}}}$ $\mu rad$"
         elif xing_value_IP8v == 0 and xing_value_IP8h != 0:
-            xing_IP8 = r"$\Phi/2_{IP8,H}$" + f"$= {{{xing_value_IP8h:.0f}}}$ $\mu rad$"
+            xing_IP8 = r"$\Phi/2_{8,H}$" + f"$= {{{xing_value_IP8h:.0f}}}$ $\mu rad$"
         else:
             raise ValueError("Optics configuration not automatized yet")
 
@@ -230,9 +230,9 @@ def get_title_from_conf(
             xing_value_IP2h = 0
             xing_value_IP2v = conf_collider["config_knobs_and_tuning"]["knob_settings"]["on_x2"]
         if xing_value_IP2v != 0 and xing_value_IP2h == 0:
-            xing_IP2 = r"$\Phi/2_{IP2,V}$" + f"$= {{{xing_value_IP2v:.0f}}}$ $\mu rad$"
+            xing_IP2 = r"$\Phi/2_{2,V}$" + f"$= {{{xing_value_IP2v:.0f}}}$ $\mu rad$"
         elif xing_value_IP8v == 0 and xing_value_IP8h != 0:
-            xing_IP2 = r"$\Phi/2_{IP2,H}$" + f"$= {{{xing_value_IP2h:.0f}}}$ $\mu rad$"
+            xing_IP2 = r"$\Phi/2_{2,H}$" + f"$= {{{xing_value_IP2h:.0f}}}$ $\mu rad$"
         else:
             raise ValueError("Optics configuration not automatized yet")
 
@@ -256,7 +256,7 @@ def get_title_from_conf(
         # Intensity
         if display_intensity:
             intensity_value = conf_collider["config_knobs_and_tuning"]["knob_settings"]["i_oct_b1"]
-            intensity = f"$I_{{MO}} = {{{intensity_value}}}$ $A$"
+            intensity = f"$I_{{MO}} = {{{intensity_value}}}$ $A$, "
         else:
             intensity = ""
 
@@ -303,7 +303,6 @@ def get_title_from_conf(
             + chroma
             + ", "
             + intensity
-            + ", "
             + coupling
             + "\n"
             + filling_scheme

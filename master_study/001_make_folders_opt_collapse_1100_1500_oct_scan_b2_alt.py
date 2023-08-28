@@ -36,7 +36,7 @@ d_config_particles["n_r"] = 2 * 16 * (d_config_particles["r_max"] - d_config_par
 d_config_particles["n_angles"] = 5
 
 # Number of split for parallelization
-d_config_particles["n_split"] = 20
+d_config_particles["n_split"] = 10
 
 # ==================================================================================================
 # --- Optics collider parameters (generation 1)
@@ -282,7 +282,7 @@ dump_config_in_collider = False
 # optimal DA (e.g. tune, chroma, etc).
 # ==================================================================================================
 # Scan tune with step of 0.001 (need to round to correct for numpy numerical instabilities)
-array_qx = np.round(np.arange(62.310, 62.320, 0.001), decimals=4)
+array_qx = [62.315]
 
 # In case one is doing a tune-tune scan, to decrease the size of the scan, we can ignore the
 # working points too close to resonance. Otherwise just delete this variable in the loop at the end
@@ -351,7 +351,7 @@ config["root"]["setup_env_script"] = os.getcwd() + "/../activate_miniforge.sh"
 # --- Build tree and write it to the filesystem
 # ==================================================================================================
 # Define study name
-study_name = "opt_collapse_1100_1500_scan_b2"
+study_name = "opt_collapse_1100_1500_scan_b2_alt"
 
 # Creade folder that will contain the tree
 if not os.path.exists("scans/" + study_name):
