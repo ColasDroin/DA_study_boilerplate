@@ -56,7 +56,7 @@ def add_QR_code(fig, link):
 
 # Function to convert floats to scientific latex format
 def latex_float(f):
-    float_str = "{0:.2g}".format(f)
+    float_str = "{0:.3g}".format(f)
     if "e" in float_str:
         base, exponent = float_str.split("e")
         return r"${0} \times 10^{{{1}}}$".format(base, int(exponent))
@@ -80,12 +80,15 @@ def get_title_from_conf(
     Nb=True,
     levelling="",
     CC=False,
+    display_intensity=True,
 ):
     # LHC version
     try:
         LHC_version = conf_mad["links"]["acc-models-lhc"].split("modules/")[1]
         if LHC_version == "hllhc15":
             LHC_version = "HL-LHC v1.5"
+        elif LHC_version == "hllhc16":
+            LHC_version = "HL-LHC v1.6"
     except:
         LHC_version = conf_mad["links"]["acc-models-lhc"].split("optics/")[1]
         if LHC_version == "runIII":
@@ -195,7 +198,10 @@ def get_title_from_conf(
             phi_1 = r"$\Phi/2_{IP1(V)}$"
             phi_5 = r"$\Phi/2_{IP5(H)}$"
         else:
-            raise ValueError("Optics configuration not automatized yet")
+            phi_1 = r"$\Phi/2_{IP1(H)}$"
+            phi_5 = r"$\Phi/2_{IP5(V)}$"
+        # else:
+        #     raise ValueError("Optics configuration not automatized yet")
         xing_value_IP1 = conf_collider["config_knobs_and_tuning"]["knob_settings"]["on_x1"]
         xing_IP1 = phi_1 + f"$= {{{xing_value_IP1:.0f}}}$" + f" $\mu rad$"
 
@@ -217,8 +223,12 @@ def get_title_from_conf(
             raise ValueError("Optics configuration not automatized yet")
 
         # Crosing angle at IP2
-        xing_value_IP2h = conf_collider["config_knobs_and_tuning"]["knob_settings"]["on_x2h"]
-        xing_value_IP2v = conf_collider["config_knobs_and_tuning"]["knob_settings"]["on_x2v"]
+        try:
+            xing_value_IP2h = conf_collider["config_knobs_and_tuning"]["knob_settings"]["on_x2h"]
+            xing_value_IP2v = conf_collider["config_knobs_and_tuning"]["knob_settings"]["on_x2v"]
+        except:
+            xing_value_IP2h = 0
+            xing_value_IP2v = conf_collider["config_knobs_and_tuning"]["knob_settings"]["on_x2"]
         if xing_value_IP2v != 0 and xing_value_IP2h == 0:
             xing_IP2 = r"$\Phi/2_{IP2,V}$" + f"$= {{{xing_value_IP2v:.0f}}}$ $\mu rad$"
         elif xing_value_IP8v == 0 and xing_value_IP8h != 0:
@@ -244,8 +254,11 @@ def get_title_from_conf(
         chroma = r"$Q'$" + f"$= {{{chroma_value}}}$"
 
         # Intensity
-        intensity_value = conf_collider["config_knobs_and_tuning"]["knob_settings"]["i_oct_b1"]
-        intensity = f"$I_{{MO}} = {{{intensity_value}}}$ $A$"
+        if display_intensity:
+            intensity_value = conf_collider["config_knobs_and_tuning"]["knob_settings"]["i_oct_b1"]
+            intensity = f"$I_{{MO}} = {{{intensity_value}}}$ $A$"
+        else:
+            intensity = ""
 
         # Linear coupling
         coupling_value = conf_collider["config_knobs_and_tuning"]["delta_cmr"]
@@ -323,7 +336,8 @@ def plot_heatmap(
     plot_diagonal_lines=True,
     xaxis_ticks_on_top=True,
     title=None,
-    add_vline = None,
+    add_vline=None,
+    display_intensity=True,
 ):
     # Get numpy array from dataframe
     data_array = df_to_plot.to_numpy()
@@ -344,9 +358,8 @@ def plot_heatmap(
     # Loop over data dimensions and create text annotations.
     for i in range(len(df_to_plot.index)):
         for j in range(len(df_to_plot.columns)):
-            text = ax.text(
-                j, i, f"{data_array[i, j]:.1f}", ha="center", va="center", color="white", fontsize=4
-            )
+            val = f"{data_array[i, j]:.1f}" if data_array[i, j] < 10 else ">10"
+            text = ax.text(j, i, val, ha="center", va="center", color="white", fontsize=4)
 
     # Smooth data for contours
     # make the matrix symmetric by replacing the lower triangle with the upper triangle
@@ -403,6 +416,7 @@ def plot_heatmap(
                 Nb=Nb,
                 levelling=levelling,
                 CC=CC,
+                display_intensity=display_intensity,
             ),
             fontsize=10,
         )
@@ -430,10 +444,10 @@ def plot_heatmap(
     # Add QR code
     if link is not None:
         fig = add_QR_code(fig, link)
-        
+
     if add_vline is not None:
         plt.axvline(add_vline, color="black", linestyle="--", linewidth=1)
-        plt.text(add_vline, 25, r'Bunch intensity $\simeq \beta^*_{2023} = 0.3/0.3$', fontsize=8)
+        plt.text(add_vline, 25, r"Bunch intensity $\simeq \beta^*_{2023} = 0.3/0.3$", fontsize=8)
 
     plt.savefig("plots/output_" + study_name + ".pdf", bbox_inches="tight")
     plt.show()
