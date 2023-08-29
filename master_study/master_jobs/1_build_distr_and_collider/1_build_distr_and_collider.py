@@ -56,6 +56,9 @@ def build_particle_distribution(config_particles):
     n_r = config_particles["n_r"]
     radial_list = np.linspace(r_min, r_max, n_r, endpoint=False)
 
+    # Filter out particles with low and high amplitude to accelerate simulation
+    radial_list = radial_list[(radial_list >= 4.5) & (radial_list <= 7.5)]
+
     # Define angle distribution
     n_angles = config_particles["n_angles"]
     theta_list = np.linspace(0, 90, n_angles + 2)[1:-1]

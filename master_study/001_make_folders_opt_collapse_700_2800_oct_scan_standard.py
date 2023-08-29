@@ -56,7 +56,7 @@ d_config_mad = {"beam_config": {"lhcb1": {}, "lhcb2": {}}, "links": {}}
 ### For v1.6 optics
 d_config_mad["links"]["acc-models-lhc"] = "../../../../modules/hllhc16"
 d_config_mad["optics_file"] = (
-    "acc-models-lhc/strengths/round/start_collapse/opt_collapse_1000_1500_triplet_match3_thin.madx"
+    "acc-models-lhc/strengths/round/start_collapse/opt_collapse_flathv_700_2800_thin.madx"
 )
 d_config_mad["ver_hllhc_optics"] = 1.6
 
@@ -114,9 +114,9 @@ d_config_knobs["on_x8v"] = 170
 d_config_knobs["on_crab1"] = 0
 d_config_knobs["on_crab5"] = 0
 
-# Octupoles
-d_config_knobs["i_oct_b1"] = 450.0
-d_config_knobs["i_oct_b2"] = 450.0
+# Octupoles # ! This is being scanned
+d_config_knobs["i_oct_b1"] = 60.0
+d_config_knobs["i_oct_b2"] = 60.0
 
 # On disp # ! Check that it should be 0 indeed
 d_config_knobs["on_disp"] = 0
@@ -125,7 +125,8 @@ d_config_knobs["on_disp"] = 0
 
 # Leveling in IP 1/5
 d_config_leveling_ip1_5 = {"constraints": {}}
-d_config_leveling_ip1_5["luminosity"] = 2.5e34
+# ! No constraint on lumi
+d_config_leveling_ip1_5["luminosity"] = 5e34  # 2.5e34
 d_config_leveling_ip1_5["constraints"]["max_intensity"] = 2.3e11
 d_config_leveling_ip1_5["constraints"]["max_PU"] = 160
 
@@ -157,7 +158,7 @@ d_config_beambeam["nemitt_y"] = 2.3e-6
 # The scheme should consist of a json file containing two lists of booleans (one for each beam),
 # representing each bucket of the LHC.
 filling_scheme_path = os.path.abspath(
-    "master_jobs/filling_scheme/8b4e_1972b_1960_1178_1886_224bpi_12inj_800ns_bs200ns.json"
+    "master_jobs/filling_scheme/25ns_2760b_2748_2492_2574_288bpi_13inj_800ns_bs200ns_converted.json"
 )
 
 # Alternatively, one can get a fill directly from LPC from, e.g.:
@@ -258,13 +259,13 @@ d_config_collider["config_beambeam"] = d_config_beambeam
 d_config_simulation = {}
 
 # Number of turns to track
-d_config_simulation["n_turns"] = 1000000
+d_config_simulation["n_turns"] = 200
 
 # Initial off-momentum
 d_config_simulation["delta_max"] = 27.0e-5
 
 # Beam to track (lhcb1 or lhcb2)
-d_config_simulation["beam"] = "lhcb2"
+d_config_simulation["beam"] = "lhcb1"
 
 # ==================================================================================================
 # --- Dump collider and collider configuration
@@ -282,12 +283,12 @@ dump_config_in_collider = False
 # optimal DA (e.g. tune, chroma, etc).
 # ==================================================================================================
 # Scan tune with step of 0.001 (need to round to correct for numpy numerical instabilities)
-array_qx = [62.315]
+array_qx = np.round(np.arange(62.305, 62.330, 0.001), decimals=4)[:1]
+array_I = np.linspace(-600, 600, 25, endpoint=True)[:1]
 
 # In case one is doing a tune-tune scan, to decrease the size of the scan, we can ignore the
 # working points too close to resonance. Otherwise just delete this variable in the loop at the end
 # of the script
-keep = "upper_triangle"  # 'lower_triangle', 'all'
 # ==================================================================================================
 # --- Make tree for the simulations (generation 1)
 #
@@ -316,11 +317,13 @@ children["base_collider"]["config_mad"] = d_config_mad
 # ! otherwise the dictionnary will be mutated for all the children.
 # ==================================================================================================
 track_array = np.arange(d_config_particles["n_split"])
-for idx_job, (track, qx) in enumerate(itertools.product(track_array, array_qx)):
+for idx_job, (track, qx, I) in enumerate(itertools.product(track_array, array_qx, array_I)):
     # Mutate the appropriate collider parameters
     for beam in ["lhcb1", "lhcb2"]:
         d_config_collider["config_knobs_and_tuning"]["qx"][beam] = float(qx)
         d_config_collider["config_knobs_and_tuning"]["qy"][beam] = float(qx - 2 + 0.005)
+        d_config_collider["config_knobs_and_tuning"]["knob_settings"]["i_oct_b1"] = float(I)
+        d_config_collider["config_knobs_and_tuning"]["knob_settings"]["i_oct_b2"] = float(I)
 
     # Complete the dictionnary for the tracking
     d_config_simulation["particle_file"] = f"../particles/{track:02}.parquet"
@@ -351,7 +354,7 @@ config["root"]["setup_env_script"] = os.getcwd() + "/../activate_miniforge.sh"
 # --- Build tree and write it to the filesystem
 # ==================================================================================================
 # Define study name
-study_name = "opt_collapse_1100_1500_scan_b2_alt"
+study_name = "opt_collapse_700_2800_oct_scan_standard"
 
 # Creade folder that will contain the tree
 if not os.path.exists("scans/" + study_name):
