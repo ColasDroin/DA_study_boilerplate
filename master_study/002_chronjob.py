@@ -45,7 +45,7 @@ class ClusterSubmission:
                     f" {path_node}/run.sh\n"
                 ),
                 "tail": f"#{self.run_on}\n",
-                "submit_command": lambda filename: f"sbatch {filename}",
+                "submit_command": lambda filename: f"bash {filename}",
             },
             "slurm_docker": {
                 "head": lambda path_node: (
@@ -121,6 +121,7 @@ class ClusterSubmission:
         return False
 
     def _write_sub_files_slurm(self, filename, running_jobs, queuing_jobs, list_of_nodes):
+                
         l_filenames = []
         for idx_node, node in enumerate(list_of_nodes):
             # Get path node
@@ -140,18 +141,20 @@ class ClusterSubmission:
                     # update path for sed
                     to_replace = to_replace.replace("/", "\/")
                     replacement = replacement.replace("/", "\/")
-                    # Mutate path in run.sh and other potentially problematic files
-                    fid.write(f"sed -i 's/{to_replace}/{replacement}/' {fixed_path}/run.sh\n")
-                    fid.write(f"sed -i 's/{to_replace}/{replacement}/' {fixed_path}/config.yaml\n")
 
                     # Head
                     self.dic_submission[self.run_on]["head"](fixed_path)
+
+                    # Mutate path in run.sh and other potentially problematic files
+                    fid.write(f"sed -i 's/{to_replace}/{replacement}/' {fixed_path}/run.sh\n")
+                    fid.write(f"sed -i 's/{to_replace}/{replacement}/' {fixed_path}/config.yaml\n")
 
                     # Body
                     self.dic_submission[self.run_on]["body"](fixed_path)
 
                     # Tail
                     self.dic_submission[self.run_on]["tail"]
+                    
                 l_filenames.append(filename_node)
         return l_filenames
 
@@ -276,6 +279,8 @@ class ClusterSubmission:
         # Get job id and details
         for line in slurm_output.split("\n")[1:]:
             l_split = line.split()
+            if len(l_split) == 0:
+                break
             jobid = int(l_split[0])
             slurm_status = l_split[4]  # R or PD
 
@@ -283,7 +288,7 @@ class ClusterSubmission:
             job_details = subprocess.run(
                 ["scontrol", "show", "jobid", "-dd", f"{jobid}"], capture_output=True
             ).stdout.decode("utf-8")
-            job = job_details.split("StdErr=")[1].split("error.txt")[0]
+            job = job_details.split("StdOut=")[1].split("output.txt")[0]
             l_jobs.append(job)
         return l_jobs
 
@@ -384,7 +389,7 @@ def submit_jobs(study_name, print_uncompleted_jobs=False):
 # Load the tree from a yaml and submit the jobs that haven't been completed yet
 if __name__ == "__main__":
     # Define study
-    study_name = "opt_collapse_700_2800_oct_scan_standard"
+    study_name = "opt_collapse_700_2800_oct_scan_8b4e"
 
     # Submit jobs
     submit_jobs(study_name)
