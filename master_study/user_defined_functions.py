@@ -14,19 +14,6 @@ def generate_run_sh(node, generation_number):
     )
 
 
-# def generate_run_sh_temp_python(node, generation_number):
-#     python_command = node.root.parameters["generations"][generation_number]["job_executable"]
-#     above_str = "../" * (generation_number + 3)
-#     return (
-#         f"#!/bin/bash\n"
-#         + f"source {node.get_abs_path()}/{above_str}make_miniforge.sh \n"
-#         + f"cd {node.get_abs_path()}\n"
-#         + f"python {python_command} > output.txt 2> error.txt\n"
-#         + f"rm -rf final_* modules optics_repository optics_toolkit tools tracking_tools temp"
-#         f" mad_collider.log __pycache__ twiss* errors fc* optics_orbit_at*\n"
-#     )
-
-
 def _compute_LR_per_bunch(
     _array_b1, _array_b2, _B1_bunches_index, _B2_bunches_index, numberOfLRToConsider, beam="beam_1"
 ):

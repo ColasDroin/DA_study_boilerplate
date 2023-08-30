@@ -47,10 +47,11 @@ def read_configuration(config_path="config.yaml"):
     # Also read configuration from previous generation
     try:
         with open("../" + config_path, "r") as fid:
-            config_mad = ryaml.load(fid)
+            config_gen_1 = ryaml.load(fid)
     except:
         with open("../1_build_distr_and_collider/" + config_path, "r") as fid:
-            config_mad = ryaml.load(fid)
+            config_gen_1 = ryaml.load(fid)
+    config_mad = config_gen_1["config_mad"]
     return config, config_sim, config_collider, config_mad
 
 
@@ -181,22 +182,30 @@ def do_levelling(
         )
 
         # Get crab cavities
+        crab = False
         if "on_crab1" in config_collider["config_knobs_and_tuning"]["knob_settings"]:
-            crab = config_collider["config_knobs_and_tuning"]["knob_settings"]["on_crab1"]
-        else:
-            crab = False
+            crab_val = float(
+                config_collider["config_knobs_and_tuning"]["knob_settings"]["on_crab1"]
+            )
+            if crab_val > 0:
+                crab = True
 
         # Get cross section and frequency for pile-up computation
         cross_section = 81e-27
 
         # Do the levelling
-        I, L_1_5 = luminosity_leveling_ip1_5(
-            collider,
-            config_collider,
-            config_bb,
-            cross_section,
-            crab=False,
-        )
+        try:
+            I, L_1_5 = luminosity_leveling_ip1_5(
+                collider,
+                config_collider,
+                config_bb,
+                cross_section,
+                crab=crab,
+            )
+        except ValueError:
+            print("There was a problem during the luminosity leveling in IP1/5... Ignoring it.")
+            I = config_bb["num_particles_per_bunch"]
+            L_1_5 = 0
         initial_I = config_bb["num_particles_per_bunch"]
         config_bb["num_particles_per_bunch"] = I
 
@@ -214,25 +223,31 @@ def do_levelling(
         config_lumi_leveling=config_lumi_leveling,
         config_beambeam=config_bb,
         additional_targets_lumi=additional_targets_lumi,
+        crab=crab,
     )
 
     # Get the final luminoisty in IP 2/8
     twiss_b1 = collider["lhcb1"].twiss()
     twiss_b2 = collider["lhcb2"].twiss()
-    (L_2, L_8) = [
-        xt.lumi.luminosity_from_twiss(
-            n_colliding_bunches=n_collisions,
-            num_particles_per_bunch=I,
-            ip_name=ip,
-            nemitt_x=config_bb["nemitt_x"],
-            nemitt_y=config_bb["nemitt_y"],
-            sigma_z=config_bb["sigma_z"],
-            twiss_b1=twiss_b1,
-            twiss_b2=twiss_b2,
-            crab=crab,
-        )
-        for n_collisions, ip in zip([n_collisions_ip2, n_collisions_ip8], ["ip2", "ip8"])
-    ]
+    try:
+        (L_2, L_8) = [
+            xt.lumi.luminosity_from_twiss(
+                n_colliding_bunches=n_collisions,
+                num_particles_per_bunch=I,
+                ip_name=ip,
+                nemitt_x=config_bb["nemitt_x"],
+                nemitt_y=config_bb["nemitt_y"],
+                sigma_z=config_bb["sigma_z"],
+                twiss_b1=twiss_b1,
+                twiss_b2=twiss_b2,
+                crab=crab,
+            )
+            for n_collisions, ip in zip([n_collisions_ip2, n_collisions_ip8], ["ip2", "ip8"])
+        ]
+    except ValueError:
+        print("There was a problem during the luminosity leveling in IP2/8... Ignoring it.")
+        L_2 = 0
+        L_8 = 0
 
     # Update configuration
     config_bb["num_particles_per_bunch_after_optimization"] = float(I)
@@ -259,11 +274,22 @@ def do_levelling(
 # ==================================================================================================
 # --- Function to add linear coupling
 # ==================================================================================================
-def add_linear_coupling(conf_knobs_and_tuning, collider):
+def add_linear_coupling(conf_knobs_and_tuning, collider, config_mad):
+    # Get the version of the optics
+    version_hllhc = config_mad["ver_hllhc_optics"]
+    version_run = config_mad["ver_lhc_run"]
+
     # Add linear coupling as the target in the tuning of the base collider was 0
     # (not possible to set it the target to 0.001 for now)
-    collider.vars["cmrs.b1_sq"] += conf_knobs_and_tuning["delta_cmr"]
-    collider.vars["cmrs.b2_sq"] += conf_knobs_and_tuning["delta_cmr"]
+    if version_run == 3.0:
+        collider.vars["cmrs.b1_sq"] += conf_knobs_and_tuning["delta_cmr"]
+        collider.vars["cmrs.b2_sq"] += conf_knobs_and_tuning["delta_cmr"]
+    elif version_hllhc == 1.6 or version_hllhc == 1.5:
+        collider.vars["c_minus_re_b1"] += conf_knobs_and_tuning["delta_cmr"]
+        collider.vars["c_minus_re_b2"] += conf_knobs_and_tuning["delta_cmr"]
+    else:
+        raise ValueError(f"Unknown version of the optics/run: {version_hllhc}, {version_run}.")
+
     return collider
 
 
@@ -411,7 +437,7 @@ def configure_collider(
         )
 
     # Add linear coupling
-    collider = add_linear_coupling(conf_knobs_and_tuning, collider)
+    collider = add_linear_coupling(conf_knobs_and_tuning, collider, config_mad)
 
     # Rematch tune and chromaticity
     collider = match_tune_and_chroma(
@@ -439,7 +465,7 @@ def configure_collider(
                 "config_mad": config_mad,
                 "config_collider": config_collider,
             }
-            collider_dict["config_yaml"] = config_dict 
+            collider_dict["config_yaml"] = config_dict
 
             class NpEncoder(json.JSONEncoder):
                 def default(self, obj):
@@ -450,11 +476,11 @@ def configure_collider(
                     if isinstance(obj, np.ndarray):
                         return obj.tolist()
                     return super(NpEncoder, self).default(obj)
+
             #  collider.set_metadata(config_dict)
             with open("collider.json", "w") as fid:
                 json.dump(collider_dict, fid, cls=NpEncoder)
         else:
-            
             collider.to_json("collider.json")
 
     if return_collider_before_bb:

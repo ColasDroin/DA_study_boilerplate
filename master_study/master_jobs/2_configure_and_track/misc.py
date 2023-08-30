@@ -252,7 +252,11 @@ def generate_orbit_correction_setup():
 
 
 def luminosity_leveling(
-    collider, config_lumi_leveling, config_beambeam, additional_targets_lumi=[]
+    collider,
+    config_lumi_leveling,
+    config_beambeam,
+    additional_targets_lumi=[],
+    crab=False,
 ):
     for ip_name in config_lumi_leveling.keys():
         print(f"\n --- Leveling in {ip_name} ---")
@@ -278,7 +282,7 @@ def luminosity_leveling(
                 xt.TargetLuminosity(
                     ip_name=ip_name,
                     luminosity=config_this_ip["luminosity"],
-                    crab=False,
+                    crab=crab,
                     tol=1e30,  # 0.01 * config_this_ip["luminosity"],
                     f_rev=f_rev,
                     num_colliding_bunches=config_this_ip["num_colliding_bunches"],
