@@ -109,6 +109,9 @@ class ClusterSubmission:
         if not path_node.endswith("/"):
             path_node += "/"
 
+        # Only get path after master_study
+        path_node = path_node.split("master_study")[1]
+
         # Test if node is running, queuing or completed
         if node.has_been("completed"):
             print(f"{path_node} is already completed.")
@@ -121,7 +124,6 @@ class ClusterSubmission:
         return False
 
     def _write_sub_files_slurm(self, filename, running_jobs, queuing_jobs, list_of_nodes):
-                
         l_filenames = []
         for idx_node, node in enumerate(list_of_nodes):
             # Get path node
@@ -143,18 +145,18 @@ class ClusterSubmission:
                     replacement = replacement.replace("/", "\/")
 
                     # Head
-                    self.dic_submission[self.run_on]["head"](fixed_path)
+                    fid.write(self.dic_submission[self.run_on]["head"](fixed_path))
 
                     # Mutate path in run.sh and other potentially problematic files
                     fid.write(f"sed -i 's/{to_replace}/{replacement}/' {fixed_path}/run.sh\n")
                     fid.write(f"sed -i 's/{to_replace}/{replacement}/' {fixed_path}/config.yaml\n")
 
                     # Body
-                    self.dic_submission[self.run_on]["body"](fixed_path)
+                    fid.write(self.dic_submission[self.run_on]["body"](fixed_path))
 
                     # Tail
-                    self.dic_submission[self.run_on]["tail"]
-                    
+                    fid.write(self.dic_submission[self.run_on]["tail"])
+
                 l_filenames.append(filename_node)
         return l_filenames
 
@@ -262,6 +264,10 @@ class ClusterSubmission:
                     ["condor_q", "-l", f"{jobid}"], capture_output=True
                 ).stdout.decode("utf-8")
                 job = job_details.split('Cmd = "')[1].split("run.sh")[0]
+
+                # Only get path after master_study
+                job = job.split("master_study")[1]
+
                 l_jobs.append(job)
         return l_jobs
 
@@ -288,7 +294,14 @@ class ClusterSubmission:
             job_details = subprocess.run(
                 ["scontrol", "show", "jobid", "-dd", f"{jobid}"], capture_output=True
             ).stdout.decode("utf-8")
-            job = job_details.split("StdOut=")[1].split("output.txt")[0]
+            if "run.sh" in job_details:
+                job = job_details.split("Command=")[1].split("run.sh")[0]
+            else:
+                job = job_details.split("StdOut=")[1].split("output.txt")[0]
+
+            # Only get path after master_study
+            job = job.split("master_study")[1]
+
             l_jobs.append(job)
         return l_jobs
 
@@ -301,6 +314,10 @@ class ClusterSubmission:
                 if len(aux) > 1:
                     if "run.sh" in aux[-1]:
                         job = str(Path(aux[-1]).parent)
+
+                        # Only get path after master_study
+                        job = job.split("master_study")[1]
+
                         l_jobs.append(job)
         elif self.run_on == "htc" or self.run_on == "htc_docker":
             l_jobs = self._get_condor_jobs("running")
