@@ -53,4 +53,5 @@ config_mad:
     par_on_errors_NLC: 0
     par_write_errortable: 1
 
+sanity_checks: true
 log_file: 'tree_maker.log'

@@ -95,9 +95,9 @@ config_collider:
     nemitt_x: 2.2e-6
     nemitt_y: 2.2e-6
     mask_with_filling_pattern:
-      pattern_fname: /afs/cern.ch/work/c/cdroin/private/example_DA_study/master_study/run_2024/filling_scheme/25ns_2228b_2216_1686_2112_hybrid_8b4e_2x56b_25ns_3x48b_12inj.json
-      i_bunch_b1: null # If not specified, the bunch with the worst schedule is chosen
-      i_bunch_b2: null # Same. A value for i_bunch_b1 and i_bunch_b2 must be specified if pattern_fname is specified
+      pattern_fname: ../filling_scheme/25ns_2228b_2216_1686_2112_hybrid_8b4e_2x56b_25ns_3x48b_12inj.json
+      i_bunch_b1: 1963 # If not specified, the bunch with the worst schedule is chosen
+      i_bunch_b2: 1963 # Same. A value for i_bunch_b1 and i_bunch_b2 must be specified if pattern_fname is specified
 
   config_lumi_leveling_ip1_5:
       luminosity: 2.0e+34
@@ -183,10 +183,10 @@ config_collider:
 config_simulation:
 
   # Collider file
-  collider_file :    '../collider/collider.json'
+  collider_file: ../1_build_distr_and_collider/collider/collider.json
 
   # Distribution in the normalized xy space
-  particle_file:  '../particles/000.parquet'
+  particle_file: ../1_build_distr_and_collider/particles/00.parquet
 
   # Initial off-momentum
   delta_max  :    27.e-5   
