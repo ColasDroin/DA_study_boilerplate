@@ -387,6 +387,3 @@ root.make_folders(generate_run_sh)
 print("The tree folders are ready.")
 print("--- %s seconds ---" % (time.time() - start_time))
 
-# Rename log files according to study
-shutil.move("tree_maker.json", f"tree_maker_{study_name}.json")
-shutil.move("tree_maker.log", f"tree_maker_{study_name}.log")

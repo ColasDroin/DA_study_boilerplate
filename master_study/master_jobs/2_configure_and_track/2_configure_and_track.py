@@ -41,8 +41,6 @@ def read_configuration(config_path="config.yaml"):
     # Read configuration for simulations
     with open(config_path, "r") as fid:
         config = ryaml.load(fid)
-    config_sim = config["config_simulation"]
-    config_collider = config["config_collider"]
 
     # Also read configuration from previous generation
     try:
@@ -51,8 +49,9 @@ def read_configuration(config_path="config.yaml"):
     except:
         with open("../1_build_distr_and_collider/" + config_path, "r") as fid:
             config_gen_1 = ryaml.load(fid)
+            
     config_mad = config_gen_1["config_mad"]
-    return config, config_sim, config_collider, config_mad
+    return config, config_mad
 
 
 def generate_configuration_correction_files(output_folder="correction"):
@@ -154,8 +153,8 @@ def compute_collision_from_scheme(config_bb):
     # Assert that the arrays have the required length, and do the convolution
     assert len(array_b1) == len(array_b2) == 3564
     n_collisions_ip1_and_5 = array_b1 @ array_b2
-    n_collisions_ip2 = np.roll(array_b1, -891) @ array_b2
-    n_collisions_ip8 = np.roll(array_b1, -2670) @ array_b2
+    n_collisions_ip2 = np.roll(array_b1, 891) @ array_b2
+    n_collisions_ip8 = np.roll(array_b1, 2670) @ array_b2
 
     return n_collisions_ip1_and_5, n_collisions_ip2, n_collisions_ip8
 
@@ -195,7 +194,7 @@ def do_levelling(
 
         # Do the levelling
         try:
-            I, L_1_5 = luminosity_leveling_ip1_5(
+            I = luminosity_leveling_ip1_5(
                 collider,
                 config_collider,
                 config_bb,
@@ -205,9 +204,9 @@ def do_levelling(
         except ValueError:
             print("There was a problem during the luminosity leveling in IP1/5... Ignoring it.")
             I = config_bb["num_particles_per_bunch"]
-            L_1_5 = 0
+            
         initial_I = config_bb["num_particles_per_bunch"]
-        config_bb["num_particles_per_bunch"] = I
+        config_bb["num_particles_per_bunch"] = float(I)
 
     # Set up the constraints for lumi optimization in IP8
     additional_targets_lumi = []
@@ -218,7 +217,7 @@ def do_levelling(
             additional_targets_lumi.append(target)
 
     # Then level luminosity in IP 2/8 changing the separation
-    luminosity_leveling(
+    collider = luminosity_leveling(
         collider,
         config_lumi_leveling=config_lumi_leveling,
         config_beambeam=config_bb,
@@ -226,35 +225,8 @@ def do_levelling(
         crab=crab,
     )
 
-    # Get the final luminoisty in IP 2/8
-    twiss_b1 = collider["lhcb1"].twiss()
-    twiss_b2 = collider["lhcb2"].twiss()
-    try:
-        (L_2, L_8) = [
-            xt.lumi.luminosity_from_twiss(
-                n_colliding_bunches=n_collisions,
-                num_particles_per_bunch=I,
-                ip_name=ip,
-                nemitt_x=config_bb["nemitt_x"],
-                nemitt_y=config_bb["nemitt_y"],
-                sigma_z=config_bb["sigma_z"],
-                twiss_b1=twiss_b1,
-                twiss_b2=twiss_b2,
-                crab=crab,
-            )
-            for n_collisions, ip in zip([n_collisions_ip2, n_collisions_ip8], ["ip2", "ip8"])
-        ]
-    except ValueError:
-        print("There was a problem during the luminosity leveling in IP2/8... Ignoring it.")
-        L_2 = 0
-        L_8 = 0
-
     # Update configuration
-    config_bb["num_particles_per_bunch_after_optimization"] = float(I)
-    config_bb["num_particles_per_bunch"] = float(initial_I)
-    config_bb["luminosity_ip1_5_after_optimization"] = float(L_1_5)
-    config_bb["luminosity_ip2_after_optimization"] = float(L_2)
-    config_bb["luminosity_ip8_after_optimization"] = float(L_8)
+    config_bb["num_particles_per_bunch_before_optimization"] = float(initial_I)
     config_collider["config_lumi_leveling"]["ip2"]["final_on_sep2h"] = float(
         collider.vars["on_sep2h"]._value
     )
@@ -268,7 +240,7 @@ def do_levelling(
         collider.vars["on_sep8v"]._value
     )
 
-    return collider, config_collider
+    return collider, config_collider, crab
 
 
 # ==================================================================================================
@@ -382,19 +354,57 @@ def configure_beam_beam(collider, config_bb):
 
 
 # ==================================================================================================
+# --- Function to compute luminosity once the collider is configured
+# ==================================================================================================
+def record_final_luminosity(collider, config_bb, l_n_collisions, crab):
+    
+    # Get the final luminoisty in all IPs
+    twiss_b1 = collider["lhcb1"].twiss()
+    twiss_b2 = collider["lhcb2"].twiss()
+    l_lumi = []
+    l_ip = ["ip1", "ip2", "ip5", "ip8"]
+    for n_col, ip in zip(l_n_collisions, l_ip):
+        try:
+            L = xt.lumi.luminosity_from_twiss(
+                    n_colliding_bunches=n_col,
+                    num_particles_per_bunch=config_bb["num_particles_per_bunch"],
+                    ip_name=ip,
+                    nemitt_x=config_bb["nemitt_x"],
+                    nemitt_y=config_bb["nemitt_y"],
+                    sigma_z=config_bb["sigma_z"],
+                    twiss_b1=twiss_b1,
+                    twiss_b2=twiss_b2,
+                    crab=crab,
+                )
+        except:
+            print(f"There was a problem during the luminosity computation in {ip}... Ignoring it.")
+            L = 0
+        l_lumi.append(L)
+
+    # Update configuration
+    for ip, L in zip(l_ip, l_lumi):
+        config_bb[f"luminosity_{ip}_after_optimization"] = float(L)
+        
+    return config_bb
+
+# ==================================================================================================
 # --- Main function for collider configuration
 # ==================================================================================================
 def configure_collider(
-    config_sim,
-    config_collider,
+    config,
     config_mad,
     skip_beam_beam=False,
     save_collider=False,
     save_config=False,
     return_collider_before_bb=False,
+    config_path="config.yaml"
 ):
     # Generate configuration files for orbit correction
     generate_configuration_correction_files()
+
+    # Get configurations
+    config_sim = config["config_simulation"]
+    config_collider = config["config_collider"]
 
     # Rebuild collider
     collider = xt.Multiline.from_json(config_sim["collider_file"])
@@ -422,7 +432,7 @@ def configure_collider(
 
     # Do the leveling if requested
     if "config_lumi_leveling" in config_collider and not config_collider["skip_leveling"]:
-        collider, config_collider = do_levelling(
+        collider, config_collider, crab = do_levelling(
             config_collider,
             config_bb,
             n_collisions_ip2,
@@ -456,6 +466,14 @@ def configure_collider(
         # Configure beam-beam
         collider = configure_beam_beam(collider, config_bb)
 
+    # Update configuration with luminosity now that bb is known
+    l_n_collisions = [n_collisions_ip1_and_5, n_collisions_ip2, n_collisions_ip1_and_5, n_collisions_ip8]
+    config_bb = record_final_luminosity(collider, config_bb, l_n_collisions, crab)
+
+    # Drop update configuration
+    with open(config_path, "w") as fid:
+        ryaml.dump(config, fid)
+
     if save_collider:
         # Save the final collider before tracking
         print('Saving "collider.json')
@@ -484,9 +502,9 @@ def configure_collider(
             collider.to_json("collider.json")
 
     if return_collider_before_bb:
-        return collider, config_bb, collider_before_bb
+        return collider, config_sim, config_bb, collider_before_bb
     else:
-        return collider, config_bb
+        return collider, config_sim, config_bb
 
 
 # ==================================================================================================
@@ -545,18 +563,18 @@ def track(collider, particles, config_sim, save_input_particles=False):
 # ==================================================================================================
 def configure_and_track(config_path="config.yaml"):
     # Get configuration
-    config, config_sim, config_collider, config_mad = read_configuration(config_path)
+    config, config_mad = read_configuration(config_path)
 
     # Tag start of the job
     tree_maker_tagging(config, tag="started")
 
     # Configure collider (not saved, since it may trigger overload of afs)
-    collider, config_bb = configure_collider(
-        config_sim,
-        config_collider,
+    collider, config_sim, config_bb = configure_collider(
+        config,
         config_mad,
         save_collider=config["dump_collider"],
         save_config=config["dump_config_in_collider"],
+        config_path = config_path,
     )
 
     # Prepare particle distribution
@@ -567,9 +585,6 @@ def configure_and_track(config_path="config.yaml"):
 
     # Save output
     pd.DataFrame(particles.to_dict()).to_parquet("output_particles.parquet")
-
-    with open(config_path, "w") as fid:
-        ryaml.dump(config, fid)
 
     # Remote the correction folder, and potential C files remaining
     try:

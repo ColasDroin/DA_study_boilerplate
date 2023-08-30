@@ -362,7 +362,7 @@ def submit_jobs_generation(root, generation=1):
 def submit_jobs(study_name, print_uncompleted_jobs=False):
     # Add suffix to the root node path to handle scans that are not in the root directory
     fix = "/scans/" + study_name
-    root = tree_maker.tree_from_json(fix[1:] + "/tree_maker_" + study_name + ".json")
+    root = tree_maker.tree_from_json(fix[1:] + "/tree_maker.json")
     root.add_suffix(suffix=fix)
 
     # Check that the study is not done yet

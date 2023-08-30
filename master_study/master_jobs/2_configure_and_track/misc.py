@@ -351,6 +351,8 @@ def luminosity_leveling(
             targets=targets,
             vary=vary,
         )
+        
+    return collider
 
 
 def luminosity_leveling_ip1_5(
@@ -415,7 +417,7 @@ def luminosity_leveling_ip1_5(
         print(
             f"Optimization for leveling in IP 1/5 succeeded with I={res.x:.2e} particles per bunch"
         )
-    return res.x, compute_lumi(res.x)
+    return res.x
 
 
 if __name__ == "__main__":
