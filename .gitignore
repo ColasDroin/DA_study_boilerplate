@@ -46,7 +46,7 @@ master_study/master_jobs/2_configure_and_track/correction/
 master_study/master_jobs/2_configure_and_track/*.parquet
 
 # vscide configuration
-.vscode/launch.json
+.vscode/*
 
 # misc
 da-study-docker_latest.sif
