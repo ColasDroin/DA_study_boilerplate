@@ -144,9 +144,25 @@ def get_title_from_conf(
             bunch_intensity = ""
 
         try:
-            luminosity_value_1_5 = conf_collider["config_beambeam"][
+            luminosity_value_1 = conf_collider["config_beambeam"][
                 "luminosity_ip1_5_after_optimization"
             ]
+            luminosity_value_5 = conf_collider["config_beambeam"][
+                "luminosity_ip1_5_after_optimization"
+            ]
+        except:
+            try:
+                luminosity_value_1 = conf_collider["config_beambeam"][
+                    "luminosity_ip1_after_optimization"
+                ]
+                luminosity_value_5 = conf_collider["config_beambeam"][
+                    "luminosity_ip5_after_optimization"
+                ]
+            except:
+                luminosity_value_1 = None
+                luminosity_value_5 = None
+
+        try:
             luminosity_value_2 = conf_collider["config_beambeam"][
                 "luminosity_ip2_after_optimization"
             ]
@@ -154,12 +170,11 @@ def get_title_from_conf(
                 "luminosity_ip8_after_optimization"
             ]
         except:
-            luminosity_value_1_5 = None
             luminosity_value_2 = None
             luminosity_value_8 = None
-        if luminosity_value_1_5 is not None:
+        if luminosity_value_1 is not None:
             luminosity_1_5 = (
-                f"$L_{{1/5}} = $" + latex_float(float(luminosity_value_1_5)) + "cm$^{-2}$s$^{-1}$, "
+                f"$L_{{1/5}} = $" + latex_float(float(luminosity_value_1)) + "cm$^{-2}$s$^{-1}$, "
             )
             luminosity_2 = (
                 f"$L_{{2}} = $" + latex_float(float(luminosity_value_2)) + "cm$^{-2}$s$^{-1}$, "
@@ -347,7 +362,7 @@ def plot_heatmap(
 
     # Build heatmap, with inverted y axis
     fig, ax = plt.subplots()
-    im = ax.imshow(data_array, cmap=cmap, vmin=3.5, vmax=8)
+    im = ax.imshow(data_array, cmap=cmap, vmin=4.5, vmax=7.5)
     ax.invert_yaxis()
 
     # Show all ticks and label them with the respective list entries
@@ -357,7 +372,12 @@ def plot_heatmap(
     # Loop over data dimensions and create text annotations.
     for i in range(len(df_to_plot.index)):
         for j in range(len(df_to_plot.columns)):
-            val = f"{data_array[i, j]:.1f}" if data_array[i, j] < 10 else ">10"
+            if data_array[i, j] >= 7.5:
+                val = r"$\geq 7.5$"
+            elif data_array[i, j] <= 4.5:
+                val = r"$\leq 4.5$"
+            else:
+                val = f"{data_array[i, j]:.1f}"
             text = ax.text(j, i, val, ha="center", va="center", color="white", fontsize=4)
 
     # Smooth data for contours
