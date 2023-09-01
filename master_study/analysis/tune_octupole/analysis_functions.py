@@ -347,7 +347,7 @@ def plot_heatmap(
 
     # Build heatmap, with inverted y axis
     fig, ax = plt.subplots()
-    im = ax.imshow(data_array, cmap=cmap, vmin=3.5, vmax=8)
+    im = ax.imshow(data_array, cmap=cmap, vmin=4.5, vmax=7.5)
     ax.invert_yaxis()
 
     # Show all ticks and label them with the respective list entries
@@ -357,7 +357,12 @@ def plot_heatmap(
     # Loop over data dimensions and create text annotations.
     for i in range(len(df_to_plot.index)):
         for j in range(len(df_to_plot.columns)):
-            val = f"{data_array[i, j]:.1f}" if data_array[i, j] < 10 else ">10"
+            if data_array[i, j] >= 7.5:
+                val = r"$\geq 7.5$"
+            elif data_array[i, j] <= 4.5:
+                val = r"$\leq 4.5$"
+            else:
+                val = f"{data_array[i, j]:.1f}"
             text = ax.text(j, i, val, ha="center", va="center", color="white", fontsize=4)
 
     # Smooth data for contours
