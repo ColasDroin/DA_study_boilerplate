@@ -222,7 +222,8 @@ class ClusterSubmission:
             )
 
     def write_sub_files(self, list_of_nodes, filename="file.sub"):
-        running_jobs, queuing_jobs = self._get_state_jobs(verbose=False)
+        # running_jobs, queuing_jobs = self._get_state_jobs(verbose=False)
+        running_jobs, queuing_jobs = [], []
         l_filenames = self._write_sub_files(filename, running_jobs, queuing_jobs, list_of_nodes)
         return l_filenames
 
@@ -243,7 +244,7 @@ class ClusterSubmission:
             else:
                 raise (f"Error: Submission mode {self.run_on} is not yet implemented")
         print("Jobs status after submission:")
-        running_jobs, queuing_jobs = self._get_state_jobs(verbose=True)
+        # running_jobs, queuing_jobs = self._get_state_jobs(verbose=True)
 
     @staticmethod
     def _get_condor_jobs(status):
@@ -409,7 +410,7 @@ def submit_jobs(study_name, print_uncompleted_jobs=False):
 # Load the tree from a yaml and submit the jobs that haven't been completed yet
 if __name__ == "__main__":
     # Define study
-    study_name = "opt_collapse_700_2800_oct_scan_8b4e_red_emit"
+    study_name = "opt_collapse_1100_1500_oct_scan_standard_red_emit"
 
     # Submit jobs
     submit_jobs(study_name)
