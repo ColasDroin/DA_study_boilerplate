@@ -261,7 +261,7 @@ def get_title_from_conf(
         polarity = f"$polarity$ $IP_{{2/8}} = {{{polarity_value_IP2}}}/{{{polarity_value_IP8}}}$"
 
         # Normalized emittance
-        emittance_value = round(conf_collider["config_beambeam"]["nemitt_x"] / 1e-6, 2)
+        emittance_value = round(float(conf_collider["config_beambeam"]["nemitt_x"]) / 1e-6, 2)
         emittance = f"$\epsilon_{{n}} = {{{emittance_value}}}$ $\mu m$"
 
         # Chromaticity
