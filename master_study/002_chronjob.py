@@ -52,7 +52,7 @@ class ClusterSubmission:
                     f" {path_node}/run.sh\n"
                 ),
                 "tail": f"#{self.run_on}\n",
-                "submit_command": lambda filename: f"sbatch {filename}",
+                "submit_command": lambda filename: f"bash {filename}",
             },
             "slurm_docker": {
                 "head": lambda path_node: (
@@ -198,18 +198,20 @@ class ClusterSubmission:
                     # update path for sed
                     to_replace = to_replace.replace("/", "\/")
                     replacement = replacement.replace("/", "\/")
+
+                    # Head
+                    fid.write(self.dic_submission[self.run_on]["head"](fixed_path))
+
                     # Mutate path in run.sh and other potentially problematic files
                     fid.write(f"sed -i 's/{to_replace}/{replacement}/' {fixed_path}/run.sh\n")
                     fid.write(f"sed -i 's/{to_replace}/{replacement}/' {fixed_path}/config.yaml\n")
 
-                    # Head
-                    self.dic_submission[self.run_on]["head"](fixed_path)
-
                     # Body
-                    self.dic_submission[self.run_on]["body"](fixed_path)
+                    fid.write(self.dic_submission[self.run_on]["body"](fixed_path))
 
                     # Tail
-                    self.dic_submission[self.run_on]["tail"]
+                    fid.write(self.dic_submission[self.run_on]["tail"])
+
                 l_filenames.append(filename_node)
                 l_path_jobs.append(path_job)
         return l_filenames, l_path_jobs
@@ -424,6 +426,8 @@ class ClusterSubmission:
         first_line = True
         for line in slurm_output.split("\n")[1:]:
             l_split = line.split()
+            if len(l_split) == 0:
+                break
             jobid = int(l_split[0])
             slurm_status = l_split[4]  # R or PD
 
@@ -539,7 +543,7 @@ def submit_jobs(study_name, print_uncompleted_jobs=False):
 # Load the tree from a yaml and submit the jobs that haven't been completed yet
 if __name__ == "__main__":
     # Define study
-    study_name = "opt_collapse_700_2800_oct_scan_standard"
+    study_name = "example_HL_tunescan"
 
     # Submit jobs
     submit_jobs(study_name)

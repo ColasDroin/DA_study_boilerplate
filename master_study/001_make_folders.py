@@ -37,7 +37,7 @@ d_config_particles["n_r"] = 2 * 16 * (d_config_particles["r_max"] - d_config_par
 d_config_particles["n_angles"] = 5
 
 # Number of split for parallelization
-d_config_particles["n_split"] = 5
+d_config_particles["n_split"] = 4
 
 # ==================================================================================================
 # --- Optics collider parameters (generation 1)
@@ -110,8 +110,8 @@ d_config_knobs["on_x8h"] = 0.0
 d_config_knobs["on_x8v"] = 170
 
 # Crab cavities
-d_config_knobs["on_crab1"] = -190
-d_config_knobs["on_crab5"] = -190
+d_config_knobs["on_crab1"] = 0
+d_config_knobs["on_crab5"] = 0
 
 # Octupoles
 d_config_knobs["i_oct_b1"] = 60.0
