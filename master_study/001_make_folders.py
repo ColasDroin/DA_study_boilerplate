@@ -12,6 +12,7 @@ import copy
 import json
 from user_defined_functions import (
     generate_run_sh,
+    generate_run_sh_htc,
     get_worst_bunch,
     reformat_filling_scheme_from_lpc_alt,
 )
@@ -366,15 +367,25 @@ if not os.path.exists("scans/" + study_name):
 # Move to the folder that will contain the tree
 os.chdir("scans/" + study_name)
 
+# Clean the id_job file
+id_job_file_path = "id_job.yaml"
+if os.path.isfile(id_job_file_path):
+    os.remove(id_job_file_path)
+
 # Create tree object
 start_time = time.time()
 root = initialize(config)
 print("Done with the tree creation.")
 print("--- %s seconds ---" % (time.time() - start_time))
 
+# Check if htcondor is the configuration
+if "htc" in config["root"]["generations"][2]["run_on"]:
+    generate_run = generate_run_sh_htc
+else:
+    generate_run = generate_run_sh
+
 # From python objects we move the nodes to the filesystem.
 start_time = time.time()
-root.make_folders(generate_run_sh)
+root.make_folders(generate_run)
 print("The tree folders are ready.")
 print("--- %s seconds ---" % (time.time() - start_time))
-
