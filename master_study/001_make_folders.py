@@ -12,6 +12,7 @@ import copy
 import json
 from user_defined_functions import (
     generate_run_sh,
+    generate_run_sh_htc,
     get_worst_bunch,
     reformat_filling_scheme_from_lpc_alt,
 )
@@ -36,7 +37,7 @@ d_config_particles["n_r"] = 2 * 16 * (d_config_particles["r_max"] - d_config_par
 d_config_particles["n_angles"] = 5
 
 # Number of split for parallelization
-d_config_particles["n_split"] = 5
+d_config_particles["n_split"] = 4
 
 # ==================================================================================================
 # --- Optics collider parameters (generation 1)
@@ -109,8 +110,8 @@ d_config_knobs["on_x8h"] = 0.0
 d_config_knobs["on_x8v"] = 170
 
 # Crab cavities
-d_config_knobs["on_crab1"] = -190
-d_config_knobs["on_crab5"] = -190
+d_config_knobs["on_crab1"] = 0
+d_config_knobs["on_crab5"] = 0
 
 # Octupoles
 d_config_knobs["i_oct_b1"] = 60.0
@@ -366,15 +367,25 @@ if not os.path.exists("scans/" + study_name):
 # Move to the folder that will contain the tree
 os.chdir("scans/" + study_name)
 
+# Clean the id_job file
+id_job_file_path = "id_job.yaml"
+if os.path.isfile(id_job_file_path):
+    os.remove(id_job_file_path)
+
 # Create tree object
 start_time = time.time()
 root = initialize(config)
 print("Done with the tree creation.")
 print("--- %s seconds ---" % (time.time() - start_time))
 
+# Check if htcondor is the configuration
+if "htc" in config["root"]["generations"][2]["run_on"]:
+    generate_run = generate_run_sh_htc
+else:
+    generate_run = generate_run_sh
+
 # From python objects we move the nodes to the filesystem.
 start_time = time.time()
-root.make_folders(generate_run_sh)
+root.make_folders(generate_run)
 print("The tree folders are ready.")
 print("--- %s seconds ---" % (time.time() - start_time))
-
