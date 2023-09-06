@@ -355,11 +355,18 @@ def luminosity_leveling(
     return collider
 
 
+def compute_PU(luminosity, num_colliding_bunches, T_rev0, cross_section = 81e-27):
+    return (
+            luminosity
+            / num_colliding_bunches
+            * cross_section
+            * T_rev0
+        )
+
 def luminosity_leveling_ip1_5(
     collider,
     config_collider,
     config_bb,
-    cross_section,
     crab=False,
 ):
     # Get Twiss
@@ -385,12 +392,7 @@ def luminosity_leveling_ip1_5(
     def f(I):
         luminosity = compute_lumi(I)
 
-        PU = (
-            luminosity
-            / config_collider["config_lumi_leveling_ip1_5"]["num_colliding_bunches"]
-            * cross_section
-            * twiss_b1["T_rev0"]
-        )
+        PU = compute_PU(luminosity, config_collider["config_lumi_leveling_ip1_5"]["num_colliding_bunches"], twiss_b1["T_rev0"])
         penalty_PU = max(
             0,
             (PU - config_collider["config_lumi_leveling_ip1_5"]["constraints"]["max_PU"]) * 1e35,
