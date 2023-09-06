@@ -17,11 +17,10 @@ import tree_maker
 import xmask as xm
 import xmask.lhc as xlhc
 from misc import generate_orbit_correction_setup
-from misc import luminosity_leveling, luminosity_leveling_ip1_5
+from misc import luminosity_leveling, luminosity_leveling_ip1_5, compute_PU
 
 # Initialize yaml reader
 ryaml = ruamel.yaml.YAML()
-
 
 # ==================================================================================================
 # --- Function for tree_maker tagging
@@ -189,16 +188,12 @@ def do_levelling(
             if crab_val > 0:
                 crab = True
 
-        # Get cross section and frequency for pile-up computation
-        cross_section = 81e-27
-
         # Do the levelling
         try:
             I = luminosity_leveling_ip1_5(
                 collider,
                 config_collider,
                 config_bb,
-                cross_section,
                 crab=crab,
             )
         except ValueError:
@@ -362,6 +357,7 @@ def record_final_luminosity(collider, config_bb, l_n_collisions, crab):
     twiss_b1 = collider["lhcb1"].twiss()
     twiss_b2 = collider["lhcb2"].twiss()
     l_lumi = []
+    l_PU = []
     l_ip = ["ip1", "ip2", "ip5", "ip8"]
     for n_col, ip in zip(l_n_collisions, l_ip):
         try:
@@ -376,14 +372,18 @@ def record_final_luminosity(collider, config_bb, l_n_collisions, crab):
                     twiss_b2=twiss_b2,
                     crab=crab,
                 )
+            PU = compute_PU(L, n_col, twiss_b1["T_rev0"])
         except:
             print(f"There was a problem during the luminosity computation in {ip}... Ignoring it.")
             L = 0
+            PU = 0
         l_lumi.append(L)
+        l_PU.append(PU)
 
     # Update configuration
-    for ip, L in zip(l_ip, l_lumi):
+    for ip, L, PU in zip(l_ip, l_lumi, l_PU):
         config_bb[f"luminosity_{ip}_after_optimization"] = float(L)
+        config_bb[f"Pile-up_{ip}_after_optimization"] = float(PU)
         
     return config_bb
 
