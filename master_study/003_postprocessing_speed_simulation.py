@@ -16,9 +16,9 @@ print("Analysis of output simulation files started")
 start = time.time()
 
 # Load Data
-study_name = "example_HL_tunescan"
+study_name = "tune_scan_2024_angle"
 fix = "/scans/" + study_name
-root = tree_maker.tree_from_json(fix[1:] + "/tree_maker.json")
+root = tree_maker.tree_from_json(fix[1:] + "/tree_maker_" + study_name + ".json")
 # Add suffix to the root node path to handle scans that are not in the root directory
 root.add_suffix(suffix=fix)
 
@@ -72,20 +72,16 @@ for node in root.generation(1):
         df_sim["i_bunch_b2"] = dic_child_collider["config_beambeam"]["mask_with_filling_pattern"][
             "i_bunch_b2"
         ]
-        df_sim["num_particles_per_bunch"] = dic_child_collider["config_beambeam"][
-            "num_particles_per_bunch"
-        ]
-        df_sim["i_oct_b1"] = dic_child_collider["config_knobs_and_tuning"]["knob_settings"][
-            "i_oct_b1"
-        ]
-        df_sim["i_oct_b2"] = dic_child_collider["config_knobs_and_tuning"]["knob_settings"][
-            "i_oct_b2"
-        ]
+        xing = abs(float(dic_child_collider["config_knobs_and_tuning"]["knob_settings"]["on_x1"]))
+        df_sim["crossing_angle"] = xing
+
+        # Only keep angle 150
+        if xing != 155:
+            continue
 
         # Merge with particle data
         df_sim_with_particle = pd.merge(df_sim, particle, on=["particle_id"])
         l_df_to_merge.append(df_sim_with_particle)
-
 # ==================================================================================================
 # --- # Merge all jobs outputs in one dataframe and save it
 # ==================================================================================================
@@ -94,37 +90,36 @@ for node in root.generation(1):
 df_all_sim = pd.concat(l_df_to_merge)
 
 # Extract the particles that were lost for DA computation
-df_lost_particles = df_all_sim[df_all_sim["state"] != 1]  # Lost particles
+# df_lost_particles = df_all_sim[df_all_sim["state"] != 1]  # Lost particles
 
 # Check if the dataframe is empty
-if df_lost_particles.empty:
-    print("No unstable particles found, the output dataframe will be empty.")
+# if df_lost_particles.empty:
+#     print("No unstable particles found, the output dataframe will be empty.")
 
 # Group by working point (Update this with the knobs you want to group by !)
-group_by_parameters = ["qx", "qy"]
+group_by_parameters = ["qx", "qy", "particle_id"]
+
 # We always want to keep beam in the final result
 group_by_parameters = ["beam"] + group_by_parameters
 l_parameters_to_keep = [
+    "at_turn",
+    "state",
     "normalized amplitude in xy-plane",
+    "angle in xy-plane [deg]",
     "qx",
     "qy",
     "i_bunch_b1",
     "i_bunch_b2",
-    "num_particles_per_bunch",
-    "i_oct_b1",
-    "i_oct_b2",
+    "crossing_angle",
 ]
 
 # Min is computed in the groupby function, but values should be identical
 my_final = pd.DataFrame(
-    [
-        df_lost_particles.groupby(group_by_parameters)[parameter].min()
-        for parameter in l_parameters_to_keep
-    ]
+    [df_all_sim.groupby(group_by_parameters)[parameter].min() for parameter in l_parameters_to_keep]
 ).transpose()
 
 # Save data and print time
-my_final.to_parquet(f"scans/{study_name}/da.parquet")
+my_final.to_parquet(f"scans/{study_name}/da_complete.parquet")
 print("Final dataframe for current set of simulations: ", my_final)
 end = time.time()
 print("Elapsed time: ", end - start)
