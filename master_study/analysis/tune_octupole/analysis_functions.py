@@ -1,4 +1,5 @@
 import matplotlib
+import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib_inline
 import qrcode
@@ -17,6 +18,21 @@ def apply_heatmap_style():
     matplotlib.rcParams["mathtext.default"] = "regular"
     matplotlib.rcParams["font.weight"] = "light"
     matplotlib_inline.backend_inline.set_matplotlib_formats("retina")
+
+
+def apply_other_style():
+    # Apply better style
+    sns.set_theme(style="whitegrid")
+    custom_params = {"axes.spines.right": False, "axes.spines.top": False}
+    sns.set_theme(style="ticks", rc=custom_params)
+    # sns.set(font='Adobe Devanagari')
+    sns.set_context("paper", font_scale=1, rc={"lines.linewidth": 0.5, "grid.linewidth": 0.3})
+
+    matplotlib.rcParams["mathtext.fontset"] = "cm"
+    matplotlib.rcParams["font.family"] = "STIXGeneral"
+    # Not italized latex
+    matplotlib.rcParams["mathtext.default"] = "regular"
+    matplotlib.rcParams["font.weight"] = "light"
 
 
 # To add QR codes to plot
@@ -375,15 +391,18 @@ def plot_heatmap(
     if symmetric and not extended_diagonal:
         data_smoothed = data_smoothed + data_smoothed.T - np.diag(data_array.diagonal())
     elif symmetric:
-        # sum the upper and lower triangle, but not the intersection of the two matrices
-        intersection = np.zeros_like(data_smoothed)
-        for x in range(data_smoothed.shape[0]):
-            for y in range(data_smoothed.shape[1]):
-                if np.min((data_smoothed[x, y], data_smoothed[y, x])) == 0.0:
-                    intersection[x, y] = 0.0
-                else:
-                    intersection[x, y] = data_smoothed[y, x]
-        data_smoothed = data_smoothed + data_smoothed.T - intersection
+        try:
+            # sum the upper and lower triangle, but not the intersection of the two matrices
+            intersection = np.zeros_like(data_smoothed)
+            for x in range(data_smoothed.shape[0]):
+                for y in range(data_smoothed.shape[1]):
+                    if np.min((data_smoothed[x, y], data_smoothed[y, x])) == 0.0:
+                        intersection[x, y] = 0.0
+                    else:
+                        intersection[x, y] = data_smoothed[y, x]
+            data_smoothed = data_smoothed + data_smoothed.T - intersection
+        except:
+            print("Did not manage to smooth properly")
     data_smoothed = gaussian_filter(data_smoothed, 0.7)
 
     # Mask the lower triangle of the smoothed matrix
@@ -391,8 +410,12 @@ def plot_heatmap(
         mask = np.tri(data_smoothed.shape[0], k=-1)
         mx = np.ma.masked_array(data_smoothed, mask=mask.T)
     elif extended_diagonal:
-        mask = np.tri(data_smoothed.shape[0], k=-5)
-        mx = np.ma.masked_array(data_smoothed, mask=mask.T)
+        try:
+            mask = np.tri(data_smoothed.shape[0], k=-5)
+            mx = np.ma.masked_array(data_smoothed, mask=mask.T)
+        except:
+            print("Did not manage to mask properly")
+            mx = data_smoothed
     else:
         mx = data_smoothed
 
