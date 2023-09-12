@@ -324,6 +324,7 @@ def plot_heatmap(
     xaxis_ticks_on_top=True,
     title=None,
     add_vline = None,
+    green_contour=6,
 ):
     # Get numpy array from dataframe
     data_array = df_to_plot.to_numpy()
@@ -362,6 +363,7 @@ def plot_heatmap(
         mx = np.ma.masked_array(data_smoothed, mask=mask.T)
     else:
         mx = data_smoothed
+
     # Plot contours if requested
     if plot_contours:
         CSS = ax.contour(
@@ -369,7 +371,8 @@ def plot_heatmap(
             np.arange(0.5, data_array.shape[0]),
             mx,
             colors="black",
-            levels=list(np.arange(3, 6, 0.5)) + list(np.arange(6.5, 10, 0.5)),
+            levels=list(np.arange(3, green_contour, 0.5))
+            + list(np.arange(green_contour + 0.5, 10, 0.5)),
             linewidths=0.2,
         )
         ax.clabel(CSS, inline=True, fontsize=6)
@@ -378,7 +381,7 @@ def plot_heatmap(
             np.arange(0.5, data_array.shape[0]),
             mx,
             colors="green",
-            levels=[6],
+            levels=[green_contour],
             linewidths=1,
         )
         ax.clabel(CS2, inline=1, fontsize=6)
