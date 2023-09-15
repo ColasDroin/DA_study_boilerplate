@@ -380,6 +380,7 @@ class ClusterSubmission:
 
         # Check which jobs are running
         first_line = True
+        first_missing_job = True
         for line in condor_output.split("\n")[4:]:
             if line == "":
                 break
@@ -390,15 +391,23 @@ class ClusterSubmission:
             if condor_status[dic_status[status]] == "1":
                 # Get path from dic_id_to_job if available
                 if dic_id_to_job is not None:
-                    job = dic_id_to_job[jobid]
-                    l_jobs.append(job)
+                    if jobid in dic_id_to_job:
+                        job = dic_id_to_job[jobid]
+                        l_jobs.append(job)
+                    else:
+                        if first_missing_job:
+                            print(
+                                "Warning, some jobs are queuing/running and are not in the id-job"
+                                " file. They may come from another study. Ignoring them."
+                            )
+                            first_missing_job = False
 
                 # Query job individually if needed
                 elif force_query_individually:
                     if first_line:
                         print(
-                            "Warning, some jobs are queuing/running and are not in the id-job file,"
-                            " or the id-jb file is missing... Querying them individually."
+                            "Warning, some jobs are queuing/running and the id-job file is"
+                            " missing... Querying them individually."
                         )
                         first_line = False
                     job_details = subprocess.run(
@@ -414,8 +423,8 @@ class ClusterSubmission:
                 else:
                     if first_line:
                         print(
-                            "Warning, some jobs are queuing/running and are not in the id-job file,"
-                            " or the id-jb file is missing... Ignoring them."
+                            "Warning, some jobs are queuing/running and the id-job file is"
+                            " missing... Ignoring them."
                         )
                         first_line = False
 
@@ -434,6 +443,7 @@ class ClusterSubmission:
 
         # Get job id and details
         first_line = True
+        first_missing_job = True
         for line in slurm_output.split("\n")[1:]:
             l_split = line.split()
             if len(l_split) == 0:
@@ -443,15 +453,23 @@ class ClusterSubmission:
 
             # Get path from dic_id_to_job if available
             if dic_id_to_job is not None:
-                job = dic_id_to_job[jobid]
-                l_jobs.append(job)
+                if jobid in dic_id_to_job:
+                    job = dic_id_to_job[jobid]
+                    l_jobs.append(job)
+                else:
+                    if first_missing_job:
+                        print(
+                            "Warning, some jobs are queuing/running and are not in the id-job"
+                            " file. They may come from another study. Ignoring them."
+                        )
+                        first_missing_job = False
 
             # Else, query job individually
             elif force_query_individually:
                 if first_line:
                     print(
-                        "Warning, some jobs are queuing/running and are not in the id-job file,"
-                        " or the id-jb file is missing... Querying them individually."
+                        "Warning, some jobs are queuing/running and the id-job file is"
+                        " missing... Querying them individually."
                     )
                     first_line = False
                 job_details = subprocess.run(
@@ -470,8 +488,8 @@ class ClusterSubmission:
             else:
                 if first_line:
                     print(
-                        "Warning, some jobs are queuing/running and are not in the id-job file,"
-                        " or the id-jb file is missing... Ignoring them."
+                        "Warning, some jobs are queuing/running and the id-job file is"
+                        " missing... Ignoring them."
                     )
                     first_line = False
 
