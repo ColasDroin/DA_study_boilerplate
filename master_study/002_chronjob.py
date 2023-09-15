@@ -373,7 +373,7 @@ class ClusterSubmission:
         return l_jobs
 
     @staticmethod
-    def _get_condor_jobs(status, dic_id_to_job=None):
+    def _get_condor_jobs(status, dic_id_to_job=None, force_query_individually=False):
         l_jobs = []
         dic_status = {"running": 1, "queuing": 2}
         condor_output = subprocess.run(["condor_q"], capture_output=True).stdout.decode("utf-8")
@@ -391,13 +391,14 @@ class ClusterSubmission:
                 # Get path from dic_id_to_job if available
                 if dic_id_to_job is not None:
                     job = dic_id_to_job[jobid]
+                    l_jobs.append(job)
 
                 # Query job individually if needed
-                else:
+                elif force_query_individually:
                     if first_line:
                         print(
-                            "Warning, couldn't find the id-job file. Querying all jobs"
-                            " individually..."
+                            "Warning, some jobs are queuing/running and are not in the id-job file,"
+                            " or the id-jb file is missing... Querying them individually."
                         )
                         first_line = False
                     job_details = subprocess.run(
@@ -407,12 +408,21 @@ class ClusterSubmission:
 
                     # Only get path after master_study
                     job = job.split("master_study")[1]
+                    l_jobs.append(job)
 
-                l_jobs.append(job)
+                # Just ignore jobs
+                else:
+                    if first_line:
+                        print(
+                            "Warning, some jobs are queuing/running and are not in the id-job file,"
+                            " or the id-jb file is missing... Ignoring them."
+                        )
+                        first_line = False
+
         return l_jobs
 
     @staticmethod
-    def _get_slurm_jobs(status, dic_id_to_job=None):
+    def _get_slurm_jobs(status, dic_id_to_job=None, force_query_individually=False):
         l_jobs = []
         dic_status = {"running": "RUNNING", "queuing": "PENDING"}
         username = (
@@ -434,12 +444,14 @@ class ClusterSubmission:
             # Get path from dic_id_to_job if available
             if dic_id_to_job is not None:
                 job = dic_id_to_job[jobid]
+                l_jobs.append(job)
 
             # Else, query job individually
-            else:
+            elif force_query_individually:
                 if first_line:
                     print(
-                        "Warning, couldn't find the id-job file. Querying all jobs individually..."
+                        "Warning, some jobs are queuing/running and are not in the id-job file,"
+                        " or the id-jb file is missing... Querying them individually."
                     )
                     first_line = False
                 job_details = subprocess.run(
@@ -452,8 +464,17 @@ class ClusterSubmission:
 
                 # Only get path after master_study
                 job = job.split("master_study")[1]
+                l_jobs.append(job)
 
-            l_jobs.append(job)
+            # Just ignore jobs
+            else:
+                if first_line:
+                    print(
+                        "Warning, some jobs are queuing/running and are not in the id-job file,"
+                        " or the id-jb file is missing... Ignoring them."
+                    )
+                    first_line = False
+
         return l_jobs
 
     def querying_jobs(self, status="running", dic_id_to_job=None):
