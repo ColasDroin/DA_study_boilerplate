@@ -288,11 +288,7 @@ class ClusterSubmission:
             )
 
     def write_sub_files(self, list_of_nodes, filename="file.sub"):
-        # ! Fix this
-        running_jobs, queuing_jobs = (
-            [],
-            [],
-        )  # self._get_state_jobs(verbose=False)
+        running_jobs, queuing_jobs = self._get_state_jobs(verbose=False)
         l_filenames, l_path_jobs = self._write_sub_files(
             filename, running_jobs, queuing_jobs, list_of_nodes
         )
@@ -355,7 +351,7 @@ class ClusterSubmission:
                 self.dic_id_to_job = dic_id_to_job
 
         print("Jobs status after submission:")
-        # running_jobs, queuing_jobs = self._get_state_jobs(dic_id_to_job=dic_id_to_job, verbose=True)
+        running_jobs, queuing_jobs = self._get_state_jobs(dic_id_to_job=dic_id_to_job, verbose=True)
 
     @staticmethod
     def _get_local_jobs():
