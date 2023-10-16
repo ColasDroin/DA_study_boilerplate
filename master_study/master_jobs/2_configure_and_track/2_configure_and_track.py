@@ -179,6 +179,9 @@ def do_levelling(
         if crab_val > 0:
             crab = True
 
+    # Initial intensity
+    initial_I = config_bb["num_particles_per_bunch"]
+
     # First level luminosity in IP 1/5 changing the intensity
     if "config_lumi_leveling_ip1_5" in config_collider:
         if not config_collider["config_lumi_leveling_ip1_5"]["skip_leveling"]:
@@ -200,7 +203,6 @@ def do_levelling(
                 print("There was a problem during the luminosity leveling in IP1/5... Ignoring it.")
                 I = config_bb["num_particles_per_bunch"]
 
-            initial_I = config_bb["num_particles_per_bunch"]
             config_bb["num_particles_per_bunch"] = float(I)
 
     # Set up the constraints for lumi optimization in IP8
