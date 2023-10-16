@@ -163,7 +163,13 @@ def compute_collision_from_scheme(config_bb):
 # --- Function to do the Levelling
 # ==================================================================================================
 def do_levelling(
-    config_collider, config_bb, n_collisions_ip2, n_collisions_ip8, collider, n_collisions_ip1_and_5
+    config_collider,
+    config_bb,
+    n_collisions_ip2,
+    n_collisions_ip8,
+    collider,
+    n_collisions_ip1_and_5,
+    crab,
 ):
     # Read knobs and tuning settings from config file (already updated with the number of collisions)
     config_lumi_leveling = config_collider["config_lumi_leveling"]
@@ -171,13 +177,6 @@ def do_levelling(
     # Update the number of bunches in the configuration file
     config_lumi_leveling["ip2"]["num_colliding_bunches"] = int(n_collisions_ip2)
     config_lumi_leveling["ip8"]["num_colliding_bunches"] = int(n_collisions_ip8)
-
-    # Get crab cavities
-    crab = False
-    if "on_crab1" in config_collider["config_knobs_and_tuning"]["knob_settings"]:
-        crab_val = float(config_collider["config_knobs_and_tuning"]["knob_settings"]["on_crab1"])
-        if crab_val > 0:
-            crab = True
 
     # Initial intensity
     initial_I = config_bb["num_particles_per_bunch"]
@@ -237,7 +236,7 @@ def do_levelling(
         collider.vars["on_sep8v"]._value
     )
 
-    return collider, config_collider, crab
+    return collider, config_collider
 
 
 # ==================================================================================================
@@ -432,16 +431,25 @@ def configure_collider(
         n_collisions_ip8,
     ) = compute_collision_from_scheme(config_bb)
 
+    # Get crab cavities
+    crab = False
+    if "on_crab1" in config_collider["config_knobs_and_tuning"]["knob_settings"]:
+        crab_val = float(config_collider["config_knobs_and_tuning"]["knob_settings"]["on_crab1"])
+        if crab_val > 0:
+            crab = True
+
     # Do the leveling if requested
     if "config_lumi_leveling" in config_collider and not config_collider["skip_leveling"]:
-        collider, config_collider, crab = do_levelling(
+        collider, config_collider = do_levelling(
             config_collider,
             config_bb,
             n_collisions_ip2,
             n_collisions_ip8,
             collider,
             n_collisions_ip1_and_5,
+            crab,
         )
+
     else:
         print(
             "No leveling is done as no configuration has been provided, or skip_leveling"

@@ -22,7 +22,7 @@ from user_defined_functions import (
 #
 # Below, the user defines the parameters for the initial particles distribution.
 # Path for the particle distribution configuration:
-# mmaster_study/master_jobs/1_build_distr_and_collider/config.yaml [field config_particles]
+# master_study/master_jobs/1_build_distr_and_collider/config.yaml [field config_particles]
 # ==================================================================================================
 
 # Define dictionary for the initial particle distribution
@@ -37,7 +37,7 @@ d_config_particles["n_r"] = 2 * 16 * (d_config_particles["r_max"] - d_config_par
 d_config_particles["n_angles"] = 5
 
 # Number of split for parallelization
-d_config_particles["n_split"] = 8
+d_config_particles["n_split"] = 5
 
 # ==================================================================================================
 # --- Optics collider parameters (generation 1)
@@ -56,17 +56,15 @@ d_config_mad = {"beam_config": {"lhcb1": {}, "lhcb2": {}}, "links": {}}
 
 ### For run III
 d_config_mad["links"]["acc-models-lhc"] = "/afs/cern.ch/eng/lhc/optics/runIII"
-# ! updated later
-# d_config_mad["optics_file"] = "acc-models-lhc/RunIII_dev/Proton_2024/V0/opticsfile.40"
-array_optics = [f"acc-models-lhc/RunIII_dev/Proton_2023/opticsfile.{x}" for x in [43]]
+d_config_mad["optics_file"] = "/afs/cern.ch/user/s/sfar/public/optics_hybrid30cm.madx"
 d_config_mad["ver_hllhc_optics"] = None
 d_config_mad["ver_lhc_run"] = 3.0
 
-# ! updated later
+
 # Beam energy (for both beams)
-# beam_energy_tot = 6800
-# d_config_mad["beam_config"]["lhcb1"]["beam_energy_tot"] = beam_energy_tot
-# d_config_mad["beam_config"]["lhcb2"]["beam_energy_tot"] = beam_energy_tot
+beam_energy_tot = 6800
+d_config_mad["beam_config"]["lhcb1"]["beam_energy_tot"] = beam_energy_tot
+d_config_mad["beam_config"]["lhcb2"]["beam_energy_tot"] = beam_energy_tot
 
 
 # ==================================================================================================
@@ -94,7 +92,7 @@ for beam in ["lhcb1", "lhcb2"]:
     d_config_tune_and_chroma["dqy"][beam] = 15.0
 
 # Value to be added to linear coupling knobs
-d_config_tune_and_chroma["delta_cmr"] = 0.00
+d_config_tune_and_chroma["delta_cmr"] = 0.0
 d_config_tune_and_chroma["delta_cmi"] = 0.0
 
 ### Knobs configuration
@@ -102,19 +100,39 @@ d_config_tune_and_chroma["delta_cmi"] = 0.0
 # Define dictionary for the knobs settings
 d_config_knobs = {}
 
+# Exp. configuration in IR1, IR2, IR5 and IR8
+d_config_knobs["on_x1"] = 160.0
+d_config_knobs["on_sep1"] = 0.0
+d_config_knobs["phi_IR1"] = 90.0
+
+d_config_knobs["on_x2h"] = 0.000
+d_config_knobs["on_sep2h"] = 1.0 * 0.01
+d_config_knobs["on_x2v"] = 200.000
+d_config_knobs["on_sep2v"] = 0.000
+d_config_knobs["phi_IR2"] = 90.000
+
+d_config_knobs["on_x5"] = 160.0
+d_config_knobs["on_sep5"] = 0.0
+d_config_knobs["phi_IR5"] = 0.0
+
+d_config_knobs["on_x8h"] = 0.000
+d_config_knobs["on_sep8h"] = -1 * 0.01
+d_config_knobs["on_x8v"] = 200.000
+d_config_knobs["on_sep8v"] = 0.000
+d_config_knobs["phi_IR8"] = 180.000
 
 # Octupoles
-d_config_knobs["i_oct_b1"] = 300.0  # 60
-d_config_knobs["i_oct_b2"] = 300.0  # 60
+d_config_knobs["i_oct_b1"] = 300.0
+d_config_knobs["i_oct_b2"] = 300.0
 
 ### leveling configuration
 
 # Leveling in IP 1/5
-d_config_leveling_ip1_5 = {"constraints": {}}
-d_config_leveling_ip1_5["luminosity"] = 2.0e34
-d_config_leveling_ip1_5["constraints"]["max_intensity"] = 1.8e11
-d_config_leveling_ip1_5["constraints"]["max_PU"] = 70
-
+# d_config_leveling_ip1_5 = {"constraints": {}}
+# d_config_leveling_ip1_5["luminosity"] = 2.0e34
+# d_config_leveling_ip1_5["constraints"]["max_intensity"] = 1.8e11
+# d_config_leveling_ip1_5["constraints"]["max_PU"] = 70
+d_config_leveling_ip1_5 = {"skip_leveling": True}
 
 # Define dictionary for the leveling settings
 d_config_leveling = {
@@ -123,6 +141,7 @@ d_config_leveling = {
 }
 
 # Luminosity and particles
+
 
 # Leveling parameters (ignored if skip_leveling is True)
 d_config_leveling["ip2"]["separation_in_sigmas"] = 5
@@ -134,7 +153,7 @@ d_config_leveling["ip8"]["luminosity"] = 2.0e33
 d_config_beambeam = {"mask_with_filling_pattern": {}}
 
 # Beam settings
-d_config_beambeam["num_particles_per_bunch"] = 1.15e11
+d_config_beambeam["num_particles_per_bunch"] = 122453586690.55016  # Value from nomimal 2023 30cm
 d_config_beambeam["nemitt_x"] = 2.2e-6
 d_config_beambeam["nemitt_y"] = 2.2e-6
 
@@ -226,9 +245,8 @@ d_config_collider = {}
 # Add tunes and chromas
 d_config_collider["config_knobs_and_tuning"] = d_config_tune_and_chroma
 
-# ! updated later
 # Add knobs
-# d_config_collider["config_knobs_and_tuning"]["knob_settings"] = d_config_knobs
+d_config_collider["config_knobs_and_tuning"]["knob_settings"] = d_config_knobs
 
 # Add luminosity configuration
 d_config_collider["config_lumi_leveling_ip1_5"] = d_config_leveling_ip1_5
@@ -268,7 +286,6 @@ dump_config_in_collider = False
 # Below, the user defines the grid for the machine parameters that must be scanned to find the
 # optimal DA (e.g. tune, chroma, etc).
 # ==================================================================================================
-
 # Scan tune with step of 0.001 (need to round to correct for numpy numerical instabilities)
 array_qx = np.round(np.arange(62.305, 62.330, 0.001), decimals=4)
 array_qy = np.round(np.arange(60.305, 60.330, 0.001), decimals=4)
@@ -284,128 +301,61 @@ keep = "upper_triangle"  # 'lower_triangle', 'all'
 # study being done) to the root. This first generation is used set the initial particle
 # distribution, and build a collider with only the optics set.
 # ==================================================================================================
-children = {}
-for idx_optics, optics in enumerate(array_optics):
-    # Update optics and beam energy
-    d_config_mad["optics_file"] = optics
 
-    # Get the new knob configuration
-    with open(
-        d_config_mad["links"]["acc-models-lhc"] + optics.split("acc-models-lhc")[1], "r"
-    ) as fid:
-        lines = fid.readlines()
+# Build empty tree: first generation (later added to the root), and second generation
+children = {"base_collider": {"config_particles": {}, "config_mad": {}, "children": {}}}
 
-    # Get energy
-    found = False
-    for line in lines:
-        if line.strip().startswith("NRJ"):
-            beam_energy_tot = float(line.split(":=")[1].split(";")[0].strip())
-            found = True
-            break
-    if not found:
-        raise ValueError(f"Energy not found in {optics}")
+# Add particles distribution parameters to the first generation
+children["base_collider"]["config_particles"] = d_config_particles
 
-    # Set energy
-    d_config_mad["beam_config"]["lhcb1"]["beam_energy_tot"] = beam_energy_tot
-    d_config_mad["beam_config"]["lhcb2"]["beam_energy_tot"] = beam_energy_tot
+# Add base machine parameters to the first generation
+children["base_collider"]["config_mad"] = d_config_mad
 
-    # Copy optics with a deep copy to avoid mutating the dictionnary for all the children
-    children[f"collider_{idx_optics:02}"] = {
-        "config_particles": d_config_particles,
-        "config_mad": copy.deepcopy(d_config_mad),
-        "children": {},
+
+# ==================================================================================================
+# --- Complete tree for the simulations (generation 2)
+#
+# We now set a second generation for the tree. This second generation contains the tracking
+# parameters, as well as a default set of parameters for the colliders (defined above), that we
+# mutate according to the parameters we want to scan.
+# ! Caution when mutating the dictionnary in this function, you have to pass a deepcopy to children,
+# ! otherwise the dictionnary will be mutated for all the children.
+# ==================================================================================================
+track_array = np.arange(d_config_particles["n_split"])
+for idx_job, (track, qx, qy) in enumerate(
+    itertools.product(
+        track_array,
+        array_qx,
+        array_qy,
+    )
+):
+    # If requested, ignore conditions below the upper diagonal as they can't be reached in the LHC
+    if keep == "upper_triangle":
+        if qy <= (qx - 2 - 0.0039):  # 0.039 instead of 0.04 to avoid rounding errors
+            continue
+    elif keep == "lower_triangle":
+        if qy > (qx + 2 - 0.0039):
+            continue
+    else:
+        pass
+
+    # Mutate the appropriate collider parameters
+    for beam in ["lhcb1", "lhcb2"]:
+        d_config_collider["config_knobs_and_tuning"]["qx"][beam] = float(qx)
+        d_config_collider["config_knobs_and_tuning"]["qy"][beam] = float(qy)
+
+    # Complete the dictionnary for the tracking
+    d_config_simulation["particle_file"] = f"../particles/{track:02}.parquet"
+    d_config_simulation["collider_file"] = f"../collider/collider.json"
+
+    # Add a child to the second generation, with all the parameters for the collider and tracking
+    children["base_collider"]["children"][f"xtrack_{idx_job:04}"] = {
+        "config_simulation": copy.deepcopy(d_config_simulation),
+        "config_collider": copy.deepcopy(d_config_collider),
+        "log_file": "tree_maker.log",
+        "dump_collider": dump_collider,
+        "dump_config_in_collider": dump_config_in_collider,
     }
-
-    # ==================================================================================================
-    # --- Complete tree for the simulations (generation 2)
-    #
-    # We now set a second generation for the tree. This second generation contains the tracking
-    # parameters, as well as a default set of parameters for the colliders (defined above), that we
-    # mutate according to the parameters we want to scan.
-    # ! Caution when mutating the dictionnary in this function, you have to pass a deepcopy to children,
-    # ! otherwise the dictionnary will be mutated for all the children.
-    # ==================================================================================================
-
-    # Update appropriate knobs in the collider configuration from the new knob configuration
-    for knob in [
-        "on_x1",
-        "on_sep1",
-        "on_oh1",
-        "on_ov1",
-        "phi_IR1",
-        "on_x5",
-        "on_sep5",
-        "on_oh5",
-        "on_ov5",
-        "phi_IR5",
-        "on_x2h",
-        "on_sep2h",
-        "on_x2v",
-        "on_sep2v",
-        "on_a2",
-        "on_o2",
-        "on_oh2",
-        "on_ov2",
-        "phi_IR2",
-        "on_x8h",
-        "on_sep8h",
-        "on_x8v",
-        "on_sep8v",
-        "on_a8",
-        "on_o8",
-        "on_oh8",
-        "on_ov8",
-        "phi_IR8",
-    ]:
-        found = False
-        for line in lines:
-            if line.strip().startswith(knob):
-                d_config_knobs[knob] = float(line.split(":=")[1].split(";")[0].strip())
-                found = True
-
-                # Impose zero separation at IP1 and IP5
-                if knob == "on_sep1" or knob == "on_sep5":
-                    d_config_knobs[knob] = 0.0
-                # Give a good initial condition for luminosity leveling optimization in IP2/8
-                if knob == "on_sep8h" or knob == "on_sep2h":
-                    d_config_knobs[knob] = d_config_knobs[knob] * 0.01
-                # if knob == "on_x5":
-                #    d_config_knobs[knob] = -d_config_knobs[knob]
-                break
-        if not found:
-            raise ValueError(f"Knob {knob} not found in knobs.json")
-
-    d_config_collider["config_knobs_and_tuning"]["knob_settings"] = d_config_knobs
-
-    track_array = np.arange(d_config_particles["n_split"])
-    for idx_job, (track, qx, qy) in enumerate(itertools.product(track_array, array_qx, array_qy)):
-        # If requested, ignore conditions below the upper diagonal as they can't be reached in the LHC
-        if keep == "upper_triangle":
-            if qy <= (qx - 2 - 0.0039):  # 0.039 instead of 0.04 to avoid rounding errors
-                continue
-        elif keep == "lower_triangle":
-            if qy > (qx + 2 - 0.0039):
-                continue
-        else:
-            pass
-
-        # Mutate the appropriate collider parameters
-        for beam in ["lhcb1", "lhcb2"]:
-            d_config_collider["config_knobs_and_tuning"]["qx"][beam] = float(qx)
-            d_config_collider["config_knobs_and_tuning"]["qy"][beam] = float(qy)
-
-        # Complete the dictionnary for the tracking
-        d_config_simulation["particle_file"] = f"../particles/{track:02}.parquet"
-        d_config_simulation["collider_file"] = f"../collider/collider.json"
-
-        # Add a child to the second generation, with all the parameters for the collider and tracking
-        children[f"collider_{idx_optics:02}"]["children"][f"xtrack_{idx_job:04}"] = {
-            "config_simulation": copy.deepcopy(d_config_simulation),
-            "config_collider": copy.deepcopy(d_config_collider),
-            "log_file": "tree_maker.log",
-            "dump_collider": dump_collider,
-            "dump_config_in_collider": dump_config_in_collider,
-        }
 
 # ==================================================================================================
 # --- Simulation configuration
@@ -423,7 +373,7 @@ config["root"]["setup_env_script"] = os.getcwd() + "/../activate_miniforge.sh"
 # --- Build tree and write it to the filesystem
 # ==================================================================================================
 # Define study name
-study_name = "tune_scan_2023_bis"
+study_name = "tune_scan_new_RT"
 
 # Creade folder that will contain the tree
 if not os.path.exists("scans/" + study_name):
