@@ -151,7 +151,7 @@ d_config_knobs["i_oct_b2"] = 300.0
 ### Beam beam configuration
 
 # Define dictionary for the beam beam settings
-d_config_beambeam = {"mask_with_filling_pattern": {}}
+d_config_beambeam = {"mask_with_filling_pattern": {}, "num_long_range_encounters_per_side": {}}
 
 # Beam settings
 d_config_beambeam["num_particles_per_bunch"] = 122453586690.55016  # Value from nomimal 2023 30cm
