@@ -22,6 +22,7 @@ from misc import luminosity_leveling, luminosity_leveling_ip1_5, compute_PU
 # Initialize yaml reader
 ryaml = ruamel.yaml.YAML()
 
+
 # ==================================================================================================
 # --- Function for tree_maker tagging
 # ==================================================================================================
@@ -48,7 +49,7 @@ def read_configuration(config_path="config.yaml"):
     except:
         with open("../1_build_distr_and_collider/" + config_path, "r") as fid:
             config_gen_1 = ryaml.load(fid)
-            
+
     config_mad = config_gen_1["config_mad"]
     return config, config_mad
 
@@ -162,7 +163,13 @@ def compute_collision_from_scheme(config_bb):
 # --- Function to do the Levelling
 # ==================================================================================================
 def do_levelling(
-    config_collider, config_bb, n_collisions_ip2, n_collisions_ip8, collider, n_collisions_ip1_and_5
+    config_collider,
+    config_bb,
+    n_collisions_ip2,
+    n_collisions_ip8,
+    collider,
+    n_collisions_ip1_and_5,
+    crab,
 ):
     # Read knobs and tuning settings from config file (already updated with the number of collisions)
     config_lumi_leveling = config_collider["config_lumi_leveling"]
@@ -171,37 +178,31 @@ def do_levelling(
     config_lumi_leveling["ip2"]["num_colliding_bunches"] = int(n_collisions_ip2)
     config_lumi_leveling["ip8"]["num_colliding_bunches"] = int(n_collisions_ip8)
 
+    # Initial intensity
+    initial_I = config_bb["num_particles_per_bunch"]
+
     # First level luminosity in IP 1/5 changing the intensity
     if "config_lumi_leveling_ip1_5" in config_collider:
-        print("Leveling luminosity in IP 1/5 varying the intensity")
-        # Update the number of bunches in the configuration file
-        config_collider["config_lumi_leveling_ip1_5"]["num_colliding_bunches"] = int(
-            n_collisions_ip1_and_5
-        )
-
-        # Get crab cavities
-        crab = False
-        if "on_crab1" in config_collider["config_knobs_and_tuning"]["knob_settings"]:
-            crab_val = float(
-                config_collider["config_knobs_and_tuning"]["knob_settings"]["on_crab1"]
+        if not config_collider["config_lumi_leveling_ip1_5"]["skip_leveling"]:
+            print("Leveling luminosity in IP 1/5 varying the intensity")
+            # Update the number of bunches in the configuration file
+            config_collider["config_lumi_leveling_ip1_5"]["num_colliding_bunches"] = int(
+                n_collisions_ip1_and_5
             )
-            if crab_val > 0:
-                crab = True
 
-        # Do the levelling
-        try:
-            I = luminosity_leveling_ip1_5(
-                collider,
-                config_collider,
-                config_bb,
-                crab=crab,
-            )
-        except ValueError:
-            print("There was a problem during the luminosity leveling in IP1/5... Ignoring it.")
-            I = config_bb["num_particles_per_bunch"]
-            
-        initial_I = config_bb["num_particles_per_bunch"]
-        config_bb["num_particles_per_bunch"] = float(I)
+            # Do the levelling
+            try:
+                I = luminosity_leveling_ip1_5(
+                    collider,
+                    config_collider,
+                    config_bb,
+                    crab=crab,
+                )
+            except ValueError:
+                print("There was a problem during the luminosity leveling in IP1/5... Ignoring it.")
+                I = config_bb["num_particles_per_bunch"]
+
+            config_bb["num_particles_per_bunch"] = float(I)
 
     # Set up the constraints for lumi optimization in IP8
     additional_targets_lumi = []
@@ -235,7 +236,7 @@ def do_levelling(
         collider.vars["on_sep8v"]._value
     )
 
-    return collider, config_collider, crab
+    return collider, config_collider
 
 
 # ==================================================================================================
@@ -352,7 +353,6 @@ def configure_beam_beam(collider, config_bb):
 # --- Function to compute luminosity once the collider is configured
 # ==================================================================================================
 def record_final_luminosity(collider, config_bb, l_n_collisions, crab):
-    
     # Get the final luminoisty in all IPs
     twiss_b1 = collider["lhcb1"].twiss()
     twiss_b2 = collider["lhcb2"].twiss()
@@ -362,16 +362,16 @@ def record_final_luminosity(collider, config_bb, l_n_collisions, crab):
     for n_col, ip in zip(l_n_collisions, l_ip):
         try:
             L = xt.lumi.luminosity_from_twiss(
-                    n_colliding_bunches=n_col,
-                    num_particles_per_bunch=config_bb["num_particles_per_bunch"],
-                    ip_name=ip,
-                    nemitt_x=config_bb["nemitt_x"],
-                    nemitt_y=config_bb["nemitt_y"],
-                    sigma_z=config_bb["sigma_z"],
-                    twiss_b1=twiss_b1,
-                    twiss_b2=twiss_b2,
-                    crab=crab,
-                )
+                n_colliding_bunches=n_col,
+                num_particles_per_bunch=config_bb["num_particles_per_bunch"],
+                ip_name=ip,
+                nemitt_x=config_bb["nemitt_x"],
+                nemitt_y=config_bb["nemitt_y"],
+                sigma_z=config_bb["sigma_z"],
+                twiss_b1=twiss_b1,
+                twiss_b2=twiss_b2,
+                crab=crab,
+            )
             PU = compute_PU(L, n_col, twiss_b1["T_rev0"])
         except:
             print(f"There was a problem during the luminosity computation in {ip}... Ignoring it.")
@@ -384,8 +384,9 @@ def record_final_luminosity(collider, config_bb, l_n_collisions, crab):
     for ip, L, PU in zip(l_ip, l_lumi, l_PU):
         config_bb[f"luminosity_{ip}_after_optimization"] = float(L)
         config_bb[f"Pile-up_{ip}_after_optimization"] = float(PU)
-        
+
     return config_bb
+
 
 # ==================================================================================================
 # --- Main function for collider configuration
@@ -397,7 +398,7 @@ def configure_collider(
     save_collider=False,
     save_config=False,
     return_collider_before_bb=False,
-    config_path="config.yaml"
+    config_path="config.yaml",
 ):
     # Generate configuration files for orbit correction
     generate_configuration_correction_files()
@@ -430,16 +431,25 @@ def configure_collider(
         n_collisions_ip8,
     ) = compute_collision_from_scheme(config_bb)
 
+    # Get crab cavities
+    crab = False
+    if "on_crab1" in config_collider["config_knobs_and_tuning"]["knob_settings"]:
+        crab_val = float(config_collider["config_knobs_and_tuning"]["knob_settings"]["on_crab1"])
+        if crab_val > 0:
+            crab = True
+
     # Do the leveling if requested
     if "config_lumi_leveling" in config_collider and not config_collider["skip_leveling"]:
-        collider, config_collider, crab = do_levelling(
+        collider, config_collider = do_levelling(
             config_collider,
             config_bb,
             n_collisions_ip2,
             n_collisions_ip8,
             collider,
             n_collisions_ip1_and_5,
+            crab,
         )
+
     else:
         print(
             "No leveling is done as no configuration has been provided, or skip_leveling"
@@ -467,7 +477,12 @@ def configure_collider(
         collider = configure_beam_beam(collider, config_bb)
 
     # Update configuration with luminosity now that bb is known
-    l_n_collisions = [n_collisions_ip1_and_5, n_collisions_ip2, n_collisions_ip1_and_5, n_collisions_ip8]
+    l_n_collisions = [
+        n_collisions_ip1_and_5,
+        n_collisions_ip2,
+        n_collisions_ip1_and_5,
+        n_collisions_ip8,
+    ]
     config_bb = record_final_luminosity(collider, config_bb, l_n_collisions, crab)
 
     # Drop update configuration
@@ -574,7 +589,7 @@ def configure_and_track(config_path="config.yaml"):
         config_mad,
         save_collider=config["dump_collider"],
         save_config=config["dump_config_in_collider"],
-        config_path = config_path,
+        config_path=config_path,
     )
 
     # Prepare particle distribution
