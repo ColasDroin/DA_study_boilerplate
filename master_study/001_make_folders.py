@@ -325,10 +325,10 @@ track_array = np.arange(d_config_particles["n_split"])
 for idx_job, (track, qx, qy) in enumerate(itertools.product(track_array, array_qx, array_qy)):
     # If requested, ignore conditions below the upper diagonal as they can't be reached in the LHC
     if keep == "upper_triangle":
-        if qy < (qx - 2 + 0.0039):  # 0.039 instead of 0.04 to avoid rounding errors
+        if qy < (qx - 2 - 0.0039):  # 0.039 instead of 0.04 to avoid rounding errors
             continue
     elif keep == "lower_triangle":
-        if qy >= (qx + 2 - 0.0039):
+        if qy >= (qx - 2 - 0.0039):
             continue
     else:
         pass

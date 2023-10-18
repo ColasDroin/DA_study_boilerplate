@@ -94,6 +94,8 @@ def get_title_from_conf(
             LHC_version = LHC_version + " (2023)"
         elif "2024" in conf_mad["optics_file"]:
             LHC_version = LHC_version + " (2024)"
+        elif "hybrid" in conf_mad["optics_file"]:
+            LHC_version = LHC_version + " (hybrid)"
 
     # Energy
     energy_value = float(conf_mad["beam_config"]["lhcb1"]["beam_energy_tot"]) / 1000
@@ -133,9 +135,7 @@ def get_title_from_conf(
         bunch_intensity = ""
 
     try:
-        luminosity_value_1_5 = conf_collider["config_beambeam"][
-            "luminosity_ip1_5_after_optimization"
-        ]
+        luminosity_value_1_5 = conf_collider["config_beambeam"]["luminosity_ip1_after_optimization"]
         luminosity_value_2 = conf_collider["config_beambeam"]["luminosity_ip2_after_optimization"]
         luminosity_value_8 = conf_collider["config_beambeam"]["luminosity_ip8_after_optimization"]
     except:
@@ -304,6 +304,8 @@ def plot_heatmap(
     levelling="",
     CC=False,
     extended_diagonal=False,
+    vmin=3.5,
+    vmax=8,
 ):
     # Get numpy array from dataframe
     data_array = df_to_plot.to_numpy()
@@ -314,7 +316,7 @@ def plot_heatmap(
 
     # Build heatmap, with inverted y axis
     fig, ax = plt.subplots()
-    im = ax.imshow(data_array, cmap=cmap, vmin=3.5, vmax=8)
+    im = ax.imshow(data_array, cmap=cmap, vmin=vmin, vmax=vmax)
     ax.invert_yaxis()
 
     # Show all ticks and label them with the respective list entries
