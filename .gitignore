@@ -43,3 +43,4 @@ master_study/old/*
 # Slurm output
 *error.txt
 *output.txt
+.vscode/settings.json
