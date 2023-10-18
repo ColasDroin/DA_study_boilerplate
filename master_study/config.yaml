@@ -16,6 +16,6 @@
         - misc.py
       run_on: 'slurm_docker' #'htc' #'slurm' #'htc_docker' #'slurm_docker'
       htc_job_flavor: "tomorrow" # optional parameter to define job flavor, default is espresso
-      singularity_image: ../da-study-docker_latest.sif
+      singularity_image: /home/HPC/cdroin/example_DA_study/da-study-docker_latest.sif # ../da-study-docker_latest.sif
   # Children will be added below in the script 001_make_folders.py
   children:
