@@ -100,6 +100,7 @@ config_collider:
       i_bunch_b2: 1963 # Same. A value for i_bunch_b1 and i_bunch_b2 must be specified if pattern_fname is specified
 
   config_lumi_leveling_ip1_5:
+      skip_leveling: false
       luminosity: 2.0e+34
       num_colliding_bunches: null # This will be set automatically according to the filling scheme
       vary:
