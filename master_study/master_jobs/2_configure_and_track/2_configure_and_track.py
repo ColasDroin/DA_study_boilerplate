@@ -493,28 +493,13 @@ def configure_collider(
         # Save the final collider before tracking
         print('Saving "collider.json')
         if save_config:
-            collider_dict = collider.to_dict()
             config_dict = {
                 "config_mad": config_mad,
                 "config_collider": config_collider,
             }
-            collider_dict["config_yaml"] = config_dict
-
-            class NpEncoder(json.JSONEncoder):
-                def default(self, obj):
-                    if isinstance(obj, np.integer):
-                        return int(obj)
-                    if isinstance(obj, np.floating):
-                        return float(obj)
-                    if isinstance(obj, np.ndarray):
-                        return obj.tolist()
-                    return super(NpEncoder, self).default(obj)
-
-            #  collider.set_metadata(config_dict)
-            with open("collider.json", "w") as fid:
-                json.dump(collider_dict, fid, cls=NpEncoder)
-        else:
-            collider.to_json("collider.json")
+            collider.metadata = config_dict
+        # Dump collider
+        collider.to_json("collider.json")
 
     if return_collider_before_bb:
         return collider, config_sim, config_bb, collider_before_bb
