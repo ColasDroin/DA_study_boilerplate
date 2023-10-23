@@ -83,6 +83,7 @@ config_collider:
         c_minus_knob_2: c_minus_im_b2
 
   config_beambeam:
+    skip_beambeam: false
     bunch_spacing_buckets: 10
     num_slices_head_on: 11
     num_long_range_encounters_per_side:

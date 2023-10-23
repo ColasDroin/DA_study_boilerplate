@@ -394,7 +394,6 @@ def record_final_luminosity(collider, config_bb, l_n_collisions, crab):
 def configure_collider(
     config,
     config_mad,
-    skip_beam_beam=False,
     save_collider=False,
     save_config=False,
     return_collider_before_bb=False,
@@ -472,7 +471,7 @@ def configure_collider(
         print("Saving collider before beam-beam configuration")
         collider_before_bb = xt.Multiline.from_dict(collider.to_dict())
 
-    if not skip_beam_beam:
+    if not config_bb["skip_beambeam"]:
         # Configure beam-beam
         collider = configure_beam_beam(collider, config_bb)
 
@@ -535,7 +534,7 @@ def prepare_particle_distribution(config_sim, collider, config_bb):
 # ==================================================================================================
 # --- Function to do the tracking
 # ==================================================================================================
-def track(collider, particles, config_sim, save_input_particles=False):
+def track(collider, particles, config_sim, config_bb=None, save_input_particles=False):
     # Get beam being tracked
     beam = config_sim["beam"]
 
@@ -546,10 +545,32 @@ def track(collider, particles, config_sim, save_input_particles=False):
     if save_input_particles:
         pd.DataFrame(particles.to_dict()).to_parquet("input_particles.parquet")
 
-    # Track
+    # Track (update bb in several steps)
     num_turns = config_sim["n_turns"]
     a = time.time()
-    collider[beam].track(particles, turn_by_turn_monitor=False, num_turns=num_turns)
+
+    # Define steps for separation update
+    n_steps = 100
+    initial_sep_1 = collider.vars["on_sep1"]._value
+    initial_sep_5 = collider.vars["on_sep5"]._value
+    num_turns_step = int(num_turns / n_steps)
+    sep_1_step = initial_sep_1 / n_steps
+    sep_5_step = initial_sep_5 / n_steps
+
+    for i in range(n_steps):
+        # Update separation and reconfigure beambeam
+        collider.vars["on_sep1"] = initial_sep_1 - i * sep_1_step
+        collider.vars["on_sep5"] = initial_sep_5 - i * sep_5_step
+        print(
+            f"Updating separation in IP1 to {collider.vars['on_sep1']._value} m and in IP5 to"
+            f" {collider.vars['on_sep5']._value} m"
+        )
+        if config_bb is not None:
+            collider = configure_beam_beam(collider, config_bb)
+        else:
+            raise ValueError("Beam-beam configuration is required for dynamic tracking.")
+        collider[beam].track(particles, turn_by_turn_monitor=False, num_turns=num_turns_step)
+
     b = time.time()
 
     print(f"Elapsed time: {b-a} s")
@@ -581,7 +602,7 @@ def configure_and_track(config_path="config.yaml"):
     particles = prepare_particle_distribution(config_sim, collider, config_bb)
 
     # Track
-    particles = track(collider, particles, config_sim)
+    particles = track(collider, particles, config_sim, config_bb)
 
     # Save output
     pd.DataFrame(particles.to_dict()).to_parquet("output_particles.parquet")
