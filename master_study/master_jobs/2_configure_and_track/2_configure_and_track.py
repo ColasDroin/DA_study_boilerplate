@@ -16,6 +16,7 @@ import xtrack as xt
 import tree_maker
 import xmask as xm
 import xmask.lhc as xlhc
+from datetime import datetime
 from misc import generate_orbit_correction_setup
 from misc import luminosity_leveling, luminosity_leveling_ip1_5, compute_PU
 
@@ -307,12 +308,14 @@ def assert_tune_chroma_coupling(collider, conf_knobs_and_tuning):
 # --- Function to configure beam-beam
 # ==================================================================================================
 def configure_beam_beam(collider, config_bb):
+    print(f"Configuring beam-beam with configure_beambeam_interactions (f{datetime.now()})")
     collider.configure_beambeam_interactions(
         num_particles=config_bb["num_particles_per_bunch"],
         nemitt_x=config_bb["nemitt_x"],
         nemitt_y=config_bb["nemitt_y"],
     )
 
+    print(f"Configuring beam-beam with apply_filing_pattern (f{datetime.now()})")
     # Configure filling scheme mask and bunch numbers
     if "mask_with_filling_pattern" in config_bb:
         # Initialize filling pattern with empty values
@@ -346,6 +349,8 @@ def configure_beam_beam(collider, config_bb):
                     i_bunch_cw=i_bunch_cw,
                     i_bunch_acw=i_bunch_acw,
                 )
+
+    print(f"Done configuring (f{datetime.now()})")
     return collider
 
 
@@ -552,25 +557,51 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
     a = time.time()
 
     # Define steps for separation update
-    n_steps = 100
+    n_steps = 50
     initial_sep_1 = collider.vars["on_sep1"]._value
     initial_sep_5 = collider.vars["on_sep5"]._value
     num_turns_step = int(num_turns / n_steps)
     sep_1_step = initial_sep_1 / n_steps
     sep_5_step = initial_sep_5 / n_steps
 
+    # Function to compute footprint
+    def return_footprint(collider, emittance, beam="lhcb1", n_turns=2000):
+        fp_polar_xm = collider[beam].get_footprint(
+            nemitt_x=emittance,
+            nemitt_y=emittance,
+            n_turns=n_turns,
+            linear_rescale_on_knobs=[xt.LinearRescale(knob_name="beambeam_scale", v0=0.0, dv=0.05)],
+            freeze_longitudinal=True,
+        )
+
+        qx = fp_polar_xm.qx
+        qy = fp_polar_xm.qy
+
+        return qx, qy
+
     for i in range(n_steps):
         # Update separation and reconfigure beambeam
         collider.vars["on_sep1"] = initial_sep_1 - i * sep_1_step
         collider.vars["on_sep5"] = initial_sep_5 - i * sep_5_step
         print(
-            f"Updating separation in IP1 to {collider.vars['on_sep1']._value} m and in IP5 to"
-            f" {collider.vars['on_sep5']._value} m"
+            f"Updating on_sep1 to {collider.vars['on_sep1']._value} on_sep5 to"
+            f" {collider.vars['on_sep5']._value}"
         )
+        # Get twiss
+        twiss_b1 = collider["lhcb1"].twiss()
+        # Get tune
+        print(f"Qx: {twiss_b1.qx}, Qy: {twiss_b1.qy}")
         if config_bb is not None:
             collider = configure_beam_beam(collider, config_bb)
         else:
             raise ValueError("Beam-beam configuration is required for dynamic tracking.")
+
+        # Compute and save footprint
+        qx_array, qy_array = return_footprint(collider, config_bb["nemitt_x"])
+        footprint = np.array([qx_array, qy_array])
+        np.save(f"footprint_step_{i}.npy", footprint)
+
+        # Track until next checkpoint
         collider[beam].track(particles, turn_by_turn_monitor=False, num_turns=num_turns_step)
 
     b = time.time()
