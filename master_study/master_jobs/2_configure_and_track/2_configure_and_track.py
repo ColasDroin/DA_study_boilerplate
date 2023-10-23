@@ -474,6 +474,8 @@ def configure_collider(
     if not config_bb["skip_beambeam"]:
         # Configure beam-beam
         collider = configure_beam_beam(collider, config_bb)
+    else:
+        print("No beam-beam configuration is done as skip_beambeam is set to True.")
 
     # Update configuration with luminosity now that bb is known
     l_n_collisions = [
@@ -538,8 +540,8 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
     # Get beam being tracked
     beam = config_sim["beam"]
 
-    # Optimize line for tracking
-    collider[beam].optimize_for_tracking()
+    # Optimize line for tracking # ! Commented out as it prevents changing the bb
+    # collider[beam].optimize_for_tracking()
 
     # Save initial coordinates if requested
     if save_input_particles:
