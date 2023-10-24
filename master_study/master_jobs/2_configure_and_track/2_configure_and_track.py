@@ -587,14 +587,16 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
             f"Updating on_sep1 to {collider.vars['on_sep1']._value} on_sep5 to"
             f" {collider.vars['on_sep5']._value}"
         )
-        # Get twiss
-        twiss_b1 = collider["lhcb1"].twiss()
-        # Get tune
-        print(f"Qx: {twiss_b1.qx}, Qy: {twiss_b1.qy}")
+
         if config_bb is not None:
             collider = configure_beam_beam(collider, config_bb)
         else:
             raise ValueError("Beam-beam configuration is required for dynamic tracking.")
+
+        # Get twiss
+        twiss_b1 = collider["lhcb1"].twiss()
+        # Get tune
+        print(f"Qx: {twiss_b1.qx}, Qy: {twiss_b1.qy}")
 
         # Compute and save footprint
         qx_array, qy_array = return_footprint(collider, config_bb["nemitt_x"])
