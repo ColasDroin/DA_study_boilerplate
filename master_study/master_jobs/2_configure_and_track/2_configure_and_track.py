@@ -6,19 +6,23 @@ simple scripting for reproducibility, to allow rebuilding the collider from a di
 # --- Imports
 # ==================================================================================================
 import json
-import ruamel.yaml
-import time
 import logging
+import os
+import time
+from datetime import datetime
+
 import numpy as np
 import pandas as pd
-import os
-import xtrack as xt
+import ruamel.yaml
 import tree_maker
 import xmask as xm
-import xmask.lhc as xlhc
-from datetime import datetime
-from misc import generate_orbit_correction_setup
-from misc import luminosity_leveling, luminosity_leveling_ip1_5, compute_PU
+import xtrack as xt
+from misc import (
+    compute_PU,
+    generate_orbit_correction_setup,
+    luminosity_leveling,
+    luminosity_leveling_ip1_5,
+)
 
 # Initialize yaml reader
 ryaml = ruamel.yaml.YAML()
@@ -77,7 +81,9 @@ def install_beam_beam(collider, config_collider):
         anticlockwise_line="lhcb2",
         ip_names=["ip1", "ip2", "ip5", "ip8"],
         delay_at_ips_slots=[0, 891, 0, 2670],
-        num_long_range_encounters_per_side=config_bb["num_long_range_encounters_per_side"],
+        num_long_range_encounters_per_side=config_bb[
+            "num_long_range_encounters_per_side"
+        ],
         num_slices_head_on=config_bb["num_slices_head_on"],
         harmonic_number=35640,
         bunch_spacing_buckets=config_bb["bunch_spacing_buckets"],
@@ -102,7 +108,9 @@ def set_knobs(config_collider, collider):
     return collider, conf_knobs_and_tuning
 
 
-def match_tune_and_chroma(collider, conf_knobs_and_tuning, match_linear_coupling_to_zero=True):
+def match_tune_and_chroma(
+    collider, conf_knobs_and_tuning, match_linear_coupling_to_zero=True
+):
     # Tunings
     for line_name in ["lhcb1", "lhcb2"]:
         knob_names = conf_knobs_and_tuning["knob_names"][line_name]
@@ -187,9 +195,9 @@ def do_levelling(
         if not config_collider["config_lumi_leveling_ip1_5"]["skip_leveling"]:
             print("Leveling luminosity in IP 1/5 varying the intensity")
             # Update the number of bunches in the configuration file
-            config_collider["config_lumi_leveling_ip1_5"]["num_colliding_bunches"] = int(
-                n_collisions_ip1_and_5
-            )
+            config_collider["config_lumi_leveling_ip1_5"][
+                "num_colliding_bunches"
+            ] = int(n_collisions_ip1_and_5)
 
             # Do the levelling
             try:
@@ -200,7 +208,9 @@ def do_levelling(
                     crab=crab,
                 )
             except ValueError:
-                print("There was a problem during the luminosity leveling in IP1/5... Ignoring it.")
+                print(
+                    "There was a problem during the luminosity leveling in IP1/5... Ignoring it."
+                )
                 I = config_bb["num_particles_per_bunch"]
 
             config_bb["num_particles_per_bunch"] = float(I)
@@ -210,7 +220,9 @@ def do_levelling(
     if "constraints" in config_lumi_leveling["ip8"]:
         for constraint in config_lumi_leveling["ip8"]["constraints"]:
             obs, beam, sign, val, at = constraint.split("_")
-            target = xt.TargetInequality(obs, sign, float(val), at=at, line=beam, tol=1e-6)
+            target = xt.TargetInequality(
+                obs, sign, float(val), at=at, line=beam, tol=1e-6
+            )
             additional_targets_lumi.append(target)
 
     # Then level luminosity in IP 2/8 changing the separation
@@ -257,7 +269,9 @@ def add_linear_coupling(conf_knobs_and_tuning, collider, config_mad):
         collider.vars["c_minus_re_b1"] += conf_knobs_and_tuning["delta_cmr"]
         collider.vars["c_minus_re_b2"] += conf_knobs_and_tuning["delta_cmr"]
     else:
-        raise ValueError(f"Unknown version of the optics/run: {version_hllhc}, {version_run}.")
+        raise ValueError(
+            f"Unknown version of the optics/run: {version_hllhc}, {version_run}."
+        )
 
     return collider
 
@@ -308,7 +322,9 @@ def assert_tune_chroma_coupling(collider, conf_knobs_and_tuning):
 # --- Function to configure beam-beam
 # ==================================================================================================
 def configure_beam_beam(collider, config_bb):
-    print(f"Configuring beam-beam with configure_beambeam_interactions (f{datetime.now()})")
+    print(
+        f"Configuring beam-beam with configure_beambeam_interactions (f{datetime.now()})"
+    )
     collider.configure_beambeam_interactions(
         num_particles=config_bb["num_particles_per_bunch"],
         nemitt_x=config_bb["nemitt_x"],
@@ -379,7 +395,9 @@ def record_final_luminosity(collider, config_bb, l_n_collisions, crab):
             )
             PU = compute_PU(L, n_col, twiss_b1["T_rev0"])
         except:
-            print(f"There was a problem during the luminosity computation in {ip}... Ignoring it.")
+            print(
+                f"There was a problem during the luminosity computation in {ip}... Ignoring it."
+            )
             L = 0
             PU = 0
         l_lumi.append(L)
@@ -438,12 +456,17 @@ def configure_collider(
     # Get crab cavities
     crab = False
     if "on_crab1" in config_collider["config_knobs_and_tuning"]["knob_settings"]:
-        crab_val = float(config_collider["config_knobs_and_tuning"]["knob_settings"]["on_crab1"])
+        crab_val = float(
+            config_collider["config_knobs_and_tuning"]["knob_settings"]["on_crab1"]
+        )
         if crab_val > 0:
             crab = True
 
     # Do the leveling if requested
-    if "config_lumi_leveling" in config_collider and not config_collider["skip_leveling"]:
+    if (
+        "config_lumi_leveling" in config_collider
+        and not config_collider["skip_leveling"]
+    ):
         collider, config_collider = do_levelling(
             config_collider,
             config_bb,
@@ -570,7 +593,9 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
             nemitt_x=emittance,
             nemitt_y=emittance,
             n_turns=n_turns,
-            linear_rescale_on_knobs=[xt.LinearRescale(knob_name="beambeam_scale", v0=0.0, dv=0.05)],
+            linear_rescale_on_knobs=[
+                xt.LinearRescale(knob_name="beambeam_scale", v0=0.0, dv=0.05)
+            ],
             freeze_longitudinal=True,
         )
 
@@ -591,7 +616,9 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
         if config_bb is not None:
             collider = configure_beam_beam(collider, config_bb)
         else:
-            raise ValueError("Beam-beam configuration is required for dynamic tracking.")
+            raise ValueError(
+                "Beam-beam configuration is required for dynamic tracking."
+            )
 
         # Get twiss
         twiss_b1 = collider["lhcb1"].twiss()
@@ -604,12 +631,16 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
         np.save(f"footprint_step_{i}.npy", footprint)
 
         # Track until next checkpoint
-        collider[beam].track(particles, turn_by_turn_monitor=False, num_turns=num_turns_step)
+        collider[beam].track(
+            particles, turn_by_turn_monitor=False, num_turns=num_turns_step
+        )
 
     b = time.time()
 
     print(f"Elapsed time: {b-a} s")
-    print(f"Elapsed time per particle per turn: {(b-a)/particles._capacity/num_turns*1e6} us")
+    print(
+        f"Elapsed time per particle per turn: {(b-a)/particles._capacity/num_turns*1e6} us"
+    )
 
     return particles
 

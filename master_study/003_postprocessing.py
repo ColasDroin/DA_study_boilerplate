@@ -1,11 +1,11 @@
 # ==================================================================================================
 # --- Imports
 # ==================================================================================================
+import time
+
+import pandas as pd
 import tree_maker
 import yaml
-import pandas as pd
-import time
-import logging
 
 # ==================================================================================================
 # --- Load tree of jobs
@@ -16,7 +16,7 @@ print("Analysis of output simulation files started")
 start = time.time()
 
 # Load Data
-study_name = "example_tunescan"
+study_name = "dynamic_collapse_alt"
 fix = "/scans/" + study_name
 root = tree_maker.tree_from_json(fix[1:] + "/tree_maker.json")
 # Add suffix to the root node path to handle scans that are not in the root directory
@@ -44,9 +44,13 @@ for node in root.generation(1):
 
             # If it doesn't work, try to read it as absolute
             except:
-                particle = pd.read_parquet(f"{config_child['config_simulation']['particle_file']}")
+                particle = pd.read_parquet(
+                    f"{config_child['config_simulation']['particle_file']}"
+                )
 
-            df_sim = pd.read_parquet(f"{node_child.get_abs_path()}/output_particles.parquet")
+            df_sim = pd.read_parquet(
+                f"{node_child.get_abs_path()}/output_particles.parquet"
+            )
 
         except Exception as e:
             print(e)
@@ -76,23 +80,25 @@ for node in root.generation(1):
         df_sim["qy"] = dic_child_collider["config_knobs_and_tuning"]["qy"]["lhcb1"]
         df_sim["dqx"] = dic_child_collider["config_knobs_and_tuning"]["dqx"]["lhcb1"]
         df_sim["dqy"] = dic_child_collider["config_knobs_and_tuning"]["dqy"]["lhcb1"]
-        df_sim["i_bunch_b1"] = dic_child_collider["config_beambeam"]["mask_with_filling_pattern"][
-            "i_bunch_b1"
-        ]
-        df_sim["i_bunch_b2"] = dic_child_collider["config_beambeam"]["mask_with_filling_pattern"][
-            "i_bunch_b2"
-        ]
+        df_sim["i_bunch_b1"] = dic_child_collider["config_beambeam"][
+            "mask_with_filling_pattern"
+        ]["i_bunch_b1"]
+        df_sim["i_bunch_b2"] = dic_child_collider["config_beambeam"][
+            "mask_with_filling_pattern"
+        ]["i_bunch_b2"]
         df_sim["num_particles_per_bunch"] = dic_child_collider["config_beambeam"][
             "num_particles_per_bunch"
         ]
-        df_sim["i_oct_b1"] = dic_child_collider["config_knobs_and_tuning"]["knob_settings"][
-            "i_oct_b1"
-        ]
-        df_sim["i_oct_b2"] = dic_child_collider["config_knobs_and_tuning"]["knob_settings"][
-            "i_oct_b2"
-        ]
+        df_sim["i_oct_b1"] = dic_child_collider["config_knobs_and_tuning"][
+            "knob_settings"
+        ]["i_oct_b1"]
+        df_sim["i_oct_b2"] = dic_child_collider["config_knobs_and_tuning"][
+            "knob_settings"
+        ]["i_oct_b2"]
         df_sim["crossing_angle"] = abs(
-            float(dic_child_collider["config_knobs_and_tuning"]["knob_settings"]["on_x1"])
+            float(
+                dic_child_collider["config_knobs_and_tuning"]["knob_settings"]["on_x1"]
+            )
         )
 
         # Merge with particle data
@@ -105,6 +111,7 @@ for node in root.generation(1):
 
 # Merge the dataframes from all simulations together
 df_all_sim = pd.concat(l_df_to_merge)
+df_all_sim.to_parquet(f"scans/{study_name}/all_particles.parquet")
 
 # Extract the particles that were lost for DA computation
 df_lost_particles = df_all_sim[df_all_sim["state"] != 1]  # Lost particles
