@@ -1,14 +1,15 @@
 # ==================================================================================================
 # --- Imports
 # ==================================================================================================
-import tree_maker
-import os
-import psutil
-from pathlib import Path
-import subprocess
 import copy
-import yaml
+import os
+import subprocess
 import time
+from pathlib import Path
+
+import psutil
+import tree_maker
+import yaml
 
 
 # ==================================================================================================
@@ -144,8 +145,8 @@ class ClusterSubmission:
         queuing_jobs = self.querying_jobs(dic_id_to_job=dic_id_to_job, status="queuing")
         self._update_dic_id_to_job(running_jobs, queuing_jobs)
         if verbose:
-            print(f"Running: \n" + "\n".join(running_jobs))
-            print(f"queuing: \n" + "\n".join(queuing_jobs))
+            print("Running: \n" + "\n".join(running_jobs))
+            print("queuing: \n" + "\n".join(queuing_jobs))
         return running_jobs, queuing_jobs
 
     @staticmethod
@@ -582,7 +583,7 @@ def submit_jobs(study_name, print_uncompleted_jobs=False):
 # Load the tree from a yaml and submit the jobs that haven't been completed yet
 if __name__ == "__main__":
     # Define study
-    study_name = "dynamic_collapse_alt"
+    study_name = "dynamic_collapse"
 
     # Submit jobs
     submit_jobs(study_name)
