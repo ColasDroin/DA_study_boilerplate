@@ -580,10 +580,10 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
     a = time.time()
 
     # Define steps for separation update
-    n_steps = 10
+    n_steps = 4
     initial_sep_1 = collider.vars["on_sep1"]._value
     initial_sep_5 = collider.vars["on_sep5"]._value
-    num_turns_step = int(num_turns / n_steps)
+    num_turns_step = int(num_turns / (n_steps + 1))
     sep_1_step = initial_sep_1 / n_steps
     sep_5_step = initial_sep_5 / n_steps
 
@@ -604,7 +604,11 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
 
         return qx, qy
 
-    for i in range(n_steps):
+    time_simulated = 0
+    time_reconfigured = 0
+
+    time_start = time.time()
+    for i in range(n_steps + 1):
         # Update separation and reconfigure beambeam
         collider.vars["on_sep1"] = initial_sep_1 - i * sep_1_step
         collider.vars["on_sep5"] = initial_sep_5 - i * sep_5_step
@@ -614,30 +618,42 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
         )
 
         if config_bb is not None:
+            t_before_reconfigure = time.time()
             collider = configure_beam_beam(collider, config_bb)
+            t_after_reconfigure = time.time()
+            time_reconfigured += t_after_reconfigure - t_before_reconfigure
         else:
             raise ValueError(
                 "Beam-beam configuration is required for dynamic tracking."
             )
 
         # Get twiss
-        twiss_b1 = collider["lhcb1"].twiss()
+        # twiss_b1 = collider["lhcb1"].twiss()
         # Get tune
-        print(f"Qx: {twiss_b1.qx}, Qy: {twiss_b1.qy}")
+        # print(f"Qx: {twiss_b1.qx}, Qy: {twiss_b1.qy}")
 
         # Compute and save footprint
-        qx_array, qy_array = return_footprint(collider, config_bb["nemitt_x"])
-        footprint = np.array([qx_array, qy_array])
-        np.save(f"footprint_step_{i}.npy", footprint)
+        # qx_array, qy_array = return_footprint(collider, config_bb["nemitt_x"])
+        # footprint = np.array([qx_array, qy_array])
+        # np.save(f"footprint_step_{i}.npy", footprint)
 
         # Track until next checkpoint
+        t_before_tracking = time.time()
         collider[beam].track(
             particles, turn_by_turn_monitor=False, num_turns=num_turns_step
         )
-
+        t_after_tracking = time.time()
+        time_simulated += t_after_tracking - t_before_tracking
+    time_end = time.time()
     b = time.time()
 
-    print(f"Elapsed time: {b-a} s")
+    print(f"Total time simulation: {time_end - time_start} s")
+    print(f"Total time reconfiguration: {time_reconfigured} s")
+    print(f"Average time per reconfiguration: {time_reconfigured / (n_steps + 1)} s")
+    print(f"Total time tracking: {time_simulated} s")
+    print(f"Average time tracking per turn: {time_simulated / num_turns} s")
+
+    # print(f"Elapsed time: {b-a} s")
     print(
         f"Elapsed time per particle per turn: {(b-a)/particles._capacity/num_turns*1e6} us"
     )
