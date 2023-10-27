@@ -307,7 +307,8 @@ dump_config_in_collider = True
 # of the script
 # keep = "upper_triangle"  # 'lower_triangle', 'all'
 
-l_config_BB = [[1, 0, 21], [11, 0, 21], [1, 20, 21], [1, 0, 25], [11, 20, 25]]
+#l_config_BB = [[1, 0, 21], [11, 0, 21], [1, 20, 21], [1, 0, 25], [11, 20, 25]]
+l_config_BB = [[11, 0, 25]]
 # ==================================================================================================
 # --- Make tree for the simulations (generation 1)
 #
