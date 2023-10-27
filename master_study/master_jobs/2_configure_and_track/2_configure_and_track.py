@@ -600,13 +600,14 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
         if config_bb is not None:
             t_before_reconfigure = time.time()
             collider = configure_beam_beam(collider, config_bb)
-            print('Dumping elements in dictionnary')
+            print("Dumping elements in dictionnary")
             l_elements_b1 = [x for x in collider.lhcb1.element_names if "bb_" in x]
             l_elements_b2 = [x for x in collider.lhcb2.element_names if "bb_" in x]
             dic_elements = {
                 "lhcb1": {x: collider.lhcb1[x] for x in l_elements_b1},
                 "lhcb2": {x: collider.lhcb2[x] for x in l_elements_b2},
             }
+
             # Dump bb elements in a pickle
             with open(f"bb_elements_step_{i}.pkl", "wb") as fid:
                 pickle.dump(dic_elements, fid)
