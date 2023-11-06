@@ -8,17 +8,17 @@ config_particles:
 config_mad:
   # Links to be made for tools and scripts
   links:
-    acc-models-lhc: /afs/cern.ch/eng/lhc/optics/runIII 
+    acc-models-lhc: ../../../modules/2023
 
   # Optics file
-  optics_file: acc-models-lhc/RunIII_dev/Proton_2024/V0/opticsfile.37 #
+  optics_file: acc-models-lhc/operation/optics/R2023a_A10mC10mA10mL10m.madx
 
   # Beam parameters
   beam_config:
     lhcb1:
-      beam_energy_tot: 6800 # [GeV]
+      beam_energy_tot: 450 # [GeV]
     lhcb2:
-      beam_energy_tot: 6800 # [GeV]
+      beam_energy_tot: 450 # [GeV]
 
   # Enable machine imperfections
   enable_imperfections: false
@@ -52,6 +52,6 @@ config_mad:
     par_on_errors_MCBXF: 0
     par_on_errors_NLC: 0
     par_write_errortable: 1
-    
+
 sanity_checks: true
-log_file: 'tree_maker.log'
+log_file: "tree_maker.log"

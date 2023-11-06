@@ -37,7 +37,7 @@ d_config_particles["n_r"] = 2 * 16 * (d_config_particles["r_max"] - d_config_par
 d_config_particles["n_angles"] = 5
 
 # Number of split for parallelization
-d_config_particles["n_split"] = 5
+d_config_particles["n_split"] = 1
 
 # ==================================================================================================
 # --- Optics collider parameters (generation 1)
@@ -55,14 +55,14 @@ d_config_mad = {"beam_config": {"lhcb1": {}, "lhcb2": {}}, "links": {}}
 # Optic file path (version, and round or flat)
 
 ### For run III
-d_config_mad["links"]["acc-models-lhc"] = "/afs/cern.ch/eng/lhc/optics/runIII"
-d_config_mad["optics_file"] = "acc-models-lhc/RunIII_dev/Proton_2024/V0/opticsfile.40"
+d_config_mad["links"]["acc-models-lhc"] = "../../../modules/2023"
+d_config_mad["optics_file"] = "acc-models-lhc/operation/optics/R2023a_A10mC10mA10mL10m.madx"
 d_config_mad["ver_hllhc_optics"] = None
 d_config_mad["ver_lhc_run"] = 3.0
 
 
 # Beam energy (for both beams)
-beam_energy_tot = 6800
+beam_energy_tot = 450
 d_config_mad["beam_config"]["lhcb1"]["beam_energy_tot"] = beam_energy_tot
 d_config_mad["beam_config"]["lhcb2"]["beam_energy_tot"] = beam_energy_tot
 
@@ -101,25 +101,25 @@ d_config_tune_and_chroma["delta_cmi"] = 0.0
 d_config_knobs = {}
 
 # Exp. configuration in IR1, IR2, IR5 and IR8
-d_config_knobs["on_x1"] = -145.000
-d_config_knobs["on_sep1"] = 0.0
-d_config_knobs["phi_IR1"] = 180.000
+# d_config_knobs["on_x1"] = -145.000
+# d_config_knobs["on_sep1"] = 0.0
+# d_config_knobs["phi_IR1"] = 180.000
 
-d_config_knobs["on_x2h"] = 0.000
-d_config_knobs["on_sep2h"] = 1.0  # 1.000
-d_config_knobs["on_x2v"] = 200.000
-d_config_knobs["on_sep2v"] = 0.000
-d_config_knobs["phi_IR2"] = 90.000
+# d_config_knobs["on_x2h"] = 0.000
+# d_config_knobs["on_sep2h"] = 1.0  # 1.000
+# d_config_knobs["on_x2v"] = 200.000
+# d_config_knobs["on_sep2v"] = 0.000
+# d_config_knobs["phi_IR2"] = 90.000
 
-d_config_knobs["on_x5"] = 145.000
-d_config_knobs["on_sep5"] = 0.0
-d_config_knobs["phi_IR5"] = 90.000
+# d_config_knobs["on_x5"] = 145.000
+# d_config_knobs["on_sep5"] = 0.0
+# d_config_knobs["phi_IR5"] = 90.000
 
-d_config_knobs["on_x8h"] = 0.000
-d_config_knobs["on_sep8h"] = -0.01  # -1.000
-d_config_knobs["on_x8v"] = 200.000
-d_config_knobs["on_sep8v"] = 0.000
-d_config_knobs["phi_IR8"] = 180.000
+# d_config_knobs["on_x8h"] = 0.000
+# d_config_knobs["on_sep8h"] = -0.01  # -1.000
+# d_config_knobs["on_x8v"] = 200.000
+# d_config_knobs["on_sep8v"] = 0.000
+# d_config_knobs["phi_IR8"] = 180.000
 
 # Octupoles
 d_config_knobs["i_oct_b1"] = 300.0
@@ -127,31 +127,34 @@ d_config_knobs["i_oct_b2"] = 300.0
 
 ### leveling configuration
 
-# Leveling in IP 1/5
-d_config_leveling_ip1_5 = {"constraints": {}}
-d_config_leveling_ip1_5["luminosity"] = 2.0e34
-d_config_leveling_ip1_5["constraints"]["max_intensity"] = 1.8e11
-d_config_leveling_ip1_5["constraints"]["max_PU"] = 70
+skip_leveling = True
+# # Leveling in IP 1/5
+# d_config_leveling_ip1_5 = {"constraints": {}}
+# d_config_leveling_ip1_5["luminosity"] = 2.0e34
+# d_config_leveling_ip1_5["constraints"]["max_intensity"] = 1.8e11
+# d_config_leveling_ip1_5["constraints"]["max_PU"] = 70
 
 
-# Define dictionary for the leveling settings
-d_config_leveling = {
-    "ip2": {},
-    "ip8": {},
-}
+# # Define dictionary for the leveling settings
+# d_config_leveling = {
+#     "ip2": {},
+#     "ip8": {},
+# }
 
-# Luminosity and particles
+# # Luminosity and particles
 
 
-# Leveling parameters (ignored if skip_leveling is True)
-d_config_leveling["ip2"]["separation_in_sigmas"] = 5
-d_config_leveling["ip8"]["luminosity"] = 2.0e32
+# # Leveling parameters (ignored if skip_leveling is True)
+# d_config_leveling["ip2"]["separation_in_sigmas"] = 5
+# d_config_leveling["ip8"]["luminosity"] = 2.0e32
 
 ### Beam beam configuration
 
 # Define dictionary for the beam beam settings
 d_config_beambeam = {"mask_with_filling_pattern": {}}
 
+# Choose if beam beam is on or off
+d_config_beambeam['skip_beambeam'] = True
 # Beam settings
 d_config_beambeam["num_particles_per_bunch"] = 1.15e11
 d_config_beambeam["nemitt_x"] = 2.2e-6
@@ -249,8 +252,9 @@ d_config_collider["config_knobs_and_tuning"] = d_config_tune_and_chroma
 d_config_collider["config_knobs_and_tuning"]["knob_settings"] = d_config_knobs
 
 # Add luminosity configuration
-d_config_collider["config_lumi_leveling_ip1_5"] = d_config_leveling_ip1_5
-d_config_collider["config_lumi_leveling"] = d_config_leveling
+# d_config_collider["config_lumi_leveling_ip1_5"] = d_config_leveling_ip1_5
+# d_config_collider["config_lumi_leveling"] = d_config_leveling
+d_config_collider['skip_leveling'] = skip_leveling
 
 # Add beam beam configuration
 d_config_collider["config_beambeam"] = d_config_beambeam

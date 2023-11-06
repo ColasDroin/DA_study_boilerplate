@@ -70,18 +70,23 @@ def install_beam_beam(collider, config_collider):
     # Load config
     config_bb = config_collider["config_beambeam"]
 
-    # Install beam-beam lenses (inactive and not configured)
-    collider.install_beambeam_interactions(
-        clockwise_line="lhcb1",
-        anticlockwise_line="lhcb2",
-        ip_names=["ip1", "ip2", "ip5", "ip8"],
-        delay_at_ips_slots=[0, 891, 0, 2670],
-        num_long_range_encounters_per_side=config_bb["num_long_range_encounters_per_side"],
-        num_slices_head_on=config_bb["num_slices_head_on"],
-        harmonic_number=35640,
-        bunch_spacing_buckets=config_bb["bunch_spacing_buckets"],
-        sigmaz=config_bb["sigma_z"],
-    )
+    if not config_bb["skip_beambeam"]:
+
+        # Install beam-beam lenses (inactive and not configured)
+        collider.install_beambeam_interactions(
+            clockwise_line="lhcb1",
+            anticlockwise_line="lhcb2",
+            ip_names=["ip1", "ip2", "ip5", "ip8"],
+            delay_at_ips_slots=[0, 891, 0, 2670],
+            num_long_range_encounters_per_side=config_bb["num_long_range_encounters_per_side"],
+            num_slices_head_on=config_bb["num_slices_head_on"],
+            harmonic_number=35640,
+            bunch_spacing_buckets=config_bb["bunch_spacing_buckets"],
+            sigmaz=config_bb["sigma_z"],
+        )
+
+    else:
+        print("Skipping beam-beam installation as requested in the configuration file.")
 
     return collider, config_bb
 
@@ -394,7 +399,6 @@ def record_final_luminosity(collider, config_bb, l_n_collisions, crab):
 def configure_collider(
     config,
     config_mad,
-    skip_beam_beam=False,
     save_collider=False,
     save_config=False,
     return_collider_before_bb=False,
@@ -472,18 +476,18 @@ def configure_collider(
         print("Saving collider before beam-beam configuration")
         collider_before_bb = xt.Multiline.from_dict(collider.to_dict())
 
-    if not skip_beam_beam:
+    if not config_bb["skip_beambeam"]:
         # Configure beam-beam
         collider = configure_beam_beam(collider, config_bb)
 
-    # Update configuration with luminosity now that bb is known
-    l_n_collisions = [
-        n_collisions_ip1_and_5,
-        n_collisions_ip2,
-        n_collisions_ip1_and_5,
-        n_collisions_ip8,
-    ]
-    config_bb = record_final_luminosity(collider, config_bb, l_n_collisions, crab)
+        # Update configuration with luminosity now that bb is known
+        l_n_collisions = [
+            n_collisions_ip1_and_5,
+            n_collisions_ip2,
+            n_collisions_ip1_and_5,
+            n_collisions_ip8,
+        ]
+        config_bb = record_final_luminosity(collider, config_bb, l_n_collisions, crab)
 
     # Drop update configuration
     with open(config_path, "w") as fid:
