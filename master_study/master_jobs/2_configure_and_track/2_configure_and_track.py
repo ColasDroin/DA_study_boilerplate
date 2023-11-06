@@ -70,23 +70,20 @@ def install_beam_beam(collider, config_collider):
     # Load config
     config_bb = config_collider["config_beambeam"]
 
-    if not config_bb["skip_beambeam"]:
+    # Install beam-beam lenses (inactive and not configured)
+    collider.install_beambeam_interactions(
+        clockwise_line="lhcb1",
+        anticlockwise_line="lhcb2",
+        ip_names=["ip1", "ip2", "ip5", "ip8"],
+        delay_at_ips_slots=[0, 891, 0, 2670],
+        num_long_range_encounters_per_side=config_bb["num_long_range_encounters_per_side"],
+        num_slices_head_on=config_bb["num_slices_head_on"],
+        harmonic_number=35640,
+        bunch_spacing_buckets=config_bb["bunch_spacing_buckets"],
+        sigmaz=config_bb["sigma_z"],
+    )
 
-        # Install beam-beam lenses (inactive and not configured)
-        collider.install_beambeam_interactions(
-            clockwise_line="lhcb1",
-            anticlockwise_line="lhcb2",
-            ip_names=["ip1", "ip2", "ip5", "ip8"],
-            delay_at_ips_slots=[0, 891, 0, 2670],
-            num_long_range_encounters_per_side=config_bb["num_long_range_encounters_per_side"],
-            num_slices_head_on=config_bb["num_slices_head_on"],
-            harmonic_number=35640,
-            bunch_spacing_buckets=config_bb["bunch_spacing_buckets"],
-            sigmaz=config_bb["sigma_z"],
-        )
-
-    else:
-        print("Skipping beam-beam installation as requested in the configuration file.")
+   
 
     return collider, config_bb
 
@@ -463,10 +460,10 @@ def configure_collider(
     # Add linear coupling
     collider = add_linear_coupling(conf_knobs_and_tuning, collider, config_mad)
 
-    # Rematch tune and chromaticity
-    collider = match_tune_and_chroma(
-        collider, conf_knobs_and_tuning, match_linear_coupling_to_zero=False
-    )
+    # # Rematch tune and chromaticity
+    # collider = match_tune_and_chroma(
+    #     collider, conf_knobs_and_tuning, match_linear_coupling_to_zero=False
+    # )
 
     # Assert that tune, chromaticity and linear coupling are correct one last time
     assert_tune_chroma_coupling(collider, conf_knobs_and_tuning)

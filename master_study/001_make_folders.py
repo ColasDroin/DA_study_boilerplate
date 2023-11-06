@@ -281,8 +281,8 @@ d_config_simulation["beam"] = "lhcb1"
 # Below, the user chooses if the gen 2 collider must be dumped, along with the corresponding
 # configuration.
 # ==================================================================================================
-dump_collider = False
-dump_config_in_collider = False
+dump_collider = True
+dump_config_in_collider = True
 
 # ==================================================================================================
 # --- Machine parameters being scanned (generation 2)

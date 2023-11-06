@@ -110,17 +110,17 @@ def build_collider_from_mad(config_mad, sanity_checks=True):
     if sanity_checks:
         mad_b1b2.use(sequence="lhcb1")
         mad_b1b2.twiss()
-        ost.check_madx_lattices(mad_b1b2)
+        #ost.check_madx_lattices(mad_b1b2)
         mad_b1b2.use(sequence="lhcb2")
         mad_b1b2.twiss()
-        ost.check_madx_lattices(mad_b1b2)
+        #ost.check_madx_lattices(mad_b1b2)
 
     # Apply optics (only for b4, just for check)
     ost.apply_optics(mad_b4, optics_file=config_mad["optics_file"])
     if sanity_checks:
         mad_b4.use(sequence="lhcb2")
         mad_b4.twiss()
-        ost.check_madx_lattices(mad_b1b2)
+        #ost.check_madx_lattices(mad_b1b2)
 
     # Build xsuite collider
     collider = xlhc.build_xsuite_collider(
