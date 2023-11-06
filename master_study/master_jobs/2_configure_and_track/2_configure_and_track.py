@@ -98,7 +98,8 @@ def set_knobs(config_collider, collider):
     # Set all knobs (crossing angles, dispersion correction, rf, crab cavities,
     # experimental magnets, etc.)
     for kk, vv in conf_knobs_and_tuning["knob_settings"].items():
-        collider.vars[kk] = vv
+        if vv is not None:
+            collider.vars[kk] = vv
 
     return collider, conf_knobs_and_tuning
 
@@ -417,56 +418,56 @@ def configure_collider(
     # Build trackers
     collider.build_trackers()
 
-    # Set knobs
-    collider, conf_knobs_and_tuning = set_knobs(config_collider, collider)
+    # # Set knobs
+    # collider, conf_knobs_and_tuning = set_knobs(config_collider, collider)
 
-    # Match tune and chromaticity
-    collider = match_tune_and_chroma(
-        collider, conf_knobs_and_tuning, match_linear_coupling_to_zero=True
-    )
+    # # Match tune and chromaticity
+    # collider = match_tune_and_chroma(
+    #     collider, conf_knobs_and_tuning, match_linear_coupling_to_zero=True
+    # )
 
-    # Compute the number of collisions in the different IPs
-    (
-        n_collisions_ip1_and_5,
-        n_collisions_ip2,
-        n_collisions_ip8,
-    ) = compute_collision_from_scheme(config_bb)
+    # # Compute the number of collisions in the different IPs
+    # (
+    #     n_collisions_ip1_and_5,
+    #     n_collisions_ip2,
+    #     n_collisions_ip8,
+    # ) = compute_collision_from_scheme(config_bb)
 
-    # Get crab cavities
-    crab = False
-    if "on_crab1" in config_collider["config_knobs_and_tuning"]["knob_settings"]:
-        crab_val = float(config_collider["config_knobs_and_tuning"]["knob_settings"]["on_crab1"])
-        if crab_val > 0:
-            crab = True
+    # # Get crab cavities
+    # crab = False
+    # if "on_crab1" in config_collider["config_knobs_and_tuning"]["knob_settings"]:
+    #     crab_val = float(config_collider["config_knobs_and_tuning"]["knob_settings"]["on_crab1"])
+    #     if crab_val > 0:
+    #         crab = True
 
-    # Do the leveling if requested
-    if "config_lumi_leveling" in config_collider and not config_collider["skip_leveling"]:
-        collider, config_collider = do_levelling(
-            config_collider,
-            config_bb,
-            n_collisions_ip2,
-            n_collisions_ip8,
-            collider,
-            n_collisions_ip1_and_5,
-            crab,
-        )
+    # # Do the leveling if requested
+    # if "config_lumi_leveling" in config_collider and not config_collider["skip_leveling"]:
+    #     collider, config_collider = do_levelling(
+    #         config_collider,
+    #         config_bb,
+    #         n_collisions_ip2,
+    #         n_collisions_ip8,
+    #         collider,
+    #         n_collisions_ip1_and_5,
+    #         crab,
+    #     )
 
-    else:
-        print(
-            "No leveling is done as no configuration has been provided, or skip_leveling"
-            " is set to True."
-        )
+    # else:
+    #     print(
+    #         "No leveling is done as no configuration has been provided, or skip_leveling"
+    #         " is set to True."
+    #     )
 
-    # Add linear coupling
-    collider = add_linear_coupling(conf_knobs_and_tuning, collider, config_mad)
+    # # Add linear coupling
+    # collider = add_linear_coupling(conf_knobs_and_tuning, collider, config_mad)
 
     # # Rematch tune and chromaticity
     # collider = match_tune_and_chroma(
     #     collider, conf_knobs_and_tuning, match_linear_coupling_to_zero=False
     # )
 
-    # Assert that tune, chromaticity and linear coupling are correct one last time
-    assert_tune_chroma_coupling(collider, conf_knobs_and_tuning)
+    # # Assert that tune, chromaticity and linear coupling are correct one last time
+    # assert_tune_chroma_coupling(collider, conf_knobs_and_tuning)
 
     # Return twiss and survey before beam-beam if requested
     if return_collider_before_bb:

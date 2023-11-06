@@ -24,7 +24,7 @@ config_collider:
       # phi_IR8: 180.000
 
       # Spurious dispersion correction
-      on_disp: 1.000
+      # on_disp: 1.000
 
       # Magnets of the experiments
       on_alice_normalized: 1
@@ -39,8 +39,8 @@ config_collider:
       lagrf400.b2: 0. # [rad]
 
       # Octupoles
-      i_oct_b1: 300. # [A]
-      i_oct_b2: 300. # [A]
+      i_oct_b1: 40. # [A]
+      i_oct_b2: 40. # [A]
 
     closed_orbit_correction:
       lhcb1: correction/corr_co_lhcb1.json
@@ -89,10 +89,10 @@ config_collider:
       ip2: 20
       ip5: 25
       ip8: 20
-    sigma_z: 0.09
-    num_particles_per_bunch: 1.15e11
-    nemitt_x: 2.2e-6
-    nemitt_y: 2.2e-6
+    sigma_z: 0.0761
+    num_particles_per_bunch: 1.4e11
+    nemitt_x: 2.5e-6
+    nemitt_y: 2.5e-6
     mask_with_filling_pattern:
       pattern_fname: ../filling_scheme/25ns_2228b_2216_1686_2112_hybrid_8b4e_2x56b_25ns_3x48b_12inj.json
       i_bunch_b1: 1963 # If not specified, the bunch with the worst schedule is chosen

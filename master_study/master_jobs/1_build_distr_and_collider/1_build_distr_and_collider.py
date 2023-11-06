@@ -106,6 +106,8 @@ def build_collider_from_mad(config_mad, sanity_checks=True):
 
     # Apply optics (only for b1b2, b4 will be generated from b1b2)
     ost.apply_optics(mad_b1b2, optics_file=config_mad["optics_file"])
+    if config_mad["settings_file"] is not None:
+        mad_b1b2.call(config_mad["settings_file"])
 
     if sanity_checks:
         mad_b1b2.use(sequence="lhcb1")

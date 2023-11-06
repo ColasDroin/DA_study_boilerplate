@@ -11,7 +11,8 @@ config_mad:
     acc-models-lhc: ../../../modules/2023
 
   # Optics file
-  optics_file: acc-models-lhc/operation/optics/R2023a_A10mC10mA10mL10m.madx
+  optics_file: acc-models-lhc/operation/optics/R2023a_A11mC11mA10mL10m_PhaseKnob100ON.madx
+  settings_file: acc-models-lhc/scenarios/pp_lumi/RAMP-SQUEEZE-6.8TeV-ATS-2m-2023_V1/0/settings.madx
 
   # Beam parameters
   beam_config:

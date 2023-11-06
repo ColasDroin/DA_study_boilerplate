@@ -49,9 +49,9 @@ def build_sequence(mad, mylhcbeam, ignore_cycling=False):
       ! Build sequence
       option, -echo,-warn,-info;
       if (mylhcbeam==4){{
-        call,file="acc-models-lhc/lhc_acc-models-lhc_b4.seq";
+        call,file="acc-models-lhc/lhcb4.seq";
       }} else {{
-        call,file="acc-models-lhc/lhc_acc-models-lhc.seq";
+        call,file="acc-models-lhc/lhc.seq";
       }};
       option, -echo, warn,-info;
       """)
@@ -63,9 +63,10 @@ def build_sequence(mad, mylhcbeam, ignore_cycling=False):
     mad.input("exec, myslice;")
 
     mad.input(f"""
-    nrj=6800;
-    beam,particle=proton,sequence=lhcb1,energy=nrj,npart=1.15E11,sige=4.5e-4;
-    beam,particle=proton,sequence=lhcb2,energy=nrj,bv = -1,npart=1.15E11,sige=4.5e-4;
+      beam, sequence=lhcb1, bv= 1, particle=proton, charge=1, mass=0.938272046,
+      pc= 450.0,   npart=1.2e11,kbunch=2556, ex=5.2126224777777785e-09,ey=5.2126224777777785e-09;
+      beam, sequence=lhcb2, bv=-1, particle=proton, charge=1, mass=0.938272046,
+      pc= 450.0,   npart=1.2e11,kbunch=2556, ex=5.2126224777777785e-09,ey=5.2126224777777785e-09;
     """)
 
     if not ignore_cycling:

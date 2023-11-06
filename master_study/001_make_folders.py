@@ -57,6 +57,7 @@ d_config_mad = {"beam_config": {"lhcb1": {}, "lhcb2": {}}, "links": {}}
 ### For run III
 d_config_mad["links"]["acc-models-lhc"] = "../../../../modules/2023"
 d_config_mad["optics_file"] = "acc-models-lhc/operation/optics/R2023a_A10mC10mA10mL10m.madx"
+d_config_mad["settings_file"] = "acc-models-lhc/scenarios/pp_lumi/RAMP-SQUEEZE-6.8TeV-ATS-2m-2023_V1/0/settings.madx"
 d_config_mad["ver_hllhc_optics"] = None
 d_config_mad["ver_lhc_run"] = 3.0
 
@@ -78,22 +79,22 @@ d_config_mad["beam_config"]["lhcb2"]["beam_energy_tot"] = beam_energy_tot
 
 ### Tune and chroma configuration
 
-# Define dictionnary for tune and chroma
+# # Define dictionnary for tune and chroma
 d_config_tune_and_chroma = {
     "qx": {},
     "qy": {},
     "dqx": {},
     "dqy": {},
 }
-for beam in ["lhcb1", "lhcb2"]:
-    d_config_tune_and_chroma["qx"][beam] = 62.31
-    d_config_tune_and_chroma["qy"][beam] = 60.32
-    d_config_tune_and_chroma["dqx"][beam] = 15.0
-    d_config_tune_and_chroma["dqy"][beam] = 15.0
+# for beam in ["lhcb1", "lhcb2"]:
+#     d_config_tune_and_chroma["qx"][beam] = 62.31
+#     d_config_tune_and_chroma["qy"][beam] = 60.32
+#     d_config_tune_and_chroma["dqx"][beam] = 15.0
+#     d_config_tune_and_chroma["dqy"][beam] = 15.0
 
-# Value to be added to linear coupling knobs
-d_config_tune_and_chroma["delta_cmr"] = 0.001
-d_config_tune_and_chroma["delta_cmi"] = 0.0
+# # Value to be added to linear coupling knobs
+# d_config_tune_and_chroma["delta_cmr"] = 0.001
+# d_config_tune_and_chroma["delta_cmi"] = 0.0
 
 ### Knobs configuration
 
@@ -122,8 +123,8 @@ d_config_knobs = {}
 # d_config_knobs["phi_IR8"] = 180.000
 
 # Octupoles
-d_config_knobs["i_oct_b1"] = 300.0
-d_config_knobs["i_oct_b2"] = 300.0
+d_config_knobs["i_oct_b1"] = 40.0
+d_config_knobs["i_oct_b2"] = 40.0
 
 ### leveling configuration
 
@@ -156,9 +157,9 @@ d_config_beambeam = {"mask_with_filling_pattern": {}}
 # Choose if beam beam is on or off
 d_config_beambeam['skip_beambeam'] = True
 # Beam settings
-d_config_beambeam["num_particles_per_bunch"] = 1.15e11
-d_config_beambeam["nemitt_x"] = 2.2e-6
-d_config_beambeam["nemitt_y"] = 2.2e-6
+# d_config_beambeam["num_particles_per_bunch"] = 1.15e11
+# d_config_beambeam["nemitt_x"] = 2.2e-6
+# d_config_beambeam["nemitt_y"] = 2.2e-6
 
 # Filling scheme (in json format)
 # The scheme should consist of a json file containing two lists of booleans (one for each beam),
@@ -338,9 +339,9 @@ for idx_job, (track, qx, qy) in enumerate(itertools.product(track_array, array_q
         pass
 
     # Mutate the appropriate collider parameters
-    for beam in ["lhcb1", "lhcb2"]:
-        d_config_collider["config_knobs_and_tuning"]["qx"][beam] = float(qx)
-        d_config_collider["config_knobs_and_tuning"]["qy"][beam] = float(qy)
+    # for beam in ["lhcb1", "lhcb2"]:
+    #     d_config_collider["config_knobs_and_tuning"]["qx"][beam] = float(qx)
+    #     d_config_collider["config_knobs_and_tuning"]["qy"][beam] = float(qy)
 
     # Complete the dictionnary for the tracking
     d_config_simulation["particle_file"] = f"../particles/{track:02}.parquet"
