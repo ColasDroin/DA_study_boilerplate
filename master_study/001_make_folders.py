@@ -55,7 +55,7 @@ d_config_mad = {"beam_config": {"lhcb1": {}, "lhcb2": {}}, "links": {}}
 # Optic file path (version, and round or flat)
 
 ### For run III
-d_config_mad["links"]["acc-models-lhc"] = "../../../modules/2023"
+d_config_mad["links"]["acc-models-lhc"] = "../../../../modules/2023"
 d_config_mad["optics_file"] = "acc-models-lhc/operation/optics/R2023a_A10mC10mA10mL10m.madx"
 d_config_mad["ver_hllhc_optics"] = None
 d_config_mad["ver_lhc_run"] = 3.0
@@ -291,13 +291,13 @@ dump_config_in_collider = False
 # optimal DA (e.g. tune, chroma, etc).
 # ==================================================================================================
 # Scan tune with step of 0.001 (need to round to correct for numpy numerical instabilities)
-array_qx = np.round(np.arange(62.305, 62.330, 0.001), decimals=4)[:5]
-array_qy = np.round(np.arange(60.305, 60.330, 0.001), decimals=4)[:5]
+array_qx = np.round(np.arange(62.305, 62.330, 0.001), decimals=4)[:1]
+array_qy = np.round(np.arange(60.305, 60.330, 0.001), decimals=4)[:1]
 
 # In case one is doing a tune-tune scan, to decrease the size of the scan, we can ignore the
 # working points too close to resonance. Otherwise just delete this variable in the loop at the end
 # of the script
-keep = "upper_triangle"  # 'lower_triangle', 'all'
+keep = 'all' # "upper_triangle"  # 'lower_triangle', 'all'
 # ==================================================================================================
 # --- Make tree for the simulations (generation 1)
 #

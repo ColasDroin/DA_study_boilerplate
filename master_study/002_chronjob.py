@@ -364,12 +364,16 @@ class ClusterSubmission:
                 aux = []
             if len(aux) > 1:
                 if "run.sh" in aux[-1]:
+                    print(aux)
                     job = str(Path(aux[-1]).parent)
 
-                    # Only get path after master_study
-                    job = job.split("master_study")[1]
-
-                    l_jobs.append(job + "/")
+                    try:
+                        # Only get path after master_study
+                        job = job.split("master_study")[1]
+                        l_jobs.append(job + "/")
+                    except IndexError:
+                        print("Warning, job path is not in master_study... Ignoring it.")
+                    
         return l_jobs
 
     @staticmethod
