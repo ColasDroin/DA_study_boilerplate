@@ -563,7 +563,7 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
     a = time.time()
 
     # Define steps for separation update
-    n_steps = 10
+    n_steps = 20
     initial_sep_1 = collider.vars["on_sep1"]._value
     initial_sep_5 = collider.vars["on_sep5"]._value
     num_turns_step = int(num_turns / (n_steps + 1))
@@ -674,8 +674,17 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
                 collider = configure_beam_beam(collider, config_bb)
             else:
                 print("Loading elements from dictionnary")
-                with open(f"../xtrack_0000_precompute/bb_elements_step_{i}.pkl", "rb") as fid:
-                    dic_elements = pickle.load(fid)
+                if i%4 == 0:
+                    with open(f"../xtrack_0000_precompute/bb_elements_step_{i}.pkl", "rb") as fid:
+                        dic_elements = pickle.load(fid)
+                else:
+                    with open(f"../xtrack_0000_precompute/bb_elements_step_{i//4}.pkl", "rb") as fid:
+                        dic_elements_1 = pickle.load(fid)
+                    with open(f"../xtrack_0000_precompute/bb_elements_step_{i//4+1}.pkl", "rb") as fid:
+                        dic_elements_2 = pickle.load(fid)
+                    #TODO
+
+
                 for beam_temp in ["lhcb1", "lhcb2"]:
                     for element in dic_elements[beam_temp]:
                         if "bb_ho" in element:

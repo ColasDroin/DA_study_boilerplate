@@ -201,7 +201,7 @@ No beam-beam configuration is done as skip_beambeam is set to True.
 Saving "collider.json
 Warning! scale_with_transverse_norm_emitt is deprecated. Use nemitt_x and nemitt_y instead.
 Updating on_sep1 to -0.55 on_sep5 to 0.55
-Configuring beam-beam with configure_beambeam_interactions (f2023-11-02 17:58:36.695853)
+Configuring beam-beam with configure_beambeam_interactions (f2023-11-06 17:41:06.577033)
 Crabbing at bb_ho.l1b1_01     Compiling ContextCpu kernels...
 Done compiling ContextCpu kernels.
 Crabbing at bb_ho.l1b1_02     Crabbing at bb_ho.l1b1_03     Crabbing at bb_ho.l1b1_04     Crabbing at bb_ho.l1b1_05     Crabbing at bb_ho.l2b1_01     Crabbing at bb_ho.l2b1_02     Crabbing at bb_ho.l2b1_03     Crabbing at bb_ho.l2b1_04     Crabbing at bb_ho.l2b1_05     Crabbing at bb_ho.l5b1_01     Crabbing at bb_ho.l5b1_02     Crabbing at bb_ho.l5b1_03     Crabbing at bb_ho.l5b1_04     Crabbing at bb_ho.l5b1_05     Crabbing at bb_ho.l8b1_01     Crabbing at bb_ho.l8b1_02     Crabbing at bb_ho.l8b1_03     Crabbing at bb_ho.l8b1_04     Crabbing at bb_ho.l8b1_05     Crabbing at bb_ho.r1b1_01     Crabbing at bb_ho.r1b1_02     Crabbing at bb_ho.r1b1_03     Crabbing at bb_ho.r1b1_04     Crabbing at bb_ho.r1b1_05     Crabbing at bb_ho.r2b1_01     Crabbing at bb_ho.r2b1_02     Crabbing at bb_ho.r2b1_03     Crabbing at bb_ho.r2b1_04     Crabbing at bb_ho.r2b1_05     Crabbing at bb_ho.r5b1_01     Crabbing at bb_ho.r5b1_02     Crabbing at bb_ho.r5b1_03     Crabbing at bb_ho.r5b1_04     Crabbing at bb_ho.r5b1_05     Crabbing at bb_ho.r8b1_01     Crabbing at bb_ho.r8b1_02     Crabbing at bb_ho.r8b1_03     Crabbing at bb_ho.r8b1_04     Crabbing at bb_ho.r8b1_05     Crabbing at bb_ho.l1b2_01     Compiling ContextCpu kernels...
@@ -366,11 +366,11 @@ Compiling ContextCpu kernels...
 Done compiling ContextCpu kernels.
 Compiling ContextCpu kernels...
 Done compiling ContextCpu kernels.
-Configuring beam-beam with apply_filing_pattern (f2023-11-02 18:02:53.197892)
-Done configuring (f2023-11-02 18:02:53.221866)
+Configuring beam-beam with apply_filing_pattern (f2023-11-06 17:45:17.494951)
+Done configuring (f2023-11-06 17:45:17.519670)
 Dumping elements in dictionnary
-Updating on_sep1 to -0.41250000000000003 on_sep5 to 0.41250000000000003
-Configuring beam-beam with configure_beambeam_interactions (f2023-11-02 18:02:56.869191)
+Updating on_sep1 to -0.44000000000000006 on_sep5 to 0.44000000000000006
+Configuring beam-beam with configure_beambeam_interactions (f2023-11-06 17:45:21.300841)
 Crabbing at bb_ho.l1b1_01     Crabbing at bb_ho.l1b1_02     Crabbing at bb_ho.l1b1_03     Crabbing at bb_ho.l1b1_04     Crabbing at bb_ho.l1b1_05     Crabbing at bb_ho.l2b1_01     Crabbing at bb_ho.l2b1_02     Crabbing at bb_ho.l2b1_03     Crabbing at bb_ho.l2b1_04     Crabbing at bb_ho.l2b1_05     Crabbing at bb_ho.l5b1_01     Crabbing at bb_ho.l5b1_02     Crabbing at bb_ho.l5b1_03     Crabbing at bb_ho.l5b1_04     Crabbing at bb_ho.l5b1_05     Crabbing at bb_ho.l8b1_01     Crabbing at bb_ho.l8b1_02     Crabbing at bb_ho.l8b1_03     Crabbing at bb_ho.l8b1_04     Crabbing at bb_ho.l8b1_05     Crabbing at bb_ho.r1b1_01     Crabbing at bb_ho.r1b1_02     Crabbing at bb_ho.r1b1_03     Crabbing at bb_ho.r1b1_04     Crabbing at bb_ho.r1b1_05     Crabbing at bb_ho.r2b1_01     Crabbing at bb_ho.r2b1_02     Crabbing at bb_ho.r2b1_03     Crabbing at bb_ho.r2b1_04     Crabbing at bb_ho.r2b1_05     Crabbing at bb_ho.r5b1_01     Crabbing at bb_ho.r5b1_02     Crabbing at bb_ho.r5b1_03     Crabbing at bb_ho.r5b1_04     Crabbing at bb_ho.r5b1_05     Crabbing at bb_ho.r8b1_01     Crabbing at bb_ho.r8b1_02     Crabbing at bb_ho.r8b1_03     Crabbing at bb_ho.r8b1_04     Crabbing at bb_ho.r8b1_05     Crabbing at bb_ho.l1b2_01     Crabbing at bb_ho.l1b2_02     Crabbing at bb_ho.l1b2_03     Crabbing at bb_ho.l1b2_04     Crabbing at bb_ho.l1b2_05     Crabbing at bb_ho.l2b2_01     Crabbing at bb_ho.l2b2_02     Crabbing at bb_ho.l2b2_03     Crabbing at bb_ho.l2b2_04     Crabbing at bb_ho.l2b2_05     Crabbing at bb_ho.l5b2_01     Crabbing at bb_ho.l5b2_02     Crabbing at bb_ho.l5b2_03     Crabbing at bb_ho.l5b2_04     Crabbing at bb_ho.l5b2_05     Crabbing at bb_ho.l8b2_01     Crabbing at bb_ho.l8b2_02     Crabbing at bb_ho.l8b2_03     Crabbing at bb_ho.l8b2_04     Crabbing at bb_ho.l8b2_05     Crabbing at bb_ho.r1b2_01     Crabbing at bb_ho.r1b2_02     Crabbing at bb_ho.r1b2_03     Crabbing at bb_ho.r1b2_04     Crabbing at bb_ho.r1b2_05     Crabbing at bb_ho.r2b2_01     Crabbing at bb_ho.r2b2_02     Crabbing at bb_ho.r2b2_03     Crabbing at bb_ho.r2b2_04     Crabbing at bb_ho.r2b2_05     Crabbing at bb_ho.r5b2_01     Crabbing at bb_ho.r5b2_02     Crabbing at bb_ho.r5b2_03     Crabbing at bb_ho.r5b2_04     Crabbing at bb_ho.r5b2_05     Crabbing at bb_ho.r8b2_01     Crabbing at bb_ho.r8b2_02     Crabbing at bb_ho.r8b2_03     Crabbing at bb_ho.r8b2_04     Crabbing at bb_ho.r8b2_05     bb_lr.l1b1_17 Reference systems are not parallel
 Smaller that 5e-3, tolerated.
 bb_lr.l1b1_18 Reference systems are not parallel
@@ -515,11 +515,11 @@ bb_lr.r5b2_24 Reference systems are not parallel
 Smaller that 5e-3, tolerated.
 bb_lr.r5b2_25 Reference systems are not parallel
 Smaller that 5e-3, tolerated.
-Configuring beam-beam with apply_filing_pattern (f2023-11-02 18:06:01.927905)
-Done configuring (f2023-11-02 18:06:01.953288)
+Configuring beam-beam with apply_filing_pattern (f2023-11-06 17:48:22.591194)
+Done configuring (f2023-11-06 17:48:22.617166)
 Dumping elements in dictionnary
-Updating on_sep1 to -0.275 on_sep5 to 0.275
-Configuring beam-beam with configure_beambeam_interactions (f2023-11-02 18:06:05.645705)
+Updating on_sep1 to -0.33 on_sep5 to 0.33
+Configuring beam-beam with configure_beambeam_interactions (f2023-11-06 17:48:26.416900)
 Crabbing at bb_ho.l1b1_01     Crabbing at bb_ho.l1b1_02     Crabbing at bb_ho.l1b1_03     Crabbing at bb_ho.l1b1_04     Crabbing at bb_ho.l1b1_05     Crabbing at bb_ho.l2b1_01     Crabbing at bb_ho.l2b1_02     Crabbing at bb_ho.l2b1_03     Crabbing at bb_ho.l2b1_04     Crabbing at bb_ho.l2b1_05     Crabbing at bb_ho.l5b1_01     Crabbing at bb_ho.l5b1_02     Crabbing at bb_ho.l5b1_03     Crabbing at bb_ho.l5b1_04     Crabbing at bb_ho.l5b1_05     Crabbing at bb_ho.l8b1_01     Crabbing at bb_ho.l8b1_02     Crabbing at bb_ho.l8b1_03     Crabbing at bb_ho.l8b1_04     Crabbing at bb_ho.l8b1_05     Crabbing at bb_ho.r1b1_01     Crabbing at bb_ho.r1b1_02     Crabbing at bb_ho.r1b1_03     Crabbing at bb_ho.r1b1_04     Crabbing at bb_ho.r1b1_05     Crabbing at bb_ho.r2b1_01     Crabbing at bb_ho.r2b1_02     Crabbing at bb_ho.r2b1_03     Crabbing at bb_ho.r2b1_04     Crabbing at bb_ho.r2b1_05     Crabbing at bb_ho.r5b1_01     Crabbing at bb_ho.r5b1_02     Crabbing at bb_ho.r5b1_03     Crabbing at bb_ho.r5b1_04     Crabbing at bb_ho.r5b1_05     Crabbing at bb_ho.r8b1_01     Crabbing at bb_ho.r8b1_02     Crabbing at bb_ho.r8b1_03     Crabbing at bb_ho.r8b1_04     Crabbing at bb_ho.r8b1_05     Crabbing at bb_ho.l1b2_01     Crabbing at bb_ho.l1b2_02     Crabbing at bb_ho.l1b2_03     Crabbing at bb_ho.l1b2_04     Crabbing at bb_ho.l1b2_05     Crabbing at bb_ho.l2b2_01     Crabbing at bb_ho.l2b2_02     Crabbing at bb_ho.l2b2_03     Crabbing at bb_ho.l2b2_04     Crabbing at bb_ho.l2b2_05     Crabbing at bb_ho.l5b2_01     Crabbing at bb_ho.l5b2_02     Crabbing at bb_ho.l5b2_03     Crabbing at bb_ho.l5b2_04     Crabbing at bb_ho.l5b2_05     Crabbing at bb_ho.l8b2_01     Crabbing at bb_ho.l8b2_02     Crabbing at bb_ho.l8b2_03     Crabbing at bb_ho.l8b2_04     Crabbing at bb_ho.l8b2_05     Crabbing at bb_ho.r1b2_01     Crabbing at bb_ho.r1b2_02     Crabbing at bb_ho.r1b2_03     Crabbing at bb_ho.r1b2_04     Crabbing at bb_ho.r1b2_05     Crabbing at bb_ho.r2b2_01     Crabbing at bb_ho.r2b2_02     Crabbing at bb_ho.r2b2_03     Crabbing at bb_ho.r2b2_04     Crabbing at bb_ho.r2b2_05     Crabbing at bb_ho.r5b2_01     Crabbing at bb_ho.r5b2_02     Crabbing at bb_ho.r5b2_03     Crabbing at bb_ho.r5b2_04     Crabbing at bb_ho.r5b2_05     Crabbing at bb_ho.r8b2_01     Crabbing at bb_ho.r8b2_02     Crabbing at bb_ho.r8b2_03     Crabbing at bb_ho.r8b2_04     Crabbing at bb_ho.r8b2_05     bb_lr.l1b1_17 Reference systems are not parallel
 Smaller that 5e-3, tolerated.
 bb_lr.l1b1_18 Reference systems are not parallel
@@ -664,11 +664,11 @@ bb_lr.r5b2_24 Reference systems are not parallel
 Smaller that 5e-3, tolerated.
 bb_lr.r5b2_25 Reference systems are not parallel
 Smaller that 5e-3, tolerated.
-Configuring beam-beam with apply_filing_pattern (f2023-11-02 18:09:13.846561)
-Done configuring (f2023-11-02 18:09:13.872067)
+Configuring beam-beam with apply_filing_pattern (f2023-11-06 17:51:29.804283)
+Done configuring (f2023-11-06 17:51:29.828641)
 Dumping elements in dictionnary
-Updating on_sep1 to -0.1375 on_sep5 to 0.1375
-Configuring beam-beam with configure_beambeam_interactions (f2023-11-02 18:09:17.379766)
+Updating on_sep1 to -0.21999999999999997 on_sep5 to 0.21999999999999997
+Configuring beam-beam with configure_beambeam_interactions (f2023-11-06 17:51:33.681692)
 Crabbing at bb_ho.l1b1_01     Crabbing at bb_ho.l1b1_02     Crabbing at bb_ho.l1b1_03     Crabbing at bb_ho.l1b1_04     Crabbing at bb_ho.l1b1_05     Crabbing at bb_ho.l2b1_01     Crabbing at bb_ho.l2b1_02     Crabbing at bb_ho.l2b1_03     Crabbing at bb_ho.l2b1_04     Crabbing at bb_ho.l2b1_05     Crabbing at bb_ho.l5b1_01     Crabbing at bb_ho.l5b1_02     Crabbing at bb_ho.l5b1_03     Crabbing at bb_ho.l5b1_04     Crabbing at bb_ho.l5b1_05     Crabbing at bb_ho.l8b1_01     Crabbing at bb_ho.l8b1_02     Crabbing at bb_ho.l8b1_03     Crabbing at bb_ho.l8b1_04     Crabbing at bb_ho.l8b1_05     Crabbing at bb_ho.r1b1_01     Crabbing at bb_ho.r1b1_02     Crabbing at bb_ho.r1b1_03     Crabbing at bb_ho.r1b1_04     Crabbing at bb_ho.r1b1_05     Crabbing at bb_ho.r2b1_01     Crabbing at bb_ho.r2b1_02     Crabbing at bb_ho.r2b1_03     Crabbing at bb_ho.r2b1_04     Crabbing at bb_ho.r2b1_05     Crabbing at bb_ho.r5b1_01     Crabbing at bb_ho.r5b1_02     Crabbing at bb_ho.r5b1_03     Crabbing at bb_ho.r5b1_04     Crabbing at bb_ho.r5b1_05     Crabbing at bb_ho.r8b1_01     Crabbing at bb_ho.r8b1_02     Crabbing at bb_ho.r8b1_03     Crabbing at bb_ho.r8b1_04     Crabbing at bb_ho.r8b1_05     Crabbing at bb_ho.l1b2_01     Crabbing at bb_ho.l1b2_02     Crabbing at bb_ho.l1b2_03     Crabbing at bb_ho.l1b2_04     Crabbing at bb_ho.l1b2_05     Crabbing at bb_ho.l2b2_01     Crabbing at bb_ho.l2b2_02     Crabbing at bb_ho.l2b2_03     Crabbing at bb_ho.l2b2_04     Crabbing at bb_ho.l2b2_05     Crabbing at bb_ho.l5b2_01     Crabbing at bb_ho.l5b2_02     Crabbing at bb_ho.l5b2_03     Crabbing at bb_ho.l5b2_04     Crabbing at bb_ho.l5b2_05     Crabbing at bb_ho.l8b2_01     Crabbing at bb_ho.l8b2_02     Crabbing at bb_ho.l8b2_03     Crabbing at bb_ho.l8b2_04     Crabbing at bb_ho.l8b2_05     Crabbing at bb_ho.r1b2_01     Crabbing at bb_ho.r1b2_02     Crabbing at bb_ho.r1b2_03     Crabbing at bb_ho.r1b2_04     Crabbing at bb_ho.r1b2_05     Crabbing at bb_ho.r2b2_01     Crabbing at bb_ho.r2b2_02     Crabbing at bb_ho.r2b2_03     Crabbing at bb_ho.r2b2_04     Crabbing at bb_ho.r2b2_05     Crabbing at bb_ho.r5b2_01     Crabbing at bb_ho.r5b2_02     Crabbing at bb_ho.r5b2_03     Crabbing at bb_ho.r5b2_04     Crabbing at bb_ho.r5b2_05     Crabbing at bb_ho.r8b2_01     Crabbing at bb_ho.r8b2_02     Crabbing at bb_ho.r8b2_03     Crabbing at bb_ho.r8b2_04     Crabbing at bb_ho.r8b2_05     bb_lr.l1b1_17 Reference systems are not parallel
 Smaller that 5e-3, tolerated.
 bb_lr.l1b1_18 Reference systems are not parallel
@@ -813,11 +813,160 @@ bb_lr.r5b2_24 Reference systems are not parallel
 Smaller that 5e-3, tolerated.
 bb_lr.r5b2_25 Reference systems are not parallel
 Smaller that 5e-3, tolerated.
-Configuring beam-beam with apply_filing_pattern (f2023-11-02 18:12:23.297762)
-Done configuring (f2023-11-02 18:12:23.323024)
+Configuring beam-beam with apply_filing_pattern (f2023-11-06 17:54:29.438676)
+Done configuring (f2023-11-06 17:54:29.462815)
+Dumping elements in dictionnary
+Updating on_sep1 to -0.10999999999999999 on_sep5 to 0.10999999999999999
+Configuring beam-beam with configure_beambeam_interactions (f2023-11-06 17:54:32.931145)
+Crabbing at bb_ho.l1b1_01     Crabbing at bb_ho.l1b1_02     Crabbing at bb_ho.l1b1_03     Crabbing at bb_ho.l1b1_04     Crabbing at bb_ho.l1b1_05     Crabbing at bb_ho.l2b1_01     Crabbing at bb_ho.l2b1_02     Crabbing at bb_ho.l2b1_03     Crabbing at bb_ho.l2b1_04     Crabbing at bb_ho.l2b1_05     Crabbing at bb_ho.l5b1_01     Crabbing at bb_ho.l5b1_02     Crabbing at bb_ho.l5b1_03     Crabbing at bb_ho.l5b1_04     Crabbing at bb_ho.l5b1_05     Crabbing at bb_ho.l8b1_01     Crabbing at bb_ho.l8b1_02     Crabbing at bb_ho.l8b1_03     Crabbing at bb_ho.l8b1_04     Crabbing at bb_ho.l8b1_05     Crabbing at bb_ho.r1b1_01     Crabbing at bb_ho.r1b1_02     Crabbing at bb_ho.r1b1_03     Crabbing at bb_ho.r1b1_04     Crabbing at bb_ho.r1b1_05     Crabbing at bb_ho.r2b1_01     Crabbing at bb_ho.r2b1_02     Crabbing at bb_ho.r2b1_03     Crabbing at bb_ho.r2b1_04     Crabbing at bb_ho.r2b1_05     Crabbing at bb_ho.r5b1_01     Crabbing at bb_ho.r5b1_02     Crabbing at bb_ho.r5b1_03     Crabbing at bb_ho.r5b1_04     Crabbing at bb_ho.r5b1_05     Crabbing at bb_ho.r8b1_01     Crabbing at bb_ho.r8b1_02     Crabbing at bb_ho.r8b1_03     Crabbing at bb_ho.r8b1_04     Crabbing at bb_ho.r8b1_05     Crabbing at bb_ho.l1b2_01     Crabbing at bb_ho.l1b2_02     Crabbing at bb_ho.l1b2_03     Crabbing at bb_ho.l1b2_04     Crabbing at bb_ho.l1b2_05     Crabbing at bb_ho.l2b2_01     Crabbing at bb_ho.l2b2_02     Crabbing at bb_ho.l2b2_03     Crabbing at bb_ho.l2b2_04     Crabbing at bb_ho.l2b2_05     Crabbing at bb_ho.l5b2_01     Crabbing at bb_ho.l5b2_02     Crabbing at bb_ho.l5b2_03     Crabbing at bb_ho.l5b2_04     Crabbing at bb_ho.l5b2_05     Crabbing at bb_ho.l8b2_01     Crabbing at bb_ho.l8b2_02     Crabbing at bb_ho.l8b2_03     Crabbing at bb_ho.l8b2_04     Crabbing at bb_ho.l8b2_05     Crabbing at bb_ho.r1b2_01     Crabbing at bb_ho.r1b2_02     Crabbing at bb_ho.r1b2_03     Crabbing at bb_ho.r1b2_04     Crabbing at bb_ho.r1b2_05     Crabbing at bb_ho.r2b2_01     Crabbing at bb_ho.r2b2_02     Crabbing at bb_ho.r2b2_03     Crabbing at bb_ho.r2b2_04     Crabbing at bb_ho.r2b2_05     Crabbing at bb_ho.r5b2_01     Crabbing at bb_ho.r5b2_02     Crabbing at bb_ho.r5b2_03     Crabbing at bb_ho.r5b2_04     Crabbing at bb_ho.r5b2_05     Crabbing at bb_ho.r8b2_01     Crabbing at bb_ho.r8b2_02     Crabbing at bb_ho.r8b2_03     Crabbing at bb_ho.r8b2_04     Crabbing at bb_ho.r8b2_05     bb_lr.l1b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+Configuring beam-beam with apply_filing_pattern (f2023-11-06 17:57:26.401031)
+Done configuring (f2023-11-06 17:57:26.426287)
 Dumping elements in dictionnary
 Updating on_sep1 to 0.0 on_sep5 to 0.0
-Configuring beam-beam with configure_beambeam_interactions (f2023-11-02 18:12:27.023979)
+Configuring beam-beam with configure_beambeam_interactions (f2023-11-06 17:57:29.906703)
 Crabbing at bb_ho.l1b1_01     Crabbing at bb_ho.l1b1_02     Crabbing at bb_ho.l1b1_03     Crabbing at bb_ho.l1b1_04     Crabbing at bb_ho.l1b1_05     Crabbing at bb_ho.l2b1_01     Crabbing at bb_ho.l2b1_02     Crabbing at bb_ho.l2b1_03     Crabbing at bb_ho.l2b1_04     Crabbing at bb_ho.l2b1_05     Crabbing at bb_ho.l5b1_01     Crabbing at bb_ho.l5b1_02     Crabbing at bb_ho.l5b1_03     Crabbing at bb_ho.l5b1_04     Crabbing at bb_ho.l5b1_05     Crabbing at bb_ho.l8b1_01     Crabbing at bb_ho.l8b1_02     Crabbing at bb_ho.l8b1_03     Crabbing at bb_ho.l8b1_04     Crabbing at bb_ho.l8b1_05     Crabbing at bb_ho.r1b1_01     Crabbing at bb_ho.r1b1_02     Crabbing at bb_ho.r1b1_03     Crabbing at bb_ho.r1b1_04     Crabbing at bb_ho.r1b1_05     Crabbing at bb_ho.r2b1_01     Crabbing at bb_ho.r2b1_02     Crabbing at bb_ho.r2b1_03     Crabbing at bb_ho.r2b1_04     Crabbing at bb_ho.r2b1_05     Crabbing at bb_ho.r5b1_01     Crabbing at bb_ho.r5b1_02     Crabbing at bb_ho.r5b1_03     Crabbing at bb_ho.r5b1_04     Crabbing at bb_ho.r5b1_05     Crabbing at bb_ho.r8b1_01     Crabbing at bb_ho.r8b1_02     Crabbing at bb_ho.r8b1_03     Crabbing at bb_ho.r8b1_04     Crabbing at bb_ho.r8b1_05     Crabbing at bb_ho.l1b2_01     Crabbing at bb_ho.l1b2_02     Crabbing at bb_ho.l1b2_03     Crabbing at bb_ho.l1b2_04     Crabbing at bb_ho.l1b2_05     Crabbing at bb_ho.l2b2_01     Crabbing at bb_ho.l2b2_02     Crabbing at bb_ho.l2b2_03     Crabbing at bb_ho.l2b2_04     Crabbing at bb_ho.l2b2_05     Crabbing at bb_ho.l5b2_01     Crabbing at bb_ho.l5b2_02     Crabbing at bb_ho.l5b2_03     Crabbing at bb_ho.l5b2_04     Crabbing at bb_ho.l5b2_05     Crabbing at bb_ho.l8b2_01     Crabbing at bb_ho.l8b2_02     Crabbing at bb_ho.l8b2_03     Crabbing at bb_ho.l8b2_04     Crabbing at bb_ho.l8b2_05     Crabbing at bb_ho.r1b2_01     Crabbing at bb_ho.r1b2_02     Crabbing at bb_ho.r1b2_03     Crabbing at bb_ho.r1b2_04     Crabbing at bb_ho.r1b2_05     Crabbing at bb_ho.r2b2_01     Crabbing at bb_ho.r2b2_02     Crabbing at bb_ho.r2b2_03     Crabbing at bb_ho.r2b2_04     Crabbing at bb_ho.r2b2_05     Crabbing at bb_ho.r5b2_01     Crabbing at bb_ho.r5b2_02     Crabbing at bb_ho.r5b2_03     Crabbing at bb_ho.r5b2_04     Crabbing at bb_ho.r5b2_05     Crabbing at bb_ho.r8b2_01     Crabbing at bb_ho.r8b2_02     Crabbing at bb_ho.r8b2_03     Crabbing at bb_ho.r8b2_04     Crabbing at bb_ho.r8b2_05     bb_lr.l1b1_17 Reference systems are not parallel
 Smaller that 5e-3, tolerated.
 bb_lr.l1b1_18 Reference systems are not parallel
@@ -962,12 +1111,12 @@ bb_lr.r5b2_24 Reference systems are not parallel
 Smaller that 5e-3, tolerated.
 bb_lr.r5b2_25 Reference systems are not parallel
 Smaller that 5e-3, tolerated.
-Configuring beam-beam with apply_filing_pattern (f2023-11-02 18:15:35.389102)
-Done configuring (f2023-11-02 18:15:35.414626)
+Configuring beam-beam with apply_filing_pattern (f2023-11-06 18:00:24.236489)
+Done configuring (f2023-11-06 18:00:24.260231)
 Dumping elements in dictionnary
-Total time simulation: 1022.2294793128967 s
-Total time reconfiguration: 1022.1611530780792 s
-Average time per reconfiguration: 204.43223061561585 s
+Total time simulation: 1161.4202818870544 s
+Total time reconfiguration: 1161.330631494522 s
+Average time per reconfiguration: 193.555105249087 s
 Total time tracking: 0 s
 Average time tracking per turn: 0.0 s
-Elapsed time per particle per turn: 31.94467320293188 us
+Elapsed time per particle per turn: 95.78724426584145 us
