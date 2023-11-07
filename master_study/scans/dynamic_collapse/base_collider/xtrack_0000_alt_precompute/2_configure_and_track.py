@@ -689,10 +689,28 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
                 fraction = (i % factor) / factor
                 for beam_temp in ["lhcb1", "lhcb2"]:
                     for element in dic_elements[beam_temp]:
-                        dic_elements[beam_temp][element] = (
-                            dic_elements[beam_temp][element] * (1 - fraction)
-                            + dic_elements_2[beam_temp][element] * fraction
-                        )
+                        if "bb_ho" in element:
+                            set_attr = set_attr_ho
+                        elif "bb_lr" in element:
+                            set_attr = set_attr_lr
+                        else:
+                            raise ValueError("Unknown beam-beam element.")
+                        for attr in set_attr:
+                            attr_val = getattr(dic_elements[beam_temp][element], attr)
+                            attr_val_2 = getattr(dic_elements_2[beam_temp][element], attr)
+                            if isinstance(attr_val, list):
+                                for i, sub_attr in enumerate(attr_val):
+                                    attr_val[i] = (
+                                        attr_val[i] * (1 - fraction) + attr_val_2[i] * fraction
+                                    )
+                            else:
+                                attr_val = attr_val * (1 - fraction) + attr_val_2 * fraction
+                            # Update value
+                            setattr(
+                                dic_elements[beam_temp][element],
+                                attr,
+                                attr_val,
+                            )
 
                 # Dump bb elements in a pickle
                 with open(f"bb_elements_step_{i}.pkl", "wb") as fid:
