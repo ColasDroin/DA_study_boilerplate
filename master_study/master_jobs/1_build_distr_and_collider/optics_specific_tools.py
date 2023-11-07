@@ -57,16 +57,16 @@ def build_sequence(mad, mylhcbeam, ignore_cycling=False):
       """)
 
     # Redefine macro for myslice
-    my_slice(mad, slice_factor=4)
+    my_slice(mad, slice_factor=6)
 
     # Slice nominal sequence
     mad.input("exec, myslice;")
 
     mad.input(f"""
       beam, sequence=lhcb1, bv= 1, particle=proton, charge=1, mass=0.938272046,
-      pc= 450.0,   npart=1.2e11,kbunch=2556, ex=5.2126224777777785e-09,ey=5.2126224777777785e-09;
+      npart=1.2e11,kbunch=2556, ex=5.2126224777777785e-09,ey=5.2126224777777785e-09;
       beam, sequence=lhcb2, bv=-1, particle=proton, charge=1, mass=0.938272046,
-      pc= 450.0,   npart=1.2e11,kbunch=2556, ex=5.2126224777777785e-09,ey=5.2126224777777785e-09;
+      npart=1.2e11,kbunch=2556, ex=5.2126224777777785e-09,ey=5.2126224777777785e-09;
     """)
 
     if not ignore_cycling:
@@ -91,13 +91,13 @@ def apply_optics(mad, optics_file):
     mad.input("on_lhcb := on_lhcb_normalized * 7000./nrj;")
 
 
-def my_slice(mad, slice_factor=2):
+def my_slice(mad, slice_factor=4):
     mad.input(f"slicefactor = {slice_factor};")
     mad.input("""
         myslice: macro = {
         if (MBX.4L2->l>0) {
           select, flag=makethin, clear;
-          select, flag=makethin, class=mb, slice=2;
+          select, flag=makethin, class=mb, slice=2 * slicefactor / 2;
           select, flag=makethin, class=mq, slice=2 * slicefactor;
           select, flag=makethin, class=mqxa,  slice=16 * slicefactor;  !old triplet
           select, flag=makethin, class=mqxb,  slice=16 * slicefactor;  !old triplet
@@ -105,17 +105,17 @@ def my_slice(mad, slice_factor=2):
           select, flag=makethin, class=mqxd,  slice=16 * slicefactor;  !new mqxb (q2a,q2b)
           select, flag=makethin, class=mqxfa, slice=16 * slicefactor;  !new (q1,q3 v1.1)
           select, flag=makethin, class=mqxfb, slice=16 * slicefactor;  !new (q2a,q2b v1.1)
-          select, flag=makethin, class=mbxa,  slice=4;   !new d1
-          select, flag=makethin, class=mbxf,  slice=4;   !new d1 (v1.1)
-          select, flag=makethin, class=mbrd,  slice=4;   !new d2 (if needed)
+          select, flag=makethin, class=mbxa,  slice=4 * slicefactor / 2 ;   !new d1
+          select, flag=makethin, class=mbxf,  slice=4 * slicefactor / 2;   !new d1 (v1.1)
+          select, flag=makethin, class=mbrd,  slice=4 * slicefactor / 2;   !new d2 (if needed)
           select, flag=makethin, class=mqyy,  slice=4 * slicefactor;;   !new q4
           select, flag=makethin, class=mqyl,  slice=4 * slicefactor;;   !new q5
           select, flag=makethin, class=mbh,   slice=4;   !11T dipoles
-          select, flag=makethin, pattern=mbx\.,    slice=4;
-          select, flag=makethin, pattern=mbrb\.,   slice=4;
-          select, flag=makethin, pattern=mbrc\.,   slice=4;
-          select, flag=makethin, pattern=mbrs\.,   slice=4;
-          select, flag=makethin, pattern=mbh\.,    slice=4;
+          select, flag=makethin, pattern=mbx\.,    slice=4 * slicefactor / 2;
+          select, flag=makethin, pattern=mbrb\.,   slice=4 * slicefactor / 2;
+          select, flag=makethin, pattern=mbrc\.,   slice=4 * slicefactor / 2;
+          select, flag=makethin, pattern=mbrs\.,   slice=4 * slicefactor / 2;
+          select, flag=makethin, pattern=mbh\.,    slice=4 * slicefactor / 2;
           select, flag=makethin, pattern=mqwa\.,   slice=4 * slicefactor;
           select, flag=makethin, pattern=mqwb\.,   slice=4 * slicefactor;
           select, flag=makethin, pattern=mqy\.,    slice=4 * slicefactor;
