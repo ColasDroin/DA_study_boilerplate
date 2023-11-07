@@ -2,6 +2,7 @@
 are called sequentially, in the order in which they are defined. Modularity has been favored over 
 simple scripting for reproducibility, to allow rebuilding the collider from a different program 
 (e.g. dahsboard)."""
+
 # ==================================================================================================
 # --- Imports
 # ==================================================================================================
@@ -659,6 +660,7 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
     }
 
     time_start = time.time()
+    factor = int(20 / 5)
     for i in range(n_steps + 1):
         # Update separation and reconfigure beambeam
         collider.vars["on_sep1"] = initial_sep_1 - i * sep_1_step
@@ -674,16 +676,27 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
                 collider = configure_beam_beam(collider, config_bb)
             else:
                 print("Loading elements from dictionnary")
-                if i%4 == 0:
-                    with open(f"../xtrack_0000_precompute/bb_elements_step_{i}.pkl", "rb") as fid:
-                        dic_elements = pickle.load(fid)
-                else:
-                    with open(f"../xtrack_0000_precompute/bb_elements_step_{i//4}.pkl", "rb") as fid:
-                        dic_elements_1 = pickle.load(fid)
-                    with open(f"../xtrack_0000_precompute/bb_elements_step_{i//4+1}.pkl", "rb") as fid:
-                        dic_elements_2 = pickle.load(fid)
-                    #TODO
+                with open(
+                    f"../xtrack_0000_precompute/bb_elements_step_{i//factor}.pkl", "rb"
+                ) as fid:
+                    dic_elements = pickle.load(fid)
+                with open(
+                    f"../xtrack_0000_precompute/bb_elements_step_{i//factor+1}.pkl", "rb"
+                ) as fid:
+                    dic_elements_2 = pickle.load(fid)
 
+                # Interpolate element values
+                fraction = (i % factor) / factor
+                for beam_temp in ["lhcb1", "lhcb2"]:
+                    for element in dic_elements[beam_temp]:
+                        dic_elements[beam_temp][element] = (
+                            dic_elements[beam_temp][element] * (1 - fraction)
+                            + dic_elements_2[beam_temp][element] * fraction
+                        )
+
+                # Dump bb elements in a pickle
+                with open(f"bb_elements_step_{i}.pkl", "wb") as fid:
+                    pickle.dump(dic_elements, fid)
 
                 for beam_temp in ["lhcb1", "lhcb2"]:
                     for element in dic_elements[beam_temp]:
