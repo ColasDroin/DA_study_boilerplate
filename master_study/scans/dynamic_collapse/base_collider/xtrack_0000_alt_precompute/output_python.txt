@@ -172,4 +172,38 @@ Matching: model call n. 0       Matching: model call n. 1
 Correcting IR5 right
 Compiling ContextCpu kernels...
 Done compiling ContextCpu kernels.
-Matching: model call n. 0       Matching: model call n. 1       
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IP1
+Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IP2
+Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IP5
+Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IP8
+Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Matching tune and chromaticity
+Matching: model call n. 0       Matching: model call n. 1       
+
+No beam-beam configuration is done as skip_beambeam is set to True.
+Saving "collider.json
+Warning! scale_with_transverse_norm_emitt is deprecated. Use nemitt_x and nemitt_y instead.
+Updating on_sep1 to -0.55 on_sep5 to 0.55
+Configuring beam-beam with configure_beambeam_interactions (f2023-11-08 12:20:06.271090)
+Crabbing at bb_ho.l1b1_01     Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Crabbing at bb_ho.l1b1_02     Crabbing at bb_ho.l1b1_03     Crabbing at bb_ho.l1b1_04     Crabbing at bb_ho.l1b1_05     Crabbing at bb_ho.l2b1_01     Crabbing at bb_ho.l2b1_02     Crabbing at bb_ho.l2b1_03     Crabbing at bb_ho.l2b1_04     Crabbing at bb_ho.l2b1_05     Crabbing at bb_ho.l5b1_01     Crabbing at bb_ho.l5b1_02     Crabbing at bb_ho.l5b1_03     Crabbing at bb_ho.l5b1_04     Crabbing at bb_ho.l5b1_05     Crabbing at bb_ho.l8b1_01     Crabbing at bb_ho.l8b1_02     Crabbing at bb_ho.l8b1_03     Crabbing at bb_ho.l8b1_04     Crabbing at bb_ho.l8b1_05     Crabbing at bb_ho.r1b1_01     Crabbing at bb_ho.r1b1_02     Crabbing at bb_ho.r1b1_03     Crabbing at bb_ho.r1b1_04     Crabbing at bb_ho.r1b1_05     Crabbing at bb_ho.r2b1_01     Crabbing at bb_ho.r2b1_02     Crabbing at bb_ho.r2b1_03     Crabbing at bb_ho.r2b1_04     Crabbing at bb_ho.r2b1_05     Crabbing at bb_ho.r5b1_01     Crabbing at bb_ho.r5b1_02     Crabbing at bb_ho.r5b1_03     Crabbing at bb_ho.r5b1_04     Crabbing at bb_ho.r5b1_05     Crabbing at bb_ho.r8b1_01     Crabbing at bb_ho.r8b1_02     Crabbing at bb_ho.r8b1_03     Crabbing at bb_ho.r8b1_04     Crabbing at bb_ho.r8b1_05     Crabbing at bb_ho.l1b2_01     Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Crabbing at bb_ho.l1b2_02     Crabbing at bb_ho.l1b2_03     Crabbing at bb_ho.l1b2_04     Crabbing at bb_ho.l1b2_05     Crabbing at bb_ho.l2b2_01     Crabbing at bb_ho.l2b2_02     Crabbing at bb_ho.l2b2_03     Crabbing at bb_ho.l2b2_04     Crabbing at bb_ho.l2b2_05     Crabbing at bb_ho.l5b2_01     Crabbing at bb_ho.l5b2_02     Crabbing at bb_ho.l5b2_03     Crabbing at bb_ho.l5b2_04     Crabbing at bb_ho.l5b2_05     Crabbing at bb_ho.l8b2_01     Crabbing at bb_ho.l8b2_02     Crabbing at bb_ho.l8b2_03     Crabbing at bb_ho.l8b2_04     Crabbing at bb_ho.l8b2_05     Crabbing at bb_ho.r1b2_01     Crabbing at bb_ho.r1b2_02     Crabbing at bb_ho.r1b2_03     Crabbing at bb_ho.r1b2_04     Crabbing at bb_ho.r1b2_05     Crabbing at bb_ho.r2b2_01     Crabbing at bb_ho.r2b2_02     Crabbing at bb_ho.r2b2_03     Crabbing at bb_ho.r2b2_04     Crabbing at bb_ho.r2b2_05     Crabbing at bb_ho.r5b2_01     Crabbing at bb_ho.r5b2_02     Crabbing at bb_ho.r5b2_03     Crabbing at bb_ho.r5b2_04     Crabbing at bb_ho.r5b2_05     Crabbing at bb_ho.r8b2_01     Crabbing at bb_ho.r8b2_02     Crabbing at bb_ho.r8b2_03     Crabbing at bb_ho.r8b2_04     Crabbing at bb_ho.r8b2_05     
