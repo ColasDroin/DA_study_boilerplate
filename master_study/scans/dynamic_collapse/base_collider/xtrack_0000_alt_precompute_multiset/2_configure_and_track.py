@@ -741,8 +741,15 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
                                         attr_val[i] = (
                                             attr_val[i] * (1 - fraction) + attr_val_2[i] * fraction
                                         )
+                                        
                                 else:
                                     attr_val = attr_val * (1 - fraction) + attr_val_2 * fraction
+
+                                    if attr_val % 1 == 0:
+                                        attr_val = int(attr_val)
+                                    else:
+                                        attr_val = float(attr_val)
+                                        
                                 # Update value
                                 dic_elements[beam_temp][type_bb][element][attr] = attr_val
 
