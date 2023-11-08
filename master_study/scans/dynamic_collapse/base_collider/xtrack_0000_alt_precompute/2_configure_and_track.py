@@ -680,10 +680,14 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
                     f"../xtrack_0000_precompute/bb_elements_step_{i//factor}.pkl", "rb"
                 ) as fid:
                     dic_elements = pickle.load(fid)
-                with open(
-                    f"../xtrack_0000_precompute/bb_elements_step_{i//factor+1}.pkl", "rb"
-                ) as fid:
-                    dic_elements_2 = pickle.load(fid)
+                try:
+                    with open(
+                        f"../xtrack_0000_precompute/bb_elements_step_{i//factor+1}.pkl", "rb"
+                    ) as fid:
+                        dic_elements_2 = pickle.load(fid)
+                except FileNotFoundError:
+                    print("Last step, using same elements")
+                    dic_elements_2 = dic_elements
 
                 # Interpolate element values
                 fraction = (i % factor) / factor
