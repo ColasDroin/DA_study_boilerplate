@@ -658,20 +658,28 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
         "slices_other_beam_sqrtSigma_33_beamstrahlung",
         "slices_other_beam_sqrtSigma_55_beamstrahlung",
     }
+    dic_set_attr = {"bb_lr": set_attr_lr, "bb_ho": set_attr_ho}
+    dic_elements_names = {
+        beam_temp: {
+            type_bb: [x for x in collider[beam_temp].element_names if type_bb in x]
+            for type_bb in ["bb_lr", "bb_ho"]
+        }
+        for beam_temp in ["lhcb1", "lhcb2"]
+    }
 
     # Function to build a multisetter for each attribute
-    def build_multistters(set_attr, beam, l_elements):
+    def build_multisetters(set_attr, beam_temp, l_elements):
         dic_setters = {}
         for attr in set_attr:
             dic_setters[attr] = xt.MultiSetter(
-                collider[beam],
+                collider[beam_temp],
                 l_elements,
                 field=attr,
                 index=(
                     0
                     if (
-                        isinstance(getattr(collider[beam][l_elements[0]], attr), list)
-                        or isinstance(getattr(collider[beam][l_elements[0]], attr), np.ndarray)
+                        isinstance(getattr(collider[beam_temp][l_elements[0]], attr), list)
+                        or isinstance(getattr(collider[beam_temp][l_elements[0]], attr), np.ndarray)
                     )
                     else None
                 ),
@@ -680,6 +688,7 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
 
     time_start = time.time()
     factor = int(20 / 5)
+    dic_meta_setters = {}
     for i in range(n_steps + 1):
         # Update separation and reconfigure beambeam
         collider.vars["on_sep1"] = initial_sep_1 - i * sep_1_step
@@ -693,14 +702,14 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
             t_before_reconfigure = time.time()
             if i == 0:
                 collider = configure_beam_beam(collider, config_bb)
-                l_elements_b1 = [x for x in collider.lhcb1.element_names if "bb_" in x]
-                l_elements_b2 = [x for x in collider.lhcb2.element_names if "bb_" in x]
                 dic_meta_setters = {
-                    beam: {
-                        bb: build_multistters(set_attr_bb, beam, l_elements)
-                        for bb, set_attr_bb in zip(["ho", "lr"], [set_attr_ho, set_attr_lr])
+                    beam_temp: {
+                        type_bb: build_multisetters(
+                            set_attr_bb, beam_temp, dic_elements_names[beam_temp][type_bb]
+                        )
+                        for type_bb, set_attr_bb in dic_set_attr.items()
                     }
-                    for beam, l_elements in zip(["lhcb1", "lhcb2"], [l_elements_b1, l_elements_b2])
+                    for beam_temp in dic_elements_names
                 }
             else:
                 print("Loading elements from dictionnary")
@@ -717,59 +726,53 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
                     print("Last step, using same elements")
                     dic_elements_2 = dic_elements
 
+                # dic_elements = {
+                #     beam: {
+                #         type_bb: {
+                #             el: {
+                #                 attr: getattr(collider[beam][el], attr)
+                #                 for attr in dic_set_attr[type_bb]
+                #             }
+                #             for el in dic_elements_names[beam][type_bb]
+                #         }
+                #         for type_bb in ["bb_lr", "bb_ho"]
+                #     }
+                #     for beam in ["lhcb1", "lhcb2"]
+                # }
+
                 # Interpolate element values
                 fraction = (i % factor) / factor
-                for beam_temp in ["lhcb1", "lhcb2"]:
-                    for element in dic_elements[beam_temp]:
-                        if "bb_ho" in element:
-                            set_attr = set_attr_ho
-                        elif "bb_lr" in element:
-                            set_attr = set_attr_lr
-                        else:
-                            raise ValueError("Unknown beam-beam element.")
-                        for attr in set_attr:
-                            attr_val = getattr(dic_elements[beam_temp][element], attr)
-                            attr_val_2 = getattr(dic_elements_2[beam_temp][element], attr)
-                            if isinstance(attr_val, list):
-                                for i, sub_attr in enumerate(attr_val):
-                                    attr_val[i] = (
-                                        attr_val[i] * (1 - fraction) + attr_val_2[i] * fraction
-                                    )
-                            else:
-                                attr_val = attr_val * (1 - fraction) + attr_val_2 * fraction
-                            # Update value
-                            setattr(
-                                dic_elements[beam_temp][element],
-                                attr,
-                                attr_val,
-                            )
+                for beam_temp in dic_elements:
+                    for type_bb in dic_elements[beam_temp]:
+                        for element in dic_elements[beam_temp][type_bb]:
+                            for attr in dic_elements[beam_temp][type_bb][element]:
+                                attr_val = dic_elements[beam_temp][type_bb][element][attr]
+                                attr_val_2 = dic_elements_2[beam_temp][type_bb][element][attr]
+
+                                if isinstance(attr_val, list) or isinstance(attr_val, np.ndarray):
+                                    for i, sub_attr in enumerate(attr_val):
+                                        attr_val[i] = (
+                                            attr_val[i] * (1 - fraction) + attr_val_2[i] * fraction
+                                        )
+                                else:
+                                    attr_val = attr_val * (1 - fraction) + attr_val_2 * fraction
+                                # Update value
+                                dic_elements[beam_temp][type_bb][element][attr] = attr_val
 
                 # Dump bb elements in a pickle
                 with open(f"bb_elements_step_{i}.pkl", "wb") as fid:
                     pickle.dump(dic_elements, fid)
 
-                for beam_temp in ["lhcb1", "lhcb2"]:
-                    for element in dic_elements[beam_temp]:
-                        if "bb_ho" in element:
-                            for attr in set_attr_ho:
-                                if collider[beam_temp][element] != getattr(
-                                    dic_elements[beam_temp][element], attr
-                                ):
-                                    setattr(
-                                        collider[beam_temp][element],
-                                        attr,
-                                        getattr(dic_elements[beam_temp][element], attr),
-                                    )
-                        elif "bb_lr" in element:
-                            for attr in set_attr_lr:
-                                if collider[beam_temp][element] != getattr(
-                                    dic_elements[beam_temp][element], attr
-                                ):
-                                    setattr(
-                                        collider[beam_temp][element],
-                                        attr,
-                                        getattr(dic_elements[beam_temp][element], attr),
-                                    )
+                # Reconfigure beambeam
+                for beam_temp in dic_meta_setters:
+                    for type_bb in dic_meta_setters[beam_temp]:
+                        for attr in dic_set_attr[type_bb]:
+                            dic_meta_setters[beam_temp][type_bb][attr].set_values(
+                                [
+                                    dic_elements[beam_temp][type_bb][element][attr]
+                                    for element in dic_elements_names[beam_temp][type_bb]
+                                ]
+                            )
 
             # collider.to_json(f"collider_step_{i}.json")
             t_after_reconfigure = time.time()

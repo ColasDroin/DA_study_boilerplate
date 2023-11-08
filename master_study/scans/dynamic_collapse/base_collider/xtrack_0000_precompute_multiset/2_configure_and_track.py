@@ -2,6 +2,7 @@
 are called sequentially, in the order in which they are defined. Modularity has been favored over 
 simple scripting for reproducibility, to allow rebuilding the collider from a different program 
 (e.g. dahsboard)."""
+
 # ==================================================================================================
 # --- Imports
 # ==================================================================================================
@@ -584,9 +585,85 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
 
         return qx, qy
 
+    set_attr_lr = {
+        "scale_strength",
+        "ref_shift_x",
+        "ref_shift_y",
+        "other_beam_shift_x",
+        "other_beam_shift_y",
+        "post_subtract_px",
+        "post_subtract_py",
+        "other_beam_q0",
+        "other_beam_beta0",
+        "other_beam_num_particles",
+        "other_beam_Sigma_11",
+        "other_beam_Sigma_13",
+        "other_beam_Sigma_33",
+        "min_sigma_diff",
+    }
+
+    set_attr_ho = {
+        "scale_strength",
+        "_sin_phi",
+        "_cos_phi",
+        "_tan_phi",
+        "_sin_alpha",
+        "_cos_alpha",
+        "ref_shift_x",
+        "ref_shift_px",
+        "ref_shift_y",
+        "ref_shift_py",
+        "ref_shift_zeta",
+        "ref_shift_pzeta",
+        "other_beam_shift_x",
+        "other_beam_shift_px",
+        "other_beam_shift_y",
+        "other_beam_shift_py",
+        "other_beam_shift_zeta",
+        "other_beam_shift_pzeta",
+        "post_subtract_x",
+        "post_subtract_px",
+        "post_subtract_y",
+        "post_subtract_py",
+        "post_subtract_zeta",
+        "post_subtract_pzeta",
+        "other_beam_q0",
+        "num_slices_other_beam",
+        "slices_other_beam_num_particles",
+        "slices_other_beam_x_center_star",
+        "slices_other_beam_px_center_star",
+        "slices_other_beam_y_center_star",
+        "slices_other_beam_py_center_star",
+        "slices_other_beam_zeta_center_star",
+        "slices_other_beam_pzeta_center_star",
+        "slices_other_beam_Sigma_11_star",
+        "slices_other_beam_Sigma_12_star",
+        "slices_other_beam_Sigma_13_star",
+        "slices_other_beam_Sigma_14_star",
+        "slices_other_beam_Sigma_22_star",
+        "slices_other_beam_Sigma_23_star",
+        "slices_other_beam_Sigma_24_star",
+        "slices_other_beam_Sigma_33_star",
+        "slices_other_beam_Sigma_34_star",
+        "slices_other_beam_Sigma_44_star",
+        "min_sigma_diff",
+        "threshold_singular",
+        "flag_beamstrahlung",
+        "slices_other_beam_zeta_bin_width_star_beamstrahlung",
+        "slices_other_beam_sqrtSigma_11_beamstrahlung",
+        "slices_other_beam_sqrtSigma_33_beamstrahlung",
+        "slices_other_beam_sqrtSigma_55_beamstrahlung",
+    }
+    dic_set_attr = {"bb_lr": set_attr_lr, "bb_ho": set_attr_ho}
+    dic_elements_names = {
+        beam_temp: {
+            type_bb: [x for x in collider[beam_temp].element_names if type_bb in x]
+            for type_bb in ["bb_lr", "bb_ho"]
+        }
+        for beam_temp in ["lhcb1", "lhcb2"]
+    }
     time_simulated = 0
     time_reconfigured = 0
-
     time_start = time.time()
     for i in range(n_steps + 1):
         # Update separation and reconfigure beambeam
@@ -596,18 +673,24 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
             f"Updating on_sep1 to {collider.vars['on_sep1']._value} on_sep5 to"
             f" {collider.vars['on_sep5']._value}"
         )
-
         if config_bb is not None:
             t_before_reconfigure = time.time()
             collider = configure_beam_beam(collider, config_bb)
             print("Dumping elements in dictionnary")
-            l_elements_b1 = [x for x in collider.lhcb1.element_names if "bb_" in x]
-            l_elements_b2 = [x for x in collider.lhcb2.element_names if "bb_" in x]
             dic_elements = {
-                "lhcb1": {x: collider.lhcb1[x] for x in l_elements_b1},
-                "lhcb2": {x: collider.lhcb2[x] for x in l_elements_b2},
+                beam_temp: {
+                    type_bb: {
+                        el: {
+                            attr: getattr(collider[beam_temp][el], attr)
+                            for attr in dic_set_attr[type_bb]
+                        }
+                        for el in dic_elements_names[beam_temp][type_bb]
+                    }
+                    for type_bb in ["bb_lr", "bb_ho"]
+                }
+                for beam_temp in ["lhcb1", "lhcb2"]
             }
-            # Dump bb elements in a pickle
+            # Dump bb elements attributes in a pickle
             with open(f"bb_elements_step_{i}.pkl", "wb") as fid:
                 pickle.dump(dic_elements, fid)
 
