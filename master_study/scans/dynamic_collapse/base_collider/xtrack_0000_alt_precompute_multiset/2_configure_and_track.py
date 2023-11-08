@@ -714,31 +714,18 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
             else:
                 print("Loading elements from dictionnary")
                 with open(
-                    f"../xtrack_0000_precompute/bb_elements_step_{i//factor}.pkl", "rb"
+                    f"../xtrack_0000_precompute_multiset/bb_elements_step_{i//factor}.pkl", "rb"
                 ) as fid:
                     dic_elements = pickle.load(fid)
                 try:
                     with open(
-                        f"../xtrack_0000_precompute/bb_elements_step_{i//factor+1}.pkl", "rb"
+                        f"../xtrack_0000_precompute_multiset/bb_elements_step_{i//factor+1}.pkl",
+                        "rb",
                     ) as fid:
                         dic_elements_2 = pickle.load(fid)
                 except FileNotFoundError:
                     print("Last step, using same elements")
                     dic_elements_2 = dic_elements
-
-                # dic_elements = {
-                #     beam: {
-                #         type_bb: {
-                #             el: {
-                #                 attr: getattr(collider[beam][el], attr)
-                #                 for attr in dic_set_attr[type_bb]
-                #             }
-                #             for el in dic_elements_names[beam][type_bb]
-                #         }
-                #         for type_bb in ["bb_lr", "bb_ho"]
-                #     }
-                #     for beam in ["lhcb1", "lhcb2"]
-                # }
 
                 # Interpolate element values
                 fraction = (i % factor) / factor

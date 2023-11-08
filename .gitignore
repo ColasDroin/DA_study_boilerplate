@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.c
 
 # Miniforge and miniconda
 Miniforge3-Linux-x86_64.sh
