@@ -563,7 +563,7 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
     a = time.time()
 
     # Define steps for separation update
-    n_steps = 20
+    n_steps = 10
     initial_sep_1 = collider.vars["on_sep1"]._value
     initial_sep_5 = collider.vars["on_sep5"]._value
     num_turns_step = int(num_turns / (n_steps + 1))
@@ -591,8 +591,8 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
     time_start = time.time()
     for i in range(n_steps + 1):
         # Update separation and reconfigure beambeam
-        collider.vars["on_sep1"] = initial_sep_1 - i * sep_1_step
-        collider.vars["on_sep5"] = initial_sep_5 - i * sep_5_step
+        collider.vars["on_sep1"] = initial_sep_1  - i * sep_1_step
+        collider.vars["on_sep5"] = initial_sep_5  - i * sep_5_step
         print(
             f"Updating on_sep1 to {collider.vars['on_sep1']._value} on_sep5 to"
             f" {collider.vars['on_sep5']._value}"
@@ -609,7 +609,7 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
                 "lhcb2": {x: collider.lhcb2[x] for x in l_elements_b2},
             }
             # Dump bb elements in a pickle
-            with open(f"bb_elements_step_{i}.pkl", "wb") as fid:
+            with open(f"bb_elements_step_vary_{i}.pkl", "wb") as fid:
                 pickle.dump(dic_elements, fid)
 
             # Dump collider

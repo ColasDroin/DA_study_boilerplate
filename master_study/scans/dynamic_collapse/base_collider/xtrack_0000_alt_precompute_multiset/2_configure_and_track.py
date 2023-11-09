@@ -737,23 +737,24 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
                                 attr_val_2 = dic_elements_2[beam_temp][type_bb][element][attr]
 
                                 if isinstance(attr_val, list) or isinstance(attr_val, np.ndarray):
-                                    for i, sub_attr in enumerate(attr_val):
-                                        attr_val[i] = (
-                                            attr_val[i] * (1 - fraction) + attr_val_2[i] * fraction
+                                    for j, sub_attr in enumerate(attr_val):
+                                        attr_val[j] = (
+                                            attr_val[j] * (1 - fraction) + attr_val_2[j] * fraction
                                         )
-                                        
-                                else:
-                                    attr_val = attr_val * (1 - fraction) + attr_val_2 * fraction
 
-                                    if attr_val % 1 == 0:
-                                        attr_val = int(attr_val)
-                                    else:
-                                        attr_val = float(attr_val)
-                                        
+                                else:
+                                    # Get type of attribute
+                                    attr_type = type(attr_val)
+                                    # Interpolate
+                                    attr_val = attr_val * (1 - fraction) + attr_val_2 * fraction
+                                    # Cast back to original type
+                                    attr_val = attr_type(attr_val)
+
                                 # Update value
                                 dic_elements[beam_temp][type_bb][element][attr] = attr_val
 
                 # Dump bb elements in a pickle
+                print("Dumping elements in a pickle. i=", i)
                 with open(f"bb_elements_step_{i}.pkl", "wb") as fid:
                     pickle.dump(dic_elements, fid)
 
