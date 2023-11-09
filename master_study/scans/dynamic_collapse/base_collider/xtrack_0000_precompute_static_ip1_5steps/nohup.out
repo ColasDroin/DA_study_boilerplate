@@ -1,0 +1,1 @@
+run.sh: line 4: 2036531 Terminated              python 2_configure_and_track.py > output_python.txt 2> error_python.txt
