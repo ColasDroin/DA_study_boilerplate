@@ -615,8 +615,9 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
             # Get twiss and dump it
             twiss_b1 = collider["lhcb1"].twiss().to_pandas()
             twiss_b2 = collider["lhcb2"].twiss().to_pandas()
-            twiss_b1.to_pickle(f"twiss_b1_step_{i}.pkl")
-            twiss_b2.to_pickle(f"twiss_b2_step_{i}.pkl")
+
+            twiss_b1.to_pickle(f"b1_step_twiss_{i}.pkl")
+            twiss_b2.to_pickle(f"b2_step_twiss_{i}.pkl")
 
             # Dump collider
             # collider.to_json(f"collider_step_{i}.json")
