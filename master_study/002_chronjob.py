@@ -1,14 +1,15 @@
 # ==================================================================================================
 # --- Imports
 # ==================================================================================================
-import tree_maker
-import os
-import psutil
-from pathlib import Path
-import subprocess
 import copy
-import yaml
+import os
+import subprocess
 import time
+from pathlib import Path
+
+import psutil
+import tree_maker
+import yaml
 
 
 # ==================================================================================================
@@ -373,7 +374,7 @@ class ClusterSubmission:
                         l_jobs.append(job + "/")
                     except IndexError:
                         print("Warning, job path is not in master_study... Ignoring it.")
-                    
+
         return l_jobs
 
     @staticmethod
@@ -586,7 +587,7 @@ def submit_jobs(study_name, print_uncompleted_jobs=False):
 # Load the tree from a yaml and submit the jobs that haven't been completed yet
 if __name__ == "__main__":
     # Define study
-    study_name = "example_tunescan"
+    study_name = "injection_octupole_scan"
 
     # Submit jobs
     submit_jobs(study_name)

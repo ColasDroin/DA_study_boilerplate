@@ -1,5 +1,5 @@
-from xmask.lhc import install_errors_placeholders_hllhc
 import numpy as np
+from xmask.lhc import install_errors_placeholders_hllhc
 
 
 def check_madx_lattices(mad):
@@ -57,7 +57,7 @@ def build_sequence(mad, mylhcbeam, ignore_cycling=False):
       """)
 
     # Redefine macro for myslice
-    my_slice(mad, slice_factor=6)
+    my_slice(mad, slice_factor=4)
 
     # Slice nominal sequence
     mad.input("exec, myslice;")
@@ -97,7 +97,7 @@ def my_slice(mad, slice_factor=4):
         myslice: macro = {
         if (MBX.4L2->l>0) {
           select, flag=makethin, clear;
-          select, flag=makethin, class=mb, slice=2 * slicefactor / 2;
+          select, flag=makethin, class=mb, slice=2 ;
           select, flag=makethin, class=mq, slice=2 * slicefactor;
           select, flag=makethin, class=mqxa,  slice=16 * slicefactor;  !old triplet
           select, flag=makethin, class=mqxb,  slice=16 * slicefactor;  !old triplet
@@ -105,17 +105,17 @@ def my_slice(mad, slice_factor=4):
           select, flag=makethin, class=mqxd,  slice=16 * slicefactor;  !new mqxb (q2a,q2b)
           select, flag=makethin, class=mqxfa, slice=16 * slicefactor;  !new (q1,q3 v1.1)
           select, flag=makethin, class=mqxfb, slice=16 * slicefactor;  !new (q2a,q2b v1.1)
-          select, flag=makethin, class=mbxa,  slice=4 * slicefactor / 2 ;   !new d1
-          select, flag=makethin, class=mbxf,  slice=4 * slicefactor / 2;   !new d1 (v1.1)
-          select, flag=makethin, class=mbrd,  slice=4 * slicefactor / 2;   !new d2 (if needed)
+          select, flag=makethin, class=mbxa,  slice=4  ;   !new d1
+          select, flag=makethin, class=mbxf,  slice=4 ;   !new d1 (v1.1)
+          select, flag=makethin, class=mbrd,  slice=4 ;   !new d2 (if needed)
           select, flag=makethin, class=mqyy,  slice=4 * slicefactor;;   !new q4
           select, flag=makethin, class=mqyl,  slice=4 * slicefactor;;   !new q5
           select, flag=makethin, class=mbh,   slice=4;   !11T dipoles
-          select, flag=makethin, pattern=mbx\.,    slice=4 * slicefactor / 2;
-          select, flag=makethin, pattern=mbrb\.,   slice=4 * slicefactor / 2;
-          select, flag=makethin, pattern=mbrc\.,   slice=4 * slicefactor / 2;
-          select, flag=makethin, pattern=mbrs\.,   slice=4 * slicefactor / 2;
-          select, flag=makethin, pattern=mbh\.,    slice=4 * slicefactor / 2;
+          select, flag=makethin, pattern=mbx\.,    slice=4 ;
+          select, flag=makethin, pattern=mbrb\.,   slice=4 ;
+          select, flag=makethin, pattern=mbrc\.,   slice=4 ;
+          select, flag=makethin, pattern=mbrs\.,   slice=4 ;
+          select, flag=makethin, pattern=mbh\.,    slice=4 ;
           select, flag=makethin, pattern=mqwa\.,   slice=4 * slicefactor;
           select, flag=makethin, pattern=mqwb\.,   slice=4 * slicefactor;
           select, flag=makethin, pattern=mqy\.,    slice=4 * slicefactor;
