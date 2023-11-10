@@ -101,12 +101,12 @@ config_collider:
       i_bunch_b1: 411  # If not specified, the bunch with the worst schedule is chosen
       i_bunch_b2: 410  # Same. A value for i_bunch_b1 and i_bunch_b2 must be specified if pattern_fname is specified
 
-    luminosity_ip1_after_optimization: 1.3573866905662263e-239
-    Pile-up_ip1_after_optimization: 3.9873962185788336e-272
-    luminosity_ip2_after_optimization: 2.785275138675476e-110
-    Pile-up_ip2_after_optimization: 1.0891426093067681e-142
-    luminosity_ip5_after_optimization: 1.0792392403778807e-239
-    Pile-up_ip5_after_optimization: 3.1703231628339704e-272
+    luminosity_ip1_after_optimization: 1.3573866685881513e-239
+    Pile-up_ip1_after_optimization: 3.987396154017059e-272
+    luminosity_ip2_after_optimization: 2.785275110372031e-110
+    Pile-up_ip2_after_optimization: 1.0891425982391047e-142
+    luminosity_ip5_after_optimization: 1.0792392386308221e-239
+    Pile-up_ip5_after_optimization: 3.170323157701892e-272
     luminosity_ip8_after_optimization: 0.0
     Pile-up_ip8_after_optimization: 0.0
   config_lumi_leveling_ip1_5:

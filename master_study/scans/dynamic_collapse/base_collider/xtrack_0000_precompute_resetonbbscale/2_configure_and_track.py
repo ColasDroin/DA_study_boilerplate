@@ -600,7 +600,7 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
 
         if config_bb is not None:
             t_before_reconfigure = time.time()
-            if i > 0:
+            if i >= 0:
                 # Turn bb off before reconfiguration
                 collider.lhcb1.vars["beambeam_scale"] = 0
                 collider.lhcb2.vars["beambeam_scale"] = 0
