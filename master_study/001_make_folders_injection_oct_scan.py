@@ -168,7 +168,7 @@ d_config_beambeam["nemitt_y"] = 2.5e-6
 # The scheme should consist of a json file containing two lists of booleans (one for each beam),
 # representing each bucket of the LHC.
 filling_scheme_path = os.path.abspath(
-    "master_jobs/filling_scheme/25ns_2464b_2452_1842_1821_236bpi_12inj_hybrid.json"
+    "master_jobs/filling_scheme/25ns_2452b_2440_1952_2240_248bpi_12inj_mixed.json"
 )
 
 # Alternatively, one can get a fill directly from LPC from, e.g.:
@@ -368,7 +368,7 @@ config["root"]["setup_env_script"] = os.getcwd() + "/../activate_miniforge.sh"
 # --- Build tree and write it to the filesystem
 # ==================================================================================================
 # Define study name
-study_name = "injection_octupole_scan"
+study_name = "injection_oct_scan"
 
 # Creade folder that will contain the tree
 if not os.path.exists("scans/" + study_name):

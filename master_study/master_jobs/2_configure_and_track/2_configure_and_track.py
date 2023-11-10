@@ -422,13 +422,13 @@ def configure_collider(
     # Build trackers
     collider.build_trackers()
 
-    # # Set knobs
-    # collider, conf_knobs_and_tuning = set_knobs(config_collider, collider)
+    # Set knobs
+    collider, conf_knobs_and_tuning = set_knobs(config_collider, collider)
 
-    # # Match tune and chromaticity
-    # collider = match_tune_and_chroma(
-    #     collider, conf_knobs_and_tuning, match_linear_coupling_to_zero=True
-    # )
+    # Match tune and chromaticity
+    collider = match_tune_and_chroma(
+        collider, conf_knobs_and_tuning, match_linear_coupling_to_zero=True
+    )
 
     # Compute the number of collisions in the different IPs
     (
@@ -463,15 +463,15 @@ def configure_collider(
     #     )
 
     # # Add linear coupling
-    # collider = add_linear_coupling(conf_knobs_and_tuning, collider, config_mad)
+    collider = add_linear_coupling(conf_knobs_and_tuning, collider, config_mad)
 
     # # Rematch tune and chromaticity
-    # collider = match_tune_and_chroma(
-    #     collider, conf_knobs_and_tuning, match_linear_coupling_to_zero=False
-    # )
+    collider = match_tune_and_chroma(
+        collider, conf_knobs_and_tuning, match_linear_coupling_to_zero=False
+    )
 
-    # # Assert that tune, chromaticity and linear coupling are correct one last time
-    # assert_tune_chroma_coupling(collider, conf_knobs_and_tuning)
+    # Assert that tune, chromaticity and linear coupling are correct one last time
+    assert_tune_chroma_coupling(collider, conf_knobs_and_tuning)
 
     # Return twiss and survey before beam-beam if requested
     if return_collider_before_bb:
