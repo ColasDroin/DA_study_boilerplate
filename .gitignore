@@ -25,7 +25,7 @@ master_study/analysis/*
 !master_study/analysis/.gitkeep
 
 # Other make_folder studies
-master_study/001_make_folders_*
+# master_study/001_make_folders_*
 
 # Submission files
 master_study/submission_files/*
