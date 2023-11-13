@@ -434,38 +434,6 @@ def configure_collider(
         collider, conf_knobs_and_tuning, match_linear_coupling_to_zero=True
     )
 
-    # Compute the number of collisions in the different IPs
-    (
-        n_collisions_ip1_and_5,
-        n_collisions_ip2,
-        n_collisions_ip8,
-    ) = compute_collision_from_scheme(config_bb)
-
-    # Get crab cavities
-    crab = False
-    if "on_crab1" in config_collider["config_knobs_and_tuning"]["knob_settings"]:
-        crab_val = float(config_collider["config_knobs_and_tuning"]["knob_settings"]["on_crab1"])
-        if crab_val > 0:
-            crab = True
-
-    # Do the leveling if requested
-    if "config_lumi_leveling" in config_collider and not config_collider["skip_leveling"]:
-        collider, config_collider = do_levelling(
-            config_collider,
-            config_bb,
-            n_collisions_ip2,
-            n_collisions_ip8,
-            collider,
-            n_collisions_ip1_and_5,
-            crab,
-        )
-
-    else:
-        print(
-            "No leveling is done as no configuration has been provided, or skip_leveling"
-            " is set to True."
-        )
-
     # Add linear coupling
     collider = add_linear_coupling(conf_knobs_and_tuning, collider, config_mad)
 
@@ -476,26 +444,6 @@ def configure_collider(
 
     # Assert that tune, chromaticity and linear coupling are correct one last time
     assert_tune_chroma_coupling(collider, conf_knobs_and_tuning)
-
-    # Return twiss and survey before beam-beam if requested
-    if return_collider_before_bb:
-        print("Saving collider before beam-beam configuration")
-        collider_before_bb = xt.Multiline.from_dict(collider.to_dict())
-
-    if not config_bb["skip_beambeam"]:
-        # Configure beam-beam
-        collider = configure_beam_beam(collider, config_bb)
-    else:
-        print("No beam-beam configuration is done as skip_beambeam is set to True.")
-
-    # Update configuration with luminosity now that bb is known
-    l_n_collisions = [
-        n_collisions_ip1_and_5,
-        n_collisions_ip2,
-        n_collisions_ip1_and_5,
-        n_collisions_ip8,
-    ]
-    config_bb = record_final_luminosity(collider, config_bb, l_n_collisions, crab)
 
     # Drop update configuration
     with open(config_path, "w") as fid:
@@ -513,17 +461,13 @@ def configure_collider(
         # Dump collider
         collider.to_json("collider.json")
 
-    if return_collider_before_bb:
-        return collider, config_sim, config_bb, collider_before_bb
-    else:
-        return collider, config_sim, config_bb
-
+    return collider, config_sim, config_bb
 
 
 # ==================================================================================================
 # --- Main function for collider configuration and tracking
 # ==================================================================================================
-def configure_and_track(config_path="config.yaml"):
+def configure_and_tag(config_path="config.yaml"):
     # Get configuration
     config, config_mad = read_configuration(config_path)
 
@@ -531,12 +475,13 @@ def configure_and_track(config_path="config.yaml"):
     tree_maker_tagging(config, tag="started")
 
     # Configure collider (not saved, since it may trigger overload of afs)
-    collider, config_sim, config_bb = configure_collider(
+    _, _, _ = configure_collider(
         config,
         config_mad,
         save_collider=config["dump_collider"],
         save_config=config["dump_config_in_collider"],
         config_path=config_path,
+        return_collider_before_bb=False,
     )
 
     # Remote the correction folder, and potential C files remaining
@@ -555,4 +500,4 @@ def configure_and_track(config_path="config.yaml"):
 # ==================================================================================================
 
 if __name__ == "__main__":
-    configure_and_track()
+    configure_and_tag()
