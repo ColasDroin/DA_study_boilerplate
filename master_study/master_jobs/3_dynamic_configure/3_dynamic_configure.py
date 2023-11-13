@@ -109,16 +109,20 @@ def get_dynamic_configure_collider(config):
 
     # Rebuild collider
     collider = xt.Multiline.from_json(config_sim["collider_file"])
+    collider.build_trackers()
+
+    config_beambeam = config["config_collider"]["config_beambeam"]
 
     # Get dynamic configuration
+    dd_elements = save_dynamic_configuration(collider, config_beambeam)
 
-    return collider, config_sim
+    return dd_elements
 
 
 # ==================================================================================================
 # --- Function to do the tracking
 # ==================================================================================================
-def save_dynamic_configuration(collider, config_bb=None):
+def save_dynamic_configuration(collider, config_bb):
 
     # Define steps for separation update
     n_steps = 5
@@ -137,6 +141,7 @@ def save_dynamic_configuration(collider, config_bb=None):
     }
     time_reconfigured = 0
     time_start = time.time()
+    dd_elements = {}
     for i in range(n_steps + 1):
         # Update separation and reconfigure beambeam
         collider.vars["on_sep1"] = initial_sep_1 - i * sep_1_step
@@ -145,33 +150,28 @@ def save_dynamic_configuration(collider, config_bb=None):
             f"Updating on_sep1 to {collider.vars['on_sep1']._value} on_sep5 to"
             f" {collider.vars['on_sep5']._value}"
         )
-        if config_bb is not None:
-            t_before_reconfigure = time.time()
-            collider = configure_beam_beam(collider, config_bb)
-            print("Dumping elements in dictionnary")
-            dic_elements = {
-                beam_temp: {
-                    type_bb: {
-                        el: {
-                            attr: getattr(collider[beam_temp][el], attr)
-                            for attr in dic_set_attr[type_bb]
-                        }
-                        for el in dic_elements_names[beam_temp][type_bb]
-                    }
-                    for type_bb in ["bb_lr", "bb_ho"]
-                }
-                for beam_temp in ["lhcb1", "lhcb2"]
-            }
-            # Dump bb elements attributes in a pickle
-            with open(f"bb_elements_step_{i}.pkl", "wb") as fid:
-                pickle.dump(dic_elements, fid)
 
-            # Dump collider
-            # collider.to_json(f"collider_step_{i}.json")
-            t_after_reconfigure = time.time()
-            time_reconfigured += t_after_reconfigure - t_before_reconfigure
-        else:
-            raise ValueError("Beam-beam configuration is required for dynamic tracking.")
+        t_before_reconfigure = time.time()
+        collider = configure_beam_beam(collider, config_bb)
+        print("Dumping elements in dictionnary")
+        dic_elements = {
+            beam_temp: {
+                type_bb: {
+                    el: {
+                        attr: getattr(collider[beam_temp][el], attr)
+                        for attr in dic_set_attr[type_bb]
+                    }
+                    for el in dic_elements_names[beam_temp][type_bb]
+                }
+                for type_bb in ["bb_lr", "bb_ho"]
+            }
+            for beam_temp in ["lhcb1", "lhcb2"]
+        }
+
+        dd_elements[collider.vars["on_sep1"]._value] = dic_elements
+
+        t_after_reconfigure = time.time()
+        time_reconfigured += t_after_reconfigure - t_before_reconfigure
 
     time_end = time.time()
 
@@ -179,34 +179,25 @@ def save_dynamic_configuration(collider, config_bb=None):
     print(f"Total time reconfiguration: {time_reconfigured} s")
     print(f"Average time per reconfiguration: {time_reconfigured / (n_steps + 1)} s")
 
+    return dd_elements
+
 
 # ==================================================================================================
 # --- Main function for collider configuration and tracking
 # ==================================================================================================
 def configure_and_track(config_path="config.yaml"):
     # Get configuration
-    config, config_mad = read_configuration(config_path)
+    config, config_tree_maker = read_configuration(config_path)
 
     # Tag start of the job
-    tree_maker_tagging(config, tag="started")
+    tree_maker_tagging(config_tree_maker, tag="started")
 
     # Configure collider (not saved, since it may trigger overload of afs)
-    collider, config_sim, config_bb = configure_collider(
-        config,
-        config_mad,
-        save_collider=config["dump_collider"],
-        save_config=config["dump_config_in_collider"],
-        config_path=config_path,
-    )
-
-    # Prepare particle distribution
-    particles = prepare_particle_distribution(config_sim, collider, config_bb)
-
-    # Track
-    particles = track(collider, particles, config_sim, config_bb)
+    dd_elements = get_dynamic_configure_collider(config)
 
     # Save output
-    pd.DataFrame(particles.to_dict()).to_parquet("output_particles.parquet")
+    with open("dynamic_configure.pkl", "wb") as fid:
+        pickle.dump(dd_elements, fid)
 
     # Remote the correction folder, and potential C files remaining
     try:
@@ -216,7 +207,7 @@ def configure_and_track(config_path="config.yaml"):
         pass
 
     # Tag end of the job
-    tree_maker_tagging(config, tag="completed")
+    tree_maker_tagging(config_tree_maker, tag="completed")
 
 
 # ==================================================================================================
