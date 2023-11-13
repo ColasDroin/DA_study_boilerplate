@@ -458,8 +458,12 @@ def configure_collider(
                 "config_collider": config_collider,
             }
             collider.metadata = config_dict
+
+        # Create folder if needed
+        os.makedirs("collider", exist_ok=True)
+
         # Dump collider
-        collider.to_json("collider.json")
+        collider.to_json("collider/collider.json")
 
     return collider, config_sim, config_bb
 

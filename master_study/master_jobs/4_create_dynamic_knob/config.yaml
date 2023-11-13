@@ -1,7 +1,7 @@
 # Configuration for the track job
 config_simulation:
   # Collider file
-  collider_file: ../../../1_build_distr_and_collider/collider/collider.json
+  collider_file: ../../collider/collider.json
 
   # Elements file
   elements_file: ../dynamic_configure.pkl
@@ -11,4 +11,4 @@ dump_collider: false
 dump_config_in_collider: false
 
 # Log
-log_file: "tree_maker.log"
+log_file: tree_maker.log
