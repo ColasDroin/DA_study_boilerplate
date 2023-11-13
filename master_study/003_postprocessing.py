@@ -1,11 +1,12 @@
 # ==================================================================================================
 # --- Imports
 # ==================================================================================================
+import logging
+import time
+
+import pandas as pd
 import tree_maker
 import yaml
-import pandas as pd
-import time
-import logging
 
 # ==================================================================================================
 # --- Load tree of jobs
@@ -16,7 +17,7 @@ print("Analysis of output simulation files started")
 start = time.time()
 
 # Load Data
-study_name = "example_tunescan"
+study_name = "injection_oct_scan"
 fix = "/scans/" + study_name
 root = tree_maker.tree_from_json(fix[1:] + "/tree_maker.json")
 # Add suffix to the root node path to handle scans that are not in the root directory
@@ -91,9 +92,6 @@ for node in root.generation(1):
         df_sim["i_oct_b2"] = dic_child_collider["config_knobs_and_tuning"]["knob_settings"][
             "i_oct_b2"
         ]
-        df_sim["crossing_angle"] = abs(
-            float(dic_child_collider["config_knobs_and_tuning"]["knob_settings"]["on_x1"])
-        )
 
         # Merge with particle data
         df_sim_with_particle = pd.merge(df_sim, particle, on=["particle_id"])
@@ -114,7 +112,7 @@ if df_lost_particles.empty:
     print("No unstable particles found, the output dataframe will be empty.")
 
 # Group by working point (Update this with the knobs you want to group by !)
-group_by_parameters = ["name base collider", "qx", "qy"]
+group_by_parameters = ["name base collider", "qx", "qy", "i_oct_b1", "i_oct_b2"]
 # We always want to keep beam in the final result
 group_by_parameters = ["beam"] + group_by_parameters
 l_parameters_to_keep = [
@@ -125,8 +123,9 @@ l_parameters_to_keep = [
     "dqy",
     "i_bunch_b1",
     "i_bunch_b2",
+    "i_oct_b1",
+    "i_oct_b2",
     "num_particles_per_bunch",
-    "crossing_angle",
 ]
 
 # Min is computed in the groupby function, but values should be identical

@@ -21,7 +21,7 @@ master_study/scans/*
 !master_study/scans/.gitkeep
 
 # Analysis
-master_study/analysis/*
+# master_study/analysis/*
 !master_study/analysis/.gitkeep
 
 # Other make_folder studies
