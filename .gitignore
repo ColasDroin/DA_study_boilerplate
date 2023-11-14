@@ -21,9 +21,13 @@ master_study/master_jobs/filling_scheme/custom_schemes/*
 master_study/scans/*
 !master_study/scans/.gitkeep
 !master_study/scans/dynamic_collapse
+!master_study/scans/dynamic_collapse_new
 master_study/scans/dynamic_collapse/**/*.json
 master_study/scans/dynamic_collapse/**/*.pkl
 master_study/scans/dynamic_collapse/**/*.parquet
+master_study/scans/dynamic_collapse_new/**/*.json
+master_study/scans/dynamic_collapse_new/**/*.pkl
+master_study/scans/dynamic_collapse_new/**/*.parquet
 
 # Analysis
 # master_study/analysis/*

@@ -434,6 +434,13 @@ def configure_collider(
         collider, conf_knobs_and_tuning, match_linear_coupling_to_zero=True
     )
 
+    # Compute the number of collisions in the different IPs
+    (
+        n_collisions_ip1_and_5,
+        n_collisions_ip2,
+        n_collisions_ip8,
+    ) = compute_collision_from_scheme(config_bb)
+
     # Add linear coupling
     collider = add_linear_coupling(conf_knobs_and_tuning, collider, config_mad)
 
@@ -444,6 +451,9 @@ def configure_collider(
 
     # Assert that tune, chromaticity and linear coupling are correct one last time
     assert_tune_chroma_coupling(collider, conf_knobs_and_tuning)
+
+    # Configure beam-beam
+    collider = configure_beam_beam(collider, config_bb)
 
     # Drop update configuration
     with open(config_path, "w") as fid:

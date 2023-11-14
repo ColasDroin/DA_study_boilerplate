@@ -12,7 +12,6 @@ import os
 import pickle
 import time
 from datetime import datetime
-from math import e
 
 import numpy as np
 import pandas as pd
@@ -442,31 +441,6 @@ def configure_collider(
         n_collisions_ip8,
     ) = compute_collision_from_scheme(config_bb)
 
-    # Get crab cavities
-    crab = False
-    if "on_crab1" in config_collider["config_knobs_and_tuning"]["knob_settings"]:
-        crab_val = float(config_collider["config_knobs_and_tuning"]["knob_settings"]["on_crab1"])
-        if crab_val > 0:
-            crab = True
-
-    # Do the leveling if requested
-    if "config_lumi_leveling" in config_collider and not config_collider["skip_leveling"]:
-        collider, config_collider = do_levelling(
-            config_collider,
-            config_bb,
-            n_collisions_ip2,
-            n_collisions_ip8,
-            collider,
-            n_collisions_ip1_and_5,
-            crab,
-        )
-
-    else:
-        print(
-            "No leveling is done as no configuration has been provided, or skip_leveling"
-            " is set to True."
-        )
-
     # Add linear coupling
     collider = add_linear_coupling(conf_knobs_and_tuning, collider, config_mad)
 
@@ -477,26 +451,8 @@ def configure_collider(
 
     # Assert that tune, chromaticity and linear coupling are correct one last time
     assert_tune_chroma_coupling(collider, conf_knobs_and_tuning)
-
-    # Return twiss and survey before beam-beam if requested
-    if return_collider_before_bb:
-        print("Saving collider before beam-beam configuration")
-        collider_before_bb = xt.Multiline.from_dict(collider.to_dict())
-
-    if not config_bb["skip_beambeam"]:
-        # Configure beam-beam
-        collider = configure_beam_beam(collider, config_bb)
-    else:
-        print("No beam-beam configuration is done as skip_beambeam is set to True.")
-
-    # Update configuration with luminosity now that bb is known
-    l_n_collisions = [
-        n_collisions_ip1_and_5,
-        n_collisions_ip2,
-        n_collisions_ip1_and_5,
-        n_collisions_ip8,
-    ]
-    config_bb = record_final_luminosity(collider, config_bb, l_n_collisions, crab)
+    # Configure beam-beam
+    collider = configure_beam_beam(collider, config_bb)
 
     # Drop update configuration
     with open(config_path, "w") as fid:
@@ -511,233 +467,20 @@ def configure_collider(
                 "config_collider": config_collider,
             }
             collider.metadata = config_dict
+
+        # Create folder if needed
+        os.makedirs("collider", exist_ok=True)
+
         # Dump collider
-        collider.to_json("collider.json")
+        collider.to_json("collider/collider.json")
 
-    if return_collider_before_bb:
-        return collider, config_sim, config_bb, collider_before_bb
-    else:
-        return collider, config_sim, config_bb
-
-
-# ==================================================================================================
-# --- Function to prepare particles distribution for tracking
-# ==================================================================================================
-def prepare_particle_distribution(config_sim, collider, config_bb):
-    beam = config_sim["beam"]
-
-    particle_df = pd.read_parquet(config_sim["particle_file"])
-
-    r_vect = particle_df["normalized amplitude in xy-plane"].values
-    theta_vect = particle_df["angle in xy-plane [deg]"].values * np.pi / 180  # [rad]
-
-    A1_in_sigma = r_vect * np.cos(theta_vect)
-    A2_in_sigma = r_vect * np.sin(theta_vect)
-
-    particles = collider[beam].build_particles(
-        x_norm=A1_in_sigma,
-        y_norm=A2_in_sigma,
-        delta=config_sim["delta_max"],
-        scale_with_transverse_norm_emitt=(config_bb["nemitt_x"], config_bb["nemitt_y"]),
-    )
-    particles.particle_id = particle_df.particle_id.values
-
-    return particles
-
-
-# ==================================================================================================
-# --- Function to do the tracking
-# ==================================================================================================
-def track(collider, particles, config_sim, config_bb=None, save_input_particles=False):
-    # Get beam being tracked
-    beam = config_sim["beam"]
-
-    # Optimize line for tracking # ! Commented out as it prevents changing the bb
-    # collider[beam].optimize_for_tracking()
-
-    # Save initial coordinates if requested
-    if save_input_particles:
-        pd.DataFrame(particles.to_dict()).to_parquet("input_particles.parquet")
-
-    # Track (update bb in several steps)
-    num_turns = config_sim["n_turns"]
-    a = time.time()
-
-    # Define steps for separation update
-    n_steps = 4
-    initial_sep_1 = collider.vars["on_sep1"]._value
-    initial_sep_5 = collider.vars["on_sep5"]._value
-    num_turns_step = int(num_turns / (n_steps + 1))
-    sep_1_step = initial_sep_1 / n_steps
-    sep_5_step = initial_sep_5 / n_steps
-
-    # Function to compute footprint
-    def return_footprint(collider, emittance, beam="lhcb1", n_turns=2000):
-        fp_polar_xm = collider[beam].get_footprint(
-            nemitt_x=emittance,
-            nemitt_y=emittance,
-            n_turns=n_turns,
-            linear_rescale_on_knobs=[xt.LinearRescale(knob_name="beambeam_scale", v0=0.0, dv=0.05)],
-            freeze_longitudinal=True,
-        )
-
-        qx = fp_polar_xm.qx
-        qy = fp_polar_xm.qy
-
-        return qx, qy
-
-    time_simulated = 0
-    time_reconfigured = 0
-
-    set_attr_lr = {
-        "scale_strength",
-        "ref_shift_x",
-        "ref_shift_y",
-        "other_beam_shift_x",
-        "other_beam_shift_y",
-        "post_subtract_px",
-        "post_subtract_py",
-        "other_beam_q0",
-        "other_beam_beta0",
-        "other_beam_num_particles",
-        "other_beam_Sigma_11",
-        "other_beam_Sigma_13",
-        "other_beam_Sigma_33",
-        "min_sigma_diff",
-    }
-
-    set_attr_ho = {
-        "scale_strength",
-        "_sin_phi",
-        "_cos_phi",
-        "_tan_phi",
-        "_sin_alpha",
-        "_cos_alpha",
-        "ref_shift_x",
-        "ref_shift_px",
-        "ref_shift_y",
-        "ref_shift_py",
-        "ref_shift_zeta",
-        "ref_shift_pzeta",
-        "other_beam_shift_x",
-        "other_beam_shift_px",
-        "other_beam_shift_y",
-        "other_beam_shift_py",
-        "other_beam_shift_zeta",
-        "other_beam_shift_pzeta",
-        "post_subtract_x",
-        "post_subtract_px",
-        "post_subtract_y",
-        "post_subtract_py",
-        "post_subtract_zeta",
-        "post_subtract_pzeta",
-        "other_beam_q0",
-        "num_slices_other_beam",
-        "slices_other_beam_num_particles",
-        "slices_other_beam_x_center_star",
-        "slices_other_beam_px_center_star",
-        "slices_other_beam_y_center_star",
-        "slices_other_beam_py_center_star",
-        "slices_other_beam_zeta_center_star",
-        "slices_other_beam_pzeta_center_star",
-        "slices_other_beam_Sigma_11_star",
-        "slices_other_beam_Sigma_12_star",
-        "slices_other_beam_Sigma_13_star",
-        "slices_other_beam_Sigma_14_star",
-        "slices_other_beam_Sigma_22_star",
-        "slices_other_beam_Sigma_23_star",
-        "slices_other_beam_Sigma_24_star",
-        "slices_other_beam_Sigma_33_star",
-        "slices_other_beam_Sigma_34_star",
-        "slices_other_beam_Sigma_44_star",
-        "min_sigma_diff",
-        "threshold_singular",
-        "flag_beamstrahlung",
-        "slices_other_beam_zeta_bin_width_star_beamstrahlung",
-        "slices_other_beam_sqrtSigma_11_beamstrahlung",
-        "slices_other_beam_sqrtSigma_33_beamstrahlung",
-        "slices_other_beam_sqrtSigma_55_beamstrahlung",
-    }
-
-    time_start = time.time()
-    for i in range(n_steps + 1):
-        # Update separation and reconfigure beambeam
-        collider.vars["on_sep1"] = initial_sep_1 - i * sep_1_step
-        collider.vars["on_sep5"] = initial_sep_5 - i * sep_5_step
-        print(
-            f"Updating on_sep1 to {collider.vars['on_sep1']._value} on_sep5 to"
-            f" {collider.vars['on_sep5']._value}"
-        )
-
-        if config_bb is not None:
-            t_before_reconfigure = time.time()
-            if i == 0:
-                collider = configure_beam_beam(collider, config_bb)
-            else:
-                print("Loading elements from dictionnary")
-                with open(f"../xtrack_0000/bb_elements_step_{i}.pkl", "rb") as fid:
-                    dic_elements = pickle.load(fid)
-                for beam_temp in ["lhcb1", "lhcb2"]:
-                    for element in dic_elements[beam_temp]:
-                        if "bb_ho" in element:
-                            for attr in set_attr_ho:
-                                if collider[beam_temp][element] != getattr(
-                                    dic_elements[beam_temp][element], attr
-                                ):
-                                    setattr(
-                                        collider[beam_temp][element],
-                                        attr,
-                                        getattr(dic_elements[beam_temp][element], attr),
-                                    )
-                        elif "bb_lr" in element:
-                            for attr in set_attr_lr:
-                                if collider[beam_temp][element] != getattr(
-                                    dic_elements[beam_temp][element], attr
-                                ):
-                                    setattr(
-                                        collider[beam_temp][element],
-                                        attr,
-                                        getattr(dic_elements[beam_temp][element], attr),
-                                    )
-            t_after_reconfigure = time.time()
-            time_reconfigured += t_after_reconfigure - t_before_reconfigure
-        else:
-            raise ValueError("Beam-beam configuration is required for dynamic tracking.")
-
-        # Get twiss
-        # twiss_b1 = collider["lhcb1"].twiss()
-        # Get tune
-        # print(f"Qx: {twiss_b1.qx}, Qy: {twiss_b1.qy}")
-
-        # Compute and save footprint
-        # qx_array, qy_array = return_footprint(collider, config_bb["nemitt_x"])
-        # footprint = np.array([qx_array, qy_array])
-        # np.save(f"footprint_step_{i}.npy", footprint)
-
-        # Track until next checkpoint
-        t_before_tracking = time.time()
-        collider[beam].track(particles, turn_by_turn_monitor=False, num_turns=num_turns_step)
-        t_after_tracking = time.time()
-        time_simulated += t_after_tracking - t_before_tracking
-    time_end = time.time()
-    b = time.time()
-
-    print(f"Total time simulation: {time_end - time_start} s")
-    print(f"Total time reconfiguration: {time_reconfigured} s")
-    print(f"Average time per reconfiguration: {time_reconfigured / (n_steps + 1)} s")
-    print(f"Total time tracking: {time_simulated} s")
-    print(f"Average time tracking per turn: {time_simulated / num_turns} s")
-
-    # print(f"Elapsed time: {b-a} s")
-    print(f"Elapsed time per particle per turn: {(b-a)/particles._capacity/num_turns*1e6} us")
-
-    return particles
+    return collider, config_sim, config_bb
 
 
 # ==================================================================================================
 # --- Main function for collider configuration and tracking
 # ==================================================================================================
-def configure_and_track(config_path="config.yaml"):
+def configure_and_tag(config_path="config.yaml"):
     # Get configuration
     config, config_mad = read_configuration(config_path)
 
@@ -745,22 +488,14 @@ def configure_and_track(config_path="config.yaml"):
     tree_maker_tagging(config, tag="started")
 
     # Configure collider (not saved, since it may trigger overload of afs)
-    collider, config_sim, config_bb = configure_collider(
+    _, _, _ = configure_collider(
         config,
         config_mad,
         save_collider=config["dump_collider"],
         save_config=config["dump_config_in_collider"],
         config_path=config_path,
+        return_collider_before_bb=False,
     )
-
-    # Prepare particle distribution
-    particles = prepare_particle_distribution(config_sim, collider, config_bb)
-
-    # Track
-    particles = track(collider, particles, config_sim, config_bb)
-
-    # Save output
-    pd.DataFrame(particles.to_dict()).to_parquet("output_particles.parquet")
 
     # Remote the correction folder, and potential C files remaining
     try:
@@ -778,4 +513,4 @@ def configure_and_track(config_path="config.yaml"):
 # ==================================================================================================
 
 if __name__ == "__main__":
-    configure_and_track()
+    configure_and_tag()
