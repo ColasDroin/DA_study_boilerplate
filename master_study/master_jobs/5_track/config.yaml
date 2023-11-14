@@ -27,7 +27,7 @@ config_simulation:
   elements_file: ../d_element_attr_regression.pkl
 
   # Distribution in the normalized xy space
-  particle_file: ../../../../1_build_distr_and_collider/particles/00.parquet
+  particle_file: ../../../../base_collider/particles/00.parquet
 
   # Initial off-momentum
   delta_max: 27.e-5
