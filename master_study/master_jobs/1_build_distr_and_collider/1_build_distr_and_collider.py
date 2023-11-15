@@ -1,23 +1,25 @@
 """This script is used to build the base collider with Xmask, configuring only the optics. Functions
 in this script are called sequentially."""
+
 # ==================================================================================================
 # --- Imports
 # ==================================================================================================
-from cpymad.madx import Madx
-import os
-import xmask as xm
-import xmask.lhc as xlhc
-import shutil
-import json
-import yaml
-import logging
-import numpy as np
 import itertools
-import pandas as pd
-import tree_maker
+import json
+import logging
+import os
+import shutil
+
+import numpy as np
 
 # Import user-defined optics-specific tools
 import optics_specific_tools as ost
+import pandas as pd
+import tree_maker
+import xmask as xm
+import xmask.lhc as xlhc
+import yaml
+from cpymad.madx import Madx
 
 
 # ==================================================================================================
@@ -57,7 +59,7 @@ def build_particle_distribution(config_particles):
     radial_list = np.linspace(r_min, r_max, n_r, endpoint=False)
 
     # Filter out particles with low and high amplitude to accelerate simulation
-    radial_list = radial_list[(radial_list >= 4.5) & (radial_list <= 7.5)]
+    radial_list = radial_list[(radial_list >= 2.5) & (radial_list <= 7.5)]
 
     # Define angle distribution
     n_angles = config_particles["n_angles"]
@@ -112,17 +114,17 @@ def build_collider_from_mad(config_mad, sanity_checks=True):
     if sanity_checks:
         mad_b1b2.use(sequence="lhcb1")
         mad_b1b2.twiss()
-        #ost.check_madx_lattices(mad_b1b2)
+        # ost.check_madx_lattices(mad_b1b2)
         mad_b1b2.use(sequence="lhcb2")
         mad_b1b2.twiss()
-        #ost.check_madx_lattices(mad_b1b2)
+        # ost.check_madx_lattices(mad_b1b2)
 
     # Apply optics (only for b4, just for check)
     ost.apply_optics(mad_b4, optics_file=config_mad["optics_file"])
     if sanity_checks:
         mad_b4.use(sequence="lhcb2")
         mad_b4.twiss()
-        #ost.check_madx_lattices(mad_b1b2)
+        # ost.check_madx_lattices(mad_b1b2)
 
     # Build xsuite collider
     collider = xlhc.build_xsuite_collider(
