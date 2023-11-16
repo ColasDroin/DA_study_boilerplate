@@ -106,6 +106,10 @@ d_config_tune_and_chroma["delta_cmi"] = 0.0
 # Define dictionary for the knobs settings
 d_config_knobs = {}
 
+# Phase knob
+d_config_knobs["phase_change.b1"] = 0.0
+d_config_knobs["phase_change.b2"] = 0.0
+
 # Exp. configuration in IR1, IR2, IR5 and IR8
 # d_config_knobs["on_x1"] = -145.000
 # d_config_knobs["on_sep1"] = 0.0
@@ -370,7 +374,7 @@ config["root"]["setup_env_script"] = os.getcwd() + "/../activate_miniforge.sh"
 # --- Build tree and write it to the filesystem
 # ==================================================================================================
 # Define study name
-study_name = "injection_oct_scan_clean"
+study_name = "injection_oct_scan_clean_no_phase_knob"
 
 # Creade folder that will contain the tree
 if not os.path.exists("scans/" + study_name):

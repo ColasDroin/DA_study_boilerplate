@@ -98,6 +98,7 @@ def get_title_from_conf(
     levelling="",
     CC=False,
     display_intensity=True,
+    phase_knob=None,
 ):
     # LHC version
     try:
@@ -305,6 +306,13 @@ def get_title_from_conf(
         if "12inj" in filling_scheme_value:
             filling_scheme_value = filling_scheme_value.split("12inj")[0] + "12inj"
         filling_scheme = f"{filling_scheme_value}"
+
+        # Phase knob
+        if phase_knob is not None:
+            phase_change = "phase_change = " + str(phase_knob)
+        else:
+            phase_change = ""
+
         title = (
             LHC_version
             + ". "
@@ -321,6 +329,8 @@ def get_title_from_conf(
             + beta
             + ", "
             + polarity
+            + ", "
+            + phase_change
             + "\n"
             # + xing_IP1
             # + ", "
@@ -374,6 +384,7 @@ def plot_heatmap(
     vmin=4.5,
     vmax=7.5,
     extended_diagonal=False,
+    phase_knob=None,
 ):
     # Get numpy array from dataframe
     data_array = df_to_plot.to_numpy()
@@ -484,6 +495,7 @@ def plot_heatmap(
                 levelling=levelling,
                 CC=CC,
                 display_intensity=display_intensity,
+                phase_knob=phase_knob,
             ),
             fontsize=10,
         )
