@@ -38,7 +38,7 @@ d_config_particles["n_r"] = 2 * 16 * (d_config_particles["r_max"] - d_config_par
 d_config_particles["n_angles"] = 5
 
 # Number of split for parallelization
-d_config_particles["n_split"] = 1
+d_config_particles["n_split"] = 5
 
 # ==================================================================================================
 # --- Optics collider parameters (generation 1)
@@ -94,8 +94,8 @@ d_config_tune_and_chroma = {
 for beam in ["lhcb1", "lhcb2"]:
     #     d_config_tune_and_chroma["qx"][beam] = 62.31
     #     d_config_tune_and_chroma["qy"][beam] = 60.32
-    d_config_tune_and_chroma["dqx"][beam] = 25.0
-    d_config_tune_and_chroma["dqy"][beam] = 25.0
+    d_config_tune_and_chroma["dqx"][beam] = 15.0
+    d_config_tune_and_chroma["dqy"][beam] = 15.0
 
 # # Value to be added to linear coupling knobs
 d_config_tune_and_chroma["delta_cmr"] = 0.001
@@ -105,7 +105,6 @@ d_config_tune_and_chroma["delta_cmi"] = 0.0
 
 # Define dictionary for the knobs settings
 d_config_knobs = {}
-
 # Exp. configuration in IR1, IR2, IR5 and IR8
 # d_config_knobs["on_x1"] = -145.000
 # d_config_knobs["on_sep1"] = 0.0
@@ -128,8 +127,8 @@ d_config_knobs = {}
 # d_config_knobs["phi_IR8"] = 180.000
 
 # Octupoles
-d_config_knobs["i_oct_b1"] = -40.0
-d_config_knobs["i_oct_b2"] = -40.0
+d_config_knobs["i_oct_b1"] = 40.0
+d_config_knobs["i_oct_b2"] = 40.0
 
 ### leveling configuration
 
@@ -162,14 +161,16 @@ d_config_beambeam = {"mask_with_filling_pattern": {}}
 # Choose if beam beam is on or off
 d_config_beambeam["skip_beambeam"] = False
 # Beam settings
-d_config_beambeam["num_particles_per_bunch"] = 1.6e11
-d_config_beambeam["nemitt_x"] = 2.2e-6
-d_config_beambeam["nemitt_y"] = 2.2e-6
+d_config_beambeam["num_particles_per_bunch"] = 2.3e11
+d_config_beambeam["nemitt_x"] = 2.5e-6
+d_config_beambeam["nemitt_y"] = 2.5e-6
 
 # Filling scheme (in json format)
 # The scheme should consist of a json file containing two lists of booleans (one for each beam),
 # representing each bucket of the LHC.
-filling_scheme_path = os.path.abspath("master_jobs/filling_scheme/filling_scheme_scrubbing.json")
+filling_scheme_path = os.path.abspath(
+    "master_jobs/filling_scheme/25ns_2452b_2440_1952_2240_248bpi_12inj_mixed.json"
+)
 
 # Alternatively, one can get a fill directly from LPC from, e.g.:
 # https://lpc.web.cern.ch/cgi-bin/fillTable.py?year=2023
@@ -271,7 +272,7 @@ d_config_collider["config_beambeam"] = d_config_beambeam
 d_config_simulation = {}
 
 # Number of turns to track
-d_config_simulation["n_turns"] = 100
+d_config_simulation["n_turns"] = 1000000
 
 # Initial off-momentum
 d_config_simulation["delta_max"] = 27.0e-5
@@ -285,8 +286,8 @@ d_config_simulation["beam"] = "lhcb1"
 # Below, the user chooses if the gen 2 collider must be dumped, along with the corresponding
 # configuration.
 # ==================================================================================================
-dump_collider = True
-dump_config_in_collider = True
+dump_collider = False
+dump_config_in_collider = False
 
 # ==================================================================================================
 # --- Machine parameters being scanned (generation 2)
@@ -295,9 +296,14 @@ dump_config_in_collider = True
 # optimal DA (e.g. tune, chroma, etc).
 # ==================================================================================================
 # Scan tune with step of 0.001 (need to round to correct for numpy numerical instabilities)
-array_qx = np.round(np.arange(62.25, 62.35, 0.005), decimals=4)[:1]
-array_qy = np.round(np.arange(60.25, 60.35, 0.005), decimals=4)[:1]
-
+array_qx = np.round(np.arange(62.25, 62.35, 0.005), decimals=4)
+array_qy = np.round(np.arange(60.25, 60.35, 0.005), decimals=4)
+array_I = [-45, +45]
+array_phase_change = [0.0, 1.0]
+# In case one is doing a tune-tune scan, to decrease the size of the scan, we can ignore the
+# working points too close to resonance. Otherwise just delete this variable in the loop at the end
+# of the script
+keep = "upper_triangle"  # "upper_triangle"  # 'lower_triangle', 'all'
 # ==================================================================================================
 # --- Make tree for the simulations (generation 1)
 #
@@ -326,12 +332,22 @@ children["base_collider"]["config_mad"] = d_config_mad
 # ! otherwise the dictionnary will be mutated for all the children.
 # ==================================================================================================
 track_array = np.arange(d_config_particles["n_split"])
-for idx_job, (track, qx, qy) in enumerate(itertools.product(track_array, array_qx, array_qy)):
+for idx_job, (track, phase, I, qx, qy) in enumerate(
+    itertools.product(track_array, array_phase_change, array_I, array_qy, array_qy)
+):
 
     # Mutate the appropriate collider parameters
     for beam in ["lhcb1", "lhcb2"]:
         d_config_collider["config_knobs_and_tuning"]["qx"][beam] = float(qx)
         d_config_collider["config_knobs_and_tuning"]["qy"][beam] = float(qy)
+        d_config_collider["config_knobs_and_tuning"]["knob_settings"]["i_oct_b1"] = float(I)
+        d_config_collider["config_knobs_and_tuning"]["knob_settings"]["i_oct_b2"] = float(I)
+        d_config_collider["config_knobs_and_tuning"]["knob_settings"]["phase_change.b1"] = float(
+            phase
+        )
+        d_config_collider["config_knobs_and_tuning"]["knob_settings"]["phase_change.b2"] = float(
+            phase
+        )
 
     # Complete the dictionnary for the tracking
     d_config_simulation["particle_file"] = f"../particles/{track:02}.parquet"
@@ -362,7 +378,7 @@ config["root"]["setup_env_script"] = os.getcwd() + "/../activate_miniforge.sh"
 # --- Build tree and write it to the filesystem
 # ==================================================================================================
 # Define study name
-study_name = "injection_oct_scan_kostas"
+study_name = "injection_tune_scan_oct_phase"
 
 # Creade folder that will contain the tree
 if not os.path.exists("scans/" + study_name):
