@@ -333,7 +333,7 @@ children["base_collider"]["config_mad"] = d_config_mad
 # ==================================================================================================
 track_array = np.arange(d_config_particles["n_split"])
 for idx_job, (track, phase, I, qx, qy) in enumerate(
-    itertools.product(track_array, array_phase_change, array_I, array_qy, array_qy)
+    itertools.product(track_array, array_phase_change, array_I, array_qx, array_qy)
 ):
 
     # Mutate the appropriate collider parameters
