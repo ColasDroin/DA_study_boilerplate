@@ -99,24 +99,29 @@ def get_title_from_conf(
     CC=False,
     display_intensity=True,
     phase_knob=None,
+    octupoles=None,
+    LHC_version=None,
 ):
     # LHC version
-    try:
-        LHC_version = conf_mad["links"]["acc-models-lhc"].split("modules/")[1]
-        if LHC_version == "hllhc15":
-            LHC_version = "HL-LHC v1.5"
-        elif LHC_version == "hllhc16":
-            LHC_version = "HL-LHC v1.6"
-        elif LHC_version == "2023":
-            LHC_version = "Injection (runIII 2023)"
-    except:
-        LHC_version = conf_mad["links"]["acc-models-lhc"].split("optics/")[1]
-        if LHC_version == "runIII":
-            LHC_version = "Run III"
-        if "2023" in conf_mad["optics_file"]:
-            LHC_version = LHC_version + " (2023)"
-        elif "2024" in conf_mad["optics_file"]:
-            LHC_version = LHC_version + " (2024)"
+    if LHC_version is not None:
+        LHC_version = LHC_version
+    else:
+        try:
+            LHC_version = conf_mad["links"]["acc-models-lhc"].split("modules/")[1]
+            if LHC_version == "hllhc15":
+                LHC_version = "HL-LHC v1.5"
+            elif LHC_version == "hllhc16":
+                LHC_version = "HL-LHC v1.6"
+            elif LHC_version == "2023":
+                LHC_version = "Injection (runIII 2023)"
+        except:
+            LHC_version = conf_mad["links"]["acc-models-lhc"].split("optics/")[1]
+            if LHC_version == "runIII":
+                LHC_version = "Run III"
+            if "2023" in conf_mad["optics_file"]:
+                LHC_version = LHC_version + " (2023)"
+            elif "2024" in conf_mad["optics_file"]:
+                LHC_version = LHC_version + " (2024)"
 
     # Energy
     energy_value = float(conf_mad["beam_config"]["lhcb1"]["beam_energy_tot"]) / 1000
@@ -290,7 +295,12 @@ def get_title_from_conf(
 
         # Intensity
         if display_intensity:
-            intensity_value = conf_collider["config_knobs_and_tuning"]["knob_settings"]["i_oct_b1"]
+            if octupoles is not None:
+                intensity_value = octupoles
+            else:
+                intensity_value = conf_collider["config_knobs_and_tuning"]["knob_settings"][
+                    "i_oct_b1"
+                ]
             intensity = f"$I_{{MO}} = {{{intensity_value}}}$ $A$, "
         else:
             intensity = ""
@@ -385,6 +395,8 @@ def plot_heatmap(
     vmax=7.5,
     extended_diagonal=False,
     phase_knob=None,
+    octupoles=None,
+    LHC_version=None,
 ):
     # Get numpy array from dataframe
     data_array = df_to_plot.to_numpy()
@@ -496,6 +508,8 @@ def plot_heatmap(
                 CC=CC,
                 display_intensity=display_intensity,
                 phase_knob=phase_knob,
+                octupoles=octupoles,
+                LHC_version=LHC_version,
             ),
             fontsize=10,
         )

@@ -38,7 +38,7 @@ d_config_particles["n_r"] = 2 * 16 * (d_config_particles["r_max"] - d_config_par
 d_config_particles["n_angles"] = 5
 
 # Number of split for parallelization
-d_config_particles["n_split"] = 1
+d_config_particles["n_split"] = 5
 
 # ==================================================================================================
 # --- Optics collider parameters (generation 1)
@@ -271,7 +271,7 @@ d_config_collider["config_beambeam"] = d_config_beambeam
 d_config_simulation = {}
 
 # Number of turns to track
-d_config_simulation["n_turns"] = 100
+d_config_simulation["n_turns"] = 1000000
 
 # Initial off-momentum
 d_config_simulation["delta_max"] = 27.0e-5
@@ -285,8 +285,8 @@ d_config_simulation["beam"] = "lhcb1"
 # Below, the user chooses if the gen 2 collider must be dumped, along with the corresponding
 # configuration.
 # ==================================================================================================
-dump_collider = True
-dump_config_in_collider = True
+dump_collider = False
+dump_config_in_collider = False
 
 # ==================================================================================================
 # --- Machine parameters being scanned (generation 2)
@@ -295,8 +295,8 @@ dump_config_in_collider = True
 # optimal DA (e.g. tune, chroma, etc).
 # ==================================================================================================
 # Scan tune with step of 0.001 (need to round to correct for numpy numerical instabilities)
-array_qx = np.round(np.arange(62.25, 62.35, 0.005), decimals=4)[:1]
-array_qy = np.round(np.arange(60.25, 60.35, 0.005), decimals=4)[:1]
+array_qx = np.round(np.arange(62.25, 62.35, 0.005), decimals=4)
+array_qy = np.round(np.arange(60.25, 60.35, 0.005), decimals=4)
 
 # ==================================================================================================
 # --- Make tree for the simulations (generation 1)
