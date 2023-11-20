@@ -394,6 +394,8 @@ def plot_heatmap(
     vmin=4.5,
     vmax=7.5,
     extended_diagonal=False,
+    prevent_mask=False,
+    small_delta_diagonal=False,
     phase_knob=None,
     octupoles=None,
     LHC_version=None,
@@ -451,12 +453,16 @@ def plot_heatmap(
         mask = np.tri(data_smoothed.shape[0], k=-1)
         mx = np.ma.masked_array(data_smoothed, mask=mask.T)
     elif extended_diagonal:
-        try:
-            mask = np.tri(data_smoothed.shape[0], k=-5)
-            mx = np.ma.masked_array(data_smoothed, mask=mask.T)
-        except:
-            print("Did not manage to mask properly")
+        if prevent_mask:
             mx = data_smoothed
+        else:
+            try:
+                mask = np.tri(data_smoothed.shape[0], k=-5)
+                mx = np.ma.masked_array(data_smoothed, mask=mask.T)
+            except:
+                print("Did not manage to mask properly")
+                mx = data_smoothed
+
     else:
         mx = data_smoothed
 
@@ -486,8 +492,12 @@ def plot_heatmap(
         # ! Careful, depending on how the tunes were defined, may be shifted by 1
         # Diagonal lines
         if extended_diagonal:
-            ax.plot([0, 1000], [5, 1005], color="tab:blue", linestyle="--", linewidth=1)
-            ax.plot([0, 1000], [-5, 995], color="tab:blue", linestyle="--", linewidth=1)
+            if small_delta_diagonal:
+                ax.plot([0, 1000], [1, 1001], color="tab:blue", linestyle="--", linewidth=1)
+                ax.plot([0, 1000], [-1, 999], color="tab:blue", linestyle="--", linewidth=1)
+            else:
+                ax.plot([0, 1000], [5, 1005], color="tab:blue", linestyle="--", linewidth=1)
+                ax.plot([0, 1000], [-5, 995], color="tab:blue", linestyle="--", linewidth=1)
             ax.plot([0, 1000], [0, 1000], color="black", linestyle="--", linewidth=1)
         else:
             ax.plot([0, 1000], [1, 1001], color="tab:blue", linestyle="--", linewidth=1)
