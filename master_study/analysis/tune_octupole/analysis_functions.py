@@ -101,6 +101,7 @@ def get_title_from_conf(
     phase_knob=None,
     octupoles=None,
     LHC_version=None,
+    name_filling_scheme=None,
 ):
     # LHC version
     if LHC_version is not None:
@@ -310,12 +311,15 @@ def get_title_from_conf(
         coupling = f"$C^- = {{{coupling_value}}}$"
 
         # Filling scheme
-        filling_scheme_value = conf_collider["config_beambeam"]["mask_with_filling_pattern"][
-            "pattern_fname"
-        ].split("filling_scheme/")[1]
-        if "12inj" in filling_scheme_value:
-            filling_scheme_value = filling_scheme_value.split("12inj")[0] + "12inj"
-        filling_scheme = f"{filling_scheme_value}"
+        if name_filling_scheme is None:
+            filling_scheme_value = conf_collider["config_beambeam"]["mask_with_filling_pattern"][
+                "pattern_fname"
+            ].split("filling_scheme/")[1]
+            if "12inj" in filling_scheme_value:
+                filling_scheme_value = filling_scheme_value.split("12inj")[0] + "12inj"
+            filling_scheme = f"{filling_scheme_value}"
+        else:
+            filling_scheme = name_filling_scheme
 
         # Phase knob
         if phase_knob is not None:
@@ -399,6 +403,7 @@ def plot_heatmap(
     phase_knob=None,
     octupoles=None,
     LHC_version=None,
+    name_filling_scheme=None,
 ):
     # Get numpy array from dataframe
     data_array = df_to_plot.to_numpy()
@@ -520,6 +525,7 @@ def plot_heatmap(
                 phase_knob=phase_knob,
                 octupoles=octupoles,
                 LHC_version=LHC_version,
+                name_filling_scheme=name_filling_scheme,
             ),
             fontsize=10,
         )
