@@ -156,8 +156,8 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
 
     # Define steps for separation update
     n_steps = 20
-    initial_sep_1 = collider.vars["on_sep1"]._value
-    initial_sep_5 = collider.vars["on_sep5"]._value
+    initial_sep_1 = collider.vars["on_sep1"]._value/20
+    initial_sep_5 = collider.vars["on_sep5"]._value/20
     num_turns_step = int(num_turns / (n_steps + 1))
     sep_1_step = initial_sep_1 / n_steps
     sep_5_step = initial_sep_5 / n_steps

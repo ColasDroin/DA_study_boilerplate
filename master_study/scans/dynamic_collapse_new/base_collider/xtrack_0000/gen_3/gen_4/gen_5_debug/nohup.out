@@ -3584,4 +3584,595 @@ Configuring beam-beam with apply_filing_pattern (f2023-11-22 15:07:22.435060)
 Done configuring (f2023-11-22 15:07:22.479328)
 Updating on_sep1 to -0.08249999999999996 on_sep5 to 0.08249999999999996
 Configuring beam-beam with configure_beambeam_interactions (f2023-11-22 16:26:18.428534)
-Crabbing at bb_ho.l1b1_01     Crabbing at bb_ho.l1b1_02     Crabbing at bb_ho.l1b1_03     Crabbing at bb_ho.l1b1_04     Crabbing at bb_ho.l1b1_05     Crabbing at bb_ho.l2b1_01     Crabbing at bb_ho.l2b1_02     Crabbing at bb_ho.l2b1_03     Crabbing at bb_ho.l2b1_04     Crabbing at bb_ho.l2b1_05     Crabbing at bb_ho.l5b1_01     Crabbing at bb_ho.l5b1_02     Crabbing at bb_ho.l5b1_03     Crabbing at bb_ho.l5b1_04     Crabbing at bb_ho.l5b1_05     Crabbing at bb_ho.l8b1_01     Crabbing at bb_ho.l8b1_02     Crabbing at bb_ho.l8b1_03     Crabbing at bb_ho.l8b1_04     Crabbing at bb_ho.l8b1_05     Crabbing at bb_ho.r1b1_01     Crabbing at bb_ho.r1b1_02     Crabbing at bb_ho.r1b1_03     Crabbing at bb_ho.r1b1_04     Crabbing at bb_ho.r1b1_05     Crabbing at bb_ho.r2b1_01     Crabbing at bb_ho.r2b1_02     Crabbing at bb_ho.r2b1_03     Crabbing at bb_ho.r2b1_04     Crabbing at bb_ho.r2b1_05     Crabbing at bb_ho.r5b1_01     Crabbing at bb_ho.r5b1_02     Crabbing at bb_ho.r5b1_03     Crabbing at bb_ho.r5b1_04     Crabbing at bb_ho.r5b1_05     Crabbing at bb_ho.r8b1_01     Crabbing at bb_ho.r8b1_02     Crabbing at bb_ho.r8b1_03     Crabbing at bb_ho.r8b1_04     Crabbing at bb_ho.r8b1_05     Crabbing at bb_ho.l1b2_01     Crabbing at bb_ho.l1b2_02     Crabbing at bb_ho.l1b2_03     Crabbing at bb_ho.l1b2_04     Crabbing at bb_ho.l1b2_05     Crabbing at bb_ho.l2b2_01     Crabbing at bb_ho.l2b2_02     Crabbing at bb_ho.l2b2_03     Crabbing at bb_ho.l2b2_04     Crabbing at bb_ho.l2b2_05     Crabbing at bb_ho.l5b2_01     Crabbing at bb_ho.l5b2_02     Crabbing at bb_ho.l5b2_03     Crabbing at bb_ho.l5b2_04     Crabbing at bb_ho.l5b2_05     Crabbing at bb_ho.l8b2_01     Crabbing at bb_ho.l8b2_02     Crabbing at bb_ho.l8b2_03     Crabbing at bb_ho.l8b2_04     Crabbing at bb_ho.l8b2_05     Crabbing at bb_ho.r1b2_01     Crabbing at bb_ho.r1b2_02     Crabbing at bb_ho.r1b2_03     Crabbing at bb_ho.r1b2_04     Crabbing at bb_ho.r1b2_05     Crabbing at bb_ho.r2b2_01     Crabbing at bb_ho.r2b2_02     Crabbing at bb_ho.r2b2_03     Crabbing at bb_ho.r2b2_04     Crabbing at bb_ho.r2b2_05     Crabbing at bb_ho.r5b2_01     Crabbing at bb_ho.r5b2_02     Crabbing at bb_ho.r5b2_03     Crabbing at bb_ho.r5b2_04     Crabbing at bb_ho.r5b2_05     Crabbing at bb_ho.r8b2_01     Crabbing at bb_ho.r8b2_02     Crabbing at bb_ho.r8b2_03     Crabbing at bb_ho.r8b2_04     Crabbing at bb_ho.r8b2_05     
+Crabbing at bb_ho.l1b1_01     Crabbing at bb_ho.l1b1_02     Crabbing at bb_ho.l1b1_03     Crabbing at bb_ho.l1b1_04     Crabbing at bb_ho.l1b1_05     Crabbing at bb_ho.l2b1_01     Crabbing at bb_ho.l2b1_02     Crabbing at bb_ho.l2b1_03     Crabbing at bb_ho.l2b1_04     Crabbing at bb_ho.l2b1_05     Crabbing at bb_ho.l5b1_01     Crabbing at bb_ho.l5b1_02     Crabbing at bb_ho.l5b1_03     Crabbing at bb_ho.l5b1_04     Crabbing at bb_ho.l5b1_05     Crabbing at bb_ho.l8b1_01     Crabbing at bb_ho.l8b1_02     Crabbing at bb_ho.l8b1_03     Crabbing at bb_ho.l8b1_04     Crabbing at bb_ho.l8b1_05     Crabbing at bb_ho.r1b1_01     Crabbing at bb_ho.r1b1_02     Crabbing at bb_ho.r1b1_03     Crabbing at bb_ho.r1b1_04     Crabbing at bb_ho.r1b1_05     Crabbing at bb_ho.r2b1_01     Crabbing at bb_ho.r2b1_02     Crabbing at bb_ho.r2b1_03     Crabbing at bb_ho.r2b1_04     Crabbing at bb_ho.r2b1_05     Crabbing at bb_ho.r5b1_01     Crabbing at bb_ho.r5b1_02     Crabbing at bb_ho.r5b1_03     Crabbing at bb_ho.r5b1_04     Crabbing at bb_ho.r5b1_05     Crabbing at bb_ho.r8b1_01     Crabbing at bb_ho.r8b1_02     Crabbing at bb_ho.r8b1_03     Crabbing at bb_ho.r8b1_04     Crabbing at bb_ho.r8b1_05     Crabbing at bb_ho.l1b2_01     Crabbing at bb_ho.l1b2_02     Crabbing at bb_ho.l1b2_03     Crabbing at bb_ho.l1b2_04     Crabbing at bb_ho.l1b2_05     Crabbing at bb_ho.l2b2_01     Crabbing at bb_ho.l2b2_02     Crabbing at bb_ho.l2b2_03     Crabbing at bb_ho.l2b2_04     Crabbing at bb_ho.l2b2_05     Crabbing at bb_ho.l5b2_01     Crabbing at bb_ho.l5b2_02     Crabbing at bb_ho.l5b2_03     Crabbing at bb_ho.l5b2_04     Crabbing at bb_ho.l5b2_05     Crabbing at bb_ho.l8b2_01     Crabbing at bb_ho.l8b2_02     Crabbing at bb_ho.l8b2_03     Crabbing at bb_ho.l8b2_04     Crabbing at bb_ho.l8b2_05     Crabbing at bb_ho.r1b2_01     Crabbing at bb_ho.r1b2_02     Crabbing at bb_ho.r1b2_03     Crabbing at bb_ho.r1b2_04     Crabbing at bb_ho.r1b2_05     Crabbing at bb_ho.r2b2_01     Crabbing at bb_ho.r2b2_02     Crabbing at bb_ho.r2b2_03     Crabbing at bb_ho.r2b2_04     Crabbing at bb_ho.r2b2_05     Crabbing at bb_ho.r5b2_01     Crabbing at bb_ho.r5b2_02     Crabbing at bb_ho.r5b2_03     Crabbing at bb_ho.r5b2_04     Crabbing at bb_ho.r5b2_05     Crabbing at bb_ho.r8b2_01     Crabbing at bb_ho.r8b2_02     Crabbing at bb_ho.r8b2_03     Crabbing at bb_ho.r8b2_04     Crabbing at bb_ho.r8b2_05     bb_lr.l1b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+Configuring beam-beam with apply_filing_pattern (f2023-11-22 16:29:07.630043)
+Done configuring (f2023-11-22 16:29:07.655428)
+Updating on_sep1 to -0.05499999999999999 on_sep5 to 0.05499999999999999
+Configuring beam-beam with configure_beambeam_interactions (f2023-11-22 17:47:20.793620)
+Crabbing at bb_ho.l1b1_01     Crabbing at bb_ho.l1b1_02     Crabbing at bb_ho.l1b1_03     Crabbing at bb_ho.l1b1_04     Crabbing at bb_ho.l1b1_05     Crabbing at bb_ho.l2b1_01     Crabbing at bb_ho.l2b1_02     Crabbing at bb_ho.l2b1_03     Crabbing at bb_ho.l2b1_04     Crabbing at bb_ho.l2b1_05     Crabbing at bb_ho.l5b1_01     Crabbing at bb_ho.l5b1_02     Crabbing at bb_ho.l5b1_03     Crabbing at bb_ho.l5b1_04     Crabbing at bb_ho.l5b1_05     Crabbing at bb_ho.l8b1_01     Crabbing at bb_ho.l8b1_02     Crabbing at bb_ho.l8b1_03     Crabbing at bb_ho.l8b1_04     Crabbing at bb_ho.l8b1_05     Crabbing at bb_ho.r1b1_01     Crabbing at bb_ho.r1b1_02     Crabbing at bb_ho.r1b1_03     Crabbing at bb_ho.r1b1_04     Crabbing at bb_ho.r1b1_05     Crabbing at bb_ho.r2b1_01     Crabbing at bb_ho.r2b1_02     Crabbing at bb_ho.r2b1_03     Crabbing at bb_ho.r2b1_04     Crabbing at bb_ho.r2b1_05     Crabbing at bb_ho.r5b1_01     Crabbing at bb_ho.r5b1_02     Crabbing at bb_ho.r5b1_03     Crabbing at bb_ho.r5b1_04     Crabbing at bb_ho.r5b1_05     Crabbing at bb_ho.r8b1_01     Crabbing at bb_ho.r8b1_02     Crabbing at bb_ho.r8b1_03     Crabbing at bb_ho.r8b1_04     Crabbing at bb_ho.r8b1_05     Crabbing at bb_ho.l1b2_01     Crabbing at bb_ho.l1b2_02     Crabbing at bb_ho.l1b2_03     Crabbing at bb_ho.l1b2_04     Crabbing at bb_ho.l1b2_05     Crabbing at bb_ho.l2b2_01     Crabbing at bb_ho.l2b2_02     Crabbing at bb_ho.l2b2_03     Crabbing at bb_ho.l2b2_04     Crabbing at bb_ho.l2b2_05     Crabbing at bb_ho.l5b2_01     Crabbing at bb_ho.l5b2_02     Crabbing at bb_ho.l5b2_03     Crabbing at bb_ho.l5b2_04     Crabbing at bb_ho.l5b2_05     Crabbing at bb_ho.l8b2_01     Crabbing at bb_ho.l8b2_02     Crabbing at bb_ho.l8b2_03     Crabbing at bb_ho.l8b2_04     Crabbing at bb_ho.l8b2_05     Crabbing at bb_ho.r1b2_01     Crabbing at bb_ho.r1b2_02     Crabbing at bb_ho.r1b2_03     Crabbing at bb_ho.r1b2_04     Crabbing at bb_ho.r1b2_05     Crabbing at bb_ho.r2b2_01     Crabbing at bb_ho.r2b2_02     Crabbing at bb_ho.r2b2_03     Crabbing at bb_ho.r2b2_04     Crabbing at bb_ho.r2b2_05     Crabbing at bb_ho.r5b2_01     Crabbing at bb_ho.r5b2_02     Crabbing at bb_ho.r5b2_03     Crabbing at bb_ho.r5b2_04     Crabbing at bb_ho.r5b2_05     Crabbing at bb_ho.r8b2_01     Crabbing at bb_ho.r8b2_02     Crabbing at bb_ho.r8b2_03     Crabbing at bb_ho.r8b2_04     Crabbing at bb_ho.r8b2_05     bb_lr.l1b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+Configuring beam-beam with apply_filing_pattern (f2023-11-22 17:50:13.399909)
+Done configuring (f2023-11-22 17:50:31.372898)
+Updating on_sep1 to -0.02749999999999997 on_sep5 to 0.02749999999999997
+Configuring beam-beam with configure_beambeam_interactions (f2023-11-22 19:09:11.868977)
+Crabbing at bb_ho.l1b1_01     Crabbing at bb_ho.l1b1_02     Crabbing at bb_ho.l1b1_03     Crabbing at bb_ho.l1b1_04     Crabbing at bb_ho.l1b1_05     Crabbing at bb_ho.l2b1_01     Crabbing at bb_ho.l2b1_02     Crabbing at bb_ho.l2b1_03     Crabbing at bb_ho.l2b1_04     Crabbing at bb_ho.l2b1_05     Crabbing at bb_ho.l5b1_01     Crabbing at bb_ho.l5b1_02     Crabbing at bb_ho.l5b1_03     Crabbing at bb_ho.l5b1_04     Crabbing at bb_ho.l5b1_05     Crabbing at bb_ho.l8b1_01     Crabbing at bb_ho.l8b1_02     Crabbing at bb_ho.l8b1_03     Crabbing at bb_ho.l8b1_04     Crabbing at bb_ho.l8b1_05     Crabbing at bb_ho.r1b1_01     Crabbing at bb_ho.r1b1_02     Crabbing at bb_ho.r1b1_03     Crabbing at bb_ho.r1b1_04     Crabbing at bb_ho.r1b1_05     Crabbing at bb_ho.r2b1_01     Crabbing at bb_ho.r2b1_02     Crabbing at bb_ho.r2b1_03     Crabbing at bb_ho.r2b1_04     Crabbing at bb_ho.r2b1_05     Crabbing at bb_ho.r5b1_01     Crabbing at bb_ho.r5b1_02     Crabbing at bb_ho.r5b1_03     Crabbing at bb_ho.r5b1_04     Crabbing at bb_ho.r5b1_05     Crabbing at bb_ho.r8b1_01     Crabbing at bb_ho.r8b1_02     Crabbing at bb_ho.r8b1_03     Crabbing at bb_ho.r8b1_04     Crabbing at bb_ho.r8b1_05     Crabbing at bb_ho.l1b2_01     Crabbing at bb_ho.l1b2_02     Crabbing at bb_ho.l1b2_03     Crabbing at bb_ho.l1b2_04     Crabbing at bb_ho.l1b2_05     Crabbing at bb_ho.l2b2_01     Crabbing at bb_ho.l2b2_02     Crabbing at bb_ho.l2b2_03     Crabbing at bb_ho.l2b2_04     Crabbing at bb_ho.l2b2_05     Crabbing at bb_ho.l5b2_01     Crabbing at bb_ho.l5b2_02     Crabbing at bb_ho.l5b2_03     Crabbing at bb_ho.l5b2_04     Crabbing at bb_ho.l5b2_05     Crabbing at bb_ho.l8b2_01     Crabbing at bb_ho.l8b2_02     Crabbing at bb_ho.l8b2_03     Crabbing at bb_ho.l8b2_04     Crabbing at bb_ho.l8b2_05     Crabbing at bb_ho.r1b2_01     Crabbing at bb_ho.r1b2_02     Crabbing at bb_ho.r1b2_03     Crabbing at bb_ho.r1b2_04     Crabbing at bb_ho.r1b2_05     Crabbing at bb_ho.r2b2_01     Crabbing at bb_ho.r2b2_02     Crabbing at bb_ho.r2b2_03     Crabbing at bb_ho.r2b2_04     Crabbing at bb_ho.r2b2_05     Crabbing at bb_ho.r5b2_01     Crabbing at bb_ho.r5b2_02     Crabbing at bb_ho.r5b2_03     Crabbing at bb_ho.r5b2_04     Crabbing at bb_ho.r5b2_05     Crabbing at bb_ho.r8b2_01     Crabbing at bb_ho.r8b2_02     Crabbing at bb_ho.r8b2_03     Crabbing at bb_ho.r8b2_04     Crabbing at bb_ho.r8b2_05     bb_lr.l1b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+Configuring beam-beam with apply_filing_pattern (f2023-11-22 19:12:01.526456)
+Done configuring (f2023-11-22 19:12:01.641221)
+Updating on_sep1 to 0.0 on_sep5 to 0.0
+Configuring beam-beam with configure_beambeam_interactions (f2023-11-22 20:29:37.103016)
+Crabbing at bb_ho.l1b1_01     Crabbing at bb_ho.l1b1_02     Crabbing at bb_ho.l1b1_03     Crabbing at bb_ho.l1b1_04     Crabbing at bb_ho.l1b1_05     Crabbing at bb_ho.l2b1_01     Crabbing at bb_ho.l2b1_02     Crabbing at bb_ho.l2b1_03     Crabbing at bb_ho.l2b1_04     Crabbing at bb_ho.l2b1_05     Crabbing at bb_ho.l5b1_01     Crabbing at bb_ho.l5b1_02     Crabbing at bb_ho.l5b1_03     Crabbing at bb_ho.l5b1_04     Crabbing at bb_ho.l5b1_05     Crabbing at bb_ho.l8b1_01     Crabbing at bb_ho.l8b1_02     Crabbing at bb_ho.l8b1_03     Crabbing at bb_ho.l8b1_04     Crabbing at bb_ho.l8b1_05     Crabbing at bb_ho.r1b1_01     Crabbing at bb_ho.r1b1_02     Crabbing at bb_ho.r1b1_03     Crabbing at bb_ho.r1b1_04     Crabbing at bb_ho.r1b1_05     Crabbing at bb_ho.r2b1_01     Crabbing at bb_ho.r2b1_02     Crabbing at bb_ho.r2b1_03     Crabbing at bb_ho.r2b1_04     Crabbing at bb_ho.r2b1_05     Crabbing at bb_ho.r5b1_01     Crabbing at bb_ho.r5b1_02     Crabbing at bb_ho.r5b1_03     Crabbing at bb_ho.r5b1_04     Crabbing at bb_ho.r5b1_05     Crabbing at bb_ho.r8b1_01     Crabbing at bb_ho.r8b1_02     Crabbing at bb_ho.r8b1_03     Crabbing at bb_ho.r8b1_04     Crabbing at bb_ho.r8b1_05     Crabbing at bb_ho.l1b2_01     Crabbing at bb_ho.l1b2_02     Crabbing at bb_ho.l1b2_03     Crabbing at bb_ho.l1b2_04     Crabbing at bb_ho.l1b2_05     Crabbing at bb_ho.l2b2_01     Crabbing at bb_ho.l2b2_02     Crabbing at bb_ho.l2b2_03     Crabbing at bb_ho.l2b2_04     Crabbing at bb_ho.l2b2_05     Crabbing at bb_ho.l5b2_01     Crabbing at bb_ho.l5b2_02     Crabbing at bb_ho.l5b2_03     Crabbing at bb_ho.l5b2_04     Crabbing at bb_ho.l5b2_05     Crabbing at bb_ho.l8b2_01     Crabbing at bb_ho.l8b2_02     Crabbing at bb_ho.l8b2_03     Crabbing at bb_ho.l8b2_04     Crabbing at bb_ho.l8b2_05     Crabbing at bb_ho.r1b2_01     Crabbing at bb_ho.r1b2_02     Crabbing at bb_ho.r1b2_03     Crabbing at bb_ho.r1b2_04     Crabbing at bb_ho.r1b2_05     Crabbing at bb_ho.r2b2_01     Crabbing at bb_ho.r2b2_02     Crabbing at bb_ho.r2b2_03     Crabbing at bb_ho.r2b2_04     Crabbing at bb_ho.r2b2_05     Crabbing at bb_ho.r5b2_01     Crabbing at bb_ho.r5b2_02     Crabbing at bb_ho.r5b2_03     Crabbing at bb_ho.r5b2_04     Crabbing at bb_ho.r5b2_05     Crabbing at bb_ho.r8b2_01     Crabbing at bb_ho.r8b2_02     Crabbing at bb_ho.r8b2_03     Crabbing at bb_ho.r8b2_04     Crabbing at bb_ho.r8b2_05     bb_lr.l1b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+Configuring beam-beam with apply_filing_pattern (f2023-11-22 20:32:29.268460)
+Done configuring (f2023-11-22 20:32:29.319675)
+Elapsed time: 102620.78525352478 s
+Elapsed time per particle per turn: 423.17849589082385 us
