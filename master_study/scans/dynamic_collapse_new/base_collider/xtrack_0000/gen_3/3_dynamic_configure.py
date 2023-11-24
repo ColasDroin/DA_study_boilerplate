@@ -14,10 +14,7 @@ import ruamel.yaml
 import tree_maker
 import xmask as xm
 import xtrack as xt
-from misc import (
-    set_attr_ho,
-    set_attr_lr,
-)
+from misc import set_attr_ho, set_attr_lr
 
 # Initialize yaml reader
 ryaml = ruamel.yaml.YAML()
@@ -125,7 +122,7 @@ def get_dynamic_configure_collider(config):
 def save_dynamic_configuration(collider, config_bb):
 
     # Define steps for separation update
-    n_steps = 5
+    n_steps = 25
     initial_sep_1 = collider.vars["on_sep1"]._value
     initial_sep_5 = collider.vars["on_sep5"]._value
     sep_1_step = initial_sep_1 / n_steps
