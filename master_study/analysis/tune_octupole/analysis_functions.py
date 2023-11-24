@@ -102,6 +102,7 @@ def get_title_from_conf(
     octupoles=None,
     LHC_version=None,
     name_filling_scheme=None,
+    emittance=None,
 ):
     # LHC version
     if LHC_version is not None:
@@ -287,7 +288,10 @@ def get_title_from_conf(
         polarity = f"$polarity$ $IP_{{2/8}} = {{{polarity_value_IP2}}}/{{{polarity_value_IP8}}}$"
 
         # Normalized emittance
-        emittance_value = round(conf_collider["config_beambeam"]["nemitt_x"] / 1e-6, 2)
+        if emittance is None:
+            emittance_value = round(conf_collider["config_beambeam"]["nemitt_x"] / 1e-6, 2)
+        else:
+            emittance_value = emittance
         emittance = f"$\epsilon_{{n}} = {{{emittance_value}}}$ $\mu m$"
 
         # Chromaticity
@@ -404,6 +408,7 @@ def plot_heatmap(
     octupoles=None,
     LHC_version=None,
     name_filling_scheme=None,
+    label_colormap="Minimum DA (" + r"$\sigma$" + ")",
 ):
     # Get numpy array from dataframe
     data_array = df_to_plot.to_numpy()
@@ -547,7 +552,7 @@ def plot_heatmap(
 
     # Create colorbar
     cbar = ax.figure.colorbar(im, ax=ax, fraction=0.026, pad=0.04)
-    cbar.ax.set_ylabel("Minimum DA (" + r"$\sigma$" + ")", rotation=90, va="bottom", labelpad=15)
+    cbar.ax.set_ylabel(label_colormap, rotation=90, va="bottom", labelpad=15)
     plt.grid(visible=None)
 
     # Add QR code
