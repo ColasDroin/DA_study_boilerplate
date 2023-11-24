@@ -69,8 +69,8 @@ phase_change = 1.0
 
 collider.vars["phase_change.b1"] = phase_change
 collider.vars["phase_change.b2"] = phase_change
-l_fma = []
-for octupoles in range_octupoles:
+l_names = []
+for idx, octupoles in enumerate(range_octupoles):
     collider.vars["i_oct_b1"] = octupoles
     collider.vars["i_oct_b2"] = octupoles
     try:
@@ -84,59 +84,42 @@ for octupoles in range_octupoles:
         )
     except Exception as e:
         print(e)
-        l_fma.append(None)
         continue
-    # pickle the fma
-    with open(f"pickle/fma_{octupoles}_{phase_change}.pkl", "wb") as f:
-        pickle.dump(fma, f)
 
-    # Add to list
-    l_fma.append(fma)
-
-# %%
-l_names = []
-for idx, (octupoles, fma) in enumerate(zip(range_octupoles, l_fma)):
-    if fma is not None:
-        plt.figure(figsize=(5, 5))
-        workingDiagram(order=10, alpha=0.1)
-        fma.plot_fma(s=0.1)
-        plt.grid(True)
-        plt.xlim(0.2, 0.35)
-        plt.ylim(0.2, 0.35)
-        plt.title(
-            analysis_functions.get_title_from_conf(
-                conf_mad,
-                conf_collider,
-                betx=11,
-                bety=11,
-                display_intensity=True,
-                phase_knob=phase_change,
-                octupoles=octupoles,
-                emittance=2.3e-6,
-                LHC_version="Injection HL (from run III optics)",
-            )
+    plt.figure(figsize=(5, 5))
+    workingDiagram(order=10, alpha=0.1)
+    fma.plot_fma(s=0.1)
+    plt.grid(True)
+    plt.xlim(0.2, 0.35)
+    plt.ylim(0.2, 0.35)
+    plt.title(
+        analysis_functions.get_title_from_conf(
+            conf_mad,
+            conf_collider,
+            betx=11,
+            bety=11,
+            display_intensity=True,
+            phase_knob=phase_change,
+            octupoles=octupoles,
+            emittance=2.3e-6,
+            LHC_version="Injection HL (from run III optics)",
         )
-        name = "plots/" + "{:02d}".format(idx) + f"_fma_phase_{phase_change}.png"
-        plt.savefig(name, dpi=300)
-        l_names.append(name)
-        plt.close()
-        # plt.show()
+    )
+    name = "plots/" + "{:02d}".format(idx) + f"_fma_phase_{phase_change}.png"
+    plt.savefig(name, dpi=300)
+    l_names.append(name)
+    plt.close()
 
 # Generating the gif with all the frames:
-frames = np.stack([iio.imread(name) for name in l_names], axis=0)
-iio.imwrite(f"plots/fma_phase_{phase_change}.gif", frames)
+# frames = np.stack([iio.imread(name) for name in l_names], axis=0)
+# iio.imwrite(f"plots/fma_phase_{phase_change}.gif", frames)
 
-# %% [markdown]
-# ### Reverse phase change
-
-# %%
 
 phase_change = 0.0
-
 collider.vars["phase_change.b1"] = phase_change
 collider.vars["phase_change.b2"] = phase_change
-l_fma_no_phase_change = []
-for octupoles in range_octupoles:
+l_names = []
+for idx, octupoles in enumerate(range_octupoles):
     collider.vars["i_oct_b1"] = octupoles
     collider.vars["i_oct_b2"] = octupoles
     try:
@@ -150,44 +133,32 @@ for octupoles in range_octupoles:
         )
     except Exception as e:
         print(e)
-        l_fma_no_phase_change.append(None)
         continue
-    # pickle the fma
-    with open(f"pickle/fma_{octupoles}_{phase_change}.pkl", "wb") as f:
-        pickle.dump(fma, f)
 
-    # Add to list
-    l_fma_no_phase_change.append(fma)
-
-# %%
-l_names = []
-for idx, (octupoles, fma) in enumerate(zip(range_octupoles, l_fma_no_phase_change)):
-    if fma is not None:
-        plt.figure(figsize=(5, 5))
-        workingDiagram(order=10, alpha=0.1)
-        fma.plot_fma(s=0.1)
-        plt.grid(True)
-        plt.xlim(0.2, 0.35)
-        plt.ylim(0.2, 0.35)
-        plt.title(
-            analysis_functions.get_title_from_conf(
-                conf_mad,
-                conf_collider,
-                betx=11,
-                bety=11,
-                display_intensity=True,
-                phase_knob=phase_change,
-                octupoles=octupoles,
-                emittance=2.3e-6,
-                LHC_version="Injection HL (from run III optics)",
-            )
+    plt.figure(figsize=(5, 5))
+    workingDiagram(order=10, alpha=0.1)
+    fma.plot_fma(s=0.1)
+    plt.grid(True)
+    plt.xlim(0.2, 0.35)
+    plt.ylim(0.2, 0.35)
+    plt.title(
+        analysis_functions.get_title_from_conf(
+            conf_mad,
+            conf_collider,
+            betx=11,
+            bety=11,
+            display_intensity=True,
+            phase_knob=phase_change,
+            octupoles=octupoles,
+            emittance=2.3e-6,
+            LHC_version="Injection HL (from run III optics)",
         )
-        name = "plots/" + "{:02d}".format(idx) + f"_fma_phase_{phase_change}.png"
-        plt.savefig(name, dpi=300)
-        l_names.append(name)
-        plt.close()
-        # plt.show()
+    )
+    name = "plots/" + "{:02d}".format(idx) + f"_fma_phase_{phase_change}.png"
+    plt.savefig(name, dpi=300)
+    l_names.append(name)
+    plt.close()
 
 # Generating the gif with all the frames:
-frames = np.stack([iio.imread(name) for name in l_names], axis=0)
-iio.imwrite(f"plots/fma_phase_{phase_change}.gif", frames)
+# frames = np.stack([iio.imread(name) for name in l_names], axis=0)
+# iio.imwrite(f"plots/fma_phase_{phase_change}.gif", frames)
