@@ -122,11 +122,10 @@ def get_dynamic_configure_collider(config):
 def save_dynamic_configuration(collider, config_bb):
 
     # Define steps for separation update
-    n_steps = 25
-    initial_sep_1 = collider.vars["on_sep1"]._value
-    initial_sep_5 = collider.vars["on_sep5"]._value
-    sep_1_step = initial_sep_1 / n_steps
-    sep_5_step = initial_sep_5 / n_steps
+    on_sep_range = np.hstack((np.logspace(0, -40, 40, base=1.5, endpoint=True), 0.0))
+    n_steps = len(on_sep_range)
+    sign_sep_1 = np.sign(collider.vars["on_sep1"]._value)
+    sign_sep_5 = np.sign(collider.vars["on_sep5"]._value)
 
     dic_set_attr = {"bb_lr": set_attr_lr, "bb_ho": set_attr_ho}
     dic_elements_names = {
@@ -139,10 +138,10 @@ def save_dynamic_configuration(collider, config_bb):
     time_reconfigured = 0
     time_start = time.time()
     dd_elements = {}
-    for i in range(n_steps + 1):
+    for i, on_sep in enumerate(on_sep_range):
         # Update separation and reconfigure beambeam
-        collider.vars["on_sep1"] = initial_sep_1 - i * sep_1_step
-        collider.vars["on_sep5"] = initial_sep_5 - i * sep_5_step
+        collider.vars["on_sep1"] = on_sep * sign_sep_1
+        collider.vars["on_sep5"] = on_sep * sign_sep_5
         print(
             f"Updating on_sep1 to {collider.vars['on_sep1']._value} on_sep5 to"
             f" {collider.vars['on_sep5']._value}"

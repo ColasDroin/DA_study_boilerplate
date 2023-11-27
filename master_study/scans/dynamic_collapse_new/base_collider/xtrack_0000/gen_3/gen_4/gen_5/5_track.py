@@ -92,7 +92,7 @@ def prepare_particle_distribution(config_sim, collider, config_bb):
 # ==================================================================================================
 # --- Function to do the tracking
 # ==================================================================================================
-def track(collider, particles, config_sim, config_bb=None, save_input_particles=False):
+def track(collider, particles, config_sim, save_input_particles=False):
     # Get beam being tracked
     beam_track = config_sim["beam"]
 
@@ -149,7 +149,7 @@ def configure_and_track(config_path="config.yaml"):
     particles = prepare_particle_distribution(config_sim, collider, config_bb)
 
     # Track
-    particles = track(collider, particles, config_sim, config_bb)
+    particles = track(collider, particles, config_sim)
 
     # Save output
     pd.DataFrame(particles.to_dict()).to_parquet("output_particles.parquet")

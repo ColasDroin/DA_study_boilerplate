@@ -85,7 +85,7 @@ def linear_regression_bb_values(l_xrange, d_element_attr_vals):
             d_element_attr_regression[beam][element] = {}
             for attr in d_element_attr_vals[beam][element]:
                 model = {"l_xrange": l_xrange, "attr": d_element_attr_vals[beam][element][attr]}
-                d_element_attr_regression[beam][element][attr]["fit"] = make_linear_interp(model)
+                d_element_attr_regression[beam][element][attr] = make_linear_interp(model)
 
     return d_element_attr_regression
 
@@ -101,20 +101,22 @@ def create_knob_sep(collider, d_element_attr_regression):
             else:
                 continue
             for attr in d_element_attr_regression[beam][element]:
-                l_coef = d_element_attr_regression[beam][element][attr]["coeffs"]
+                collider[beam].vars[f"interp_{attr}"] = d_element_attr_regression[beam][element][
+                    attr
+                ]
                 if isinstance(getattr(collider[beam][element], attr), list) or isinstance(
                     getattr(collider[beam][element], attr), np.ndarray
                 ):
                     setattr(
                         collider[beam].element_refs[element],
                         attr[0],
-                        sum([coef * collider.vars[sep] ** i for i, coef in enumerate(l_coef)]),
+                        collider[beam].vars[f"interp_{attr}"](collider.vars[sep]),
                     )
                 else:
                     setattr(
                         collider[beam].element_refs[element],
                         attr,
-                        sum([coef * collider.vars[sep] ** i for i, coef in enumerate(l_coef)]),
+                        collider[beam].vars[f"interp_{attr}"](collider.vars[sep]),
                     )
 
     return collider
@@ -170,7 +172,7 @@ def configure_and_track(config_path="config.yaml"):
     collider, d_element_attr_regression = configure_collider(config)
 
     # Dump collider
-    collider.to_json("collider.json")
+    # collider.to_json("collider.json")
 
     # Dump dictionnary of regression
     with open("d_element_attr_regression.pkl", "wb") as fid:
