@@ -68,24 +68,24 @@ def build_dic_element_values(dic_elements):
     return d_element_attr_vals, l_xrange
 
 
-def polynomial_regression_bb_values(l_xrange, d_element_attr_vals):
-    def make_closure(model):
-        return lambda x: np.squeeze(model.predict([[x]]))
+def linear_regression_bb_values(l_xrange, d_element_attr_vals):
+    def interp(x, l_xrange, l_yrange):
+        assert isinstance(x, float) or isinstance(x, int)
+        for x1, x2, y1, y2 in zip(l_xrange[:-1], l_xrange[1:], l_yrange[:-1], l_yrange[1:]):
+            if x1 <= x <= x2:
+                return y1 + (y2 - y1) * (x - x1) / (x2 - x1)
 
-    array_xrange = np.array(l_xrange)[:, np.newaxis]
+    def make_linear_interp(model):
+        return lambda x: interp(x, model["l_xrange"], model["attr"])
+
     d_element_attr_regression = {"lhcb1": {}, "lhcb2": {}}
     for beam in d_element_attr_regression:
         d_element_attr_regression[beam] = {}
         for element in d_element_attr_vals[beam]:
             d_element_attr_regression[beam][element] = {}
             for attr in d_element_attr_vals[beam][element]:
-                d_element_attr_regression[beam][element][attr] = {}
-                model = make_pipeline(PolynomialFeatures(4), Ridge(alpha=1e-9))
-                model.fit(array_xrange, d_element_attr_vals[beam][element][attr])
-                d_element_attr_regression[beam][element][attr]["coeffs"] = [
-                    model.steps[1][1].intercept_
-                ] + list(model.steps[1][1].coef_[1:])
-                d_element_attr_regression[beam][element][attr]["fit"] = make_closure(model)
+                model = {"l_xrange": l_xrange, "attr": d_element_attr_vals[beam][element][attr]}
+                d_element_attr_regression[beam][element][attr]["fit"] = make_linear_interp(model)
 
     return d_element_attr_regression
 
@@ -126,7 +126,7 @@ def interpolate_separation(collider, dic_elements):
     d_element_attr_vals, l_xrange = build_dic_element_values(dic_elements)
 
     # Get dictionnary of regression
-    d_element_attr_regression = polynomial_regression_bb_values(l_xrange, d_element_attr_vals)
+    d_element_attr_regression = linear_regression_bb_values(l_xrange, d_element_attr_vals)
 
     # Create knob for separation
     collider = create_knob_sep(collider, d_element_attr_regression)
