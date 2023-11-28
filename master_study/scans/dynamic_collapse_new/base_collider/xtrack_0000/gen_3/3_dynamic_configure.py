@@ -164,7 +164,8 @@ def save_dynamic_configuration(collider, config_bb):
             for beam_temp in ["lhcb1", "lhcb2"]
         }
 
-        dd_elements[collider.vars["on_sep1"]._value] = dic_elements
+        # Always consider negative separation values to have increasing values as we close
+        dd_elements[-on_sep] = dic_elements
 
         t_after_reconfigure = time.time()
         time_reconfigured += t_after_reconfigure - t_before_reconfigure
