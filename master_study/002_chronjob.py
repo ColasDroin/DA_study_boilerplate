@@ -565,7 +565,51 @@ def submit_jobs(study_name, print_uncompleted_jobs=False):
             else:
                 print("Generation 2 is already completed.")
 
-        # We assume there's no generation 3
+        # Check generation 3
+        gen_3_completed = all([node.has_been("completed") for node in root.generation(3)])
+        if gen_1_completed and gen_2_completed and not gen_3_completed:
+            print("######## Taking care of generation 3 ########")
+            submit_jobs_generation(root, generation=3)
+        else:
+            if not gen_1_completed or not gen_2_completed:
+                pass
+            else:
+                print("Generation 3 is already completed.")
+
+        # Check generation 4
+        gen_4_completed = all([node.has_been("completed") for node in root.generation(4)])
+        if gen_1_completed and gen_2_completed and gen_3_completed and not gen_4_completed:
+            print("######## Taking care of generation 4 ########")
+            submit_jobs_generation(root, generation=4)
+        else:
+            if not gen_1_completed or not gen_2_completed or not gen_3_completed:
+                pass
+            else:
+                print("Generation 4 is already completed.")
+
+        # Check generation 5
+        gen_5_completed = all([node.has_been("completed") for node in root.generation(5)])
+        if (
+            gen_1_completed
+            and gen_2_completed
+            and gen_3_completed
+            and gen_4_completed
+            and not gen_5_completed
+        ):
+            print("######## Taking care of generation 5 ########")
+            submit_jobs_generation(root, generation=5)
+        else:
+            if (
+                not gen_1_completed
+                or not gen_2_completed
+                or not gen_3_completed
+                or not gen_4_completed
+            ):
+                pass
+            else:
+                print("Generation 5 is already completed.")
+
+        # We assume there's no generation 6
         if all([descendant.has_been("completed") for descendant in root.descendants]):
             root.tag_as("completed")
             print("All descendants of root are completed!")

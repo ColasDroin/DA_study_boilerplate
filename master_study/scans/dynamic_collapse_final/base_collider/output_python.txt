@@ -15122,3 +15122,50 @@ orbit:  -1.137819E-09  1.728025E-11 -1.650906E-07 -1.461041E-09  0.000000E+00  0
   
 iteration:   1 error:   3.410003E-07 deltap:   0.000000E+00
 orbit:  -1.137819E-09  1.728025E-11 -1.650906E-07 -1.461041E-09  0.000000E+00  0.000000E+00
+
+Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+--- Now Computing Twiss assuming:
+    vrf400 = 12.0
+    lagrf400.b1 = 0.5
+    lagrf400.b2 = 0.0
+---
+Skipping rebuilding tracker
+--- Now displaying Twiss result at all IPS for line <xtrack.line.Line object at 0x7f96e5850b20>---
+TwissTable: 9 rows, 35 cols
+name                           s            x           px            y           py         zeta ...
+ip3                            0  4.46157e-07  5.75036e-09 -3.88883e-08 -4.27691e-10  -9.9071e-07
+ip4                      3332.28  1.14824e-09  -1.3333e-11  1.73813e-08 -1.31354e-10  3.35337e-13
+ip5                      6664.57 -6.11309e-11  1.61826e-10  1.95084e-09  1.85817e-09  9.68072e-07
+ip6                      9997.01  1.10763e-07 -2.86144e-11  1.84521e-08 -2.68919e-10  1.93846e-06
+ip7                      13329.4  1.43149e-07 -2.71815e-11 -1.74433e-08  2.62786e-11   2.8891e-06
+ip8                      16650.7       -0.001  -9.3294e-11   -5.212e-09       0.0002  6.98797e-07
+ip1.l1                   19994.2 -1.09048e-10 -3.11746e-10   9.7776e-10 -9.84694e-10  5.55848e-07
+ip1                      19994.2 -1.09048e-10 -3.11746e-10   9.7776e-10 -9.84694e-10  5.55848e-07
+ip2                      23326.6  0.000999999    2.384e-11  9.85387e-11       0.0002 -1.55377e-07
+--- Now displaying Qx and Qy for line <xtrack.line.Line object at 0x7f96e5850b20>---
+62.30981455802588 60.31977310272012
+--- Now displaying Twiss result at all IPS for line <xtrack.line.Line object at 0x7f96da5c41c0>---
+TwissTable: 9 rows, 35 cols
+name                           s            x           px            y           py         zeta ...
+ip3                            0 -3.61685e-07 -7.13341e-09  4.00792e-08  3.58753e-10  9.28522e-07
+ip2                      3332.44        0.001 -1.22019e-11 -9.99556e-09       0.0002 -1.25051e-06
+ip1                      6664.72 -6.04246e-11  7.01246e-11 -1.52056e-09 -3.42737e-10 -1.55526e-06
+ip1.l1                   6664.72 -6.04246e-11  7.01246e-11 -1.52056e-09 -3.42737e-10 -1.55526e-06
+ip8                      10008.4       -0.001  8.97241e-11 -2.46834e-09  0.000199999 -1.98433e-06
+ip7                      13329.4 -9.73041e-09    3.708e-11  5.92254e-09  3.20924e-10 -2.83299e-06
+ip6                      16661.7 -3.56813e-08 -3.82079e-10  4.25693e-08 -1.78672e-10 -1.89931e-06
+ip5                        19994 -5.28709e-11  2.30443e-10  4.62308e-10  2.97657e-09 -9.49833e-07
+ip4                      23326.4  -2.6127e-09 -7.04242e-12  8.83058e-09 -1.71847e-10  8.19361e-12
+--- Now displaying Qx and Qy for line <xtrack.line.Line object at 0x7f96da5c41c0>---
+62.30981637616059 60.31977255412178

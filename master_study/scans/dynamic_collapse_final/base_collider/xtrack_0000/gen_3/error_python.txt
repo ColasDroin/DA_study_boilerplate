@@ -1,0 +1,114 @@
+34176cca99664e3788696f891e4efdcf.c:5035: warning: "_GNU_SOURCE" redefined
+ 5035 | #  define _GNU_SOURCE // enable GNU libc NAN extension if possible
+      | 
+In file included from 34176cca99664e3788696f891e4efdcf.c:50:
+/afs/cern.ch/work/c/cdroin/private/example_DA_study/miniforge/include/python3.10/pyconfig.h:1621: note: this is the location of the previous definition
+ 1621 | #define _GNU_SOURCE 1
+      | 
+34176cca99664e3788696f891e4efdcf.c: In function ‘compt_do’:
+34176cca99664e3788696f891e4efdcf.c:18160:12: warning: unused variable ‘e_loss_primary_tot’ [-Wunused-variable]
+18160 |     double e_loss_primary_tot = 0.0;  // [GeV] total energy lost by the macroparticle
+      |            ^~~~~~~~~~~~~~~~~~
+34176cca99664e3788696f891e4efdcf.c:18157:62: warning: variable ‘ps_e_prime’ set but not used [-Wunused-but-set-variable]
+18157 |     double e_e_prime, px_e_prime, py_e_prime, pzeta_e_prime, ps_e_prime, pt_e_prime;  // [GeV, 1, 1, 1, 1, 1] scattered primary
+      |                                                              ^~~~~~~~~~
+34176cca99664e3788696f891e4efdcf.c: In function ‘synchrobeam_kick’:
+34176cca99664e3788696f891e4efdcf.c:18408:21: warning: variable ‘lumi_table_index’ set but not used [-Wunused-but-set-variable]
+18408 |         RecordIndex lumi_table_index               = NULL;
+      |                     ^~~~~~~~~~~~~~~~
+34176cca99664e3788696f891e4efdcf.c:18319:18: warning: unused variable ‘pzeta_slice_star’ [-Wunused-variable]
+18319 |     const double pzeta_slice_star = BeamBeamBiGaussian3DData_get_slices_other_beam_pzeta_center_star(el, i_slice);
+      |                  ^~~~~~~~~~~~~~~~
+5aa9b46b7e434c409d1f6c02b40f140c.c:5035: warning: "_GNU_SOURCE" redefined
+ 5035 | #  define _GNU_SOURCE // enable GNU libc NAN extension if possible
+      | 
+In file included from 5aa9b46b7e434c409d1f6c02b40f140c.c:50:
+/afs/cern.ch/work/c/cdroin/private/example_DA_study/miniforge/include/python3.10/pyconfig.h:1621: note: this is the location of the previous definition
+ 1621 | #define _GNU_SOURCE 1
+      | 
+5aa9b46b7e434c409d1f6c02b40f140c.c: In function ‘compt_do’:
+5aa9b46b7e434c409d1f6c02b40f140c.c:18160:12: warning: unused variable ‘e_loss_primary_tot’ [-Wunused-variable]
+18160 |     double e_loss_primary_tot = 0.0;  // [GeV] total energy lost by the macroparticle
+      |            ^~~~~~~~~~~~~~~~~~
+5aa9b46b7e434c409d1f6c02b40f140c.c:18157:62: warning: variable ‘ps_e_prime’ set but not used [-Wunused-but-set-variable]
+18157 |     double e_e_prime, px_e_prime, py_e_prime, pzeta_e_prime, ps_e_prime, pt_e_prime;  // [GeV, 1, 1, 1, 1, 1] scattered primary
+      |                                                              ^~~~~~~~~~
+5aa9b46b7e434c409d1f6c02b40f140c.c: In function ‘synchrobeam_kick’:
+5aa9b46b7e434c409d1f6c02b40f140c.c:18408:21: warning: variable ‘lumi_table_index’ set but not used [-Wunused-but-set-variable]
+18408 |         RecordIndex lumi_table_index               = NULL;
+      |                     ^~~~~~~~~~~~~~~~
+5aa9b46b7e434c409d1f6c02b40f140c.c:18319:18: warning: unused variable ‘pzeta_slice_star’ [-Wunused-variable]
+18319 |     const double pzeta_slice_star = BeamBeamBiGaussian3DData_get_slices_other_beam_pzeta_center_star(el, i_slice);
+      |                  ^~~~~~~~~~~~~~~~
+7aa86c024221414b82c530c9696ac4fc.c:5040: warning: "_GNU_SOURCE" redefined
+ 5040 | #  define _GNU_SOURCE // enable GNU libc NAN extension if possible
+      | 
+In file included from 7aa86c024221414b82c530c9696ac4fc.c:50:
+/afs/cern.ch/work/c/cdroin/private/example_DA_study/miniforge/include/python3.10/pyconfig.h:1621: note: this is the location of the previous definition
+ 1621 | #define _GNU_SOURCE 1
+      | 
+7aa86c024221414b82c530c9696ac4fc.c: In function ‘compt_do’:
+7aa86c024221414b82c530c9696ac4fc.c:18165:12: warning: unused variable ‘e_loss_primary_tot’ [-Wunused-variable]
+18165 |     double e_loss_primary_tot = 0.0;  // [GeV] total energy lost by the macroparticle
+      |            ^~~~~~~~~~~~~~~~~~
+7aa86c024221414b82c530c9696ac4fc.c:18162:62: warning: variable ‘ps_e_prime’ set but not used [-Wunused-but-set-variable]
+18162 |     double e_e_prime, px_e_prime, py_e_prime, pzeta_e_prime, ps_e_prime, pt_e_prime;  // [GeV, 1, 1, 1, 1, 1] scattered primary
+      |                                                              ^~~~~~~~~~
+7aa86c024221414b82c530c9696ac4fc.c: In function ‘synchrobeam_kick’:
+7aa86c024221414b82c530c9696ac4fc.c:18413:21: warning: variable ‘lumi_table_index’ set but not used [-Wunused-but-set-variable]
+18413 |         RecordIndex lumi_table_index               = NULL;
+      |                     ^~~~~~~~~~~~~~~~
+7aa86c024221414b82c530c9696ac4fc.c:18324:18: warning: unused variable ‘pzeta_slice_star’ [-Wunused-variable]
+18324 |     const double pzeta_slice_star = BeamBeamBiGaussian3DData_get_slices_other_beam_pzeta_center_star(el, i_slice);
+      |                  ^~~~~~~~~~~~~~~~
+8c0cef8319cd4e19b5563bd40fe36c31.c:5040: warning: "_GNU_SOURCE" redefined
+ 5040 | #  define _GNU_SOURCE // enable GNU libc NAN extension if possible
+      | 
+In file included from 8c0cef8319cd4e19b5563bd40fe36c31.c:50:
+/afs/cern.ch/work/c/cdroin/private/example_DA_study/miniforge/include/python3.10/pyconfig.h:1621: note: this is the location of the previous definition
+ 1621 | #define _GNU_SOURCE 1
+      | 
+8c0cef8319cd4e19b5563bd40fe36c31.c: In function ‘compt_do’:
+8c0cef8319cd4e19b5563bd40fe36c31.c:18165:12: warning: unused variable ‘e_loss_primary_tot’ [-Wunused-variable]
+18165 |     double e_loss_primary_tot = 0.0;  // [GeV] total energy lost by the macroparticle
+      |            ^~~~~~~~~~~~~~~~~~
+8c0cef8319cd4e19b5563bd40fe36c31.c:18162:62: warning: variable ‘ps_e_prime’ set but not used [-Wunused-but-set-variable]
+18162 |     double e_e_prime, px_e_prime, py_e_prime, pzeta_e_prime, ps_e_prime, pt_e_prime;  // [GeV, 1, 1, 1, 1, 1] scattered primary
+      |                                                              ^~~~~~~~~~
+8c0cef8319cd4e19b5563bd40fe36c31.c: In function ‘synchrobeam_kick’:
+8c0cef8319cd4e19b5563bd40fe36c31.c:18413:21: warning: variable ‘lumi_table_index’ set but not used [-Wunused-but-set-variable]
+18413 |         RecordIndex lumi_table_index               = NULL;
+      |                     ^~~~~~~~~~~~~~~~
+8c0cef8319cd4e19b5563bd40fe36c31.c:18324:18: warning: unused variable ‘pzeta_slice_star’ [-Wunused-variable]
+18324 |     const double pzeta_slice_star = BeamBeamBiGaussian3DData_get_slices_other_beam_pzeta_center_star(el, i_slice);
+      |                  ^~~~~~~~~~~~~~~~
+8ccf2646f1cc4d778b648294d970c620.c:3702: warning: "_GNU_SOURCE" redefined
+ 3702 | #  define _GNU_SOURCE // enable GNU libc NAN extension if possible
+      | 
+In file included from 8ccf2646f1cc4d778b648294d970c620.c:50:
+/afs/cern.ch/work/c/cdroin/private/example_DA_study/miniforge/include/python3.10/pyconfig.h:1621: note: this is the location of the previous definition
+ 1621 | #define _GNU_SOURCE 1
+      | 
+25ee8cf75b8e496591431b863b3f1272.c:7252: warning: "_GNU_SOURCE" redefined
+ 7252 | #  define _GNU_SOURCE // enable GNU libc NAN extension if possible
+      | 
+In file included from 25ee8cf75b8e496591431b863b3f1272.c:50:
+/afs/cern.ch/work/c/cdroin/private/example_DA_study/miniforge/include/python3.10/pyconfig.h:1621: note: this is the location of the previous definition
+ 1621 | #define _GNU_SOURCE 1
+      | 
+25ee8cf75b8e496591431b863b3f1272.c: In function ‘compt_do’:
+25ee8cf75b8e496591431b863b3f1272.c:10637:12: warning: unused variable ‘e_loss_primary_tot’ [-Wunused-variable]
+10637 |     double e_loss_primary_tot = 0.0;  // [GeV] total energy lost by the macroparticle
+      |            ^~~~~~~~~~~~~~~~~~
+25ee8cf75b8e496591431b863b3f1272.c:10634:62: warning: variable ‘ps_e_prime’ set but not used [-Wunused-but-set-variable]
+10634 |     double e_e_prime, px_e_prime, py_e_prime, pzeta_e_prime, ps_e_prime, pt_e_prime;  // [GeV, 1, 1, 1, 1, 1] scattered primary
+      |                                                              ^~~~~~~~~~
+25ee8cf75b8e496591431b863b3f1272.c: In function ‘synchrobeam_kick’:
+25ee8cf75b8e496591431b863b3f1272.c:10885:21: warning: variable ‘lumi_table_index’ set but not used [-Wunused-but-set-variable]
+10885 |         RecordIndex lumi_table_index               = NULL;
+      |                     ^~~~~~~~~~~~~~~~
+25ee8cf75b8e496591431b863b3f1272.c:10962:13: warning: ‘wgt’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+10962 |             compt_do(part, bhabha_record, bhabha_table_index, bhabha_table,
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+10963 |               e_photon, compt_x_min, q2, px_photon, py_photon, pzeta_photon, wgt, px_star, py_star, pzeta_star, q0);
+      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
