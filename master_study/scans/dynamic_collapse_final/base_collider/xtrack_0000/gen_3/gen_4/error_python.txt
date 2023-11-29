@@ -1,0 +1,66 @@
+67730cf30e66488db163bd6e02729e1a.c:5035: warning: "_GNU_SOURCE" redefined
+ 5035 | #  define _GNU_SOURCE // enable GNU libc NAN extension if possible
+      | 
+In file included from 67730cf30e66488db163bd6e02729e1a.c:50:
+/afs/cern.ch/work/c/cdroin/private/example_DA_study/miniforge/include/python3.10/pyconfig.h:1621: note: this is the location of the previous definition
+ 1621 | #define _GNU_SOURCE 1
+      | 
+67730cf30e66488db163bd6e02729e1a.c: In function ‘compt_do’:
+67730cf30e66488db163bd6e02729e1a.c:18160:12: warning: unused variable ‘e_loss_primary_tot’ [-Wunused-variable]
+18160 |     double e_loss_primary_tot = 0.0;  // [GeV] total energy lost by the macroparticle
+      |            ^~~~~~~~~~~~~~~~~~
+67730cf30e66488db163bd6e02729e1a.c:18157:62: warning: variable ‘ps_e_prime’ set but not used [-Wunused-but-set-variable]
+18157 |     double e_e_prime, px_e_prime, py_e_prime, pzeta_e_prime, ps_e_prime, pt_e_prime;  // [GeV, 1, 1, 1, 1, 1] scattered primary
+      |                                                              ^~~~~~~~~~
+67730cf30e66488db163bd6e02729e1a.c: In function ‘synchrobeam_kick’:
+67730cf30e66488db163bd6e02729e1a.c:18408:21: warning: variable ‘lumi_table_index’ set but not used [-Wunused-but-set-variable]
+18408 |         RecordIndex lumi_table_index               = NULL;
+      |                     ^~~~~~~~~~~~~~~~
+67730cf30e66488db163bd6e02729e1a.c:18319:18: warning: unused variable ‘pzeta_slice_star’ [-Wunused-variable]
+18319 |     const double pzeta_slice_star = BeamBeamBiGaussian3DData_get_slices_other_beam_pzeta_center_star(el, i_slice);
+      |                  ^~~~~~~~~~~~~~~~
+883eb15324354e07ac71ba4133b01f48.c:5035: warning: "_GNU_SOURCE" redefined
+ 5035 | #  define _GNU_SOURCE // enable GNU libc NAN extension if possible
+      | 
+In file included from 883eb15324354e07ac71ba4133b01f48.c:50:
+/afs/cern.ch/work/c/cdroin/private/example_DA_study/miniforge/include/python3.10/pyconfig.h:1621: note: this is the location of the previous definition
+ 1621 | #define _GNU_SOURCE 1
+      | 
+883eb15324354e07ac71ba4133b01f48.c: In function ‘compt_do’:
+883eb15324354e07ac71ba4133b01f48.c:18160:12: warning: unused variable ‘e_loss_primary_tot’ [-Wunused-variable]
+18160 |     double e_loss_primary_tot = 0.0;  // [GeV] total energy lost by the macroparticle
+      |            ^~~~~~~~~~~~~~~~~~
+883eb15324354e07ac71ba4133b01f48.c:18157:62: warning: variable ‘ps_e_prime’ set but not used [-Wunused-but-set-variable]
+18157 |     double e_e_prime, px_e_prime, py_e_prime, pzeta_e_prime, ps_e_prime, pt_e_prime;  // [GeV, 1, 1, 1, 1, 1] scattered primary
+      |                                                              ^~~~~~~~~~
+883eb15324354e07ac71ba4133b01f48.c: In function ‘synchrobeam_kick’:
+883eb15324354e07ac71ba4133b01f48.c:18408:21: warning: variable ‘lumi_table_index’ set but not used [-Wunused-but-set-variable]
+18408 |         RecordIndex lumi_table_index               = NULL;
+      |                     ^~~~~~~~~~~~~~~~
+883eb15324354e07ac71ba4133b01f48.c:18319:18: warning: unused variable ‘pzeta_slice_star’ [-Wunused-variable]
+18319 |     const double pzeta_slice_star = BeamBeamBiGaussian3DData_get_slices_other_beam_pzeta_center_star(el, i_slice);
+      |                  ^~~~~~~~~~~~~~~~
+Traceback (most recent call last):
+  File "/afs/cern.ch/work/c/cdroin/private/example_DA_study/master_study/scans/dynamic_collapse_final/base_collider/xtrack_0000/gen_3/gen_4/4_create_dynamic_knob.py", line 192, in <module>
+    configure_and_track()
+  File "/afs/cern.ch/work/c/cdroin/private/example_DA_study/master_study/scans/dynamic_collapse_final/base_collider/xtrack_0000/gen_3/gen_4/4_create_dynamic_knob.py", line 170, in configure_and_track
+    collider.to_json("collider.json")
+  File "/afs/cern.ch/work/c/cdroin/private/example_DA_study/miniforge/lib/python3.10/site-packages/xtrack/multiline/multiline.py", line 146, in to_json
+    json.dump(self.to_dict(**kwargs), fid, cls=xo.JEncoder)
+  File "/afs/cern.ch/work/c/cdroin/private/example_DA_study/miniforge/lib/python3.10/json/__init__.py", line 179, in dump
+    for chunk in iterable:
+  File "/afs/cern.ch/work/c/cdroin/private/example_DA_study/miniforge/lib/python3.10/json/encoder.py", line 431, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/afs/cern.ch/work/c/cdroin/private/example_DA_study/miniforge/lib/python3.10/json/encoder.py", line 405, in _iterencode_dict
+    yield from chunks
+  File "/afs/cern.ch/work/c/cdroin/private/example_DA_study/miniforge/lib/python3.10/json/encoder.py", line 405, in _iterencode_dict
+    yield from chunks
+  File "/afs/cern.ch/work/c/cdroin/private/example_DA_study/miniforge/lib/python3.10/json/encoder.py", line 405, in _iterencode_dict
+    yield from chunks
+  File "/afs/cern.ch/work/c/cdroin/private/example_DA_study/miniforge/lib/python3.10/json/encoder.py", line 438, in _iterencode
+    o = _default(o)
+  File "/afs/cern.ch/work/c/cdroin/private/example_DA_study/miniforge/lib/python3.10/site-packages/xobjects/hybrid_class.py", line 89, in default
+    return json.JSONEncoder.default(self, obj)
+  File "/afs/cern.ch/work/c/cdroin/private/example_DA_study/miniforge/lib/python3.10/json/encoder.py", line 179, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type function is not JSON serializable
