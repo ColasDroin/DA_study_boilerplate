@@ -10,18 +10,13 @@ import json
 import logging
 import os
 import time
-from datetime import datetime
 
 import dill as pickle
 import numpy as np
-import pandas as pd
 import ruamel.yaml
 import tree_maker
-import xmask as xm
+import xdeps as xd
 import xtrack as xt
-from sklearn.linear_model import Ridge
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import PolynomialFeatures
 
 # Initialize yaml reader
 ryaml = ruamel.yaml.YAML()
@@ -68,24 +63,24 @@ def build_dic_element_values(dic_elements):
     return d_element_attr_vals, l_xrange
 
 
-def polynomial_regression_bb_values(l_xrange, d_element_attr_vals):
-    def make_closure(model):
-        return lambda x: np.squeeze(model.predict([[x]]))
+def linear_regression_bb_values(l_xrange, d_element_attr_vals):
+    def make_closure_interp(extended_xrange, extended_y):
+        return lambda x: xd.FunctionPieceWiseLinear(x=extended_xrange, y=extended_y)(x)
 
-    array_xrange = np.array(l_xrange)[:, np.newaxis]
+    extended_xrange = l_xrange + [-x for x in l_xrange[::-1]]
     d_element_attr_regression = {"lhcb1": {}, "lhcb2": {}}
     for beam in d_element_attr_regression:
         d_element_attr_regression[beam] = {}
         for element in d_element_attr_vals[beam]:
             d_element_attr_regression[beam][element] = {}
             for attr in d_element_attr_vals[beam][element]:
-                d_element_attr_regression[beam][element][attr] = {}
-                model = make_pipeline(PolynomialFeatures(4), Ridge(alpha=1e-9))
-                model.fit(array_xrange, d_element_attr_vals[beam][element][attr])
-                d_element_attr_regression[beam][element][attr]["coeffs"] = [
-                    model.steps[1][1].intercept_
-                ] + list(model.steps[1][1].coef_[1:])
-                d_element_attr_regression[beam][element][attr]["fit"] = make_closure(model)
+                extended_y = (
+                    d_element_attr_vals[beam][element][attr]
+                    + d_element_attr_vals[beam][element][attr][::-1]
+                )
+                d_element_attr_regression[beam][element][attr] = make_closure_interp(
+                    extended_xrange, extended_y
+                )
 
     return d_element_attr_regression
 
@@ -101,20 +96,22 @@ def create_knob_sep(collider, d_element_attr_regression):
             else:
                 continue
             for attr in d_element_attr_regression[beam][element]:
-                l_coef = d_element_attr_regression[beam][element][attr]["coeffs"]
+                collider[beam].vars[f"interp_{element}_{attr}"] = d_element_attr_regression[beam][
+                    element
+                ][attr]
                 if isinstance(getattr(collider[beam][element], attr), list) or isinstance(
                     getattr(collider[beam][element], attr), np.ndarray
                 ):
                     setattr(
                         collider[beam].element_refs[element],
                         attr[0],
-                        sum([coef * collider.vars[sep] ** i for i, coef in enumerate(l_coef)]),
+                        collider[beam].vars[f"interp_{element}_{attr}"](collider.vars[sep]),
                     )
                 else:
                     setattr(
                         collider[beam].element_refs[element],
                         attr,
-                        sum([coef * collider.vars[sep] ** i for i, coef in enumerate(l_coef)]),
+                        collider[beam].vars[f"interp_{element}_{attr}"](collider.vars[sep]),
                     )
 
     return collider
@@ -126,9 +123,9 @@ def interpolate_separation(collider, dic_elements):
     d_element_attr_vals, l_xrange = build_dic_element_values(dic_elements)
 
     # Get dictionnary of regression
-    d_element_attr_regression = polynomial_regression_bb_values(l_xrange, d_element_attr_vals)
+    d_element_attr_regression = linear_regression_bb_values(l_xrange, d_element_attr_vals)
 
-    # Create knob for separation
+    # Build knob
     collider = create_knob_sep(collider, d_element_attr_regression)
 
     return collider, d_element_attr_regression
@@ -192,4 +189,5 @@ def configure_and_track(config_path="config.yaml"):
 # ==================================================================================================
 
 if __name__ == "__main__":
+    configure_and_track()
     configure_and_track()

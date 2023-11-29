@@ -384,7 +384,7 @@ config["root"]["setup_env_script"] = os.getcwd() + "/../activate_miniforge.sh"
 # --- Build tree and write it to the filesystem
 # ==================================================================================================
 # Define study name
-study_name = "dynamic_collapse_new"
+study_name = "dynamic_collapse_final"
 
 # Creade folder that will contain the tree
 if not os.path.exists("scans/" + study_name):

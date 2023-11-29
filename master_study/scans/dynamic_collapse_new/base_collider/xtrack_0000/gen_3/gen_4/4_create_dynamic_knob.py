@@ -10,18 +10,13 @@ import json
 import logging
 import os
 import time
-from datetime import datetime
 
 import dill as pickle
 import numpy as np
-import pandas as pd
 import ruamel.yaml
 import tree_maker
-import xmask as xm
+import xdeps as xd
 import xtrack as xt
-from sklearn.linear_model import Ridge
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import PolynomialFeatures
 
 # Initialize yaml reader
 ryaml = ruamel.yaml.YAML()
@@ -69,38 +64,57 @@ def build_dic_element_values(dic_elements):
 
 
 def linear_regression_bb_values(l_xrange, d_element_attr_vals):
-    def interp(x, l_xrange, l_yrange):
+    def make_closure_interp(extended_xrange, extended_y):
+        return lambda x: xd.FunctionPieceWiseLinear(x=extended_xrange, y=extended_y)(x)
 
-        # Ensure that x is a float or int
-        assert isinstance(x, float) or isinstance(x, int)
-
-        # Ensure that x is always taken positive
-        if x > 0:
-            x = -x
-
-        # Do the interpolation
-        for x1, x2, y1, y2 in zip(l_xrange[:-1], l_xrange[1:], l_yrange[:-1], l_yrange[1:]):
-            if x1 <= x <= x2:
-                return y1 + (y2 - y1) * (x - x1) / (x2 - x1)
-
-        # If x is out of range, raise error
-        raise ValueError("x out of range")
-
-    # This function is needed for closure
-    def make_closure_interp(l_xrange, l_yrange):
-        return lambda x: interp(x, l_xrange, l_yrange)
-
+    extended_xrange = l_xrange + [-x for x in l_xrange[::-1]]
     d_element_attr_regression = {"lhcb1": {}, "lhcb2": {}}
     for beam in d_element_attr_regression:
         d_element_attr_regression[beam] = {}
         for element in d_element_attr_vals[beam]:
             d_element_attr_regression[beam][element] = {}
             for attr in d_element_attr_vals[beam][element]:
+                extended_y = (
+                    d_element_attr_vals[beam][element][attr]
+                    + d_element_attr_vals[beam][element][attr][::-1]
+                )
                 d_element_attr_regression[beam][element][attr] = make_closure_interp(
-                    l_xrange, d_element_attr_vals[beam][element][attr]
+                    extended_xrange, extended_y
                 )
 
     return d_element_attr_regression
+
+
+def create_knob_sep(collider, d_element_attr_regression):
+    # Create knob for beam-beam in collider
+    for beam in d_element_attr_regression:
+        for element in d_element_attr_regression[beam]:
+            if "l1" or "r1" in element:
+                sep = "on_sep1"
+            elif "l5" or "r5" in element:
+                sep = "on_sep5"
+            else:
+                continue
+            for attr in d_element_attr_regression[beam][element]:
+                collider[beam].vars[f"interp_{element}_{attr}"] = d_element_attr_regression[beam][
+                    element
+                ][attr]
+                if isinstance(getattr(collider[beam][element], attr), list) or isinstance(
+                    getattr(collider[beam][element], attr), np.ndarray
+                ):
+                    setattr(
+                        collider[beam].element_refs[element],
+                        attr[0],
+                        collider[beam].vars[f"interp_{element}_{attr}"](collider.vars[sep]),
+                    )
+                else:
+                    setattr(
+                        collider[beam].element_refs[element],
+                        attr,
+                        collider[beam].vars[f"interp_{element}_{attr}"](collider.vars[sep]),
+                    )
+
+    return collider
 
 
 def interpolate_separation(collider, dic_elements):
@@ -110,6 +124,9 @@ def interpolate_separation(collider, dic_elements):
 
     # Get dictionnary of regression
     d_element_attr_regression = linear_regression_bb_values(l_xrange, d_element_attr_vals)
+
+    # Build knob
+    collider = create_knob_sep(collider, d_element_attr_regression)
 
     return collider, d_element_attr_regression
 
@@ -150,7 +167,7 @@ def configure_and_track(config_path="config.yaml"):
     collider, d_element_attr_regression = configure_collider(config)
 
     # Dump collider
-    # collider.to_json("collider.json")
+    collider.to_json("collider.json")
 
     # Dump dictionnary of regression
     with open("d_element_attr_regression.pkl", "wb") as fid:
@@ -172,4 +189,5 @@ def configure_and_track(config_path="config.yaml"):
 # ==================================================================================================
 
 if __name__ == "__main__":
+    configure_and_track()
     configure_and_track()

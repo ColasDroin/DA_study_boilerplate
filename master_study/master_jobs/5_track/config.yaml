@@ -1,22 +1,8 @@
 # Configuration for tuning of the collider
 config_collider:
   config_beambeam:
-    skip_beambeam: false
-    bunch_spacing_buckets: 10
-    num_slices_head_on: 11
-    num_long_range_encounters_per_side:
-      ip1: 25
-      ip2: 20
-      ip5: 25
-      ip8: 20
-    sigma_z: 0.09
-    num_particles_per_bunch: 1.15e11
     nemitt_x: 2.2e-6
     nemitt_y: 2.2e-6
-    mask_with_filling_pattern:
-      pattern_fname: ../filling_scheme/25ns_2228b_2216_1686_2112_hybrid_8b4e_2x56b_25ns_3x48b_12inj.json
-      i_bunch_b1: 411 # If not specified, the bunch with the worst schedule is chosen
-      i_bunch_b2: 410 # Same. A value for i_bunch_b1 and i_bunch_b2 must be specified if pattern_fname is specified
 
 # Configuration for the track job
 config_simulation:
@@ -27,13 +13,13 @@ config_simulation:
   elements_file: ../d_element_attr_regression.pkl
 
   # Distribution in the normalized xy space
-  particle_file: ../../../../base_collider/particles/00.parquet
+  particle_file: ../../../../../base_collider/particles/00.parquet
 
   # Initial off-momentum
   delta_max: 27.e-5
 
   # Tracking
-  n_turns: 1000 # number of turns to track
+  n_turns: 200000 # number of turns to track
 
   # Beam to track
   beam: lhcb1 #lhcb1 or lhcb2
