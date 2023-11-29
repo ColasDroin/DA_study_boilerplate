@@ -148,11 +148,14 @@ def track(collider, particles, config_sim, save_input_particles=False):
 
     # Define steps for separation update
     n_steps = 30
-    initial_sep_1 = collider.vars["on_sep1"]._value / 20
-    initial_sep_5 = collider.vars["on_sep5"]._value / 20
+    initial_sep_1 = collider.vars["on_sep1"]._value / 50
+    initial_sep_5 = collider.vars["on_sep5"]._value / 50
     num_turns_step = int(num_turns / (n_steps + 1))
+    print(f"Tracking {num_turns} turns in {n_steps + 1} steps of {num_turns_step} turns")
     sep_1_step = initial_sep_1 / n_steps
     sep_5_step = initial_sep_5 / n_steps
+
+    # collider.lhcb1.enable_time_dependent_vars = True
 
     for i in range(n_steps + 1):
         # Update separation and reconfigure beambeam
@@ -162,7 +165,7 @@ def track(collider, particles, config_sim, save_input_particles=False):
             f"Updating on_sep1 to {collider.vars['on_sep1']._value} on_sep5 to"
             f" {collider.vars['on_sep5']._value}"
         )
-
+        # print("t_turn_s = ", collider.lhcb1.vars["t_turn_s"]._value)
         collider[beam_track].track(particles, turn_by_turn_monitor=False, num_turns=num_turns_step)
     b = time.time()
     print(f"Elapsed time: {b-a} s")
