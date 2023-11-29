@@ -79,7 +79,7 @@ def linear_regression_bb_values(l_xrange, d_element_attr_vals):
                     + d_element_attr_vals[beam][element][attr][::-1]
                 )
                 d_element_attr_regression[beam][element][attr] = make_closure_interp(
-                    extended_xrange, np.squeeze(extended_y)
+                    extended_xrange, list(np.squeeze(extended_y))
                 )
 
     return d_element_attr_regression
