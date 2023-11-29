@@ -92,8 +92,8 @@ d_config_tune_and_chroma = {
     "dqy": {},
 }
 for beam in ["lhcb1", "lhcb2"]:
-    #     d_config_tune_and_chroma["qx"][beam] = 62.31
-    #     d_config_tune_and_chroma["qy"][beam] = 60.32
+    d_config_tune_and_chroma["qx"][beam] = 62.30
+    d_config_tune_and_chroma["qy"][beam] = 60.31
     d_config_tune_and_chroma["dqx"][beam] = 15.0
     d_config_tune_and_chroma["dqy"][beam] = 15.0
 
@@ -105,11 +105,6 @@ d_config_tune_and_chroma["delta_cmi"] = 0.0
 
 # Define dictionary for the knobs settings
 d_config_knobs = {}
-
-# Phase knob
-d_config_knobs["phase_change.b1"] = 0.0
-d_config_knobs["phase_change.b2"] = 0.0
-
 # Exp. configuration in IR1, IR2, IR5 and IR8
 # d_config_knobs["on_x1"] = -145.000
 # d_config_knobs["on_sep1"] = 0.0
@@ -132,8 +127,13 @@ d_config_knobs["phase_change.b2"] = 0.0
 # d_config_knobs["phi_IR8"] = 180.000
 
 # Octupoles
-d_config_knobs["i_oct_b1"] = 40.0
-d_config_knobs["i_oct_b2"] = 40.0
+d_config_knobs["i_oct_b1"] = -45.0
+d_config_knobs["i_oct_b2"] = -45.0
+
+# Phase change
+d_config_knobs["phase_change.b1"] = 1.0
+d_config_knobs["phase_change.b2"] = 1.0
+
 
 ### leveling configuration
 
@@ -301,9 +301,8 @@ dump_config_in_collider = False
 # optimal DA (e.g. tune, chroma, etc).
 # ==================================================================================================
 # Scan tune with step of 0.001 (need to round to correct for numpy numerical instabilities)
-array_qx = np.round(np.arange(62.260, 62.340, 0.004), decimals=4)
-array_I = np.linspace(-50, 50, 21, endpoint=True)
-
+array_chroma = np.round(np.linspace(10, 30, 21, endpoint=True), decimals=2)
+print(array_chroma)
 # In case one is doing a tune-tune scan, to decrease the size of the scan, we can ignore the
 # working points too close to resonance. Otherwise just delete this variable in the loop at the end
 # of the script
@@ -336,14 +335,11 @@ children["base_collider"]["config_mad"] = d_config_mad
 # ! otherwise the dictionnary will be mutated for all the children.
 # ==================================================================================================
 track_array = np.arange(d_config_particles["n_split"])
-for idx_job, (track, qx, I) in enumerate(itertools.product(track_array, array_qx, array_I)):
-
+for idx_job, (track, chroma) in enumerate(itertools.product(track_array, array_chroma)):
     # Mutate the appropriate collider parameters
     for beam in ["lhcb1", "lhcb2"]:
-        d_config_collider["config_knobs_and_tuning"]["qx"][beam] = float(qx)
-        d_config_collider["config_knobs_and_tuning"]["qy"][beam] = float(qx - 2 + 0.015)
-        d_config_collider["config_knobs_and_tuning"]["knob_settings"]["i_oct_b1"] = float(I)
-        d_config_collider["config_knobs_and_tuning"]["knob_settings"]["i_oct_b2"] = float(I)
+        d_config_collider["config_knobs_and_tuning"]["dqx"][beam] = float(chroma)
+        d_config_collider["config_knobs_and_tuning"]["dqy"][beam] = float(chroma)
 
     # Complete the dictionnary for the tracking
     d_config_simulation["particle_file"] = f"../particles/{track:02}.parquet"
@@ -374,7 +370,7 @@ config["root"]["setup_env_script"] = os.getcwd() + "/../activate_miniforge.sh"
 # --- Build tree and write it to the filesystem
 # ==================================================================================================
 # Define study name
-study_name = "injection_oct_scan_clean_no_phase_knob"
+study_name = "injection_chroma"
 
 # Creade folder that will contain the tree
 if not os.path.exists("scans/" + study_name):
