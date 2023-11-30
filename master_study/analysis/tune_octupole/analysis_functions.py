@@ -105,6 +105,7 @@ def get_title_from_conf(
     emittance=None,
     chroma=None,
     sigma_z=None,
+    display_tune=False,
 ):
     # LHC version
     if LHC_version is not None:
@@ -299,6 +300,16 @@ def get_title_from_conf(
             emittance_value = emittance
         emittance = f"$\epsilon_{{n}} = {{{emittance_value}}}$ $\mu m$"
 
+        # Tune if asked
+        if display_tune:
+            tune_value_x = conf_collider["config_knobs_and_tuning"]["qx"]["lhcb1"]
+            qx = f"$Q_x = {{{tune_value_x}}}$, "
+            tune_value_y = conf_collider["config_knobs_and_tuning"]["qy"]["lhcb1"]
+            qy = f"$Q_y = {{{tune_value_y}}}$, "
+        else:
+            qx = ""
+            qy = ""
+
         # Chromaticity
         if chroma is None:
             chroma_value = conf_collider["config_knobs_and_tuning"]["dqx"]["lhcb1"]
@@ -354,6 +365,8 @@ def get_title_from_conf(
             + "\n"
             + beta
             + ", "
+            + qx
+            + qy
             + polarity
             + ", "
             + phase_change

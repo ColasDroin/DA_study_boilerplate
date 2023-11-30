@@ -17,7 +17,7 @@ print("Analysis of output simulation files started")
 start = time.time()
 
 # Load Data
-study_name = "injection_emittance"
+study_name = "injection_oct_scan_clean"
 fix = "/scans/" + study_name
 root = tree_maker.tree_from_json(fix[1:] + "/tree_maker.json")
 # Add suffix to the root node path to handle scans that are not in the root directory
@@ -123,14 +123,14 @@ if df_lost_particles.empty:
 # Group by working point (Update this with the knobs you want to group by !)
 group_by_parameters = [
     "name base collider",
-    # "qx",
-    # "qy",
+    "qx",
+    "qy",
     # "dqx",
     # "dqy",
-    # "i_oct_b1",
-    # "i_oct_b2",
-    "nemitt_x",
-    "nemitt_y",
+    "i_oct_b1",
+    "i_oct_b2",
+    # "nemitt_x",
+    # "nemitt_y",
     # "voltage",
     # "sigma_z",
     # "phase_change.b1",
