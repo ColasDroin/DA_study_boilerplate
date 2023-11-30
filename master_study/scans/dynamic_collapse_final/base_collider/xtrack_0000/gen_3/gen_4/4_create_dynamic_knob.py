@@ -67,19 +67,17 @@ def linear_regression_bb_values(l_xrange, d_element_attr_vals):
     def make_closure_interp(extended_xrange, extended_y):
         return lambda x: xd.FunctionPieceWiseLinear(x=extended_xrange, y=extended_y)(x)
 
-    extended_xrange = l_xrange + [-x for x in l_xrange[::-1]]
+    extended_xrange = list(l_xrange) + [-x for x in l_xrange[::-1]]
     d_element_attr_regression = {"lhcb1": {}, "lhcb2": {}}
     for beam in d_element_attr_regression:
         d_element_attr_regression[beam] = {}
         for element in d_element_attr_vals[beam]:
             d_element_attr_regression[beam][element] = {}
             for attr in d_element_attr_vals[beam][element]:
-                extended_y = (
-                    d_element_attr_vals[beam][element][attr]
-                    + d_element_attr_vals[beam][element][attr][::-1]
-                )
+                y = list(np.squeeze(np.array(d_element_attr_vals[beam][element][attr])))
+                extended_y = y + y[::-1]
                 d_element_attr_regression[beam][element][attr] = make_closure_interp(
-                    extended_xrange, list(np.squeeze(extended_y))
+                    extended_xrange, extended_y
                 )
 
     return d_element_attr_regression
@@ -96,22 +94,22 @@ def create_knob_sep(collider, d_element_attr_regression):
             else:
                 continue
             for attr in d_element_attr_regression[beam][element]:
-                collider[beam].vars[f"interp_{element}_{attr}"] = d_element_attr_regression[beam][
-                    element
-                ][attr]
+                collider[beam].functions[f"interp_{element}_{attr}"] = d_element_attr_regression[
+                    beam
+                ][element][attr]
                 if isinstance(getattr(collider[beam][element], attr), list) or isinstance(
                     getattr(collider[beam][element], attr), np.ndarray
                 ):
                     setattr(
                         collider[beam].element_refs[element],
                         attr[0],
-                        collider[beam].vars[f"interp_{element}_{attr}"](collider.vars[sep]),
+                        collider[beam].functions[f"interp_{element}_{attr}"](collider.vars[sep]),
                     )
                 else:
                     setattr(
                         collider[beam].element_refs[element],
                         attr,
-                        collider[beam].vars[f"interp_{element}_{attr}"](collider.vars[sep]),
+                        collider[beam].functions[f"interp_{element}_{attr}"](collider.vars[sep]),
                     )
 
     return collider
@@ -189,5 +187,4 @@ def configure_and_track(config_path="config.yaml"):
 # ==================================================================================================
 
 if __name__ == "__main__":
-    configure_and_track()
     configure_and_track()
