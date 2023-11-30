@@ -103,6 +103,8 @@ def get_title_from_conf(
     LHC_version=None,
     name_filling_scheme=None,
     emittance=None,
+    chroma=None,
+    sigma_z=None,
 ):
     # LHC version
     if LHC_version is not None:
@@ -241,8 +243,11 @@ def get_title_from_conf(
         xing_IP5 = phi_5 + f"$= {{{xing_value_IP5:.0f}}}$" + f" $\mu rad$"
 
         # Bunch length
-        bunch_length_value = conf_collider["config_beambeam"]["sigma_z"] * 100
-        bunch_length = f"$\sigma_{{z}} = {{{bunch_length_value}}}$ $cm$"
+        if sigma_z is None:
+            bunch_length_value = conf_collider["config_beambeam"]["sigma_z"] * 100
+            bunch_length = f"$\sigma_{{z}} = {{{bunch_length_value}}}$ $cm$, "
+        else:
+            bunch_length = sigma_z
 
         # Crosing angle at IP8
         xing_value_IP8h = (
@@ -295,8 +300,11 @@ def get_title_from_conf(
         emittance = f"$\epsilon_{{n}} = {{{emittance_value}}}$ $\mu m$"
 
         # Chromaticity
-        chroma_value = conf_collider["config_knobs_and_tuning"]["dqx"]["lhcb1"]
-        chroma = r"$Q'$" + f"$= {{{chroma_value}}}$"
+        if chroma is None:
+            chroma_value = conf_collider["config_knobs_and_tuning"]["dqx"]["lhcb1"]
+            chroma = r"$Q'$" + f"$= {{{chroma_value}}}$, "
+        else:
+            chroma = chroma
 
         # Intensity
         if display_intensity:
@@ -359,11 +367,10 @@ def get_title_from_conf(
             # + xing_IP8
             # + "\n"
             + bunch_length
-            + ", "
+            # + ", "
             + emittance
             + ", "
             + chroma
-            + ", "
             + intensity
             + coupling
             + "\n"
