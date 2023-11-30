@@ -7,10 +7,10 @@ config_collider:
 # Configuration for the track job
 config_simulation:
   # Collider file
-  collider_file: ../collider.json
+  collider_file: ../../../collider/collider.json
 
   # Dictionnary of interpolated elements
-  elements_file: ../d_element_attr_regression.pkl
+  regression_file: ../d_element_attr_regression.pkl
 
   # Distribution in the normalized xy space
   particle_file: ../../../../../base_collider/particles/00.parquet
@@ -19,7 +19,7 @@ config_simulation:
   delta_max: 27.e-5
 
   # Tracking
-  n_turns: 200000 # number of turns to track
+  n_turns: 300000 # number of turns to track
 
   # Beam to track
   beam: lhcb1 #lhcb1 or lhcb2

@@ -17,6 +17,7 @@ import numpy as np
 import pandas as pd
 import ruamel.yaml
 import tree_maker
+import xdeps as xd
 import xmask as xm
 import xtrack as xt
 
@@ -46,6 +47,38 @@ def read_configuration(config_path="config.yaml"):
     return config
 
 
+def create_knob_sep(collider, d_element_attr_regression):
+    # Create knob for beam-beam in collider
+    for beam in d_element_attr_regression:
+        for element in d_element_attr_regression[beam]:
+            if "l1" or "r1" in element:
+                sep = "on_sep1"
+            elif "l5" or "r5" in element:
+                sep = "on_sep5"
+            else:
+                continue
+            for attr in d_element_attr_regression[beam][element]:
+                collider[beam].functions[f"interp_{element}_{attr}"] = d_element_attr_regression[
+                    beam
+                ][element][attr]
+                if isinstance(getattr(collider[beam][element], attr), list) or isinstance(
+                    getattr(collider[beam][element], attr), np.ndarray
+                ):
+                    setattr(
+                        collider[beam].element_refs[element],
+                        attr[0],
+                        collider[beam].functions[f"interp_{element}_{attr}"](collider.vars[sep]),
+                    )
+                else:
+                    setattr(
+                        collider[beam].element_refs[element],
+                        attr,
+                        collider[beam].functions[f"interp_{element}_{attr}"](collider.vars[sep]),
+                    )
+
+    return collider
+
+
 # ==================================================================================================
 # --- Main function for collider configuration
 # ==================================================================================================
@@ -57,6 +90,13 @@ def configure_collider(config):
 
     # Rebuild collider
     collider = xt.Multiline.from_json(config_sim["collider_file"])
+
+    # Load dictionnary of regressions
+    with open(config_sim["regression_file"], "rb") as fid:
+        d_element_attr_regression = pickle.load(fid)
+
+    # Create knob sep
+    collider = create_knob_sep(collider, d_element_attr_regression)
 
     # Build trackers
     collider.build_trackers()

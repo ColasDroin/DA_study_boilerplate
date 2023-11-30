@@ -1,8 +1,5 @@
 # Configuration for the track job
 config_simulation:
-  # Collider file
-  collider_file: ../../collider/collider.json
-
   # Elements file
   elements_file: ../dynamic_configure.pkl
 
