@@ -193,3 +193,47 @@ In file included from 648f1c9c8d3043cc83837873e0ba3b52.c:50:
 648f1c9c8d3043cc83837873e0ba3b52.c:18319:18: warning: unused variable ‘pzeta_slice_star’ [-Wunused-variable]
 18319 |     const double pzeta_slice_star = BeamBeamBiGaussian3DData_get_slices_other_beam_pzeta_center_star(el, i_slice);
       |                  ^~~~~~~~~~~~~~~~
+Done loading line from dict.           
+Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Warning! scale_with_transverse_norm_emitt is deprecated. Use nemitt_x and nemitt_y instead.
+Tracking 300000 turns in 31 steps of 9677 turns
+Updating on_sep1 to -0.011000000000000001 on_sep5 to 0.011000000000000001
+Updating on_sep1 to -0.010633333333333335 on_sep5 to 0.010633333333333335
+Updating on_sep1 to -0.010266666666666667 on_sep5 to 0.010266666666666667
+Updating on_sep1 to -0.0099 on_sep5 to 0.0099
+Updating on_sep1 to -0.009533333333333335 on_sep5 to 0.009533333333333335
+Updating on_sep1 to -0.009166666666666667 on_sep5 to 0.009166666666666667
+Updating on_sep1 to -0.0088 on_sep5 to 0.0088
+Updating on_sep1 to -0.008433333333333334 on_sep5 to 0.008433333333333334
+Updating on_sep1 to -0.008066666666666666 on_sep5 to 0.008066666666666666
+Updating on_sep1 to -0.0077 on_sep5 to 0.0077
+Updating on_sep1 to -0.007333333333333334 on_sep5 to 0.007333333333333334
+Updating on_sep1 to -0.006966666666666667 on_sep5 to 0.006966666666666667
+Updating on_sep1 to -0.0066 on_sep5 to 0.0066
+Updating on_sep1 to -0.006233333333333334 on_sep5 to 0.006233333333333334
+Updating on_sep1 to -0.005866666666666667 on_sep5 to 0.005866666666666667
+Updating on_sep1 to -0.0055000000000000005 on_sep5 to 0.0055000000000000005
+Updating on_sep1 to -0.0051333333333333335 on_sep5 to 0.0051333333333333335
+Updating on_sep1 to -0.0047666666666666664 on_sep5 to 0.0047666666666666664
+Updating on_sep1 to -0.0044 on_sep5 to 0.0044
+Updating on_sep1 to -0.004033333333333333 on_sep5 to 0.004033333333333333
+Updating on_sep1 to -0.003666666666666667 on_sep5 to 0.003666666666666667
+Updating on_sep1 to -0.0033 on_sep5 to 0.0033
+Updating on_sep1 to -0.002933333333333333 on_sep5 to 0.002933333333333333
+Updating on_sep1 to -0.0025666666666666667 on_sep5 to 0.0025666666666666667
+Updating on_sep1 to -0.002199999999999999 on_sep5 to 0.002199999999999999
+Updating on_sep1 to -0.0018333333333333326 on_sep5 to 0.0018333333333333326
+Updating on_sep1 to -0.0014666666666666665 on_sep5 to 0.0014666666666666665
+Updating on_sep1 to -0.0011000000000000003 on_sep5 to 0.0011000000000000003
+Updating on_sep1 to -0.0007333333333333324 on_sep5 to 0.0007333333333333324
+Updating on_sep1 to -0.0003666666666666662 on_sep5 to 0.0003666666666666662
+Updating on_sep1 to 0.0 on_sep5 to 0.0
+Elapsed time: 43170.15559434891 s
+Elapsed time per particle per turn: 296.7021003048035 us
