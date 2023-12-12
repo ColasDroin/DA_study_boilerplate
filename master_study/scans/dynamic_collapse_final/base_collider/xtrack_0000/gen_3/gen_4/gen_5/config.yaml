@@ -19,7 +19,7 @@ config_simulation:
   delta_max: 27.e-5
 
   # Tracking
-  n_turns: 300000 # number of turns to track
+  n_turns: 300 # number of turns to track
 
   # Beam to track
   beam: lhcb1 #lhcb1 or lhcb2

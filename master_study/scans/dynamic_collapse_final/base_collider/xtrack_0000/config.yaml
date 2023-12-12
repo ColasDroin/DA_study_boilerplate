@@ -18,7 +18,7 @@ config_collider:
       phi_IR5: 0.0
 
       on_x8h: 0.000
-      on_sep8h: -1.0  #-1.000
+      on_sep8h: -1.0 #-1.000
       on_x8v: 200.000
       on_sep8v: 0.000
       phi_IR8: 180.000
@@ -95,14 +95,14 @@ config_collider:
     nemitt_y: 2.2e-6
     mask_with_filling_pattern:
       pattern_fname: 
-        /afs/cern.ch/work/c/cdroin/private/example_DA_study/master_study/master_jobs/filling_scheme/25ns_2464b_2452_1842_1821_236bpi_12inj_hybrid_converted.json
-      i_bunch_b1: 411  # If not specified, the bunch with the worst schedule is chosen
-      i_bunch_b2: 410  # Same. A value for i_bunch_b1 and i_bunch_b2 must be specified if pattern_fname is specified
+        /home/cdroin/example_DA_study/master_study/master_jobs/filling_scheme/25ns_2464b_2452_1842_1821_236bpi_12inj_hybrid_converted.json
+      i_bunch_b1: 411 # If not specified, the bunch with the worst schedule is chosen
+      i_bunch_b2: 410 # Same. A value for i_bunch_b1 and i_bunch_b2 must be specified if pattern_fname is specified
 
   config_lumi_leveling_ip1_5:
     skip_leveling: false
     luminosity: 2.0e+34
-    num_colliding_bunches:      # This will be set automatically according to the filling scheme
+    num_colliding_bunches: # This will be set automatically according to the filling scheme
     vary:
     - num_particles_per_bunch
     constraints:
@@ -133,7 +133,7 @@ config_collider:
       - corr_co_acbyhs4.l2b1
       - corr_co_acbyvs4.r2b2
       - corr_co_acbyhs4.r2b2
-        # to close the bumps
+          # to close the bumps
       - corr_co_acbyvs4.l2b2
       - corr_co_acbyhs4.l2b2
       - corr_co_acbyvs4.r2b1
@@ -145,7 +145,7 @@ config_collider:
 
     ip8:
       luminosity: 2.0e+32
-      num_colliding_bunches:      # This will be set automatically according to the filling scheme
+      num_colliding_bunches: # This will be set automatically according to the filling scheme
       impose_separation_orthogonal_to_crossing: true
       knobs:
       - on_sep8h
@@ -170,7 +170,7 @@ config_collider:
       - corr_co_acbyhs4.l8b1
       - corr_co_acbyvs4.r8b2
       - corr_co_acbyhs4.r8b2
-        # to close the bumps
+          # to close the bumps
       - corr_co_acbyvs4.l8b2
       - corr_co_acbyhs4.l8b2
       - corr_co_acbyvs4.r8b1
@@ -185,7 +185,7 @@ config_simulation:
   # Collider file
   collider_file: ../collider/collider.json
 
-# Save collider or not
+  # Save collider or not
   n_turns: 25000
   delta_max: 0.00027
   beam: lhcb1

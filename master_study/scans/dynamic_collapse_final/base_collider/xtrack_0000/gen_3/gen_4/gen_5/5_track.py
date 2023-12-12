@@ -149,25 +149,24 @@ def track(collider, particles, config_sim, save_input_particles=False):
 
     # Define steps for separation update
     n_steps = 30
-    initial_sep_1 = collider.vars["on_sep1"]._value / 50
-    initial_sep_5 = collider.vars["on_sep5"]._value / 50
+    initial_sep_1 = collider.vars["on_sep1"]._value
+    initial_sep_5 = collider.vars["on_sep5"]._value
     num_turns_step = int(num_turns / (n_steps + 1))
     print(f"Tracking {num_turns} turns in {n_steps + 1} steps of {num_turns_step} turns")
-    sep_1_step = initial_sep_1 / n_steps
-    sep_5_step = initial_sep_5 / n_steps
 
-    # collider.lhcb1.enable_time_dependent_vars = True
+    # Define time-dependant closing
+    collider.lhcb1.enable_time_dependent_vars = True
+    time_separation = 90  # s
+    f_LHC = 11247.2428926  # Hz
+    n_turns = f_LHC * time_separation
+    f_sep_1 = initial_sep_1 / time_separation
+    f_sep_5 = initial_sep_5 / time_separation
+    collider.vars["on_sep1"] = initial_sep_1 - collider.vars["t_turn_s"] * f_sep_1
+    collider.vars["on_sep5"] = initial_sep_5 - collider.vars["t_turn_s"] * f_sep_5
 
-    for i in range(n_steps + 1):
-        # Update separation and reconfigure beambeam
-        collider.vars["on_sep1"] = initial_sep_1 - i * sep_1_step
-        collider.vars["on_sep5"] = initial_sep_5 - i * sep_5_step
-        print(
-            f"Updating on_sep1 to {collider.vars['on_sep1']._value} on_sep5 to"
-            f" {collider.vars['on_sep5']._value}"
-        )
-        # print("t_turn_s = ", collider.lhcb1.vars["t_turn_s"]._value)
-        collider[beam_track].track(particles, turn_by_turn_monitor=False, num_turns=num_turns_step)
+    # Track
+    # print("t_turn_s = ", collider.lhcb1.vars["t_turn_s"]._value)
+    collider[beam_track].track(particles, turn_by_turn_monitor=False, num_turns=n_turns)
     b = time.time()
     print(f"Elapsed time: {b-a} s")
     print(f"Elapsed time per particle per turn: {(b-a)/particles._capacity/num_turns*1e6} us")
