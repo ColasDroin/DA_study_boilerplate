@@ -1,2 +1,0 @@
-run.sh: line 4: 700658 Terminated              python 2_configure_and_track.py > output_python.txt 2> error_python.txt
-run.sh: line 4: 1539283 Terminated              python 2_configure_and_track.py > output_python.txt 2> error_python.txt
