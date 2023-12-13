@@ -55,7 +55,9 @@ d_config_mad = {"beam_config": {"lhcb1": {}, "lhcb2": {}}, "links": {}}
 # Optic file path (version, and round or flat)
 
 ### For run III
-d_config_mad["links"]["acc-models-lhc"] = "/afs/cern.ch/eng/lhc/optics/runIII"
+d_config_mad["links"][
+    "acc-models-lhc"
+] = "/afs/cern.ch/eng/lhc/optics/runIII"  # "../../../../modules/runIII"
 d_config_mad["optics_file"] = "acc-models-lhc/RunIII_dev/Proton_2023/opticsfile.23"
 d_config_mad["ver_hllhc_optics"] = None
 d_config_mad["ver_lhc_run"] = 3.0

@@ -8,7 +8,7 @@ config_particles:
 config_mad:
   # Links to be made for tools and scripts
   links:
-    acc-models-lhc: /afs/cern.ch/eng/lhc/optics/runIII
+    acc-models-lhc: ../../../../modules/runIII
 
   # Optics file
   optics_file: acc-models-lhc/RunIII_dev/Proton_2023/opticsfile.23 #
