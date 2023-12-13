@@ -21,21 +21,13 @@ master_study/master_jobs/filling_scheme/custom_schemes/*
 master_study/scans/*
 !master_study/scans/.gitkeep
 !master_study/scans/dynamic_collapse
-!master_study/scans/dynamic_collapse_old
-!master_study/scans/dynamic_collapse_new
 !master_study/scans/dynamic_collapse_final
 master_study/scans/dynamic_collapse/**/*.json
 master_study/scans/dynamic_collapse/**/*.pkl
 master_study/scans/dynamic_collapse/**/*.parquet
-master_study/scans/dynamic_collapse_old/**/*.json
-master_study/scans/dynamic_collapse_old/**/*.pkl
-master_study/scans/dynamic_collapse_old/**/*.parquet
-master_study/scans/dynamic_collapse_new/**/*.json
-master_study/scans/dynamic_collapse_new/**/*.pkl
-master_study/scans/dynamic_collapse_new/**/*.parquet
-master_study/scans/dynamic_collapse_final/**/*.json
-master_study/scans/dynamic_collapse_final/**/*.pkl
-master_study/scans/dynamic_collapse_final/**/*.parquet
+#master_study/scans/dynamic_collapse_final/**/*.json
+#master_study/scans/dynamic_collapse_final/**/*.pkl
+#master_study/scans/dynamic_collapse_final/**/*.parquet
 
 # Analysis
 # master_study/analysis/*
