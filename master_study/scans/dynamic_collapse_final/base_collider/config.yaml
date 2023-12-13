@@ -1,8 +1,8 @@
 config_particles:
   r_min: 2.0
   r_max: 10.0
-  n_r: 256
-  n_angles: 5
+  n_r: 500
+  n_angles: 40
   n_split: 1
 
 config_mad:
@@ -11,7 +11,7 @@ config_mad:
     acc-models-lhc: /afs/cern.ch/eng/lhc/optics/runIII
 
   # Optics file
-  optics_file: acc-models-lhc/RunIII_dev/Proton_2023/opticsfile.23    #
+  optics_file: acc-models-lhc/RunIII_dev/Proton_2023/opticsfile.23 #
 
   # Beam parameters
   beam_config:
