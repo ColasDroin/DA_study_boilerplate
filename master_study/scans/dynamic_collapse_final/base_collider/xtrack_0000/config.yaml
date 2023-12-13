@@ -95,7 +95,7 @@ config_collider:
     nemitt_y: 2.2e-6
     mask_with_filling_pattern:
       pattern_fname: 
-        /home/cdroin/example_DA_study/master_study/master_jobs/filling_scheme/25ns_2464b_2452_1842_1821_236bpi_12inj_hybrid_converted.json
+        /home/HPC/cdroin/dynamic_collapse/master_study/master_jobs/filling_scheme/25ns_2464b_2452_1842_1821_236bpi_12inj_hybrid_converted.json
       i_bunch_b1: 411 # If not specified, the bunch with the worst schedule is chosen
       i_bunch_b2: 410 # Same. A value for i_bunch_b1 and i_bunch_b2 must be specified if pattern_fname is specified
 

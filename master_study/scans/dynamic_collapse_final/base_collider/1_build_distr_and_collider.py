@@ -1,23 +1,25 @@
 """This script is used to build the base collider with Xmask, configuring only the optics. Functions
 in this script are called sequentially."""
+
 # ==================================================================================================
 # --- Imports
 # ==================================================================================================
-from cpymad.madx import Madx
-import os
-import xmask as xm
-import xmask.lhc as xlhc
-import shutil
-import json
-import yaml
-import logging
-import numpy as np
 import itertools
-import pandas as pd
-import tree_maker
+import json
+import logging
+import os
+import shutil
+
+import numpy as np
 
 # Import user-defined optics-specific tools
 import optics_specific_tools as ost
+import pandas as pd
+import tree_maker
+import xmask as xm
+import xmask.lhc as xlhc
+import yaml
+from cpymad.madx import Madx
 
 
 # ==================================================================================================
@@ -57,7 +59,7 @@ def build_particle_distribution(config_particles):
     radial_list = np.linspace(r_min, r_max, n_r, endpoint=False)
 
     # Filter out particles with low and high amplitude to accelerate simulation
-    radial_list = radial_list[(radial_list >= 4.5) & (radial_list <= 7.5)]
+    # radial_list = radial_list[(radial_list >= 4.5) & (radial_list <= 7.5)]
 
     # Define angle distribution
     n_angles = config_particles["n_angles"]
