@@ -105,7 +105,7 @@ def configure_and_track(config_path="config.yaml"):
     tree_maker_tagging(config, tag="started")
 
     # load dictionnary of elements from pickle
-    with open(config["elements_file"], "rb") as fid:
+    with open(config["config_simulation"]["elements_file"], "rb") as fid:
         dic_elements = pickle.load(fid)
 
     # Build dictionnary of regression

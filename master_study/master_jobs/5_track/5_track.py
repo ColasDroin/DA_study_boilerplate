@@ -12,6 +12,7 @@ import os
 import time
 from datetime import datetime
 
+import cupy
 import dill as pickle
 import numpy as np
 import pandas as pd
@@ -19,6 +20,7 @@ import ruamel.yaml
 import tree_maker
 import xdeps as xd
 import xmask as xm
+import xobjects as xo
 import xtrack as xt
 
 # Initialize yaml reader
@@ -98,8 +100,10 @@ def configure_collider(config):
     # Create knob sep
     collider = create_knob_sep(collider, d_element_attr_regression)
 
-    # Build trackers
-    collider.build_trackers()
+    # Build trackers on GPU
+    context = xo.ContextCupy()
+    # context = xo.ContextCpu()
+    collider.build_trackers(_context=context)
 
     return collider, config_sim, config_bb
 
@@ -124,7 +128,8 @@ def prepare_particle_distribution(config_sim, collider, config_bb):
         delta=config_sim["delta_max"],
         scale_with_transverse_norm_emitt=(config_bb["nemitt_x"], config_bb["nemitt_y"]),
     )
-    particles.particle_id = particle_df.particle_id.values
+    # ! Remove the Cupy wrapping if simulating on CPU
+    particles.particle_id = cupy.asarray(particle_df.particle_id.values.astype(np.int32, copy=True))
 
     return particles
 
@@ -148,26 +153,30 @@ def track(collider, particles, config_sim, save_input_particles=False):
     a = time.time()
 
     # Define steps for separation update
-    n_steps = 30
-    initial_sep_1 = collider.vars["on_sep1"]._value / 50
-    initial_sep_5 = collider.vars["on_sep5"]._value / 50
-    num_turns_step = int(num_turns / (n_steps + 1))
-    print(f"Tracking {num_turns} turns in {n_steps + 1} steps of {num_turns_step} turns")
-    sep_1_step = initial_sep_1 / n_steps
-    sep_5_step = initial_sep_5 / n_steps
+    initial_sep_1 = collider.vars["on_sep1"]._value
+    initial_sep_5 = collider.vars["on_sep5"]._value
 
-    # collider.lhcb1.enable_time_dependent_vars = True
+    # Define time-dependant closing
+    collider.lhcb1.enable_time_dependent_vars = True
+    time_separation = 0.01  # s
+    f_LHC = 11247.2428926  # Hz
+    n_turns = int(round(f_LHC * time_separation))
+    f_sep_1 = initial_sep_1 / time_separation
+    f_sep_5 = initial_sep_5 / time_separation
+    collider.vars["on_sep1"] = initial_sep_1 - collider.vars["t_turn_s"] * f_sep_1
+    collider.vars["on_sep5"] = initial_sep_5 - collider.vars["t_turn_s"] * f_sep_5
+    # Track
+    print("t_turn_s = ", collider.lhcb1.vars["t_turn_s"]._value)
+    collider[beam_track].track(particles, turn_by_turn_monitor=False, num_turns=n_turns)
+    print("t_turn_s = ", collider.lhcb1.vars["t_turn_s"]._value)
+    print(collider.vars["on_sep1"]._info())
 
-    for i in range(n_steps + 1):
-        # Update separation and reconfigure beambeam
-        collider.vars["on_sep1"] = initial_sep_1 - i * sep_1_step
-        collider.vars["on_sep5"] = initial_sep_5 - i * sep_5_step
-        print(
-            f"Updating on_sep1 to {collider.vars['on_sep1']._value} on_sep5 to"
-            f" {collider.vars['on_sep5']._value}"
-        )
-        # print("t_turn_s = ", collider.lhcb1.vars["t_turn_s"]._value)
-        collider[beam_track].track(particles, turn_by_turn_monitor=False, num_turns=num_turns_step)
+    # Track for N more turns at the end
+    collider.vars["on_sep1"] = 0
+    collider.vars["on_sep5"] = 0
+    collider.lhcb1.enable_time_dependent_vars = False
+    N = 50000
+    # collider[beam_track].track(particles, turn_by_turn_monitor=False, num_turns=N)
     b = time.time()
     print(f"Elapsed time: {b-a} s")
     print(f"Elapsed time per particle per turn: {(b-a)/particles._capacity/num_turns*1e6} us")
