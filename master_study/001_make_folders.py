@@ -38,7 +38,7 @@ d_config_particles["n_r"] = 2 * 16 * (d_config_particles["r_max"] - d_config_par
 d_config_particles["n_angles"] = 5
 
 # Number of split for parallelization
-d_config_particles["n_split"] = 4
+d_config_particles["n_split"] = 5
 
 # ==================================================================================================
 # --- Optics collider parameters (generation 1)
@@ -57,12 +57,12 @@ d_config_mad = {"beam_config": {"lhcb1": {}, "lhcb2": {}}, "links": {}}
 
 ### For v1.6 optics
 d_config_mad["links"]["acc-models-lhc"] = "../../../../modules/hllhc16"
-d_config_mad["optics_file"] = "acc-models-lhc/strengths/ramp/opt_ramp_500_1500_thin.madx"
+d_config_mad["optics_file"] = "acc-models-lhc/strengths/ramp/opt_ramp_6000_thin.madx"
 d_config_mad["ver_hllhc_optics"] = 1.6
 
 
 # Beam energy (for both beams)
-beam_energy_tot = 7000
+beam_energy_tot = 450
 d_config_mad["beam_config"]["lhcb1"]["beam_energy_tot"] = beam_energy_tot
 d_config_mad["beam_config"]["lhcb2"]["beam_energy_tot"] = beam_energy_tot
 
@@ -100,53 +100,55 @@ d_config_tune_and_chroma["delta_cmi"] = 0.0
 # Define dictionary for the knobs settings
 d_config_knobs = {}
 
-# Knobs at IPs
-d_config_knobs["on_x1"] = 250
-d_config_knobs["on_sep1"] = 0
-d_config_knobs["on_x2"] = -170
-d_config_knobs["on_sep2"] = 0.138
-d_config_knobs["on_x5"] = 250
-d_config_knobs["on_sep5"] = 0
-d_config_knobs["on_x8h"] = 0.0
-d_config_knobs["on_x8v"] = 170
+# # Knobs at IPs
+# d_config_knobs["on_x1"] = 250
+# d_config_knobs["on_sep1"] = 0
+# d_config_knobs["on_x2"] = -170
+# d_config_knobs["on_sep2"] = 0.138
+# d_config_knobs["on_x5"] = 250
+# d_config_knobs["on_sep5"] = 0
+# d_config_knobs["on_x8h"] = 0.0
+# d_config_knobs["on_x8v"] = 170
 
-# Crab cavities
-d_config_knobs["on_crab1"] = 0
-d_config_knobs["on_crab5"] = 0
+# # Crab cavities
+# d_config_knobs["on_crab1"] = 0
+# d_config_knobs["on_crab5"] = 0
 
 # Octupoles
-d_config_knobs["i_oct_b1"] = 60.0
-d_config_knobs["i_oct_b2"] = 60.0
+d_config_knobs["i_oct_b1"] = 40.0
+d_config_knobs["i_oct_b2"] = 40.0
 
 ### leveling configuration
 
 # Leveling in IP 1/5
-d_config_leveling_ip1_5 = {"constraints": {}}
-d_config_leveling_ip1_5["luminosity"] = 2.0e34
-d_config_leveling_ip1_5["constraints"]["max_intensity"] = 2.3e11
-d_config_leveling_ip1_5["constraints"]["max_PU"] = 160
+skip_leveling = True
+# d_config_leveling_ip1_5 = {"constraints": {}}
+# d_config_leveling_ip1_5["luminosity"] = 2.0e34
+# d_config_leveling_ip1_5["constraints"]["max_intensity"] = 2.3e11
+# d_config_leveling_ip1_5["constraints"]["max_PU"] = 160
 
 
-# Define dictionary for the leveling settings
-d_config_leveling = {
-    "ip2": {},
-    "ip8": {},
-}
+# # Define dictionary for the leveling settings
+# d_config_leveling = {
+#     "ip2": {},
+#     "ip8": {},
+# }
 
-# Luminosity and particles
+# # Luminosity and particles
 
 
-# Leveling parameters (ignored if skip_leveling is True)
-d_config_leveling["ip2"]["separation_in_sigmas"] = 5
-d_config_leveling["ip8"]["luminosity"] = 2.0e33
+# # Leveling parameters (ignored if skip_leveling is True)
+# d_config_leveling["ip2"]["separation_in_sigmas"] = 5
+# d_config_leveling["ip8"]["luminosity"] = 2.0e33
 
 ### Beam beam configuration
 
 # Define dictionary for the beam beam settings
 d_config_beambeam = {"mask_with_filling_pattern": {}}
-
+# Choose if beam beam is on or off
+d_config_beambeam["skip_beambeam"] = False
 # Beam settings
-d_config_beambeam["num_particles_per_bunch"] = 1.4e11
+d_config_beambeam["num_particles_per_bunch"] = 2.3e11
 d_config_beambeam["nemitt_x"] = 2.5e-6
 d_config_beambeam["nemitt_y"] = 2.5e-6
 
@@ -154,7 +156,7 @@ d_config_beambeam["nemitt_y"] = 2.5e-6
 # The scheme should consist of a json file containing two lists of booleans (one for each beam),
 # representing each bucket of the LHC.
 filling_scheme_path = os.path.abspath(
-    "master_jobs/filling_scheme/8b4e_1972b_1960_1178_1886_224bpi_12inj_800ns_bs200ns.json"
+    "master_jobs/filling_scheme/25ns_2452b_2440_1952_2240_248bpi_12inj_mixed.json"
 )
 
 # Alternatively, one can get a fill directly from LPC from, e.g.:
@@ -241,8 +243,9 @@ d_config_collider["config_knobs_and_tuning"] = d_config_tune_and_chroma
 d_config_collider["config_knobs_and_tuning"]["knob_settings"] = d_config_knobs
 
 # Add luminosity configuration
-d_config_collider["config_lumi_leveling_ip1_5"] = d_config_leveling_ip1_5
-d_config_collider["config_lumi_leveling"] = d_config_leveling
+# d_config_collider["config_lumi_leveling_ip1_5"] = d_config_leveling_ip1_5
+# d_config_collider["config_lumi_leveling"] = d_config_leveling
+d_config_collider["skip_leveling"] = skip_leveling
 
 # Add beam beam configuration
 d_config_collider["config_beambeam"] = d_config_beambeam
@@ -269,8 +272,8 @@ d_config_simulation["beam"] = "lhcb1"
 # Below, the user chooses if the gen 2 collider must be dumped, along with the corresponding
 # configuration.
 # ==================================================================================================
-dump_collider = False
-dump_config_in_collider = False
+dump_collider = True
+dump_config_in_collider = True
 
 # ==================================================================================================
 # --- Machine parameters being scanned (generation 2)
@@ -317,7 +320,7 @@ track_array = np.arange(d_config_particles["n_split"])
 for idx_job, (track, qx, qy) in enumerate(itertools.product(track_array, array_qx, array_qy)):
     # If requested, ignore conditions below the upper diagonal as they can't be reached in the LHC
     if keep == "upper_triangle":
-        if qy < (qx - 2 - 0.0039):  # 0.039 instead of 0.04 to avoid rounding errors
+        if qy < (qx - 2 + 0.0039):  # 0.039 instead of 0.04 to avoid rounding errors
             continue
     elif keep == "lower_triangle":
         if qy >= (qx - 2 - 0.0039):

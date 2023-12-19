@@ -11,9 +11,11 @@ import json
 import logging
 import os
 import shutil
+import matplotlib.pyplot as plt
 
 # Import third-party modules
 import numpy as np
+from pyoptics import optics
 
 # Import user-defined modules
 import optics_specific_tools as ost
@@ -129,17 +131,20 @@ def load_optics_runIII(path_optics,  path_settings = None):
 
     # Build sequence
     mad.input(f"""
-    call,file="modules/{run}/lhc.seq";
+    call,file="../../../../modules/runIII2023/lhc.seq";
     """)
 
 
     # Apply macro
     mad.input(f"""
-    call,file="modules/{run}/toolkit/macro.madx";
+    call,file="../../../../modules/runIII2023/toolkit/macro.madx";
     """)
 
-    mad.input(f"""exec,mk_beam(450);""")
-
+    mad.input(f"""
+        nrj=450;
+        beam,particle=proton,sequence=lhcb1,energy=nrj;
+        beam,particle=proton,sequence=lhcb2,energy=nrj;
+    """)
     # Injection optics
     mad.input(f"""
     call,file="{path_optics}";
@@ -293,11 +298,11 @@ def return_mu_values_runIII(t):
     
 def load_RDT_runIII():
     # Load paths
-    path_optics_with_knob= "modules/runIII2023/operation/optics/R2023a_A11mC11mA10mL10m_PhaseKnob100ON.madx"
-    path_settings = "modules/runIII2023/scenarios/pp_lumi/RAMP-SQUEEZE-6.8TeV-ATS-2m-2023_V1/0/settings.madx"
+    path_optics_with_knob= "../../../../modules/runIII2023/operation/optics/R2023a_A11mC11mA10mL10m_PhaseKnob100ON.madx"
+    path_settings = "../../../../modules/runIII2023/scenarios/pp_lumi/RAMP-SQUEEZE-6.8TeV-ATS-2m-2023_V1/0/settings.madx"
 
     # Plot RDTs with and without phase knob
-    mad = load_optics_runIII(path_optics_with_knob, path_hl = None, path_settings = path_settings)
+    mad = load_optics_runIII(path_optics_with_knob, path_settings = path_settings)
     mad = macros_runIII(mad)
     mad, tb1, tb2 = check_and_load_twiss_runIII(mad)
     s_with_knob, dic_RDTs_with_knob = get_all_RDTs(tb1)
@@ -323,7 +328,7 @@ def load_RDT_runIII():
     return ll_mu_b1_runIII_with_knob, ll_mu_b2_runIII_with_knob
 
 
-def rematch_optics(mad, path_rematch = "modules/hllhc16/toolkit/rematch_hllhc.madx"):
+def rematch_optics(mad, path_rematch = "../../../../modules/hllhc16/toolkit/rematch_hllhc.madx"):
     mad.input(f"""
     call,file="{path_rematch}";      
     """)
@@ -384,8 +389,8 @@ def build_collider_from_mad(config_mad, context, ll_mu_b1_runIII_with_knob, ll_m
         mad_b1b2.twiss()
         ost.check_madx_lattices(mad_b1b2)
 
-    # Rematch optics
-    mad = rematch_optics(mad_b1b2)
+    # # Rematch optics
+    # mad = rematch_optics(mad_b1b2)
 
     # # Apply optics (only for b4, just for check)
     # ost.apply_optics(mad_b4, optics_file=config_mad["optics_file"])

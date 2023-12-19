@@ -118,7 +118,8 @@ def set_knobs(config_collider, collider):
     # Set all knobs (crossing angles, dispersion correction, rf, crab cavities,
     # experimental magnets, etc.)
     for kk, vv in conf_knobs_and_tuning["knob_settings"].items():
-        collider.vars[kk] = vv
+        if vv is not None:
+            collider.vars[kk] = vv
 
     return collider, conf_knobs_and_tuning
 
@@ -417,7 +418,6 @@ def configure_collider(
     config,
     config_mad,
     context,
-    skip_beam_beam=False,
     save_collider=False,
     save_config=False,
     return_collider_before_bb=False,
@@ -461,23 +461,23 @@ def configure_collider(
         if crab_val > 0:
             crab = True
 
-    # Do the leveling if requested
-    if "config_lumi_leveling" in config_collider and not config_collider["skip_leveling"]:
-        collider, config_collider = do_levelling(
-            config_collider,
-            config_bb,
-            n_collisions_ip2,
-            n_collisions_ip8,
-            collider,
-            n_collisions_ip1_and_5,
-            crab,
-        )
+    # # Do the leveling if requested
+    # if "config_lumi_leveling" in config_collider and not config_collider["skip_leveling"]:
+    #     collider, config_collider = do_levelling(
+    #         config_collider,
+    #         config_bb,
+    #         n_collisions_ip2,
+    #         n_collisions_ip8,
+    #         collider,
+    #         n_collisions_ip1_and_5,
+    #         crab,
+    #     )
 
-    else:
-        print(
-            "No leveling is done as no configuration has been provided, or skip_leveling"
-            " is set to True."
-        )
+    # else:
+    #     print(
+    #         "No leveling is done as no configuration has been provided, or skip_leveling"
+    #         " is set to True."
+    #     )
 
     # Add linear coupling
     collider = add_linear_coupling(conf_knobs_and_tuning, collider, config_mad)
@@ -495,18 +495,18 @@ def configure_collider(
         print("Saving collider before beam-beam configuration")
         collider_before_bb = xt.Multiline.from_dict(collider.to_dict())
 
-    if not skip_beam_beam:
+    if not config_bb["skip_beambeam"]:
         # Configure beam-beam
         collider = configure_beam_beam(collider, config_bb)
 
-    # Update configuration with luminosity now that bb is known
-    l_n_collisions = [
-        n_collisions_ip1_and_5,
-        n_collisions_ip2,
-        n_collisions_ip1_and_5,
-        n_collisions_ip8,
-    ]
-    config_bb = record_final_luminosity(collider, config_bb, l_n_collisions, crab)
+        # Update configuration with luminosity now that bb is known
+        l_n_collisions = [
+            n_collisions_ip1_and_5,
+            n_collisions_ip2,
+            n_collisions_ip1_and_5,
+            n_collisions_ip8,
+        ]
+        config_bb = record_final_luminosity(collider, config_bb, l_n_collisions, crab)
 
     # Drop update configuration
     with open(config_path, "w") as fid:
