@@ -88,11 +88,12 @@ def build_sequence(
       """)
 
     if mylhcbeam < 3:
-        mad.input(f"""
-      nrj=7000;
-      beam,particle=proton,sequence=lhcb1,energy=nrj,npart=1.15E11,sige=4.5e-4;
-      beam,particle=proton,sequence=lhcb2,energy=nrj,bv = -1,npart=1.15E11,sige=4.5e-4;
-      """)
+        #   mad.input(f"""
+        # nrj=7000;
+        # beam,particle=proton,sequence=lhcb1,energy=nrj,npart=1.15E11,sige=4.5e-4;
+        # beam,particle=proton,sequence=lhcb2,energy=nrj,bv = -1,npart=1.15E11,sige=4.5e-4;
+        # """)
+        mad.input(f"""exec,mk_beam(450);""")
 
     install_errors_placeholders_hllhc(mad)
 

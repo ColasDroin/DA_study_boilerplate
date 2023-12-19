@@ -11,14 +11,14 @@ config_mad:
     acc-models-lhc: ../../../modules/hllhc16
 
   # Optics file
-  optics_file: acc-models-lhc/strengths/flat/opt_flathv_500_2000_thin.madx
+  optics_file: acc-models-lhc/strengths/ramp/opt_ramp_6000_thin.madx
 
   # Beam parameters
   beam_config:
     lhcb1:
-      beam_energy_tot: 7000 # [GeV]
+      beam_energy_tot: 450 # [GeV]
     lhcb2:
-      beam_energy_tot: 7000 # [GeV]
+      beam_energy_tot: 450 # [GeV]
 
   # Enable machine imperfections
   enable_imperfections: false
