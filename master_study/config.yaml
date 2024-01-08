@@ -9,7 +9,7 @@
       run_on: "local_pc"
       htc_job_flavor: "espresso" # optional parameter to define job flavor, default is espresso
       singularity_image: "/cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cdroin/da-study-docker:latest" #../da-study-docker_latest.sif
-      context: "cupy" # 'cupy' # opencl # how to run the simulation
+      context: "cpu" # 'cupy' # opencl # how to run the simulation
     2: # Launch the pymask and prepare the colliders
       job_folder: "../../master_jobs/2_configure_and_track"
       job_executable: 2_configure_and_track.py # has to be a python file

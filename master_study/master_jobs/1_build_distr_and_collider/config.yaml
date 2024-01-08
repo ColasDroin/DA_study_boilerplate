@@ -60,4 +60,4 @@ context: "cpu" # 'cupy' # opencl
 log_file: "tree_maker.log"
 
 # To make some specifics checks
-sanity_checks: true
+sanity_checks: false

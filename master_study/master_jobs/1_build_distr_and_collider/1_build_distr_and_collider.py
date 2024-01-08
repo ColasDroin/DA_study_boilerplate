@@ -11,12 +11,10 @@ import json
 import logging
 import os
 import shutil
-import matplotlib.pyplot as plt
 
+import matplotlib.pyplot as plt
 # Import third-party modules
 import numpy as np
-from pyoptics import optics
-
 # Import user-defined modules
 import optics_specific_tools as ost
 import pandas as pd
@@ -26,6 +24,7 @@ import xmask.lhc as xlhc
 import xobjects as xo
 import yaml
 from cpymad.madx import Madx
+from pyoptics import optics
 
 
 # ==================================================================================================
@@ -118,7 +117,7 @@ def write_particle_distribution(particle_list):
 def load_optics_runIII(path_optics,  path_settings = None):
 
     # Get run
-    run = path_optics.split('/')[1]
+    # run = path_optics.split('/')[1]
 
     # Build sequence
     mad = Madx()
@@ -270,6 +269,7 @@ def plot_RDT(s, dic_RDTs, title = None, title_save = "RDT.pdf"):
         plt.title(title)
     plt.savefig(title_save, bbox_inches='tight')
     #plt.show()
+    plt.close()
     
 def return_mu_values_runIII(t):
     # Get relevant markers
@@ -379,7 +379,6 @@ def build_collider_from_mad(config_mad, context, ll_mu_b1_runIII_with_knob, ll_m
     mad_b1b2, tb1, tb2 = check_and_load_twiss_runIII(mad_b1b2)
     s, dic_RDTs = get_all_RDTs(tb1)
     plot_RDT(s, dic_RDTs, title = 'HL with RunIII phase rematch', title_save = "HL_rematched_RDT.pdf")
-
 
     if sanity_checks:
         mad_b1b2.use(sequence="lhcb1")
