@@ -57,9 +57,7 @@ d_config_mad = {"beam_config": {"lhcb1": {}, "lhcb2": {}}, "links": {}}
 
 ### For v1.6 optics
 d_config_mad["links"]["acc-models-lhc"] = "../../../../modules/hllhc16"
-d_config_mad[
-    "optics_file"
-] = "acc-models-lhc/strengths/newir3ir7/opt_collapse_980_1500_newir37.madx"
+d_config_mad["optics_file"] = "acc-models-lhc/strengths/newir3ir7/opt_round_150_1500_newir37.madx"
 d_config_mad["ver_hllhc_optics"] = 1.6
 
 
@@ -341,7 +339,7 @@ config["root"]["setup_env_script"] = os.getcwd() + "/../activate_miniforge.sh"
 # --- Build tree and write it to the filesystem
 # ==================================================================================================
 # Define study name
-study_name = "opt_collapse_980_1500_newir37_collider"
+study_name = "opt_round_150_1500_newir37_collider"
 
 # Creade folder that will contain the tree
 if not os.path.exists("scans/" + study_name):
