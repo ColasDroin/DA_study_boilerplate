@@ -1,14 +1,15 @@
 # ==================================================================================================
 # --- Imports
 # ==================================================================================================
-import tree_maker
-import os
-import psutil
-from pathlib import Path
-import subprocess
 import copy
-import yaml
+import os
+import subprocess
 import time
+from pathlib import Path
+
+import psutil
+import tree_maker
+import yaml
 
 
 # ==================================================================================================
@@ -582,7 +583,7 @@ def submit_jobs(study_name, print_uncompleted_jobs=False):
 # Load the tree from a yaml and submit the jobs that haven't been completed yet
 if __name__ == "__main__":
     # Define study
-    study_name = "opt_round_150_1500_newir37_collider"
+    study_name = "opt_round_150_1500_optphases_collider"
 
     # Submit jobs
     submit_jobs(study_name)
