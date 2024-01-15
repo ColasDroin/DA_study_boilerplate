@@ -1,15 +1,16 @@
 # ==================================================================================================
 # --- Imports
 # ==================================================================================================
-from tree_maker import initialize
-import time
-import os
+import copy
 import itertools
+import json
+import os
+import shutil
+import time
+
 import numpy as np
 import yaml
-import shutil
-import copy
-import json
+from tree_maker import initialize
 from user_defined_functions import (
     generate_run_sh,
     get_worst_bunch,
@@ -39,7 +40,7 @@ d_config_particles["n_angles"] = 5
 d_config_particles["n_split"] = 1
 
 # Sanity checks
-sanity_checks = False
+sanity_checks = True
 # ==================================================================================================
 # --- Optics collider parameters (generation 1)
 #
@@ -57,7 +58,7 @@ d_config_mad = {"beam_config": {"lhcb1": {}, "lhcb2": {}}, "links": {}}
 
 ### For v1.6 optics
 d_config_mad["links"]["acc-models-lhc"] = "../../../../modules/hllhc16"
-d_config_mad["optics_file"] = "acc-models-lhc/strengths/newir3ir7/opt_ramp_500_1500_newir37.madx"
+d_config_mad["optics_file"] = "acc-models-lhc/strengths/round/opt_round_150_1500_optphases.madx"
 d_config_mad["ver_hllhc_optics"] = 1.6
 
 
@@ -111,19 +112,19 @@ d_config_knobs["on_x8h"] = 0.0
 d_config_knobs["on_x8v"] = 170
 
 # Crab cavities
-d_config_knobs["on_crab1"] = 0
-d_config_knobs["on_crab5"] = 0
+d_config_knobs["on_crab1"] = -190
+d_config_knobs["on_crab5"] = -190
 
 # Octupoles
 d_config_knobs["i_oct_b1"] = 60.0
 d_config_knobs["i_oct_b2"] = 60.0
-d_config_knobs["on_disp"] = 0
+d_config_knobs["on_disp"] = 1
 
 ### leveling configuration
 
 # Leveling in IP 1/5
 d_config_leveling_ip1_5 = {"constraints": {}}
-d_config_leveling_ip1_5["luminosity"] = 2.5e34
+d_config_leveling_ip1_5["luminosity"] = 5e34
 d_config_leveling_ip1_5["constraints"]["max_intensity"] = 2.3e11
 d_config_leveling_ip1_5["constraints"]["max_PU"] = 160
 
@@ -223,7 +224,8 @@ if check_bunch_number:
         # For beam 2, just select the worst bunch by default, as the tracking of b2 is not available yet anyway
         print(
             "The bunch number for beam 2 has not been provided. By default, the worst bunch is"
-            " taken. It is the bunch number " + str(worst_bunch_b2)
+            " taken. It is the bunch number "
+            + str(worst_bunch_b2)
         )
 
         d_config_beambeam["mask_with_filling_pattern"]["i_bunch_b2"] = worst_bunch_b2
@@ -299,7 +301,6 @@ children["base_collider"]["config_mad"] = d_config_mad
 # Sanity checks
 children["base_collider"]["sanity_checks"] = sanity_checks
 
-
 # ==================================================================================================
 # --- Complete tree for the simulations (generation 2)
 #
@@ -340,7 +341,7 @@ config["root"]["setup_env_script"] = os.getcwd() + "/../activate_miniforge.sh"
 # --- Build tree and write it to the filesystem
 # ==================================================================================================
 # Define study name
-study_name = "opt_ramp_500_1500_newir37_collider"
+study_name = "opt_round_150_1500_optphases_collider"
 
 # Creade folder that will contain the tree
 if not os.path.exists("scans/" + study_name):
