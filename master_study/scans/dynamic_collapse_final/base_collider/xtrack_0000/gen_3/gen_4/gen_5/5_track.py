@@ -152,16 +152,17 @@ def track(collider, particles, config_sim, save_input_particles=False):
     a = time.time()
 
     # Define steps for separation update
-    initial_sep_1 = collider.vars["on_sep1"]._value
-    initial_sep_5 = collider.vars["on_sep5"]._value
+    initial_sep_1 = collider.vars["on_sep1"]._value / 50  # ! REMOVE /50
+    initial_sep_5 = collider.vars["on_sep5"]._value / 50  # ! REMOVE /50
 
     # Define time-dependant closing
     collider.lhcb1.enable_time_dependent_vars = True
-    time_separation = 90  # s
+    time_separation = 10  # s # ! 90
     f_LHC = 11247.2428926  # Hz
     n_turns = int(round(f_LHC * time_separation))
-    f_sep_1 = initial_sep_1 / time_separation
-    f_sep_5 = initial_sep_5 / time_separation
+    print("n_turns = ", n_turns)
+    f_sep_1 = 0  # initial_sep_1 / time_separation # ! UNCOMMENT
+    f_sep_5 = 0  # initial_sep_5 / time_separation # ! UNCOMMENT
     collider.vars["on_sep1"] = initial_sep_1 - collider.vars["t_turn_s"] * f_sep_1
     collider.vars["on_sep5"] = initial_sep_5 - collider.vars["t_turn_s"] * f_sep_5
     # Track
@@ -171,10 +172,10 @@ def track(collider, particles, config_sim, save_input_particles=False):
     print(collider.vars["on_sep1"]._info())
 
     # Track for N more turns at the end
-    collider.vars["on_sep1"] = 0
-    collider.vars["on_sep5"] = 0
+    # collider.vars["on_sep1"] = 0
+    # collider.vars["on_sep5"] = 0
     collider.lhcb1.enable_time_dependent_vars = False
-    N = 50000
+    # N = 50000
     # collider[beam_track].track(particles, turn_by_turn_monitor=False, num_turns=N)
     b = time.time()
     print(f"Elapsed time: {b-a} s")

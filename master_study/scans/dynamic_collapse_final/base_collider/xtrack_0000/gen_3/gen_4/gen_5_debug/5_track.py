@@ -18,6 +18,7 @@ import pandas as pd
 import ruamel.yaml
 import tree_maker
 import xmask as xm
+import xobjects as xo
 import xtrack as xt
 
 # Initialize yaml reader
@@ -58,16 +59,19 @@ def configure_collider(config):
     # Rebuild collider
     collider = xt.Multiline.from_json(config_sim["collider_file"])
 
+    # Build trackers on GPU
+    context = xo.ContextPyopencl()
+
     # Build trackers
     collider.build_trackers()
 
-    return collider, config_sim, config_bb
+    return collider, config_sim, config_bb, context
 
 
 # ==================================================================================================
 # --- Function to prepare particles distribution for tracking
 # ==================================================================================================
-def prepare_particle_distribution(config_sim, collider, config_bb):
+def prepare_particle_distribution(config_sim, collider, config_bb, context):
     beam = config_sim["beam"]
 
     particle_df = pd.read_parquet(config_sim["particle_file"])
@@ -79,14 +83,15 @@ def prepare_particle_distribution(config_sim, collider, config_bb):
     A2_in_sigma = r_vect * np.sin(theta_vect)
 
     particles = collider[beam].build_particles(
+        _context=context,
         x_norm=A1_in_sigma,
         y_norm=A2_in_sigma,
         delta=config_sim["delta_max"],
         scale_with_transverse_norm_emitt=(config_bb["nemitt_x"], config_bb["nemitt_y"]),
     )
-    particles.particle_id = particle_df.particle_id.values
+    particle_id = particle_df.particle_id.values.astype(np.int32, copy=True)
 
-    return particles
+    return particles, particle_id
 
 
 def configure_beam_beam(collider, config_bb):
@@ -139,7 +144,9 @@ def configure_beam_beam(collider, config_bb):
 # ==================================================================================================
 # --- Function to do the tracking
 # ==================================================================================================
-def track(collider, particles, config_sim, config_bb=None, save_input_particles=False):
+def track(
+    collider, particles, config_sim, config_bb=None, context=None, save_input_particles=False
+):
     # Get beam being tracked
     beam_track = config_sim["beam"]
 
@@ -155,26 +162,37 @@ def track(collider, particles, config_sim, config_bb=None, save_input_particles=
     a = time.time()
 
     # Define steps for separation update
-    n_steps = 30
+    # n_steps = 30
     initial_sep_1 = collider.vars["on_sep1"]._value / 50
     initial_sep_5 = collider.vars["on_sep5"]._value / 50
-    num_turns_step = int(num_turns / (n_steps + 1))
-    sep_1_step = initial_sep_1 / n_steps
-    sep_5_step = initial_sep_5 / n_steps
+    # num_turns_step = int(num_turns / (n_steps + 1))
+    time_separation = 10  # s # ! 90
+    f_LHC = 11247.2428926  # Hz
+    n_turns = int(round(f_LHC * time_separation))
+    print("n_turns = ", n_turns)
+    collider.lhcb1.enable_time_dependent_vars = False
+    # sep_1_step = initial_sep_1 / n_steps
+    # sep_5_step = initial_sep_5 / n_steps
 
-    for i in range(n_steps + 1):
-        # Update separation and reconfigure beambeam
-        collider.vars["on_sep1"] = initial_sep_1 - i * sep_1_step
-        collider.vars["on_sep5"] = initial_sep_5 - i * sep_5_step
-        print(
-            f"Updating on_sep1 to {collider.vars['on_sep1']._value} on_sep5 to"
-            f" {collider.vars['on_sep5']._value}"
-        )
+    # for i in range(n_steps + 1):
+    # Update separation and reconfigure beambeam
+    collider.vars["on_sep1"] = initial_sep_1  # - i * sep_1_step
+    collider.vars["on_sep5"] = initial_sep_5  # - i * sep_5_step
+    # print(
+    #     f"Updating on_sep1 to {collider.vars['on_sep1']._value} on_sep5 to"
+    #     f" {collider.vars['on_sep5']._value}"
+    # )
 
-        if config_bb is not None:
-            collider = configure_beam_beam(collider, config_bb)
+    # if config_bb is not None:
+    collider = configure_beam_beam(collider, config_bb)
 
-        collider[beam_track].track(particles, turn_by_turn_monitor=False, num_turns=num_turns_step)
+    # Rebuilt trackers
+    collider.discard_trackers()
+    collider.build_trackers(_context=context)
+
+    collider[beam_track].track(
+        particles, turn_by_turn_monitor=False, num_turns=n_turns
+    )  # num_turns_step)
     b = time.time()
     print(f"Elapsed time: {b-a} s")
     print(f"Elapsed time per particle per turn: {(b-a)/particles._capacity/num_turns*1e6} us")
@@ -193,16 +211,18 @@ def configure_and_track(config_path="config.yaml"):
     tree_maker_tagging(config, tag="started")
 
     # Configure collider (not saved, since it may trigger overload of afs)
-    collider, config_sim, config_bb = configure_collider(config)
+    collider, config_sim, config_bb, context = configure_collider(config)
 
     # Prepare particle distribution
-    particles = prepare_particle_distribution(config_sim, collider, config_bb)
+    particles, particle_id = prepare_particle_distribution(config_sim, collider, config_bb, context)
 
     # Track
-    particles = track(collider, particles, config_sim, config_bb)
+    particles = track(collider, particles, config_sim, config_bb, context)
 
     # Save output
-    pd.DataFrame(particles.to_dict()).to_parquet("output_particles.parquet")
+    particles_dict = particles.to_dict()
+    particles_dict["particle_id"] = particle_id
+    pd.DataFrame(particles_dict).to_parquet("output_particles.parquet")
 
     # Remote the correction folder, and potential C files remaining
     try:
