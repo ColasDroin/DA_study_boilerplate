@@ -95,8 +95,6 @@ for beam in ["lhcb1", "lhcb2"]:
     d_config_tune_and_chroma["qy"][beam] = 60.32
     d_config_tune_and_chroma["dqx"][beam] = 15.0
     d_config_tune_and_chroma["dqy"][beam] = 15.0
-    # d_config_tune_and_chroma["closed_orbit_correction"][beam] = None
-    # d_config_tune_and_chroma["closed_orbit_correction"][beam] = None
 
 # Value to be added to linear coupling knobs
 d_config_tune_and_chroma["delta_cmr"] = 0.001
@@ -162,7 +160,7 @@ d_config_beambeam["nemitt_y"] = 2.3e-6
 # The scheme should consist of a json file containing two lists of booleans (one for each beam),
 # representing each bucket of the LHC.
 filling_scheme_path = os.path.abspath(
-    "master_jobs/filling_scheme/8b4e_1972b_1960_1178_1886_224bpi_12inj_800ns_bs200ns.json"
+    "master_jobs/filling_scheme/25ns_2452b_2440_1952_2240_248bpi_12inj_mixed.json"
 )
 
 # Alternatively, one can get a fill directly from LPC from, e.g.:
