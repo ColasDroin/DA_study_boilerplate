@@ -60,7 +60,7 @@ d_config_mad = {"beam_config": {"lhcb1": {}, "lhcb2": {}}, "links": {}}
 
 ### For v1.6 optics
 d_config_mad["links"]["acc-models-lhc"] = "../../../../modules/hllhc16"
-d_config_mad["optics_file"] = "acc-models-lhc/strengths/round/opt_round_150_1500_optphases.madx"
+d_config_mad["optics_file"] = "acc-models-lhc/strengths/round/opt_round_150_1500.madx"
 d_config_mad["ver_hllhc_optics"] = 1.6
 
 
