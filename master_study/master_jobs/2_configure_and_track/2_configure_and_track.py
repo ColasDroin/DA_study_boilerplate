@@ -2,22 +2,28 @@
 are called sequentially, in the order in which they are defined. Modularity has been favored over 
 simple scripting for reproducibility, to allow rebuilding the collider from a different program 
 (e.g. dahsboard)."""
+
 # ==================================================================================================
 # --- Imports
 # ==================================================================================================
 import json
-import ruamel.yaml
-import time
 import logging
+import os
+import time
+
 import numpy as np
 import pandas as pd
-import os
-import xtrack as xt
+import ruamel.yaml
 import tree_maker
 import xmask as xm
 import xmask.lhc as xlhc
-from misc import generate_orbit_correction_setup
-from misc import luminosity_leveling, luminosity_leveling_ip1_5, compute_PU
+import xtrack as xt
+from misc import (
+    compute_PU,
+    generate_orbit_correction_setup,
+    luminosity_leveling,
+    luminosity_leveling_ip1_5,
+)
 
 # Initialize yaml reader
 ryaml = ruamel.yaml.YAML()
@@ -115,7 +121,11 @@ def match_tune_and_chroma(collider, conf_knobs_and_tuning, match_linear_coupling
 
         xm.machine_tuning(
             line=collider[line_name],
-            enable_closed_orbit_correction=True,
+            enable_closed_orbit_correction=(
+                True
+                if conf_knobs_and_tuning["closed_orbit_correction"][line_name] is not None
+                else False
+            ),
             enable_linear_coupling_correction=match_linear_coupling_to_zero,
             enable_tune_correction=True,
             enable_chromaticity_correction=True,
