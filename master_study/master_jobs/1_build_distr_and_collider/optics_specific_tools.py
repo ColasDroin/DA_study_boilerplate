@@ -1,5 +1,5 @@
-from xmask.lhc import install_errors_placeholders_hllhc
 import numpy as np
+from xmask.lhc import install_errors_placeholders_hllhc
 
 
 def check_madx_lattices(mad):
@@ -36,7 +36,7 @@ def build_sequence(
     mylhcbeam,
     apply_fix=True,
     ignore_cycling=False,
-    ignore_CC=True,
+    incorporate_CC=True,
 ):
     # Select beam
     mad.input(f"mylhcbeam = {mylhcbeam}")
@@ -105,8 +105,8 @@ def build_sequence(
         seqedit, sequence=lhcb2; flatten; cycle, start=IP3; flatten; endedit;
         """)
 
-    # Force ignore CC for 1.6 for now
-    if not ignore_CC:
+    # Incorporate crab-cavities
+    if incorporate_CC:
         mad.input("""
         ! Install crab cavities (they are off)
         call, file='acc-models-lhc/toolkit/enable_crabcavities.madx';

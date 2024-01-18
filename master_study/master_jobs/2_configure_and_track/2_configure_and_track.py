@@ -2,22 +2,28 @@
 are called sequentially, in the order in which they are defined. Modularity has been favored over 
 simple scripting for reproducibility, to allow rebuilding the collider from a different program 
 (e.g. dahsboard)."""
+
 # ==================================================================================================
 # --- Imports
 # ==================================================================================================
 import json
-import ruamel.yaml
-import time
 import logging
+import os
+import time
+
 import numpy as np
 import pandas as pd
-import os
-import xtrack as xt
+import ruamel.yaml
 import tree_maker
 import xmask as xm
 import xmask.lhc as xlhc
-from misc import generate_orbit_correction_setup
-from misc import luminosity_leveling, luminosity_leveling_ip1_5, compute_PU
+import xtrack as xt
+from misc import (
+    compute_PU,
+    generate_orbit_correction_setup,
+    luminosity_leveling,
+    luminosity_leveling_ip1_5,
+)
 
 # Initialize yaml reader
 ryaml = ruamel.yaml.YAML()
@@ -435,7 +441,7 @@ def configure_collider(
     crab = False
     if "on_crab1" in config_collider["config_knobs_and_tuning"]["knob_settings"]:
         crab_val = float(config_collider["config_knobs_and_tuning"]["knob_settings"]["on_crab1"])
-        if crab_val > 0:
+        if abs(crab_val) > 0:
             crab = True
 
     # Do the leveling if requested
