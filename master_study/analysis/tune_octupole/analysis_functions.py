@@ -1,12 +1,13 @@
+import os
+import shutil
+
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib_inline
-import qrcode
 import numpy as np
-from scipy.ndimage.filters import gaussian_filter
+import qrcode
 import yaml
-import shutil
-import os
+from scipy.ndimage.filters import gaussian_filter
 
 
 def apply_heatmap_style():
@@ -451,9 +452,10 @@ def plot_heatmap(
         ax.xaxis.tick_top()
     # Rotate the tick labels and set their alignment.
     plt.setp(
-        ax.get_xticklabels(), rotation=-30, rotation_mode="anchor", ha="left"
-    )  # , rotation_mode="anchor")
-    # ax.tick_params(axis='x', which='major', pad=5)
+        ax.get_xticklabels(), rotation=-30, rotation_mode="anchor", ha="right"
+    )  # ! try ha left is ticks misplaced
+    
+    # ax.tick_params(axis='x', which='major', pad=5) 
 
     # Create colorbar
     cbar = ax.figure.colorbar(im, ax=ax, fraction=0.026, pad=0.04)
@@ -522,4 +524,5 @@ def archive_and_clean(path_archive, path_EOS):
     shutil.make_archive(path_archive, "zip", path_EOS, path_archive.split("/")[-1])
 
     # Delete the folder archive
+    shutil.rmtree(path_archive)
     shutil.rmtree(path_archive)

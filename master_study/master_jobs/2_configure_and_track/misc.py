@@ -1,10 +1,11 @@
 # Imports
 import json
 import logging
+
+import numpy as np
+import xtrack as xt
 from scipy.constants import c as clight
 from scipy.optimize import minimize_scalar
-import xtrack as xt
-import numpy as np
 
 
 # Function to generate dictionnary containing the orbit correction setup
@@ -351,17 +352,13 @@ def luminosity_leveling(
             targets=targets,
             vary=vary,
         )
-        
+
     return collider
 
 
-def compute_PU(luminosity, num_colliding_bunches, T_rev0, cross_section = 81e-27):
-    return (
-            luminosity
-            / num_colliding_bunches
-            * cross_section
-            * T_rev0
-        )
+def compute_PU(luminosity, num_colliding_bunches, T_rev0, cross_section=81e-27):
+    return luminosity / num_colliding_bunches * cross_section * T_rev0
+
 
 def luminosity_leveling_ip1_5(
     collider,
@@ -392,15 +389,24 @@ def luminosity_leveling_ip1_5(
     def f(I):
         luminosity = compute_lumi(I)
 
-        PU = compute_PU(luminosity, config_collider["config_lumi_leveling_ip1_5"]["num_colliding_bunches"], twiss_b1["T_rev0"])
+        PU = compute_PU(
+            luminosity,
+            config_collider["config_lumi_leveling_ip1_5"]["num_colliding_bunches"],
+            twiss_b1["T_rev0"],
+        )
         penalty_PU = max(
             0,
             (PU - config_collider["config_lumi_leveling_ip1_5"]["constraints"]["max_PU"]) * 1e35,
-        )
+        )  # in units of 1e-35
+        penalty_excess_lumi = max(
+            0,
+            (luminosity - config_collider["config_lumi_leveling_ip1_5"]["luminosity"]) * 10,
+        )  # in units of 1e-35 if luminosity is in units of 1e34
 
         return (
             abs(luminosity - config_collider["config_lumi_leveling_ip1_5"]["luminosity"])
             + penalty_PU
+            + penalty_excess_lumi
         )
 
     # Do the optimization
@@ -426,4 +432,5 @@ if __name__ == "__main__":
     correction_setup = generate_orbit_correction_setup()
     for nn in ["lhcb1", "lhcb2"]:
         with open(f"corr_co_{nn}.json", "w") as fid:
+            json.dump(correction_setup[nn], fid, indent=4)
             json.dump(correction_setup[nn], fid, indent=4)
