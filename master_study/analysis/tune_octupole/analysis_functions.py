@@ -81,7 +81,9 @@ def get_title_from_conf(
     Nb=True,
     levelling="",
     CC=False,
+    PU=True,
     display_intensity=True,
+    display_chroma = True,
 ):
     # LHC version
     try:
@@ -107,7 +109,7 @@ def get_title_from_conf(
         # Levelling
         levelling = levelling
         if levelling != "":
-            levelling += " ."
+            levelling += ". "
 
         # Bunch number
         bunch_number_value = conf_collider["config_beambeam"]["mask_with_filling_pattern"][
@@ -188,6 +190,33 @@ def get_title_from_conf(
             luminosity_2 = ""
             luminosity_8 = ""
 
+        if PU:
+            try:
+                PU_value_1 = conf_collider["config_beambeam"]["Pile-up_ip1_5_after_optimization"]
+                PU_value_5 = conf_collider["config_beambeam"]["Pile-up_ip1_5_after_optimization"]
+            except:
+                try:
+                    PU_value_1 = conf_collider["config_beambeam"]["Pile-up_ip1_after_optimization"]
+                    PU_value_5 = conf_collider["config_beambeam"]["Pile-up_ip5_after_optimization"]
+                except:
+                    PU_value_1 = None
+                    PU_value_5 = None
+
+            try:
+                PU_value_2 = conf_collider["config_beambeam"]["Pile-up_ip2_after_optimization"]
+                PU_value_8 = conf_collider["config_beambeam"]["Pile-up_ip8_after_optimization"]
+            except:
+                PU_value_2 = None
+                PU_value_8 = None
+            if PU_value_1 is not None:
+                PU_1_5 = f"$PU_{{1/5}} = $" + latex_float(float(PU_value_1)) + ", "
+                PU_2 = f"$PU_{{2}} = $" + latex_float(float(PU_value_2)) + ", "
+                PU_8 = f"$PU_{{8}} = $" + latex_float(float(PU_value_8)) + ""
+            else:
+                PU_1_5 = ""
+                PU_2 = ""
+                PU_8 = ""
+
         # Beta star # ! Manually encoded for now
         if "flathv" in conf_mad["optics_file"]:
             bet1 = r"$\beta^{*}_{y,1}$"
@@ -266,8 +295,11 @@ def get_title_from_conf(
         emittance = f"$\epsilon_{{n}} = {{{emittance_value}}}$ $\mu m$"
 
         # Chromaticity
-        chroma_value = conf_collider["config_knobs_and_tuning"]["dqx"]["lhcb1"]
-        chroma = r"$Q'$" + f"$= {{{chroma_value}}}$"
+        if display_chroma:
+            chroma_value = conf_collider["config_knobs_and_tuning"]["dqx"]["lhcb1"]
+            chroma = r"$Q'$" + f"$= {{{chroma_value}}}$"
+        else:
+            chroma = ""
 
         # Intensity
         if display_intensity:
@@ -300,6 +332,9 @@ def get_title_from_conf(
             + luminosity_2
             + luminosity_8
             + "\n"
+            + PU_1_5
+            # + PU_2
+            # + PU_8
             + beta
             + ", "
             + polarity
@@ -344,6 +379,7 @@ def plot_heatmap(
     Nb=True,
     levelling="",
     CC=False,
+    PU=True,
     xlabel="Horizontal tune " + r"$Q_x$",
     ylabel="Vertical tune " + r"$Q_y$",
     symmetric=True,
@@ -353,6 +389,7 @@ def plot_heatmap(
     title=None,
     add_vline=None,
     display_intensity=True,
+    display_chroma = True,
 ):
     # Get numpy array from dataframe
     data_array = df_to_plot.to_numpy()
@@ -436,7 +473,9 @@ def plot_heatmap(
                 Nb=Nb,
                 levelling=levelling,
                 CC=CC,
+                PU=PU,
                 display_intensity=display_intensity,
+                display_chroma = display_chroma,
             ),
             fontsize=10,
         )
@@ -452,10 +491,13 @@ def plot_heatmap(
         ax.xaxis.tick_top()
     # Rotate the tick labels and set their alignment.
     plt.setp(
-        ax.get_xticklabels(), rotation=-30, rotation_mode="anchor", ha="right"
+        ax.get_xticklabels(),
+        rotation=-30,
+        rotation_mode="anchor",
+        ha="right" if xaxis_ticks_on_top else "left",
     )  # ! try ha left is ticks misplaced
-    
-    # ax.tick_params(axis='x', which='major', pad=5) 
+
+    # ax.tick_params(axis='x', which='major', pad=5)
 
     # Create colorbar
     cbar = ax.figure.colorbar(im, ax=ax, fraction=0.026, pad=0.04)
