@@ -1,15 +1,16 @@
 # ==================================================================================================
 # --- Imports
 # ==================================================================================================
-from tree_maker import initialize
-import time
-import os
+import copy
 import itertools
+import json
+import os
+import shutil
+import time
+
 import numpy as np
 import yaml
-import shutil
-import copy
-import json
+from tree_maker import initialize
 from user_defined_functions import (
     generate_run_sh,
     get_worst_bunch,
@@ -283,7 +284,7 @@ dump_config_in_collider = False
 # ==================================================================================================
 # Scan tune with step of 0.001 (need to round to correct for numpy numerical instabilities)
 array_qx = np.round(np.arange(62.305, 62.330, 0.001), decimals=4)
-array_I = np.linspace(-150, 300, 25, endpoint=True)
+array_I = np.linspace(-300, 300, 25, endpoint=True)
 
 # In case one is doing a tune-tune scan, to decrease the size of the scan, we can ignore the
 # working points too close to resonance. Otherwise just delete this variable in the loop at the end
