@@ -42,18 +42,19 @@ def read_configuration(config_path="config.yaml"):
     # Read configuration for simulations
     with open(config_path, "r") as fid:
         config = ryaml.load(fid)
+    config_sim = config["config_simulation"]
 
-    return config
+    # Read config from previous generation
+    with open("../" + config_path, "r") as fid:
+        config_bb = ryaml.load(fid)["config_collider"]["config_beambeam"]
+
+    return config, config_sim, config_bb
 
 
 # ==================================================================================================
 # --- Main function for collider configuration
 # ==================================================================================================
-def configure_collider(config):
-
-    # Get configurations
-    config_sim = config["config_simulation"]
-    config_bb = config["config_collider"]["config_beambeam"]
+def configure_collider(config_sim):
 
     # Rebuild collider
     collider = xt.Multiline.from_json(config_sim["collider_file"])
@@ -63,7 +64,7 @@ def configure_collider(config):
     # context = xo.ContextCpu()
     collider.build_trackers(_context=context)
 
-    return collider, config_sim, config_bb
+    return collider
 
 
 # ==================================================================================================
@@ -241,19 +242,19 @@ def track(collider, particles, config_sim, save_input_particles=False):
 # ==================================================================================================
 def configure_and_track(config_path="config.yaml"):
     # Get configuration
-    config = read_configuration(config_path)
+    config, config_sim, config_bb = read_configuration(config_path)
 
     # Tag start of the job
     tree_maker_tagging(config, tag="started")
 
     # Configure collider (not saved, since it may trigger overload of afs)
-    collider, config_sim, config_bb = configure_collider(config)
+    collider = configure_collider(config_sim)
 
     # Prepare particle distribution
     particles = prepare_particle_distribution(config_sim, collider, config_bb)
 
     # Track
-    particle, df_emittance = track(collider, particles, config_sim)
+    particles, df_emittance = track(collider, particles, config_sim)
 
     # Save output
     pd.DataFrame(particles.to_dict()).to_parquet("output_particles.parquet")

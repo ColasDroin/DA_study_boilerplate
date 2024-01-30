@@ -1,9 +1,3 @@
-# Configuration for tuning of the collider
-config_collider:
-  config_beambeam:
-    nemitt_x: 2.5e-6
-    nemitt_y: 2.5e-6
-
 # Configuration for the track job
 config_simulation:
   # Collider file
