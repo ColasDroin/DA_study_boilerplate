@@ -98,29 +98,29 @@ def track_sampled(
     l_oct=[],
     l_n_turns=[],
     ll_particles_x=[],
-    ll_particles_xp=[],
+    ll_particles_px=[],
     ll_particles_y=[],
-    ll_particles_yp=[],
+    ll_particles_py=[],
 ):
     for i in range(n_turns // freq):
         collider[beam_track].track(particles, turn_by_turn_monitor=False, num_turns=freq)
         l_particles_x = list(particles.x[particles.state > 0])
-        l_particles_xp = list(particles.xp[particles.state > 0])
+        l_particles_px = list(particles.px[particles.state > 0])
         l_particles_y = list(particles.y[particles.state > 0])
-        l_particles_yp = list(particles.yp[particles.state > 0])
+        l_particles_py = list(particles.py[particles.state > 0])
         emittance_x = np.sqrt(
-            np.var(l_particles_x) * np.var(l_particles_xp)
-            - np.mean(l_particles_x * l_particles_xp) ** 2
+            np.var(l_particles_x) * np.var(l_particles_px)
+            - np.mean(l_particles_x * l_particles_px) ** 2
         )
         emittance_y = np.sqrt(
-            np.var(l_particles_y) * np.var(l_particles_yp)
-            - np.mean(l_particles_y * l_particles_yp) ** 2
+            np.var(l_particles_y) * np.var(l_particles_py)
+            - np.mean(l_particles_y * l_particles_py) ** 2
         )
 
         ll_particles_x.append(l_particles_x)
-        ll_particles_xp.append(l_particles_xp)
+        ll_particles_px.append(l_particles_px)
         ll_particles_y.append(l_particles_y)
-        ll_particles_yp.append(l_particles_yp)
+        ll_particles_py.append(l_particles_py)
         l_emittance_x.append(emittance_x)
         l_emittance_y.append(emittance_y)
         l_oct.append(collider.vars["i_oct_b1"]._value)
@@ -130,9 +130,9 @@ def track_sampled(
             l_n_turns.append(l_n_turns[-1] + freq)
         return (
             ll_particles_x,
-            ll_particles_xp,
+            ll_particles_px,
             ll_particles_y,
-            ll_particles_yp,
+            ll_particles_py,
             l_emittance_x,
             l_emittance_y,
             l_oct,
@@ -164,9 +164,9 @@ def track(collider, particles, config_sim, save_input_particles=False):
     freq_emittance = 1000
     (
         ll_particles_x,
-        ll_particles_xp,
+        ll_particles_px,
         ll_particles_y,
-        ll_particles_yp,
+        ll_particles_py,
         l_emittance_x,
         l_emittance_y,
         l_oct,
@@ -182,9 +182,9 @@ def track(collider, particles, config_sim, save_input_particles=False):
         l_oct=[],
         l_n_turns=[],
         ll_particles_x=[],
-        ll_particles_xp=[],
+        ll_particles_px=[],
         ll_particles_y=[],
-        ll_particles_yp=[],
+        ll_particles_py=[],
     )
 
     # Reset number of turns
@@ -207,9 +207,9 @@ def track(collider, particles, config_sim, save_input_particles=False):
     print("t_turn_s = ", collider.lhcb1.vars["t_turn_s"]._value)
     (
         ll_particles_x,
-        ll_particles_xp,
+        ll_particles_px,
         ll_particles_y,
-        ll_particles_yp,
+        ll_particles_py,
         l_emittance_x,
         l_emittance_y,
         l_oct,
@@ -225,9 +225,9 @@ def track(collider, particles, config_sim, save_input_particles=False):
         l_oct=l_oct,
         l_n_turns=l_n_turns,
         ll_particles_x=ll_particles_x,
-        ll_particles_xp=ll_particles_xp,
+        ll_particles_px=ll_particles_px,
         ll_particles_y=ll_particles_y,
-        ll_particles_yp=ll_particles_yp,
+        ll_particles_py=ll_particles_py,
     )
 
     print("t_turn_s = ", collider.lhcb1.vars["t_turn_s"]._value)
@@ -242,9 +242,9 @@ def track(collider, particles, config_sim, save_input_particles=False):
     print("Start to track decreasing octupoles octupoles")
     (
         ll_particles_x,
-        ll_particles_xp,
+        ll_particles_px,
         ll_particles_y,
-        ll_particles_yp,
+        ll_particles_py,
         l_emittance_x,
         l_emittance_y,
         l_oct,
@@ -260,18 +260,18 @@ def track(collider, particles, config_sim, save_input_particles=False):
         l_oct=l_oct,
         l_n_turns=l_n_turns,
         ll_particles_x=ll_particles_x,
-        ll_particles_xp=ll_particles_xp,
+        ll_particles_px=ll_particles_px,
         ll_particles_y=ll_particles_y,
-        ll_particles_yp=ll_particles_yp,
+        ll_particles_py=ll_particles_py,
     )
 
     # Then track for 5000 more turns
     print("Start to track last 5000 turns")
     (
         ll_particles_x,
-        ll_particles_xp,
+        ll_particles_px,
         ll_particles_y,
-        ll_particles_yp,
+        ll_particles_py,
         l_emittance_x,
         l_emittance_y,
         l_oct,
@@ -287,9 +287,9 @@ def track(collider, particles, config_sim, save_input_particles=False):
         l_oct=l_oct,
         l_n_turns=l_n_turns,
         ll_particles_x=ll_particles_x,
-        ll_particles_xp=ll_particles_xp,
+        ll_particles_px=ll_particles_px,
         ll_particles_y=ll_particles_y,
-        ll_particles_yp=ll_particles_yp,
+        ll_particles_py=ll_particles_py,
     )
 
     b = time.time()
@@ -300,9 +300,9 @@ def track(collider, particles, config_sim, save_input_particles=False):
     df_emittance = pd.DataFrame(
         {
             "ll_particles_x": ll_particles_x,
-            "ll_particles_xp": ll_particles_xp,
+            "ll_particles_px": ll_particles_px,
             "ll_particles_y": ll_particles_y,
-            "ll_particles_yp": ll_particles_yp,
+            "ll_particles_py": ll_particles_py,
             "emittance_x": l_emittance_x,
             "emittance_y": l_emittance_y,
             "octupoles": l_oct,
