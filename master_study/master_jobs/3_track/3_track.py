@@ -12,15 +12,12 @@ import os
 import time
 from datetime import datetime
 
-import cupy
-import dill as pickle
 import numpy as np
 import pandas as pd
 import ruamel.yaml
 import tree_maker
-import xdeps as xd
-import xmask as xm
 import xobjects as xo
+import xpart as xp
 import xtrack as xt
 
 # Initialize yaml reader
@@ -49,38 +46,6 @@ def read_configuration(config_path="config.yaml"):
     return config
 
 
-def create_knob_sep(collider, d_element_attr_regression):
-    # Create knob for beam-beam in collider
-    for beam in d_element_attr_regression:
-        for element in d_element_attr_regression[beam]:
-            if "l1" or "r1" in element:
-                sep = "on_sep1"
-            elif "l5" or "r5" in element:
-                sep = "on_sep5"
-            else:
-                continue
-            for attr in d_element_attr_regression[beam][element]:
-                collider[beam].functions[f"interp_{element}_{attr}"] = d_element_attr_regression[
-                    beam
-                ][element][attr]
-                if isinstance(getattr(collider[beam][element], attr), list) or isinstance(
-                    getattr(collider[beam][element], attr), np.ndarray
-                ):
-                    setattr(
-                        collider[beam].element_refs[element],
-                        attr[0],
-                        collider[beam].functions[f"interp_{element}_{attr}"](collider.vars[sep]),
-                    )
-                else:
-                    setattr(
-                        collider[beam].element_refs[element],
-                        attr,
-                        collider[beam].functions[f"interp_{element}_{attr}"](collider.vars[sep]),
-                    )
-
-    return collider
-
-
 # ==================================================================================================
 # --- Main function for collider configuration
 # ==================================================================================================
@@ -92,13 +57,6 @@ def configure_collider(config):
 
     # Rebuild collider
     collider = xt.Multiline.from_json(config_sim["collider_file"])
-
-    # Load dictionnary of regressions
-    with open(config_sim["regression_file"], "rb") as fid:
-        d_element_attr_regression = pickle.load(fid)
-
-    # Create knob sep
-    collider = create_knob_sep(collider, d_element_attr_regression)
 
     # Build trackers on GPU
     context = xo.ContextCupy()
@@ -112,24 +70,15 @@ def configure_collider(config):
 # --- Function to prepare particles distribution for tracking
 # ==================================================================================================
 def prepare_particle_distribution(config_sim, collider, config_bb):
-    beam = config_sim["beam"]
-
-    particle_df = pd.read_parquet(config_sim["particle_file"])
-
-    r_vect = particle_df["normalized amplitude in xy-plane"].values
-    theta_vect = particle_df["angle in xy-plane [deg]"].values * np.pi / 180  # [rad]
-
-    A1_in_sigma = r_vect * np.cos(theta_vect)
-    A2_in_sigma = r_vect * np.sin(theta_vect)
-
-    particles = collider[beam].build_particles(
-        x_norm=A1_in_sigma,
-        y_norm=A2_in_sigma,
-        delta=config_sim["delta_max"],
-        scale_with_transverse_norm_emitt=(config_bb["nemitt_x"], config_bb["nemitt_y"]),
+    n_part = 20000
+    particles = xp.generate_matched_gaussian_bunch(
+        num_particles=n_part,
+        total_intensity_particles=config_bb["num_particles_per_bunch"],
+        nemitt_x=config_bb["nemitt_x"],
+        nemitt_y=config_bb["nemitt_y"],
+        sigma_z=config_sim["sigma_z"],
+        line=collider.lhcb1,
     )
-    # ! Remove the Cupy wrapping if simulating on CPU
-    particles.particle_id = cupy.asarray(particle_df.particle_id.values.astype(np.int32, copy=True))
 
     return particles
 
@@ -137,12 +86,45 @@ def prepare_particle_distribution(config_sim, collider, config_bb):
 # ==================================================================================================
 # --- Function to do the tracking
 # ==================================================================================================
+def track_sampled(
+    collider,
+    beam_track,
+    particles,
+    n_turns,
+    freq,
+    l_emittance_x=[],
+    l_emittance_y=[],
+    l_oct=[],
+    l_n_turns=[],
+):
+    for i in range(n_turns / freq):
+        collider[beam_track].track(particles, turn_by_turn_monitor=False, num_turns=freq)
+        particles_x = particles.x[particles.state > 0]
+        particles_xp = particles.xp[particles.state > 0]
+        particles_y = particles.y[particles.state > 0]
+        particles_yp = particles.yp[particles.state > 0]
+        emittance_x = np.sqrt(
+            np.var(particles_x) * np.var(particles_xp) - np.mean(particles_x * particles_xp) ** 2
+        )
+        emittance_y = np.sqrt(
+            np.var(particles_y) * np.var(particles_yp) - np.mean(particles_y * particles_yp) ** 2
+        )
+        l_emittance_x.append(emittance_x)
+        l_emittance_y.append(emittance_y)
+        l_oct.append(collider.vars["i_oct_b1"]._value)
+        if len(l_n_turns) == 0:
+            l_n_turns.append(freq)
+        else:
+            l_n_turns.append(l_n_turns[-1] + freq)
+        return l_emittance_x, l_emittance_y, l_oct, l_n_turns
+
+
 def track(collider, particles, config_sim, save_input_particles=False):
     # Get beam being tracked
     beam_track = config_sim["beam"]
 
     # Optimize line for tracking # ! Commented out as it prevents changing the bb
-    # collider[beam].optimize_for_tracking()
+    collider[beam_track].optimize_for_tracking()
 
     # Save initial coordinates if requested
     if save_input_particles:
@@ -152,31 +134,91 @@ def track(collider, particles, config_sim, save_input_particles=False):
     num_turns = config_sim["n_turns"]
     a = time.time()
 
-    # Define steps for separation update
-    initial_sep_1 = collider.vars["on_sep1"]._value
-    initial_sep_5 = collider.vars["on_sep5"]._value
+    # Start to track for 5000 turns with zero octupoles
+    print("Start to track initial 5000 turns")
+    collider.vars["i_oct_b1"] = 0
+    collider.vars["i_oct_b2"] = 0
+    # Get emittance every 1000 turns
+    n_turns_init = 5000
+    freq_emittance = 1000
+    l_emittance_x, l_emittance_y, l_oct, l_n_turns = track_sampled(
+        collider,
+        beam_track,
+        particles,
+        n_turns_init,
+        freq_emittance,
+        l_emittance_x=[],
+        l_emittance_y=[],
+        l_oct=[],
+        l_n_turns=[],
+    )
 
-    # Define time-dependant closing
+    # Reset number of turns
+    print("t_turn_s after 5000 = ", collider.lhcb1.vars["t_turn_s"]._value)
+    collider.lhcb1.vars["t_turn_s"] = 0
+    print("t_turn_s after reset = ", collider.lhcb1.vars["t_turn_s"]._value)
+
+    # Then progressively increase the octupoles
+    target_oct = 50
     collider.lhcb1.enable_time_dependent_vars = True
-    time_separation = 0.01  # s
+    time_to_target = 5  # s
     f_LHC = 11247.2428926  # Hz
-    n_turns = int(round(f_LHC * time_separation))
-    f_sep_1 = initial_sep_1 / time_separation
-    f_sep_5 = initial_sep_5 / time_separation
-    collider.vars["on_sep1"] = initial_sep_1 - collider.vars["t_turn_s"] * f_sep_1
-    collider.vars["on_sep5"] = initial_sep_5 - collider.vars["t_turn_s"] * f_sep_5
+    n_turns = int(round(f_LHC * time_to_target))
+    f_sep_1 = target_oct / time_to_target
+    f_sep_5 = target_oct / time_to_target
+    collider.vars["i_oct_b1"] = 0 + collider.vars["t_turn_s"] * f_sep_1
+    collider.vars["i_oct_b1"] = 0 + collider.vars["t_turn_s"] * f_sep_5
     # Track
+    print("Start to track raising octupoles")
     print("t_turn_s = ", collider.lhcb1.vars["t_turn_s"]._value)
-    collider[beam_track].track(particles, turn_by_turn_monitor=False, num_turns=n_turns)
-    print("t_turn_s = ", collider.lhcb1.vars["t_turn_s"]._value)
-    print(collider.vars["on_sep1"]._info())
+    l_emittance_x, l_emittance_y, l_oct, l_n_turns = track_sampled(
+        collider,
+        beam_track,
+        particles,
+        n_turns,
+        freq_emittance,
+        l_emittance_x=l_emittance_x,
+        l_emittance_y=l_emittance_y,
+        l_oct=l_oct,
+        l_n_turns=l_n_turns,
+    )
 
-    # Track for N more turns at the end
-    collider.vars["on_sep1"] = 0
-    collider.vars["on_sep5"] = 0
-    collider.lhcb1.enable_time_dependent_vars = False
-    N = 50000
-    # collider[beam_track].track(particles, turn_by_turn_monitor=False, num_turns=N)
+    print("t_turn_s = ", collider.lhcb1.vars["t_turn_s"]._value)
+
+    # Reset number of turns
+    collider.lhcb1.vars["t_turn_s"] = 0
+    print("t_turn_s after reset = ", collider.lhcb1.vars["t_turn_s"]._value)
+
+    # Then progressively decrease the octupoles
+    collider.vars["i_oct_b1"] = target_oct - collider.vars["t_turn_s"] * f_sep_1
+    collider.vars["i_oct_b1"] = target_oct - collider.vars["t_turn_s"] * f_sep_5
+    print("Start to track decreasing octupoles octupoles")
+    l_emittance_x, l_emittance_y, l_oct, l_n_turns = track_sampled(
+        collider,
+        beam_track,
+        particles,
+        n_turns,
+        freq_emittance,
+        l_emittance_x=l_emittance_x,
+        l_emittance_y=l_emittance_y,
+        l_oct=l_oct,
+        l_n_turns=l_n_turns,
+    )
+
+    # Then track for 5000 more turns
+    print("Start to track last 5000 turns")
+    l_emittance_x, l_emittance_y, l_oct, l_n_turns = track_sampled(
+        collider,
+        beam_track,
+        particles,
+        n_turns_init,
+        freq_emittance,
+        l_emittance_x=l_emittance_x,
+        l_emittance_y=l_emittance_y,
+        l_oct=l_oct,
+        l_n_turns=l_n_turns,
+    )
+
     b = time.time()
     print(f"Elapsed time: {b-a} s")
     print(f"Elapsed time per particle per turn: {(b-a)/particles._capacity/num_turns*1e6} us")
