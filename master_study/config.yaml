@@ -2,30 +2,20 @@
   setup_env_script: "none"
   generations:
     1: # Build the particle distribution and base collider
-      job_folder: "../../master_jobs/1_build_distr_and_collider"
-      job_executable: 1_build_distr_and_collider.py # has to be a python file
+      job_folder: "../../master_jobs/1_build_collider"
+      job_executable: 1_build_collider.py # has to be a python file
       files_to_clone: # relative to the template folder
         - optics_specific_tools.py
-      run_on: 'local_pc'
+      run_on: "local_pc"
     2: # Launch the pymask and prepare the colliders
       job_folder: "../../master_jobs/2_static_configure"
       job_executable: 2_static_configure.py # has to be a python file
       files_to_clone:
         - misc.py
-      run_on: 'local_pc' #'htc' #'slurm' #'slurm_docker'
+      run_on: "local_pc" #'htc' #'slurm' #'slurm_docker'
     3: # Launch the pymask and prepare the colliders
-      job_folder: "../../master_jobs/3_dynamic_configure"
-      job_executable: 3_dynamic_configure.py # has to be a python file
-      files_to_clone:
-        - misc.py
-      run_on: 'local_pc' #'htc' #'slurm' #'slurm_docker'
-    4: # Launch the pymask and prepare the colliders
-      job_folder: "../../master_jobs/4_create_dynamic_knob"
-      job_executable: 4_create_dynamic_knob.py # has to be a python file
-      run_on: 'local_pc' #'htc' #'slurm' #'slurm_docker'
-    5: # Launch the pymask and prepare the colliders
-      job_folder: "../../master_jobs/5_track"
-      job_executable: 5_track.py # has to be a python file
-      run_on: 'local_pc' #'htc' #'slurm' #'slurm_docker'
+      job_folder: "../../master_jobs/3_track"
+      job_executable: 3_track.py # has to be a python file
+      run_on: "local_pc" #'htc' #'slurm' #'slurm_docker'
   # Children will be added below in the script 001_make_folders.py
   children:

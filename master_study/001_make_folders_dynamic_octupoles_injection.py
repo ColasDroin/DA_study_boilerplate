@@ -25,19 +25,6 @@ from user_defined_functions import (
 # master_study/master_jobs/1_build_distr_and_collider/config.yaml [field config_particles]
 # ==================================================================================================
 
-# Define dictionary for the initial particle distribution
-d_config_particles = {}
-
-# Radius of the initial particle distribution
-d_config_particles["r_min"] = 2
-d_config_particles["r_max"] = 10
-d_config_particles["n_r"] = 2 * 16 * (d_config_particles["r_max"] - d_config_particles["r_min"])
-
-# Number of angles for the initial particle distribution
-d_config_particles["n_angles"] = 5
-
-# Number of split for parallelization
-d_config_particles["n_split"] = 1
 
 # ==================================================================================================
 # --- Optics collider parameters (generation 1)
@@ -55,16 +42,14 @@ d_config_mad = {"beam_config": {"lhcb1": {}, "lhcb2": {}}, "links": {}}
 # Optic file path (version, and round or flat)
 
 ### For run III
-d_config_mad["links"][
-    "acc-models-lhc"
-] = "/afs/cern.ch/eng/lhc/optics/runIII"  # "../../../../modules/runIII"
-d_config_mad["optics_file"] = "acc-models-lhc/RunIII_dev/Proton_2023/opticsfile.23"
+d_config_mad["links"]["acc-models-lhc"] = "../../../../modules/runIII"
+d_config_mad["optics_file"] = "acc-models-lhc/RunIII_dev/Proton_2023/opticsfile.1"
 d_config_mad["ver_hllhc_optics"] = None
 d_config_mad["ver_lhc_run"] = 3.0
 
 
 # Beam energy (for both beams)
-beam_energy_tot = 6800
+beam_energy_tot = 450
 d_config_mad["beam_config"]["lhcb1"]["beam_energy_tot"] = beam_energy_tot
 d_config_mad["beam_config"]["lhcb2"]["beam_energy_tot"] = beam_energy_tot
 
@@ -103,29 +88,29 @@ d_config_tune_and_chroma["delta_cmi"] = 0.0
 d_config_knobs = {}
 
 # Exp. configuration in IR1, IR2, IR5 and IR8
-d_config_knobs["on_x1"] = 135.000
-d_config_knobs["on_sep1"] = -0.55
-d_config_knobs["phi_IR1"] = 90.000
+# d_config_knobs["on_x1"] = 135.000
+# d_config_knobs["on_sep1"] = -0.55
+# d_config_knobs["phi_IR1"] = 90.000
 
-d_config_knobs["on_x2h"] = 0.000
-d_config_knobs["on_sep2h"] = 1.0  # 1.000
-d_config_knobs["on_x2v"] = 200.000
-d_config_knobs["on_sep2v"] = 0.000
-d_config_knobs["phi_IR2"] = 90.000
+# d_config_knobs["on_x2h"] = 0.000
+# d_config_knobs["on_sep2h"] = 1.0  # 1.000
+# d_config_knobs["on_x2v"] = 200.000
+# d_config_knobs["on_sep2v"] = 0.000
+# d_config_knobs["phi_IR2"] = 90.000
 
-d_config_knobs["on_x5"] = 135.000
-d_config_knobs["on_sep5"] = 0.55
-d_config_knobs["phi_IR5"] = 0.000
+# d_config_knobs["on_x5"] = 135.000
+# d_config_knobs["on_sep5"] = 0.55
+# d_config_knobs["phi_IR5"] = 0.000
 
-d_config_knobs["on_x8h"] = 0.000
-d_config_knobs["on_sep8h"] = -1.000
-d_config_knobs["on_x8v"] = 200.000
-d_config_knobs["on_sep8v"] = 0.000
-d_config_knobs["phi_IR8"] = 180.000
+# d_config_knobs["on_x8h"] = 0.000
+# d_config_knobs["on_sep8h"] = -1.000
+# d_config_knobs["on_x8v"] = 200.000
+# d_config_knobs["on_sep8v"] = 0.000
+# d_config_knobs["phi_IR8"] = 180.000
 
 # Octupoles
-d_config_knobs["i_oct_b1"] = 300.0
-d_config_knobs["i_oct_b2"] = 300.0
+d_config_knobs["i_oct_b1"] = 0.0
+d_config_knobs["i_oct_b2"] = 0.0
 
 ### leveling configuration
 
@@ -307,8 +292,6 @@ dump_config_in_collider = True
 # of the script
 # keep = "upper_triangle"  # 'lower_triangle', 'all'
 
-# l_config_BB = [[1, 0, 21], [11, 0, 21], [1, 20, 21], [1, 0, 25], [11, 20, 25]]
-l_config_BB = [[11, 0, 25]]
 # ==================================================================================================
 # --- Make tree for the simulations (generation 1)
 #
@@ -318,10 +301,7 @@ l_config_BB = [[11, 0, 25]]
 # ==================================================================================================
 
 # Build empty tree: first generation (later added to the root), and second generation
-children = {"base_collider": {"config_particles": {}, "config_mad": {}, "children": {}}}
-
-# Add particles distribution parameters to the first generation
-children["base_collider"]["config_particles"] = d_config_particles
+children = {"base_collider": {"config_mad": {}, "children": {}}}
 
 # Add base machine parameters to the first generation
 children["base_collider"]["config_mad"] = d_config_mad
@@ -336,39 +316,24 @@ children["base_collider"]["config_mad"] = d_config_mad
 # ! Caution when mutating the dictionnary in this function, you have to pass a deepcopy to children,
 # ! otherwise the dictionnary will be mutated for all the children.
 # ==================================================================================================
-track_array = np.arange(d_config_particles["n_split"])
-for idx_job, (track, config_bb) in enumerate(itertools.product(track_array, l_config_BB)):
-    d_config_collider["config_beambeam"]["num_slices_head_on"] = config_bb[0]
-    d_config_collider["config_beambeam"]["num_long_range_encounters_per_side"]["ip2"] = config_bb[1]
-    d_config_collider["config_beambeam"]["num_long_range_encounters_per_side"]["ip8"] = config_bb[1]
-    d_config_collider["config_beambeam"]["num_long_range_encounters_per_side"]["ip1"] = config_bb[2]
-    d_config_collider["config_beambeam"]["num_long_range_encounters_per_side"]["ip5"] = config_bb[2]
+idx_job = 0
 
-    # Complete the dictionnary for the tracking
-    d_config_simulation["particle_file"] = f"../particles/{track:02}.parquet"
-    d_config_simulation["collider_file"] = "../collider/collider.json"
+# Complete the dictionnary for the tracking
+d_config_simulation["collider_file"] = "../collider/collider.json"
 
-    # Add a child to the second generation, with all the parameters for the collider and tracking
-    children["base_collider"]["children"][f"xtrack_{idx_job:04}"] = {
-        "config_simulation": copy.deepcopy(d_config_simulation),
-        "config_collider": copy.deepcopy(d_config_collider),
-        "log_file": "tree_maker.log",
-        "dump_collider": dump_collider,
-        "dump_config_in_collider": dump_config_in_collider,
-        "children": {
-            "gen_3": {
-                "children": {
-                    "gen_4": {
-                        "children": {
-                            "gen_5": {
-                                "children": {},
-                            },
-                        },
-                    },
-                },
-            },
+# Add a child to the second generation, with all the parameters for the collider and tracking
+children["base_collider"]["children"][f"xtrack_{idx_job:04}"] = {
+    "config_simulation": copy.deepcopy(d_config_simulation),
+    "config_collider": copy.deepcopy(d_config_collider),
+    "log_file": "tree_maker.log",
+    "dump_collider": dump_collider,
+    "dump_config_in_collider": dump_config_in_collider,
+    "children": {
+        "gen_3": {
+            "children": {},
         },
-    }
+    },
+}
 
 # ==================================================================================================
 # --- Simulation configuration
@@ -386,7 +351,7 @@ config["root"]["setup_env_script"] = os.getcwd() + "/../activate_miniforge.sh"
 # --- Build tree and write it to the filesystem
 # ==================================================================================================
 # Define study name
-study_name = "dynamic_collapse_final"
+study_name = "dynamic_octupoles_injection"
 
 # Creade folder that will contain the tree
 if not os.path.exists("scans/" + study_name):

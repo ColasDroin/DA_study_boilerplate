@@ -42,10 +42,9 @@ def load_configuration(config_path="config.yaml"):
         configuration = yaml.safe_load(fid)
 
     # Get configuration for the particles distribution and the collider separately
-    config_particles = configuration["config_particles"]
     config_mad = configuration["config_mad"]
 
-    return configuration, config_particles, config_mad
+    return configuration, config_mad
 
 
 # ==================================================================================================
@@ -147,7 +146,7 @@ def clean():
 # ==================================================================================================
 def build_collider(config_file="config.yaml"):
     # Get configuration
-    configuration, config_particles, config_mad = load_configuration(config_file)
+    configuration, config_mad = load_configuration(config_file)
 
     # Get sanity checks flag
     sanity_checks = configuration["sanity_checks"]
