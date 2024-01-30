@@ -102,7 +102,7 @@ def track_sampled(
     ll_particles_y=[],
     ll_particles_yp=[],
 ):
-    for i in range(n_turns / freq):
+    for i in range(n_turns // freq):
         collider[beam_track].track(particles, turn_by_turn_monitor=False, num_turns=freq)
         l_particles_x = list(particles.x[particles.state > 0])
         l_particles_xp = list(particles.xp[particles.state > 0])
@@ -192,109 +192,109 @@ def track(collider, particles, config_sim, save_input_particles=False):
     collider.lhcb1.vars["t_turn_s"] = 0
     print("t_turn_s after reset = ", collider.lhcb1.vars["t_turn_s"]._value)
 
-    # # Then progressively increase the octupoles
-    # target_oct = 50
-    # collider.lhcb1.enable_time_dependent_vars = True
-    # time_to_target = 5  # s
-    # f_LHC = 11247.2428926  # Hz
-    # n_turns = int(round(f_LHC * time_to_target))
-    # f_sep_1 = target_oct / time_to_target
-    # f_sep_5 = target_oct / time_to_target
-    # collider.vars["i_oct_b1"] = 0 + collider.vars["t_turn_s"] * f_sep_1
-    # collider.vars["i_oct_b2"] = 0 + collider.vars["t_turn_s"] * f_sep_5
-    # # Track
-    # print("Start to track raising octupoles")
-    # print("t_turn_s = ", collider.lhcb1.vars["t_turn_s"]._value)
-    # (
-    #     ll_particles_x,
-    #     ll_particles_xp,
-    #     ll_particles_y,
-    #     ll_particles_yp,
-    #     l_emittance_x,
-    #     l_emittance_y,
-    #     l_oct,
-    #     l_n_turns,
-    # ) = track_sampled(
-    #     collider,
-    #     beam_track,
-    #     particles,
-    #     n_turns,
-    #     freq_emittance,
-    #     l_emittance_x=l_emittance_x,
-    #     l_emittance_y=l_emittance_y,
-    #     l_oct=l_oct,
-    #     l_n_turns=l_n_turns,
-    #     ll_particles_x=ll_particles_x,
-    #     ll_particles_xp=ll_particles_xp,
-    #     ll_particles_y=ll_particles_y,
-    #     ll_particles_yp=ll_particles_yp,
-    # )
+    # Then progressively increase the octupoles
+    target_oct = 50
+    collider.lhcb1.enable_time_dependent_vars = True
+    time_to_target = 5  # s
+    f_LHC = 11247.2428926  # Hz
+    n_turns = int(round(f_LHC * time_to_target))
+    f_sep_1 = target_oct / time_to_target
+    f_sep_5 = target_oct / time_to_target
+    collider.vars["i_oct_b1"] = 0 + collider.vars["t_turn_s"] * f_sep_1
+    collider.vars["i_oct_b2"] = 0 + collider.vars["t_turn_s"] * f_sep_5
+    # Track
+    print("Start to track raising octupoles")
+    print("t_turn_s = ", collider.lhcb1.vars["t_turn_s"]._value)
+    (
+        ll_particles_x,
+        ll_particles_xp,
+        ll_particles_y,
+        ll_particles_yp,
+        l_emittance_x,
+        l_emittance_y,
+        l_oct,
+        l_n_turns,
+    ) = track_sampled(
+        collider,
+        beam_track,
+        particles,
+        n_turns,
+        freq_emittance,
+        l_emittance_x=l_emittance_x,
+        l_emittance_y=l_emittance_y,
+        l_oct=l_oct,
+        l_n_turns=l_n_turns,
+        ll_particles_x=ll_particles_x,
+        ll_particles_xp=ll_particles_xp,
+        ll_particles_y=ll_particles_y,
+        ll_particles_yp=ll_particles_yp,
+    )
 
-    # print("t_turn_s = ", collider.lhcb1.vars["t_turn_s"]._value)
+    print("t_turn_s = ", collider.lhcb1.vars["t_turn_s"]._value)
 
-    # # Reset number of turns
-    # collider.vars["t_turn_s"] = 0
-    # print("t_turn_s after reset = ", collider.lhcb1.vars["t_turn_s"]._value)
+    # Reset number of turns
+    collider.vars["t_turn_s"] = 0
+    print("t_turn_s after reset = ", collider.lhcb1.vars["t_turn_s"]._value)
 
-    # # Then progressively decrease the octupoles
-    # collider.vars["i_oct_b1"] = target_oct - collider.vars["t_turn_s"] * f_sep_1
-    # collider.vars["i_oct_b2"] = target_oct - collider.vars["t_turn_s"] * f_sep_5
-    # print("Start to track decreasing octupoles octupoles")
-    # (
-    #     ll_particles_x,
-    #     ll_particles_xp,
-    #     ll_particles_y,
-    #     ll_particles_yp,
-    #     l_emittance_x,
-    #     l_emittance_y,
-    #     l_oct,
-    #     l_n_turns,
-    # ) = track_sampled(
-    #     collider,
-    #     beam_track,
-    #     particles,
-    #     n_turns,
-    #     freq_emittance,
-    #     l_emittance_x=l_emittance_x,
-    #     l_emittance_y=l_emittance_y,
-    #     l_oct=l_oct,
-    #     l_n_turns=l_n_turns,
-    #     ll_particles_x=ll_particles_x,
-    #     ll_particles_xp=ll_particles_xp,
-    #     ll_particles_y=ll_particles_y,
-    #     ll_particles_yp=ll_particles_yp,
-    # )
+    # Then progressively decrease the octupoles
+    collider.vars["i_oct_b1"] = target_oct - collider.vars["t_turn_s"] * f_sep_1
+    collider.vars["i_oct_b2"] = target_oct - collider.vars["t_turn_s"] * f_sep_5
+    print("Start to track decreasing octupoles octupoles")
+    (
+        ll_particles_x,
+        ll_particles_xp,
+        ll_particles_y,
+        ll_particles_yp,
+        l_emittance_x,
+        l_emittance_y,
+        l_oct,
+        l_n_turns,
+    ) = track_sampled(
+        collider,
+        beam_track,
+        particles,
+        n_turns,
+        freq_emittance,
+        l_emittance_x=l_emittance_x,
+        l_emittance_y=l_emittance_y,
+        l_oct=l_oct,
+        l_n_turns=l_n_turns,
+        ll_particles_x=ll_particles_x,
+        ll_particles_xp=ll_particles_xp,
+        ll_particles_y=ll_particles_y,
+        ll_particles_yp=ll_particles_yp,
+    )
 
-    # # Then track for 5000 more turns
-    # print("Start to track last 5000 turns")
-    # (
-    #     ll_particles_x,
-    #     ll_particles_xp,
-    #     ll_particles_y,
-    #     ll_particles_yp,
-    #     l_emittance_x,
-    #     l_emittance_y,
-    #     l_oct,
-    #     l_n_turns,
-    # ) = track_sampled(
-    #     collider,
-    #     beam_track,
-    #     particles,
-    #     n_turns,
-    #     freq_emittance,
-    #     l_emittance_x=l_emittance_x,
-    #     l_emittance_y=l_emittance_y,
-    #     l_oct=l_oct,
-    #     l_n_turns=l_n_turns,
-    #     ll_particles_x=ll_particles_x,
-    #     ll_particles_xp=ll_particles_xp,
-    #     ll_particles_y=ll_particles_y,
-    #     ll_particles_yp=ll_particles_yp,
-    # )
+    # Then track for 5000 more turns
+    print("Start to track last 5000 turns")
+    (
+        ll_particles_x,
+        ll_particles_xp,
+        ll_particles_y,
+        ll_particles_yp,
+        l_emittance_x,
+        l_emittance_y,
+        l_oct,
+        l_n_turns,
+    ) = track_sampled(
+        collider,
+        beam_track,
+        particles,
+        n_turns,
+        freq_emittance,
+        l_emittance_x=l_emittance_x,
+        l_emittance_y=l_emittance_y,
+        l_oct=l_oct,
+        l_n_turns=l_n_turns,
+        ll_particles_x=ll_particles_x,
+        ll_particles_xp=ll_particles_xp,
+        ll_particles_y=ll_particles_y,
+        ll_particles_yp=ll_particles_yp,
+    )
 
-    # b = time.time()
-    # print(f"Elapsed time: {b-a} s")
-    # print(f"Elapsed time per particle per turn: {(b-a)/particles._capacity/num_turns*1e6} us")
+    b = time.time()
+    print(f"Elapsed time: {b-a} s")
+    print(f"Elapsed time per particle per turn: {(b-a)/particles._capacity/num_turns*1e6} us")
 
     # Create dataframe containing the emittance and octupoles
     df_emittance = pd.DataFrame(
