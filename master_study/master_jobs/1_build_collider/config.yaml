@@ -1,14 +1,7 @@
-config_particles:
-  r_min: 2.0
-  r_max: 10.0
-  n_r: 256
-  n_angles: 5
-  n_split: 15
-
 config_mad:
   # Links to be made for tools and scripts
   links:
-    acc-models-lhc: /afs/cern.ch/eng/lhc/optics/runIII 
+    acc-models-lhc: /afs/cern.ch/eng/lhc/optics/runIII
 
   # Optics file
   optics_file: acc-models-lhc/RunIII_dev/Proton_2024/V0/opticsfile.37 #
@@ -52,6 +45,6 @@ config_mad:
     par_on_errors_MCBXF: 0
     par_on_errors_NLC: 0
     par_write_errortable: 1
-    
+
 sanity_checks: true
-log_file: 'tree_maker.log'
+log_file: "tree_maker.log"
