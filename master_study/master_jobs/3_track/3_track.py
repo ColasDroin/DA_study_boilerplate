@@ -59,7 +59,7 @@ def configure_collider(config):
     collider = xt.Multiline.from_json(config_sim["collider_file"])
 
     # Build trackers on GPU
-    context = xo.ContextCupy()
+    context = xo.ContextPyopencl()
     # context = xo.ContextCpu()
     collider.build_trackers(_context=context)
 
@@ -223,7 +223,17 @@ def track(collider, particles, config_sim, save_input_particles=False):
     print(f"Elapsed time: {b-a} s")
     print(f"Elapsed time per particle per turn: {(b-a)/particles._capacity/num_turns*1e6} us")
 
-    return particles
+    # Create dataframe containing the emittance and octupoles
+    df_emittance = pd.DataFrame(
+        {
+            "emittance_x": l_emittance_x,
+            "emittance_y": l_emittance_y,
+            "octupoles": l_oct,
+            "n_turns": l_n_turns,
+        }
+    )
+
+    return particles, df_emittance
 
 
 # ==================================================================================================
@@ -243,10 +253,11 @@ def configure_and_track(config_path="config.yaml"):
     particles = prepare_particle_distribution(config_sim, collider, config_bb)
 
     # Track
-    particles = track(collider, particles, config_sim)
+    particle, df_emittance = track(collider, particles, config_sim)
 
     # Save output
     pd.DataFrame(particles.to_dict()).to_parquet("output_particles.parquet")
+    df_emittance.to_parquet("output_emittance.parquet")
 
     # Remote the correction folder, and potential C files remaining
     try:
