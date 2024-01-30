@@ -157,8 +157,8 @@ def track(collider, particles, config_sim, save_input_particles=False):
 
     # Start to track for 5000 turns with zero octupoles
     print("Start to track initial 5000 turns")
-    collider.vars["i_oct_b1"] = 0
-    collider.vars["i_oct_b2"] = 0
+    collider.lhcb1.vars["i_oct_b1"] = 0
+    collider.lhcb2.vars["i_oct_b2"] = 0
     # Get emittance every 1000 turns
     n_turns_init = 5000
     freq_emittance = 1000
@@ -200,8 +200,8 @@ def track(collider, particles, config_sim, save_input_particles=False):
     n_turns = int(round(f_LHC * time_to_target))
     f_sep_1 = target_oct / time_to_target
     f_sep_5 = target_oct / time_to_target
-    collider.vars["i_oct_b1"] = 0 + collider.vars["t_turn_s"] * f_sep_1
-    collider.vars["i_oct_b1"] = 0 + collider.vars["t_turn_s"] * f_sep_5
+    collider.lhcb1.vars["i_oct_b1"] = 0 + collider.vars["t_turn_s"] * f_sep_1
+    collider.lhcb2.vars["i_oct_b2"] = 0 + collider.vars["t_turn_s"] * f_sep_5
     # Track
     print("Start to track raising octupoles")
     print("t_turn_s = ", collider.lhcb1.vars["t_turn_s"]._value)
@@ -233,12 +233,12 @@ def track(collider, particles, config_sim, save_input_particles=False):
     print("t_turn_s = ", collider.lhcb1.vars["t_turn_s"]._value)
 
     # Reset number of turns
-    collider.lhcb1.vars["t_turn_s"] = 0
+    collider.vars["t_turn_s"] = 0
     print("t_turn_s after reset = ", collider.lhcb1.vars["t_turn_s"]._value)
 
     # Then progressively decrease the octupoles
-    collider.vars["i_oct_b1"] = target_oct - collider.vars["t_turn_s"] * f_sep_1
-    collider.vars["i_oct_b1"] = target_oct - collider.vars["t_turn_s"] * f_sep_5
+    collider.lhcb1.vars["i_oct_b1"] = target_oct - collider.vars["t_turn_s"] * f_sep_1
+    collider.lhcb2.vars["i_oct_b2"] = target_oct - collider.vars["t_turn_s"] * f_sep_5
     print("Start to track decreasing octupoles octupoles")
     (
         ll_particles_x,
