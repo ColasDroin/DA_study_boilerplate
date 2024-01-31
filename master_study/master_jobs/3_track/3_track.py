@@ -104,23 +104,23 @@ def track_sampled(
 ):
     for i in range(n_turns // freq):
         collider[beam_track].track(particles, turn_by_turn_monitor=False, num_turns=freq)
-        l_particles_x = list(particles.x[particles.state > 0])
-        l_particles_px = list(particles.px[particles.state > 0])
-        l_particles_y = list(particles.y[particles.state > 0])
-        l_particles_py = list(particles.py[particles.state > 0])
+        particles_x = particles.x[particles.state > 0].get()
+        particles_px = particles.px[particles.state > 0].get()
+        particles_y = particles.y[particles.state > 0].get()
+        particles_py = particles.py[particles.state > 0].get()
         emittance_x = np.sqrt(
-            np.var(l_particles_x) * np.var(l_particles_px)
-            - np.mean(l_particles_x * l_particles_px) ** 2
+            np.mean(particles_x**2) * np.mean(particles_px**2)
+            - np.mean(particles_x * particles_px) ** 2
         )
         emittance_y = np.sqrt(
-            np.var(l_particles_y) * np.var(l_particles_py)
-            - np.mean(l_particles_y * l_particles_py) ** 2
+            np.mean(particles_y**2) * np.mean(particles_py**2)
+            - np.mean(particles_y * particles_py) ** 2
         )
 
-        ll_particles_x.append(l_particles_x)
-        ll_particles_px.append(l_particles_px)
-        ll_particles_y.append(l_particles_y)
-        ll_particles_py.append(l_particles_py)
+        ll_particles_x.append(list(particles_x))
+        ll_particles_px.append(list(particles_px))
+        ll_particles_y.append(list(particles_y))
+        ll_particles_py.append(list(particles_py))
         l_emittance_x.append(emittance_x)
         l_emittance_y.append(emittance_y)
         l_oct.append(collider.vars["i_oct_b1"]._value)
@@ -128,19 +128,19 @@ def track_sampled(
             l_n_turns.append(freq)
         else:
             l_n_turns.append(l_n_turns[-1] + freq)
-        return (
-            ll_particles_x,
-            ll_particles_px,
-            ll_particles_y,
-            ll_particles_py,
-            l_emittance_x,
-            l_emittance_y,
-            l_oct,
-            l_n_turns,
-        )
+    return (
+        ll_particles_x,
+        ll_particles_px,
+        ll_particles_y,
+        ll_particles_py,
+        l_emittance_x,
+        l_emittance_y,
+        l_oct,
+        l_n_turns,
+    )
 
 
-def track(collider, particles, config_sim, save_input_particles=False):
+def track(collider, particles, config_sim, save_input_particles=True):
     # Get beam being tracked
     beam_track = config_sim["beam"]
 
@@ -159,6 +159,29 @@ def track(collider, particles, config_sim, save_input_particles=False):
     print("Start to track initial 5000 turns")
     collider.vars["i_oct_b1"] = 0
     collider.vars["i_oct_b2"] = 0
+
+    # Set initial values
+    l_oct = [0]
+    particles_x = particles.x[particles.state > 0].get()
+    particles_px = particles.px[particles.state > 0].get()
+    particles_y = particles.y[particles.state > 0].get()
+    particles_py = particles.py[particles.state > 0].get()
+    emittance_x = np.sqrt(
+        np.mean(particles_x**2) * np.mean(particles_px**2)
+        - np.mean(particles_x * particles_px) ** 2
+    )
+    emittance_y = np.sqrt(
+        np.mean(particles_y**2) * np.mean(particles_py**2)
+        - np.mean(particles_y * particles_py) ** 2
+    )
+    l_emittance_x = [emittance_x]
+    l_emittance_y = [emittance_y]
+    l_n_turns = [0]
+    ll_particles_x = [list(particles_x)]
+    ll_particles_px = [list(particles_px)]
+    ll_particles_y = [list(particles_y)]
+    ll_particles_py = [list(particles_py)]
+
     # Get emittance every 1000 turns
     n_turns_init = 5000
     freq_emittance = 1000
@@ -177,14 +200,14 @@ def track(collider, particles, config_sim, save_input_particles=False):
         particles,
         n_turns_init,
         freq_emittance,
-        l_emittance_x=[],
-        l_emittance_y=[],
-        l_oct=[],
-        l_n_turns=[],
-        ll_particles_x=[],
-        ll_particles_px=[],
-        ll_particles_y=[],
-        ll_particles_py=[],
+        l_emittance_x=l_emittance_x,
+        l_emittance_y=l_emittance_y,
+        l_oct=l_oct,
+        l_n_turns=l_n_turns,
+        ll_particles_x=ll_particles_x,
+        ll_particles_px=ll_particles_px,
+        ll_particles_y=ll_particles_y,
+        ll_particles_py=ll_particles_py,
     )
 
     # Reset number of turns
