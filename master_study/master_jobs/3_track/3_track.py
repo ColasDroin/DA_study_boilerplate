@@ -156,8 +156,7 @@ def track(collider, particles, config_sim, save_input_particles=True):
     num_turns = config_sim["n_turns"]
     a = time.time()
 
-    # Start to track for 5000 turns with zero octupoles
-    print("Start to track initial 5000 turns")
+    # Zero octupoles
     collider.vars["i_oct_b1"] = 0
     collider.vars["i_oct_b2"] = 0
 
@@ -185,7 +184,8 @@ def track(collider, particles, config_sim, save_input_particles=True):
     ll_particles_py = [list(particles_py)]
 
     # Get emittance every 1000 turns
-    n_turns_init = 20000
+    n_turns_init = 25000
+    print(f"Start to track initial {n_turns_init} turns")
     freq_emittance = 1000
     (
         ll_particles_x,
@@ -220,7 +220,7 @@ def track(collider, particles, config_sim, save_input_particles=True):
     # Then progressively increase the octupoles
     target_oct = 50
     collider.lhcb1.enable_time_dependent_vars = True
-    time_to_target = 80  # s
+    time_to_target = 40  # s
     f_LHC = 11247.2428926  # Hz
     n_turns = int(round(f_LHC * time_to_target))
     f_sep_1 = target_oct / time_to_target
