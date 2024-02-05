@@ -1,0 +1,408 @@
+Done loading line from dict.           
+Done loading line from dict.           
+Done loading line from dict.           
+Done loading line from dict.           
+Insert: bb_ho.c1b1_00     Insert: bb_ho.c2b1_00     Insert: bb_ho.c5b1_00     Insert: bb_ho.c8b1_00     Insert: bb_ho.l1b1_01     Insert: bb_ho.l1b1_02     Insert: bb_ho.l1b1_03     Insert: bb_ho.l1b1_04     Insert: bb_ho.l1b1_05     Insert: bb_ho.l2b1_01     Insert: bb_ho.l2b1_02     Insert: bb_ho.l2b1_03     Insert: bb_ho.l2b1_04     Insert: bb_ho.l2b1_05     Insert: bb_ho.l5b1_01     Insert: bb_ho.l5b1_02     Insert: bb_ho.l5b1_03     Insert: bb_ho.l5b1_04     Insert: bb_ho.l5b1_05     Insert: bb_ho.l8b1_01     Insert: bb_ho.l8b1_02     Insert: bb_ho.l8b1_03     Insert: bb_ho.l8b1_04     Insert: bb_ho.l8b1_05     Insert: bb_ho.r1b1_01     Insert: bb_ho.r1b1_02     Insert: bb_ho.r1b1_03     Insert: bb_ho.r1b1_04     Insert: bb_ho.r1b1_05     Insert: bb_ho.r2b1_01     Insert: bb_ho.r2b1_02     Insert: bb_ho.r2b1_03     Insert: bb_ho.r2b1_04     Insert: bb_ho.r2b1_05     Insert: bb_ho.r5b1_01     Insert: bb_ho.r5b1_02     Insert: bb_ho.r5b1_03     Insert: bb_ho.r5b1_04     Insert: bb_ho.r5b1_05     Insert: bb_ho.r8b1_01     Insert: bb_ho.r8b1_02     Insert: bb_ho.r8b1_03     Insert: bb_ho.r8b1_04     Insert: bb_ho.r8b1_05     Insert: bb_lr.l1b1_01     Insert: bb_lr.l1b1_02     Insert: bb_lr.l1b1_03     Insert: bb_lr.l1b1_04     Insert: bb_lr.l1b1_05     Insert: bb_lr.l1b1_06     Insert: bb_lr.l1b1_07     Insert: bb_lr.l1b1_08     Insert: bb_lr.l1b1_09     Insert: bb_lr.l1b1_10     Insert: bb_lr.l1b1_11     Insert: bb_lr.l1b1_12     Insert: bb_lr.l1b1_13     Insert: bb_lr.l1b1_14     Insert: bb_lr.l1b1_15     Insert: bb_lr.l1b1_16     Insert: bb_lr.l1b1_17     Insert: bb_lr.l1b1_18     Insert: bb_lr.l1b1_19     Insert: bb_lr.l1b1_20     Insert: bb_lr.l1b1_21     Insert: bb_lr.l1b1_22     Insert: bb_lr.l1b1_23     Insert: bb_lr.l1b1_24     Insert: bb_lr.l1b1_25     Insert: bb_lr.l2b1_01     Insert: bb_lr.l2b1_02     Insert: bb_lr.l2b1_03     Insert: bb_lr.l2b1_04     Insert: bb_lr.l2b1_05     Insert: bb_lr.l2b1_06     Insert: bb_lr.l2b1_07     Insert: bb_lr.l2b1_08     Insert: bb_lr.l2b1_09     Insert: bb_lr.l2b1_10     Insert: bb_lr.l2b1_11     Insert: bb_lr.l2b1_12     Insert: bb_lr.l2b1_13     Insert: bb_lr.l2b1_14     Insert: bb_lr.l2b1_15     Insert: bb_lr.l2b1_16     Insert: bb_lr.l2b1_17     Insert: bb_lr.l2b1_18     Insert: bb_lr.l2b1_19     Insert: bb_lr.l2b1_20     Insert: bb_lr.l5b1_01     Insert: bb_lr.l5b1_02     Insert: bb_lr.l5b1_03     Insert: bb_lr.l5b1_04     Insert: bb_lr.l5b1_05     Insert: bb_lr.l5b1_06     Insert: bb_lr.l5b1_07     Insert: bb_lr.l5b1_08     Insert: bb_lr.l5b1_09     Insert: bb_lr.l5b1_10     Insert: bb_lr.l5b1_11     Insert: bb_lr.l5b1_12     Insert: bb_lr.l5b1_13     Insert: bb_lr.l5b1_14     Insert: bb_lr.l5b1_15     Insert: bb_lr.l5b1_16     Insert: bb_lr.l5b1_17     Insert: bb_lr.l5b1_18     Insert: bb_lr.l5b1_19     Insert: bb_lr.l5b1_20     Insert: bb_lr.l5b1_21     Insert: bb_lr.l5b1_22     Insert: bb_lr.l5b1_23     Insert: bb_lr.l5b1_24     Insert: bb_lr.l5b1_25     Insert: bb_lr.l8b1_01     Insert: bb_lr.l8b1_02     Insert: bb_lr.l8b1_03     Insert: bb_lr.l8b1_04     Insert: bb_lr.l8b1_05     Insert: bb_lr.l8b1_06     Insert: bb_lr.l8b1_07     Insert: bb_lr.l8b1_08     Insert: bb_lr.l8b1_09     Insert: bb_lr.l8b1_10     Insert: bb_lr.l8b1_11     Insert: bb_lr.l8b1_12     Insert: bb_lr.l8b1_13     Insert: bb_lr.l8b1_14     Insert: bb_lr.l8b1_15     Insert: bb_lr.l8b1_16     Insert: bb_lr.l8b1_17     Insert: bb_lr.l8b1_18     Insert: bb_lr.l8b1_19     Insert: bb_lr.l8b1_20     Insert: bb_lr.r1b1_01     Insert: bb_lr.r1b1_02     Insert: bb_lr.r1b1_03     Insert: bb_lr.r1b1_04     Insert: bb_lr.r1b1_05     Insert: bb_lr.r1b1_06     Insert: bb_lr.r1b1_07     Insert: bb_lr.r1b1_08     Insert: bb_lr.r1b1_09     Insert: bb_lr.r1b1_10     Insert: bb_lr.r1b1_11     Insert: bb_lr.r1b1_12     Insert: bb_lr.r1b1_13     Insert: bb_lr.r1b1_14     Insert: bb_lr.r1b1_15     Insert: bb_lr.r1b1_16     Insert: bb_lr.r1b1_17     Insert: bb_lr.r1b1_18     Insert: bb_lr.r1b1_19     Insert: bb_lr.r1b1_20     Insert: bb_lr.r1b1_21     Insert: bb_lr.r1b1_22     Insert: bb_lr.r1b1_23     Insert: bb_lr.r1b1_24     Insert: bb_lr.r1b1_25     Insert: bb_lr.r2b1_01     Insert: bb_lr.r2b1_02     Insert: bb_lr.r2b1_03     Insert: bb_lr.r2b1_04     Insert: bb_lr.r2b1_05     Insert: bb_lr.r2b1_06     Insert: bb_lr.r2b1_07     Insert: bb_lr.r2b1_08     Insert: bb_lr.r2b1_09     Insert: bb_lr.r2b1_10     Insert: bb_lr.r2b1_11     Insert: bb_lr.r2b1_12     Insert: bb_lr.r2b1_13     Insert: bb_lr.r2b1_14     Insert: bb_lr.r2b1_15     Insert: bb_lr.r2b1_16     Insert: bb_lr.r2b1_17     Insert: bb_lr.r2b1_18     Insert: bb_lr.r2b1_19     Insert: bb_lr.r2b1_20     Insert: bb_lr.r5b1_01     Insert: bb_lr.r5b1_02     Insert: bb_lr.r5b1_03     Insert: bb_lr.r5b1_04     Insert: bb_lr.r5b1_05     Insert: bb_lr.r5b1_06     Insert: bb_lr.r5b1_07     Insert: bb_lr.r5b1_08     Insert: bb_lr.r5b1_09     Insert: bb_lr.r5b1_10     Insert: bb_lr.r5b1_11     Insert: bb_lr.r5b1_12     Insert: bb_lr.r5b1_13     Insert: bb_lr.r5b1_14     Insert: bb_lr.r5b1_15     Insert: bb_lr.r5b1_16     Insert: bb_lr.r5b1_17     Insert: bb_lr.r5b1_18     Insert: bb_lr.r5b1_19     Insert: bb_lr.r5b1_20     Insert: bb_lr.r5b1_21     Insert: bb_lr.r5b1_22     Insert: bb_lr.r5b1_23     Insert: bb_lr.r5b1_24     Insert: bb_lr.r5b1_25     Insert: bb_lr.r8b1_01     Insert: bb_lr.r8b1_02     Insert: bb_lr.r8b1_03     Insert: bb_lr.r8b1_04     Insert: bb_lr.r8b1_05     Insert: bb_lr.r8b1_06     Insert: bb_lr.r8b1_07     Insert: bb_lr.r8b1_08     Insert: bb_lr.r8b1_09     Insert: bb_lr.r8b1_10     Insert: bb_lr.r8b1_11     Insert: bb_lr.r8b1_12     Insert: bb_lr.r8b1_13     Insert: bb_lr.r8b1_14     Insert: bb_lr.r8b1_15     Insert: bb_lr.r8b1_16     Insert: bb_lr.r8b1_17     Insert: bb_lr.r8b1_18     Insert: bb_lr.r8b1_19     Insert: bb_lr.r8b1_20     Insert: bb_ho.c1b2_00     Insert: bb_ho.c2b2_00     Insert: bb_ho.c5b2_00     Insert: bb_ho.c8b2_00     Insert: bb_ho.l1b2_01     Insert: bb_ho.l1b2_02     Insert: bb_ho.l1b2_03     Insert: bb_ho.l1b2_04     Insert: bb_ho.l1b2_05     Insert: bb_ho.l2b2_01     Insert: bb_ho.l2b2_02     Insert: bb_ho.l2b2_03     Insert: bb_ho.l2b2_04     Insert: bb_ho.l2b2_05     Insert: bb_ho.l5b2_01     Insert: bb_ho.l5b2_02     Insert: bb_ho.l5b2_03     Insert: bb_ho.l5b2_04     Insert: bb_ho.l5b2_05     Insert: bb_ho.l8b2_01     Insert: bb_ho.l8b2_02     Insert: bb_ho.l8b2_03     Insert: bb_ho.l8b2_04     Insert: bb_ho.l8b2_05     Insert: bb_ho.r1b2_01     Insert: bb_ho.r1b2_02     Insert: bb_ho.r1b2_03     Insert: bb_ho.r1b2_04     Insert: bb_ho.r1b2_05     Insert: bb_ho.r2b2_01     Insert: bb_ho.r2b2_02     Insert: bb_ho.r2b2_03     Insert: bb_ho.r2b2_04     Insert: bb_ho.r2b2_05     Insert: bb_ho.r5b2_01     Insert: bb_ho.r5b2_02     Insert: bb_ho.r5b2_03     Insert: bb_ho.r5b2_04     Insert: bb_ho.r5b2_05     Insert: bb_ho.r8b2_01     Insert: bb_ho.r8b2_02     Insert: bb_ho.r8b2_03     Insert: bb_ho.r8b2_04     Insert: bb_ho.r8b2_05     Insert: bb_lr.l1b2_01     Insert: bb_lr.l1b2_02     Insert: bb_lr.l1b2_03     Insert: bb_lr.l1b2_04     Insert: bb_lr.l1b2_05     Insert: bb_lr.l1b2_06     Insert: bb_lr.l1b2_07     Insert: bb_lr.l1b2_08     Insert: bb_lr.l1b2_09     Insert: bb_lr.l1b2_10     Insert: bb_lr.l1b2_11     Insert: bb_lr.l1b2_12     Insert: bb_lr.l1b2_13     Insert: bb_lr.l1b2_14     Insert: bb_lr.l1b2_15     Insert: bb_lr.l1b2_16     Insert: bb_lr.l1b2_17     Insert: bb_lr.l1b2_18     Insert: bb_lr.l1b2_19     Insert: bb_lr.l1b2_20     Insert: bb_lr.l1b2_21     Insert: bb_lr.l1b2_22     Insert: bb_lr.l1b2_23     Insert: bb_lr.l1b2_24     Insert: bb_lr.l1b2_25     Insert: bb_lr.l2b2_01     Insert: bb_lr.l2b2_02     Insert: bb_lr.l2b2_03     Insert: bb_lr.l2b2_04     Insert: bb_lr.l2b2_05     Insert: bb_lr.l2b2_06     Insert: bb_lr.l2b2_07     Insert: bb_lr.l2b2_08     Insert: bb_lr.l2b2_09     Insert: bb_lr.l2b2_10     Insert: bb_lr.l2b2_11     Insert: bb_lr.l2b2_12     Insert: bb_lr.l2b2_13     Insert: bb_lr.l2b2_14     Insert: bb_lr.l2b2_15     Insert: bb_lr.l2b2_16     Insert: bb_lr.l2b2_17     Insert: bb_lr.l2b2_18     Insert: bb_lr.l2b2_19     Insert: bb_lr.l2b2_20     Insert: bb_lr.l5b2_01     Insert: bb_lr.l5b2_02     Insert: bb_lr.l5b2_03     Insert: bb_lr.l5b2_04     Insert: bb_lr.l5b2_05     Insert: bb_lr.l5b2_06     Insert: bb_lr.l5b2_07     Insert: bb_lr.l5b2_08     Insert: bb_lr.l5b2_09     Insert: bb_lr.l5b2_10     Insert: bb_lr.l5b2_11     Insert: bb_lr.l5b2_12     Insert: bb_lr.l5b2_13     Insert: bb_lr.l5b2_14     Insert: bb_lr.l5b2_15     Insert: bb_lr.l5b2_16     Insert: bb_lr.l5b2_17     Insert: bb_lr.l5b2_18     Insert: bb_lr.l5b2_19     Insert: bb_lr.l5b2_20     Insert: bb_lr.l5b2_21     Insert: bb_lr.l5b2_22     Insert: bb_lr.l5b2_23     Insert: bb_lr.l5b2_24     Insert: bb_lr.l5b2_25     Insert: bb_lr.l8b2_01     Insert: bb_lr.l8b2_02     Insert: bb_lr.l8b2_03     Insert: bb_lr.l8b2_04     Insert: bb_lr.l8b2_05     Insert: bb_lr.l8b2_06     Insert: bb_lr.l8b2_07     Insert: bb_lr.l8b2_08     Insert: bb_lr.l8b2_09     Insert: bb_lr.l8b2_10     Insert: bb_lr.l8b2_11     Insert: bb_lr.l8b2_12     Insert: bb_lr.l8b2_13     Insert: bb_lr.l8b2_14     Insert: bb_lr.l8b2_15     Insert: bb_lr.l8b2_16     Insert: bb_lr.l8b2_17     Insert: bb_lr.l8b2_18     Insert: bb_lr.l8b2_19     Insert: bb_lr.l8b2_20     Insert: bb_lr.r1b2_01     Insert: bb_lr.r1b2_02     Insert: bb_lr.r1b2_03     Insert: bb_lr.r1b2_04     Insert: bb_lr.r1b2_05     Insert: bb_lr.r1b2_06     Insert: bb_lr.r1b2_07     Insert: bb_lr.r1b2_08     Insert: bb_lr.r1b2_09     Insert: bb_lr.r1b2_10     Insert: bb_lr.r1b2_11     Insert: bb_lr.r1b2_12     Insert: bb_lr.r1b2_13     Insert: bb_lr.r1b2_14     Insert: bb_lr.r1b2_15     Insert: bb_lr.r1b2_16     Insert: bb_lr.r1b2_17     Insert: bb_lr.r1b2_18     Insert: bb_lr.r1b2_19     Insert: bb_lr.r1b2_20     Insert: bb_lr.r1b2_21     Insert: bb_lr.r1b2_22     Insert: bb_lr.r1b2_23     Insert: bb_lr.r1b2_24     Insert: bb_lr.r1b2_25     Insert: bb_lr.r2b2_01     Insert: bb_lr.r2b2_02     Insert: bb_lr.r2b2_03     Insert: bb_lr.r2b2_04     Insert: bb_lr.r2b2_05     Insert: bb_lr.r2b2_06     Insert: bb_lr.r2b2_07     Insert: bb_lr.r2b2_08     Insert: bb_lr.r2b2_09     Insert: bb_lr.r2b2_10     Insert: bb_lr.r2b2_11     Insert: bb_lr.r2b2_12     Insert: bb_lr.r2b2_13     Insert: bb_lr.r2b2_14     Insert: bb_lr.r2b2_15     Insert: bb_lr.r2b2_16     Insert: bb_lr.r2b2_17     Insert: bb_lr.r2b2_18     Insert: bb_lr.r2b2_19     Insert: bb_lr.r2b2_20     Insert: bb_lr.r5b2_01     Insert: bb_lr.r5b2_02     Insert: bb_lr.r5b2_03     Insert: bb_lr.r5b2_04     Insert: bb_lr.r5b2_05     Insert: bb_lr.r5b2_06     Insert: bb_lr.r5b2_07     Insert: bb_lr.r5b2_08     Insert: bb_lr.r5b2_09     Insert: bb_lr.r5b2_10     Insert: bb_lr.r5b2_11     Insert: bb_lr.r5b2_12     Insert: bb_lr.r5b2_13     Insert: bb_lr.r5b2_14     Insert: bb_lr.r5b2_15     Insert: bb_lr.r5b2_16     Insert: bb_lr.r5b2_17     Insert: bb_lr.r5b2_18     Insert: bb_lr.r5b2_19     Insert: bb_lr.r5b2_20     Insert: bb_lr.r5b2_21     Insert: bb_lr.r5b2_22     Insert: bb_lr.r5b2_23     Insert: bb_lr.r5b2_24     Insert: bb_lr.r5b2_25     Insert: bb_lr.r8b2_01     Insert: bb_lr.r8b2_02     Insert: bb_lr.r8b2_03     Insert: bb_lr.r8b2_04     Insert: bb_lr.r8b2_05     Insert: bb_lr.r8b2_06     Insert: bb_lr.r8b2_07     Insert: bb_lr.r8b2_08     Insert: bb_lr.r8b2_09     Insert: bb_lr.r8b2_10     Insert: bb_lr.r8b2_11     Insert: bb_lr.r8b2_12     Insert: bb_lr.r8b2_13     Insert: bb_lr.r8b2_14     Insert: bb_lr.r8b2_15     Insert: bb_lr.r8b2_16     Insert: bb_lr.r8b2_17     Insert: bb_lr.r8b2_18     Insert: bb_lr.r8b2_19     Insert: bb_lr.r8b2_20     Found suitable prebuilt kernel `default_bb3d`.
+Found suitable prebuilt kernel `default_bb3d`.
+Found suitable prebuilt kernel `default_only_xtrack`.
+Found suitable prebuilt kernel `default_only_xtrack`.
+Correcting closed orbit
+Correcting IR1 left
+Found suitable prebuilt kernel `only_xtrack_frozen_energy`.
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IR1 right
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IR5 left
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IR5 right
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IP1
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IP2
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IP5
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IP8
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Matching linear coupling
+Matching: model call n. 0       Matching: model call n. 1       
+
+Matching tune and chromaticity
+Matching: model call n. 0       Matching: model call n. 1       Matching: model call n. 2       Matching: model call n. 3       Matching: model call n. 4       Matching: model call n. 5       Matching: model call n. 6       
+
+Correcting closed orbit
+Correcting IR1 left
+Found suitable prebuilt kernel `only_xtrack_frozen_energy`.
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IR1 right
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IR5 left
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IR5 right
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IP1
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IP2
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IP5
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IP8
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Matching linear coupling
+Matching: model call n. 0       Matching: model call n. 1       
+
+Matching tune and chromaticity
+Matching: model call n. 0       Matching: model call n. 1       Matching: model call n. 2       Matching: model call n. 3       Matching: model call n. 4       Matching: model call n. 5       Matching: model call n. 6       
+
+Correcting closed orbit
+Correcting IR1 left
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IR1 right
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IR5 left
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IR5 right
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IP1
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IP2
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IP5
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IP8
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Matching tune and chromaticity
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting closed orbit
+Correcting IR1 left
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IR1 right
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IR5 left
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IR5 right
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IP1
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IP2
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IP5
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Correcting IP8
+Found suitable prebuilt kernel `default_only_xtrack`.
+Matching: model call n. 0       Matching: model call n. 1       
+
+Matching tune and chromaticity
+Matching: model call n. 0       Matching: model call n. 1       
+
+Configuring beam-beam with configure_beambeam_interactions (f2024-01-31 12:30:19.007381)
+Crabbing at bb_ho.l1b1_01     Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Crabbing at bb_ho.l1b1_02     Crabbing at bb_ho.l1b1_03     Crabbing at bb_ho.l1b1_04     Crabbing at bb_ho.l1b1_05     Crabbing at bb_ho.l2b1_01     Crabbing at bb_ho.l2b1_02     Crabbing at bb_ho.l2b1_03     Crabbing at bb_ho.l2b1_04     Crabbing at bb_ho.l2b1_05     Crabbing at bb_ho.l5b1_01     Crabbing at bb_ho.l5b1_02     Crabbing at bb_ho.l5b1_03     Crabbing at bb_ho.l5b1_04     Crabbing at bb_ho.l5b1_05     Crabbing at bb_ho.l8b1_01     Crabbing at bb_ho.l8b1_02     Crabbing at bb_ho.l8b1_03     Crabbing at bb_ho.l8b1_04     Crabbing at bb_ho.l8b1_05     Crabbing at bb_ho.r1b1_01     Crabbing at bb_ho.r1b1_02     Crabbing at bb_ho.r1b1_03     Crabbing at bb_ho.r1b1_04     Crabbing at bb_ho.r1b1_05     Crabbing at bb_ho.r2b1_01     Crabbing at bb_ho.r2b1_02     Crabbing at bb_ho.r2b1_03     Crabbing at bb_ho.r2b1_04     Crabbing at bb_ho.r2b1_05     Crabbing at bb_ho.r5b1_01     Crabbing at bb_ho.r5b1_02     Crabbing at bb_ho.r5b1_03     Crabbing at bb_ho.r5b1_04     Crabbing at bb_ho.r5b1_05     Crabbing at bb_ho.r8b1_01     Crabbing at bb_ho.r8b1_02     Crabbing at bb_ho.r8b1_03     Crabbing at bb_ho.r8b1_04     Crabbing at bb_ho.r8b1_05     Crabbing at bb_ho.l1b2_01     Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Crabbing at bb_ho.l1b2_02     Crabbing at bb_ho.l1b2_03     Crabbing at bb_ho.l1b2_04     Crabbing at bb_ho.l1b2_05     Crabbing at bb_ho.l2b2_01     Crabbing at bb_ho.l2b2_02     Crabbing at bb_ho.l2b2_03     Crabbing at bb_ho.l2b2_04     Crabbing at bb_ho.l2b2_05     Crabbing at bb_ho.l5b2_01     Crabbing at bb_ho.l5b2_02     Crabbing at bb_ho.l5b2_03     Crabbing at bb_ho.l5b2_04     Crabbing at bb_ho.l5b2_05     Crabbing at bb_ho.l8b2_01     Crabbing at bb_ho.l8b2_02     Crabbing at bb_ho.l8b2_03     Crabbing at bb_ho.l8b2_04     Crabbing at bb_ho.l8b2_05     Crabbing at bb_ho.r1b2_01     Crabbing at bb_ho.r1b2_02     Crabbing at bb_ho.r1b2_03     Crabbing at bb_ho.r1b2_04     Crabbing at bb_ho.r1b2_05     Crabbing at bb_ho.r2b2_01     Crabbing at bb_ho.r2b2_02     Crabbing at bb_ho.r2b2_03     Crabbing at bb_ho.r2b2_04     Crabbing at bb_ho.r2b2_05     Crabbing at bb_ho.r5b2_01     Crabbing at bb_ho.r5b2_02     Crabbing at bb_ho.r5b2_03     Crabbing at bb_ho.r5b2_04     Crabbing at bb_ho.r5b2_05     Crabbing at bb_ho.r8b2_01     Crabbing at bb_ho.r8b2_02     Crabbing at bb_ho.r8b2_03     Crabbing at bb_ho.r8b2_04     Crabbing at bb_ho.r8b2_05     bb_lr.l1b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l2b1_16 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l2b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l2b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l2b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l2b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l8b1_16 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l8b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l8b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l8b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l8b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r2b1_16 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r2b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r2b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r2b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r2b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b1_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r8b1_16 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r8b1_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r8b1_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r8b1_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r8b1_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l1b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l2b2_16 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l2b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l2b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l2b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l2b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l5b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l8b2_16 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l8b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l8b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l8b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.l8b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r1b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r2b2_16 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r2b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r2b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r2b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r2b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_21 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_22 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_23 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_24 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r5b2_25 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r8b2_16 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r8b2_17 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r8b2_18 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r8b2_19 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+bb_lr.r8b2_20 Reference systems are not parallel
+Smaller that 5e-3, tolerated.
+Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Compiling ContextCpu kernels...
+Done compiling ContextCpu kernels.
+Configuring beam-beam with apply_filing_pattern (f2024-01-31 12:35:37.981283)
+Done configuring (f2024-01-31 12:35:38.003583)
+Saving "collider.json
