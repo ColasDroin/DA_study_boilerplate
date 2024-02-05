@@ -103,9 +103,11 @@ def sample(
     nemitt_x=None,
     nemitt_y=None,
 ):
-    # Twiss to get normalized coordinates
+    # Twiss to get normalized coordinates (temporarily disable time dependent variables)
+    collider[beam_track].enable_time_dependent_vars = False
     tw = collider[beam_track].twiss()
     norm_coord = tw.get_normalized_coordinates(particles, nemitt_x=nemitt_x, nemitt_y=nemitt_y)
+    collider[beam_track].enable_time_dependent_vars = True
 
     # Get (alive) particles coordinates
     particles_state = particles.state.get()

@@ -95,10 +95,11 @@ def sample(
     nemitt_x=None,
     nemitt_y=None,
 ):
-    # Twiss to get normalized coordinates
+    # Twiss to get normalized coordinates (temporarily disable time dependent variables)
+    collider[beam_track].enable_time_dependent_vars = False
     tw = collider[beam_track].twiss()
     norm_coord = tw.get_normalized_coordinates(particles, nemitt_x=nemitt_x, nemitt_y=nemitt_y)
-
+    collider[beam_track].enable_time_dependent_vars = True
     # Get (alive) particles coordinates
     particles_state = particles.state.get()
     particles_id = particles.particle_id.get()[particles_state > 0]
@@ -169,6 +170,9 @@ def track_sampled(
             l_n_turns.append(freq)
         else:
             l_n_turns.append(l_n_turns[-1] + freq)
+        # ! Ensure that the number of turns is properly tracked, since the time dependent variables
+        # ! are not supported by the twiss and must be disabled every sampling
+
     return l_df_particles, l_n_turns, l_oct
 
 
@@ -205,7 +209,7 @@ def track(collider, particles, config_sim, config_bb, save_input_particles=True)
     l_n_turns = [0]
     l_df_particles = [df_particles]
 
-    # Get emittance every 1000 turns
+    # # Get emittance every 1000 turns
     n_turns_init = 50000
     print(f"Start to track initial {n_turns_init} turns")
     freq_sampling = 1000
@@ -222,8 +226,8 @@ def track(collider, particles, config_sim, config_bb, save_input_particles=True)
         nemitt_y=config_bb["nemitt_y"],
     )
 
-    # Reset number of turns to have a clean start with octupoles
-    print(f"t_turn_s after {n_turns_init} = ", collider.lhcb1.vars["t_turn_s"]._value)
+    # # Reset number of turns to have a clean start with octupoles
+    # print(f"t_turn_s after {n_turns_init} = ", collider.lhcb1.vars["t_turn_s"]._value)
     collider.lhcb1.vars["t_turn_s"] = 0
     print("t_turn_s after reset = ", collider.lhcb1.vars["t_turn_s"]._value)
 
