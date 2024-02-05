@@ -75,14 +75,19 @@ def prepare_particle_distribution(config_sim, collider, config_bb):
     # Build particles
     r_vect = np.linspace(0, 7, 15, endpoint=True)
 
-    A1_in_sigma = r_vect
-    A2_in_sigma = np.zeros(len(r_vect))
+    x_norm = r_vect
+    px_norm = np.zeros(len(r_vect))
+    y_norm = r_vect.copy()
+    py_norm = np.zeros(len(r_vect))
 
     particles = collider.lhcb1.build_particles(
-        x_norm=A1_in_sigma,
-        y_norm=A2_in_sigma,
+        x_norm=x_norm,
+        px_norm=px_norm,
+        y_norm=y_norm,
+        py_norm=py_norm,
         delta=config_sim["delta_max"],
-        scale_with_transverse_norm_emitt=(config_bb["nemitt_x"], config_bb["nemitt_y"]),
+        nemitt_x=config_bb["nemitt_x"],
+        nemitt_y=config_bb["nemitt_y"],
     )
 
     return particles
@@ -209,7 +214,7 @@ def track(collider, particles, config_sim, config_bb, save_input_particles=True)
     l_df_particles = [df_particles]
 
     # Get emittance every 1000 turns
-    n_turns_init = 2000
+    n_turns_init = 50000
     print(f"Start to track initial {n_turns_init} turns")
     freq_sampling = 10
     l_df_particles, l_n_turns, l_oct = track_sampled(
@@ -225,76 +230,76 @@ def track(collider, particles, config_sim, config_bb, save_input_particles=True)
         nemitt_y=config_bb["nemitt_y"],
     )
 
-    # # Reset number of turns to have a clean start with octupoles
-    # print(f"t_turn_s after {n_turns_init} = ", collider.lhcb1.vars["t_turn_s"]._value)
-    # collider.lhcb1.vars["t_turn_s"] = 0
-    # print("t_turn_s after reset = ", collider.lhcb1.vars["t_turn_s"]._value)
+    # Reset number of turns to have a clean start with octupoles
+    print(f"t_turn_s after {n_turns_init} = ", collider.lhcb1.vars["t_turn_s"]._value)
+    collider.lhcb1.vars["t_turn_s"] = 0
+    print("t_turn_s after reset = ", collider.lhcb1.vars["t_turn_s"]._value)
 
-    # # Then progressively increase the octupoles
-    # target_oct = 50
-    # collider.lhcb1.enable_time_dependent_vars = True
-    # time_to_target = 40  # s
-    # f_LHC = 11247.2428926  # Hz
-    # n_turns = int(round(f_LHC * time_to_target))
-    # f_sep_1 = target_oct / time_to_target
-    # f_sep_5 = target_oct / time_to_target
-    # collider.vars["i_oct_b1"] = 0 + collider.vars["t_turn_s"] * f_sep_1
-    # collider.vars["i_oct_b2"] = 0 + collider.vars["t_turn_s"] * f_sep_5
-    # # Track
-    # print("Start to track raising octupoles")
-    # print("t_turn_s = ", collider.lhcb1.vars["t_turn_s"]._value)
-    # l_df_particles, l_n_turns, l_oct = track_sampled(
-    #     collider,
-    #     beam_track,
-    #     particles,
-    #     n_turns,
-    #     freq_sampling,
-    #     l_df_particles=l_df_particles,
-    #     l_n_turns=l_n_turns,
-    #     l_oct=l_oct,
-    #     nemitt_x=config_bb["nemitt_x"],
-    #     nemitt_y=config_bb["nemitt_y"],
-    # )
+    # Then progressively increase the octupoles
+    target_oct = 50
+    collider.lhcb1.enable_time_dependent_vars = True
+    time_to_target = 40  # s
+    f_LHC = 11247.2428926  # Hz
+    n_turns = int(round(f_LHC * time_to_target))
+    f_sep_1 = target_oct / time_to_target
+    f_sep_5 = target_oct / time_to_target
+    collider.vars["i_oct_b1"] = 0 + collider.vars["t_turn_s"] * f_sep_1
+    collider.vars["i_oct_b2"] = 0 + collider.vars["t_turn_s"] * f_sep_5
+    # Track
+    print("Start to track raising octupoles")
+    print("t_turn_s = ", collider.lhcb1.vars["t_turn_s"]._value)
+    l_df_particles, l_n_turns, l_oct = track_sampled(
+        collider,
+        beam_track,
+        particles,
+        n_turns,
+        freq_sampling,
+        l_df_particles=l_df_particles,
+        l_n_turns=l_n_turns,
+        l_oct=l_oct,
+        nemitt_x=config_bb["nemitt_x"],
+        nemitt_y=config_bb["nemitt_y"],
+    )
 
-    # print("t_turn_s = ", collider.lhcb1.vars["t_turn_s"]._value)
+    print("t_turn_s = ", collider.lhcb1.vars["t_turn_s"]._value)
 
-    # # Reset number of turns # ! Don't reset the number of turns, it will reset the octupoles
-    # # collider.vars["t_turn_s"] = 0
-    # # print("t_turn_s after reset = ", collider.lhcb1.vars["t_turn_s"]._value)
-
-    # # Then progressively decrease the octupoles
-    # collider.vars["i_oct_b1"] = target_oct - collider.vars["t_turn_s"] * f_sep_1
-    # collider.vars["i_oct_b2"] = target_oct - collider.vars["t_turn_s"] * f_sep_5
-    # print("Start to track decreasing octupoles octupoles")
-    # l_df_particles, l_n_turns, l_oct = track_sampled(
-    #     collider,
-    #     beam_track,
-    #     particles,
-    #     n_turns_init,
-    #     freq_sampling,
-    #     l_df_particles=l_df_particles,
-    #     l_n_turns=l_n_turns,
-    #     l_oct=l_oct,
-    #     nemitt_x=config_bb["nemitt_x"],
-    #     nemitt_y=config_bb["nemitt_y"],
-    # )
-
-    # # Reset number of turns to reset octupoles
+    # Reset number of turns # ! Don't reset the number of turns, it will reset the octupoles
     # collider.vars["t_turn_s"] = 0
     # print("t_turn_s after reset = ", collider.lhcb1.vars["t_turn_s"]._value)
-    # print(f"Start to track last {n_turns_init} turns")
-    # l_df_particles, l_n_turns, l_oct = track_sampled(
-    #     collider,
-    #     beam_track,
-    #     particles,
-    #     n_turns_init,
-    #     freq_sampling,
-    #     l_df_particles=l_df_particles,
-    #     l_n_turns=l_n_turns,
-    #     l_oct=l_oct,
-    #     nemitt_x=config_bb["nemitt_x"],
-    #     nemitt_y=config_bb["nemitt_y"],
-    # )
+
+    # Then progressively decrease the octupoles
+    collider.vars["i_oct_b1"] = target_oct - collider.vars["t_turn_s"] * f_sep_1
+    collider.vars["i_oct_b2"] = target_oct - collider.vars["t_turn_s"] * f_sep_5
+    print("Start to track decreasing octupoles octupoles")
+    l_df_particles, l_n_turns, l_oct = track_sampled(
+        collider,
+        beam_track,
+        particles,
+        n_turns_init,
+        freq_sampling,
+        l_df_particles=l_df_particles,
+        l_n_turns=l_n_turns,
+        l_oct=l_oct,
+        nemitt_x=config_bb["nemitt_x"],
+        nemitt_y=config_bb["nemitt_y"],
+    )
+
+    # Reset number of turns to reset octupoles
+    collider.vars["t_turn_s"] = 0
+    print("t_turn_s after reset = ", collider.lhcb1.vars["t_turn_s"]._value)
+    print(f"Start to track last {n_turns_init} turns")
+    l_df_particles, l_n_turns, l_oct = track_sampled(
+        collider,
+        beam_track,
+        particles,
+        n_turns_init,
+        freq_sampling,
+        l_df_particles=l_df_particles,
+        l_n_turns=l_n_turns,
+        l_oct=l_oct,
+        nemitt_x=config_bb["nemitt_x"],
+        nemitt_y=config_bb["nemitt_y"],
+    )
 
     b = time.time()
     print(f"Elapsed time: {b-a} s")
