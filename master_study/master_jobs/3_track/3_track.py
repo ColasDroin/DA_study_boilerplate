@@ -184,7 +184,7 @@ def track(collider, particles, config_sim, save_input_particles=True):
     ll_particles_py = [list(particles_py)]
 
     # Get emittance every 1000 turns
-    n_turns_init = 25000
+    n_turns_init = 50000
     print(f"Start to track initial {n_turns_init} turns")
     freq_emittance = 1000
     (

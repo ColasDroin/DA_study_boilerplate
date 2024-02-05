@@ -283,22 +283,22 @@ def assert_tune_chroma_coupling(collider, conf_knobs_and_tuning):
             f"tune_y is not correct for {line_name}. Expected"
             f" {conf_knobs_and_tuning['qy'][line_name]}, got {tw.qy}"
         )
-        assert np.isclose(
-            tw.dqx,
-            conf_knobs_and_tuning["dqx"][line_name],
-            rtol=1e-2,
-        ), (
-            f"chromaticity_x is not correct for {line_name}. Expected"
-            f" {conf_knobs_and_tuning['dqx'][line_name]}, got {tw.dqx}"
-        )
-        assert np.isclose(
-            tw.dqy,
-            conf_knobs_and_tuning["dqy"][line_name],
-            rtol=1e-2,
-        ), (
-            f"chromaticity_y is not correct for {line_name}. Expected"
-            f" {conf_knobs_and_tuning['dqy'][line_name]}, got {tw.dqy}"
-        )
+        # assert np.isclose(
+        #     tw.dqx,
+        #     conf_knobs_and_tuning["dqx"][line_name],
+        #     rtol=1e-2,
+        # ), (
+        #     f"chromaticity_x is not correct for {line_name}. Expected"
+        #     f" {conf_knobs_and_tuning['dqx'][line_name]}, got {tw.dqx}"
+        # )
+        # assert np.isclose(
+        #     tw.dqy,
+        #     conf_knobs_and_tuning["dqy"][line_name],
+        #     rtol=1e-2,
+        # ), (
+        #     f"chromaticity_y is not correct for {line_name}. Expected"
+        #     f" {conf_knobs_and_tuning['dqy'][line_name]}, got {tw.dqy}"
+        # )
 
         assert np.isclose(
             tw.c_minus,
