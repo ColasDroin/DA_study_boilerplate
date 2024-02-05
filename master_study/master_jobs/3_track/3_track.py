@@ -55,12 +55,12 @@ def read_configuration(config_path="config.yaml"):
 # --- Main function for collider configuration
 # ==================================================================================================
 def configure_collider(config_sim):
-
     # Rebuild collider
     collider = xt.Multiline.from_json(config_sim["collider_file"])
 
     # Build trackers on GPU
-    context = xo.ContextPyopencl()
+    context = xo.ContextCupy(device="0")
+
     # context = xo.ContextCpu()
     collider.build_trackers(_context=context)
 
@@ -257,9 +257,9 @@ def track(collider, particles, config_sim, save_input_particles=True):
 
     print("t_turn_s = ", collider.lhcb1.vars["t_turn_s"]._value)
 
-    # Reset number of turns
-    collider.vars["t_turn_s"] = 0
-    print("t_turn_s after reset = ", collider.lhcb1.vars["t_turn_s"]._value)
+    # Reset number of turns # ! Don't reset the number of turns, it will reset the octupoles
+    # collider.vars["t_turn_s"] = 0
+    # print("t_turn_s after reset = ", collider.lhcb1.vars["t_turn_s"]._value)
 
     # Then progressively decrease the octupoles
     collider.vars["i_oct_b1"] = target_oct - collider.vars["t_turn_s"] * f_sep_1
@@ -290,6 +290,9 @@ def track(collider, particles, config_sim, save_input_particles=True):
         ll_particles_py=ll_particles_py,
     )
 
+    # Reset number of turns to reset octupoles
+    collider.vars["t_turn_s"] = 0
+    print("t_turn_s after reset = ", collider.lhcb1.vars["t_turn_s"]._value)
     print(f"Start to track last {n_turns_init} turns")
     (
         ll_particles_x,

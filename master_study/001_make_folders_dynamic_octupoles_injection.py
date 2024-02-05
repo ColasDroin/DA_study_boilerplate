@@ -75,8 +75,8 @@ d_config_tune_and_chroma = {
 for beam in ["lhcb1", "lhcb2"]:
     d_config_tune_and_chroma["qx"][beam] = 62.31
     d_config_tune_and_chroma["qy"][beam] = 60.32
-    d_config_tune_and_chroma["dqx"][beam] = 15.0
-    d_config_tune_and_chroma["dqy"][beam] = 15.0
+    d_config_tune_and_chroma["dqx"][beam] = 0
+    d_config_tune_and_chroma["dqy"][beam] = 0
 
 # Value to be added to linear coupling knobs
 d_config_tune_and_chroma["delta_cmr"] = 0.0
@@ -225,8 +225,7 @@ if check_bunch_number:
         # For beam 2, just select the worst bunch by default, as the tracking of b2 is not available yet anyway
         print(
             "The bunch number for beam 2 has not been provided. By default, the worst bunch is"
-            " taken. It is the bunch number "
-            + str(worst_bunch_b2)
+            " taken. It is the bunch number " + str(worst_bunch_b2)
         )
 
         d_config_beambeam["mask_with_filling_pattern"]["i_bunch_b2"] = worst_bunch_b2
