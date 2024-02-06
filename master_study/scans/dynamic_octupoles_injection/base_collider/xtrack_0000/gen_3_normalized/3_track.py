@@ -104,12 +104,10 @@ def sample(
     nemitt_y=None,
 ):
     # Twiss to get normalized coordinates (temporarily disable time dependent variables)
-    # temp_t_turn_s = collider.lhcb1.vars["t_turn_s"]._value
-    # collider[beam_track].enable_time_dependent_vars = False
-    # tw = collider[beam_track].twiss()
-    # norm_coord = tw.get_normalized_coordinates(particles, nemitt_x=nemitt_x, nemitt_y=nemitt_y)
-    # collider[beam_track].enable_time_dependent_vars = True
-    # collider.lhcb1.vars["t_turn_s"] = temp_t_turn_s
+    collider[beam_track].enable_time_dependent_vars = False
+    tw = collider[beam_track].twiss()
+    norm_coord = tw.get_normalized_coordinates(particles, nemitt_x=nemitt_x, nemitt_y=nemitt_y)
+    collider[beam_track].enable_time_dependent_vars = True
 
     # Get (alive) particles coordinates
     particles_state = particles.state.get()
@@ -122,13 +120,13 @@ def sample(
     particles_pzeta = particles.pzeta.get()  # [particles_state > 0]
 
     # Get normalized coordinates
-    # particles_id_norm = norm_coord.particle_id
-    # particles_x_norm = norm_coord.x_norm
-    # particles_px_norm = norm_coord.px_norm
-    # particles_y_norm = norm_coord.y_norm
-    # particles_py_norm = norm_coord.py_norm
-    # particles_zeta_norm = norm_coord.zeta_norm
-    # particles_pzeta_norm = norm_coord.pzeta_norm
+    particles_id_norm = norm_coord.particle_id
+    particles_x_norm = norm_coord.x_norm
+    particles_px_norm = norm_coord.px_norm
+    particles_y_norm = norm_coord.y_norm
+    particles_py_norm = norm_coord.py_norm
+    particles_zeta_norm = norm_coord.zeta_norm
+    particles_pzeta_norm = norm_coord.pzeta_norm
 
     # Store everything in a dataframe
     df_particles = pd.DataFrame(
@@ -140,13 +138,13 @@ def sample(
             "py": particles_py,
             "zeta": particles_zeta,
             "pzeta": particles_pzeta,
-            # "particle_id_norm": particles_id_norm,
-            # "x_norm": particles_x_norm,
-            # "px_norm": particles_px_norm,
-            # "y_norm": particles_y_norm,
-            # "py_norm": particles_py_norm,
-            # "zeta_norm": particles_zeta_norm,
-            # "pzeta_norm": particles_pzeta_norm,
+            "particle_id_norm": particles_id_norm,
+            "x_norm": particles_x_norm,
+            "px_norm": particles_px_norm,
+            "y_norm": particles_y_norm,
+            "py_norm": particles_py_norm,
+            "zeta_norm": particles_zeta_norm,
+            "pzeta_norm": particles_pzeta_norm,
             "state": particles_state,
         }
     )
@@ -217,9 +215,10 @@ def track(collider, particles, config_sim, config_bb, save_input_particles=True)
     l_oct = [0]
     l_n_turns = [0]
     l_df_particles = [df_particles]
+    collider.lhcb1.enable_time_dependent_vars = True
 
-    # Get emittance every 1000 turns
-    n_turns_init = 2000
+    # Sample every 100 turns
+    n_turns_init = 50000
     print(f"Start to track initial {n_turns_init} turns")
     freq_sampling = 100
     l_df_particles, l_n_turns, l_oct = track_sampled(
@@ -234,22 +233,19 @@ def track(collider, particles, config_sim, config_bb, save_input_particles=True)
         nemitt_x=config_bb["nemitt_x"],
         nemitt_y=config_bb["nemitt_y"],
     )
-
-    # Reset number of turns to have a clean start with octupoles
     print(f"t_turn_s after {n_turns_init} = ", collider.lhcb1.vars["t_turn_s"]._value)
 
     # Then progressively increase the octupoles
     target_oct = 50
-    collider.lhcb1.enable_time_dependent_vars = True
-    collider.lhcb1.vars["t_turn_s"] = 0
-    print("t_turn_s after reset = ", collider.lhcb1.vars["t_turn_s"]._value)
-    time_to_target = 0.4  # s
+    time_to_target = 40  # s
     f_LHC = 11247.2428926  # Hz
     n_turns = int(round(f_LHC * time_to_target))
     f_sep_1 = target_oct / time_to_target
     f_sep_5 = target_oct / time_to_target
-    collider.vars["i_oct_b1"] = 0 + collider.lhcb1.vars["t_turn_s"] * f_sep_1
-    collider.vars["i_oct_b2"] = 0 + collider.lhcb1.vars["t_turn_s"] * f_sep_5
+    # Get t_turn_s_init
+    t_turn_s_init = collider.lhcb1.vars["t_turn_s"]._value
+    collider.vars["i_oct_b1"] = (collider.lhcb1.vars["t_turn_s"] - t_turn_s_init) * f_sep_1
+    collider.vars["i_oct_b2"] = (collider.lhcb1.vars["t_turn_s"] - t_turn_s_init) * f_sep_5
     # Track
     print("Start to track raising octupoles")
     print("Octupoles: ", collider.vars["i_oct_b1"]._value, collider.vars["i_oct_b2"]._value)
@@ -268,21 +264,23 @@ def track(collider, particles, config_sim, config_bb, save_input_particles=True)
     )
 
     print("t_turn_s = ", collider.lhcb1.vars["t_turn_s"]._value)
-    print("i_oct_b1 = ", collider.vars["i_oct_b1"]._value)
-
-    # Reset number of turns
-    collider.lhcb1.vars["t_turn_s"] = 0
-    print("t_turn_s after reset = ", collider.lhcb1.vars["t_turn_s"]._value)
+    print("Octupoles: ", collider.vars["i_oct_b1"]._value, collider.vars["i_oct_b2"]._value)
 
     # Then progressively decrease the octupoles
-    collider.vars["i_oct_b1"] = target_oct - collider.lhcb1.vars["t_turn_s"] * f_sep_1
-    collider.vars["i_oct_b2"] = target_oct - collider.lhcb1.vars["t_turn_s"] * f_sep_5
+    # Get t_turn_s_init
+    t_turn_s_init = collider.lhcb1.vars["t_turn_s"]._value
+    collider.vars["i_oct_b1"] = (
+        target_oct - (collider.lhcb1.vars["t_turn_s"] - t_turn_s_init) * f_sep_1
+    )
+    collider.vars["i_oct_b2"] = (
+        target_oct - (collider.lhcb1.vars["t_turn_s"] - t_turn_s_init) * f_sep_5
+    )
     print("Start to track decreasing octupoles octupoles")
     l_df_particles, l_n_turns, l_oct = track_sampled(
         collider,
         beam_track,
         particles,
-        n_turns_init,
+        n_turns,
         freq_sampling,
         l_df_particles=l_df_particles,
         l_n_turns=l_n_turns,
@@ -292,8 +290,6 @@ def track(collider, particles, config_sim, config_bb, save_input_particles=True)
     )
 
     # Reset octupoles
-    # collider.lhcb1.vars["t_turn_s"] = 0
-    # print("t_turn_s after reset = ", collider.lhcb1.vars["t_turn_s"]._value)
     collider.vars["i_oct_b1"] = 0
     collider.vars["i_oct_b2"] = 0
     print(f"Start to track last {n_turns_init} turns")
