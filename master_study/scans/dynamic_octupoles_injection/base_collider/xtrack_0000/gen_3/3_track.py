@@ -136,6 +136,7 @@ def sample(
             "py_norm": particles_py_norm,
             "zeta_norm": particles_zeta_norm,
             "pzeta_norm": particles_pzeta_norm,
+            "state": particles_state,
         }
     )
 
