@@ -58,3 +58,4 @@ master_study/master_jobs/2_configure_and_track/*.parquet
 da-study-docker_latest.sif
 master_study/error.txt
 master_study/output.txt
+*.pkl
