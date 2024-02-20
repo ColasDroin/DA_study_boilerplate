@@ -60,7 +60,7 @@ def configure_collider(config_sim):
     collider = xt.Multiline.from_json(config_sim["collider_file"])
 
     # Build trackers on GPU
-    context = xo.ContextCupy(device="0")
+    context = xo.ContextCupy(device="1")
 
     # context = xo.ContextCpu()
     collider.build_trackers(_context=context)
@@ -219,7 +219,8 @@ def track(collider, particles, config_sim, config_bb, save_input_particles=True)
 
     # Get t_turn_s_init
     t_turn_s = collider.lhcb1.vars["t_turn_s"]
-    array_x = np.array([t_turn_s**x for x in range(21)])
+    # ! Careful, array_x must be in decreasing order
+    array_x = np.array([t_turn_s**x for x in range(20, -1, -1)])
     array_coeff = np.array(
         [
             -4.19744749e-37,

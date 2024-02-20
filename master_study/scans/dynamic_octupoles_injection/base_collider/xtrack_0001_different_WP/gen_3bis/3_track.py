@@ -72,7 +72,7 @@ def configure_collider(config_sim):
 # --- Function to prepare particles distribution for tracking
 # ==================================================================================================
 def prepare_particle_distribution(config_sim, collider, config_bb):
-    n_part = 20000
+    n_part = 20001
     particles = xp.generate_matched_gaussian_bunch(
         num_particles=n_part,
         total_intensity_particles=config_bb["num_particles_per_bunch"],
