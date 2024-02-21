@@ -230,6 +230,7 @@ def track(collider, particles, config_sim, config_bb, save_input_particles=True)
     # Then progressively increase the octupoles
     target_oct = 50
     time_to_target = 40  # s
+    # at 6800GeV, t_turn_s is such that 6451 turns correponds to t_turn_s = 0.5735627888172546
     f_LHC = 11247.2428926  # Hz
     n_turns = int(round(f_LHC * time_to_target))
     f_sep_1 = target_oct / time_to_target
