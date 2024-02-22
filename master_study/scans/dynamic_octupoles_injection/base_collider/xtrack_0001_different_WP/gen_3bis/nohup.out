@@ -9,3 +9,27 @@ Done loading line from dict.
 Loading line from dict:   0%|          | 0/80836 [00:00<?, ?it/s]Loading line from dict:   2%|▏         | 1616/80836 [00:00<00:04, 16147.35it/s]Loading line from dict:   4%|▍         | 3323/80836 [00:00<00:04, 16689.26it/s]Loading line from dict:   6%|▌         | 5051/80836 [00:00<00:04, 16957.26it/s]Loading line from dict:   8%|▊         | 6747/80836 [00:00<00:04, 16922.91it/s]Loading line from dict:  10%|█         | 8440/80836 [00:01<00:13, 5568.23it/s] Loading line from dict:  12%|█▏        | 10054/80836 [00:01<00:09, 7098.06it/s]Loading line from dict:  14%|█▍        | 11595/80836 [00:01<00:08, 8522.00it/s]Loading line from dict:  16%|█▋        | 13278/80836 [00:01<00:06, 10155.53it/s]Loading line from dict:  19%|█▊        | 14996/80836 [00:01<00:05, 11691.10it/s]Loading line from dict:  21%|██        | 16732/80836 [00:01<00:04, 13036.98it/s]Loading line from dict:  23%|██▎       | 18462/80836 [00:01<00:04, 14118.03it/s]Loading line from dict:  25%|██▍       | 20144/80836 [00:01<00:04, 14832.64it/s]Loading line from dict:  27%|██▋       | 21802/80836 [00:01<00:03, 15291.44it/s]Loading line from dict:  29%|██▉       | 23457/80836 [00:01<00:03, 15616.54it/s]Loading line from dict:  31%|███       | 25158/80836 [00:02<00:03, 16015.77it/s]Loading line from dict:  33%|███▎      | 26885/80836 [00:02<00:03, 16376.57it/s]Loading line from dict:  35%|███▌      | 28623/80836 [00:02<00:03, 16669.39it/s]Loading line from dict:  38%|███▊      | 30347/80836 [00:02<00:02, 16830.69it/s]Loading line from dict:  40%|███▉      | 32054/80836 [00:02<00:02, 16790.89it/s]Loading line from dict:  42%|████▏     | 33750/80836 [00:02<00:02, 16284.68it/s]Loading line from dict:  44%|████▍     | 35423/80836 [00:02<00:02, 16412.57it/s]Loading line from dict:  46%|████▌     | 37172/80836 [00:02<00:02, 16727.95it/s]Loading line from dict:  48%|████▊     | 38961/80836 [00:02<00:02, 17070.54it/s]Loading line from dict:  50%|█████     | 40740/80836 [00:02<00:02, 17282.92it/s]Loading line from dict:  53%|█████▎    | 42504/80836 [00:03<00:02, 17388.59it/s]Loading line from dict:  55%|█████▍    | 44247/80836 [00:03<00:02, 17202.57it/s]Loading line from dict:  57%|█████▋    | 45970/80836 [00:03<00:02, 17103.31it/s]Loading line from dict:  59%|█████▉    | 47683/80836 [00:03<00:01, 16950.36it/s]Loading line from dict:  61%|██████    | 49408/80836 [00:03<00:01, 17037.81it/s]Loading line from dict:  63%|██████▎   | 51113/80836 [00:03<00:01, 17010.22it/s]Loading line from dict:  65%|██████▌   | 52840/80836 [00:03<00:01, 17086.27it/s]Loading line from dict:  67%|██████▋   | 54550/80836 [00:03<00:01, 17025.50it/s]Loading line from dict:  70%|██████▉   | 56265/80836 [00:03<00:01, 17053.19it/s]Loading line from dict:  72%|███████▏  | 58001/80836 [00:03<00:01, 17136.39it/s]Loading line from dict:  74%|███████▍  | 59715/80836 [00:04<00:01, 17091.04it/s]Loading line from dict:  76%|███████▌  | 61425/80836 [00:04<00:01, 16969.08it/s]Loading line from dict:  78%|███████▊  | 63123/80836 [00:04<00:01, 16439.70it/s]Loading line from dict:  80%|████████  | 64837/80836 [00:04<00:00, 16640.05it/s]Loading line from dict:  82%|████████▏ | 66550/80836 [00:04<00:00, 16783.79it/s]Loading line from dict:  84%|████████▍ | 68283/80836 [00:04<00:00, 16925.23it/s]Loading line from dict:  87%|████████▋ | 69999/80836 [00:04<00:00, 16994.62it/s]Loading line from dict:  89%|████████▉ | 71828/80836 [00:04<00:00, 17379.51it/s]Loading line from dict:  91%|█████████ | 73568/80836 [00:04<00:00, 17325.15it/s]Loading line from dict:  93%|█████████▎| 75302/80836 [00:05<00:00, 17234.66it/s]Loading line from dict:  95%|█████████▌| 77027/80836 [00:05<00:00, 17186.58it/s]Loading line from dict:  97%|█████████▋| 78747/80836 [00:05<00:00, 17159.72it/s]Loading line from dict: 100%|█████████▉| 80464/80836 [00:05<00:00, 17014.21it/s]Loading line from dict: 100%|██████████| 80836/80836 [00:05<00:00, 15134.75it/s]
 /storage-hpc/gpfs_data/HPC/home_recovery/cdroin/dynamic_collapse/miniforge/lib/python3.10/site-packages/scipy/integrate/_quadpack_py.py:1233: IntegrationWarning: The integral is probably divergent, or slowly convergent.
   quad_r = quad(f, low, high, args=args, full_output=self.full_output,
+Done loading line from dict.           
+*** Maximum RMS bunch length 0.11789515101464534m.
+... distance to target bunch length: -9.0000e-02
+... distance to target bunch length: 2.4638e-02
+... distance to target bunch length: 2.2508e-02
+... distance to target bunch length: 4.1016e-03
+... distance to target bunch length: -8.2454e-03
+... distance to target bunch length: 6.8134e-04
+... distance to target bunch length: -1.5958e-05
+... distance to target bunch length: 2.5080e-07
+... distance to target bunch length: -3.9266e-08
+--> Bunch length: 0.08999996073381338
+--> Emittance: 0.6518166521078118
+Start to track initial 50000 turns
+t_turn_s after 50000 =  4.446143866997494
+Start to track raising octupoles
+Octupoles:  0.0 0.0
+t_turn_s =  4.446143866997494
+t_turn_s =  44.37331433604437
+Octupoles:  49.908963086308596 49.908963086308596
+Start to track decreasing octupoles octupoles
+Start to track last 50000 turns
+Elapsed time: 108889.93667149544 s
+Elapsed time per particle per turn: 18.147415407812183 us
