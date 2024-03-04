@@ -246,7 +246,8 @@ def do_levelling(
 
     # Then level luminosity in IP 2/8 changing the separation
     #! NASTY HACK TO MAXIMIZE LUMI IN IP8
-    while config_lumi_leveling["ip8"]["luminosity"] >= 0:
+    stay_condition = True
+    while config_lumi_leveling["ip8"]["luminosity"] >= 0 and stay_condition:
         try:
             collider = luminosity_leveling(
                 collider,
@@ -255,7 +256,7 @@ def do_levelling(
                 additional_targets_lumi=additional_targets_lumi,
                 crab=crab,
             )
-            break
+            stay_condition = False
         except Exception as e:
             print(
                 f"Luminosity optimization failed with target {config_lumi_leveling['ip8']['luminosity']}."

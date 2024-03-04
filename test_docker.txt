@@ -1,0 +1,97 @@
+anytree==2.12.1
+appdirs @ file:///home/conda/feedstock_root/build_artifacts/appdirs_1603108395799/work
+archspec @ file:///home/conda/feedstock_root/build_artifacts/archspec_1699370045702/work
+asttokens==2.4.1
+awkward==2.6.1
+awkward-cpp==29
+blessed @ file:///home/conda/feedstock_root/build_artifacts/blessed_1666523113356/work
+boltons @ file:///home/conda/feedstock_root/build_artifacts/boltons_1703154663129/work
+Brotli @ file:///home/conda/feedstock_root/build_artifacts/brotli-split_1695989787169/work
+certifi @ file:///home/conda/feedstock_root/build_artifacts/certifi_1707022139797/work/certifi
+cffi @ file:///home/conda/feedstock_root/build_artifacts/cffi_1696001684923/work
+charset-normalizer @ file:///home/conda/feedstock_root/build_artifacts/charset-normalizer_1698833585322/work
+colorama @ file:///home/conda/feedstock_root/build_artifacts/colorama_1666700638685/work
+conda @ file:///home/conda/feedstock_root/build_artifacts/conda_1701731572133/work
+conda-libmamba-solver @ file:///home/conda/feedstock_root/build_artifacts/conda-libmamba-solver_1702406360642/work/src
+conda-package-handling @ file:///home/conda/feedstock_root/build_artifacts/conda-package-handling_1691048088238/work
+conda_package_streaming @ file:///home/conda/feedstock_root/build_artifacts/conda-package-streaming_1691009212940/work
+contourpy==1.2.0
+cpymad==1.15.0
+cupy @ file:///home/conda/feedstock_root/build_artifacts/cupy-split_1707093260481/work
+cycler==0.12.1
+Cython==3.0.8
+decorator==5.1.1
+distro @ file:///home/conda/feedstock_root/build_artifacts/distro_1675116244235/work
+exceptiongroup==1.2.0
+executing==2.0.1
+fastrlock @ file:///home/conda/feedstock_root/build_artifacts/fastrlock_1702696298817/work
+fonttools==4.49.0
+fsspec==2024.2.0
+gpustat @ file:///home/conda/feedstock_root/build_artifacts/gpustat_1692786716371/work
+idna @ file:///home/conda/feedstock_root/build_artifacts/idna_1701026962277/work
+importlib-metadata @ file:///home/conda/feedstock_root/build_artifacts/importlib-metadata_1703269254275/work
+ipython==8.22.1
+jedi==0.19.1
+joblib==1.3.2
+jsonpatch @ file:///home/conda/feedstock_root/build_artifacts/jsonpatch_1695536281965/work
+jsonpointer @ file:///home/conda/feedstock_root/build_artifacts/jsonpointer_1695397238043/work
+kiwisolver==1.4.5
+lark==1.1.9
+libmambapy @ file:///home/conda/feedstock_root/build_artifacts/mamba-split_1702310393080/work/libmambapy
+Mako @ file:///home/conda/feedstock_root/build_artifacts/mako_1706629259024/work
+mamba @ file:///home/conda/feedstock_root/build_artifacts/mamba-split_1702310393080/work/mamba
+MarkupSafe @ file:///home/conda/feedstock_root/build_artifacts/markupsafe_1706899921127/work
+matplotlib==3.8.3
+matplotlib-inline==0.1.6
+menuinst @ file:///home/conda/feedstock_root/build_artifacts/menuinst_1702317041727/work
+minrpc==0.1.0
+numpy==1.26.3
+nvidia-ml-py @ file:///home/conda/feedstock_root/build_artifacts/nvidia-ml-py_1698947663801/work
+orjson==3.9.15
+packaging @ file:///home/conda/feedstock_root/build_artifacts/packaging_1696202382185/work
+pandas==2.2.1
+parso==0.8.3
+pathlib==1.0.1
+pexpect==4.9.0
+pillow==10.2.0
+platformdirs==4.1.0
+pluggy @ file:///home/conda/feedstock_root/build_artifacts/pluggy_1693086607691/work
+pocl-binary-distribution==3.0
+prompt-toolkit==3.0.43
+psutil @ file:///home/conda/feedstock_root/build_artifacts/psutil_1705722392846/work
+ptyprocess==0.7.0
+pure-eval==0.2.2
+pyarrow==15.0.0
+pycosat @ file:///home/conda/feedstock_root/build_artifacts/pycosat_1696355758174/work
+pycparser @ file:///home/conda/feedstock_root/build_artifacts/pycparser_1636257122734/work
+Pygments==2.17.2
+pyopencl==2023.1.4
+pyparsing==3.1.1
+PySocks @ file:///home/conda/feedstock_root/build_artifacts/pysocks_1661604839144/work
+python-dateutil==2.8.2
+pytools==2023.1.1
+pytz==2024.1
+PyYAML==6.0.1
+requests @ file:///home/conda/feedstock_root/build_artifacts/requests_1684774241324/work
+ruamel.yaml @ file:///home/conda/feedstock_root/build_artifacts/ruamel.yaml_1699007337104/work
+ruamel.yaml.clib @ file:///home/conda/feedstock_root/build_artifacts/ruamel.yaml.clib_1695996839082/work
+scipy==1.12.0
+six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
+stack-data==0.6.3
+tqdm @ file:///home/conda/feedstock_root/build_artifacts/tqdm_1691671248568/work
+traitlets==5.14.1
+-e git+https://github.com/xsuite/tree_maker.git@5eced09a6b57dc70a3eadd99197bd9c7afeeaec7#egg=tree_maker
+truststore @ file:///home/conda/feedstock_root/build_artifacts/truststore_1694154605758/work
+typing_extensions==4.9.0
+tzdata==2024.1
+urllib3 @ file:///home/conda/feedstock_root/build_artifacts/urllib3_1699933488691/work
+wcwidth @ file:///home/conda/feedstock_root/build_artifacts/wcwidth_1704731205417/work
+xdeps==0.5.6
+xfields==0.15.0
+-e git+https://github.com/xsuite/xmask.git@85790680d3a7be834dc7e0501c3145580d68f27d#egg=xmask
+xobjects==0.2.10
+xpart==0.16.4
+xsuite==0.6.0
+xtrack==0.52.0
+zipp @ file:///home/conda/feedstock_root/build_artifacts/zipp_1695255097490/work
+zstandard==0.22.0
