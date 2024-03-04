@@ -63,7 +63,7 @@ def build_particle_distribution(config_particles):
     radial_list = np.linspace(r_min, r_max, n_r, endpoint=False)
 
     # Filter out particles with low and high amplitude to accelerate simulation
-    # radial_list = radial_list[(radial_list >= 4.5) & (radial_list <= 7.5)]
+    radial_list = radial_list[(radial_list >= 4.5) & (radial_list <= 7.5)]
 
     # Define angle distribution
     n_angles = config_particles["n_angles"]
