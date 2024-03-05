@@ -49,6 +49,10 @@ for node in root.generation(1):
 
             df_sim = pd.read_parquet(f"{node_child.get_abs_path()}/output_particles.parquet")
 
+            # Fix df_sim
+            df_sim = df_sim.sort_values("parent_particle_id")
+            df_sim["particle_id"] = df_sim["particle_id"].sort_values().values
+
         except Exception as e:
             print(e)
             l_problematic_sim.append(node_child.get_abs_path())
