@@ -6,12 +6,12 @@
       job_executable: 1_build_distr_and_collider.py # has to be a python file
       files_to_clone: # relative to the template folder
         - optics_specific_tools.py
-      run_on: "slurm" # "local_pc" 'htc_docker' #'htc' #'slurm' #'slurm_docker'
+      run_on: "local_pc" # "local_pc" 'htc_docker' #'htc' #'slurm' #'slurm_docker'
       context: "cpu" # 'cupy' # opencl # how to run the simulation
       # Following parameter is ignored when run_on is not htc or htc_docker
       htc_job_flavor: "espresso" # optional parameter to define job flavor, default is espresso
       # Following parameter is ignored when run_on is not htc_docker or slurm_docker
-      singularity_image: ../da-study-docker_779609d7.sif
+      singularity_image: "/cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cdroin/da-study-docker:latest"
 
     2: # Launch the pymask and prepare the colliders
       job_folder: "../../master_jobs/2_configure_and_track"
@@ -19,8 +19,8 @@
       files_to_clone:
         - misc.py
       context: "cpu" # 'cupy' # opencl # how to run the simulation
-      run_on: "slurm" # 'local_pc' # 'htc_docker' #'htc' #'slurm' #'slurm_docker'
+      run_on: "local_pc" # 'local_pc' # 'htc_docker' #'htc' #'slurm' #'slurm_docker'
       # Following parameter is ignored when run_on is not htc or htc_docker
       htc_job_flavor: "microcentury" # optional parameter to define job flavor, default is espresso
       # Following parameter is ignored when run_on is not htc_docker or slurm_docker
-      singularity_image: ../da-study-docker_779609d7.sif
+      singularity_image: "/cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cdroin/da-study-docker:latest"
