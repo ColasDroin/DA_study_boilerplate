@@ -6,6 +6,7 @@ __pycache__/
 # Miniforge and miniconda
 Miniforge3-Linux-x86_64.sh
 miniforge/*
+miniforge_alt/*
 !miniforge/.gitkeep
 
 # Modules
