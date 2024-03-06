@@ -59,7 +59,9 @@ d_config_mad = {"beam_config": {"lhcb1": {}, "lhcb2": {}}, "links": {}}
 d_config_mad["links"]["acc-models-lhc"] = "../../../../modules/runIII"
 # ! updated later
 # d_config_mad["optics_file"] = "acc-models-lhc/RunIII_dev/Proton_2024/opticsfile.43"
-array_optics = [f"acc-models-lhc/RunIII_dev/Proton_2024/opticsfile.{x}" for x in range(43, 49)]
+array_optics = [
+    f"acc-models-lhc/RunIII_dev/Proton_2024/opticsfile.{x}" for x in [43, 46]
+]  # range(43, 49)]
 d_config_mad["ver_hllhc_optics"] = None
 d_config_mad["ver_lhc_run"] = 3.0
 
@@ -89,8 +91,8 @@ d_config_tune_and_chroma = {
     "dqy": {},
 }
 for beam in ["lhcb1", "lhcb2"]:
-    d_config_tune_and_chroma["qx"][beam] = 62.310
-    d_config_tune_and_chroma["qy"][beam] = 60.316
+    d_config_tune_and_chroma["qx"][beam] = 62.313
+    d_config_tune_and_chroma["qy"][beam] = 60.318
     d_config_tune_and_chroma["dqx"][beam] = 15.0
     d_config_tune_and_chroma["dqy"][beam] = 15.0
 
@@ -292,8 +294,8 @@ dump_config_in_collider = False
 # optimal DA (e.g. tune, chroma, etc).
 # ==================================================================================================
 # Scan tune with step of 0.001 (need to round to correct for numpy numerical instabilities)
-array_angle = np.linspace(100, 160, 13)
-array_nb = np.linspace(0.8, 1.4, 13) * 1e11
+array_angle = np.linspace(100, 170, 29, endpoint=True)
+array_nb = np.linspace(0.7, 1.4, 29, endpoint=True) * 1e11
 
 
 # ==================================================================================================
