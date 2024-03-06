@@ -57,7 +57,7 @@ def add_QR_code(fig, link):
 
 # Function to convert floats to scientific latex format
 def latex_float(f):
-    float_str = "{0:.2g}".format(f)
+    float_str = "{0:.4g}".format(f)
     if "e" in float_str:
         base, exponent = float_str.split("e")
         return r"${0} \times 10^{{{1}}}$".format(base, int(exponent))
@@ -130,6 +130,7 @@ def get_title_from_conf(
             bunch_intensity_value = conf_collider["config_beambeam"][
                 "num_particles_per_bunch_after_optimization"
             ]
+
         except:
             bunch_intensity_value = conf_collider["config_beambeam"]["num_particles_per_bunch"]
         bunch_intensity = f"$N_b \simeq $" + latex_float(float(bunch_intensity_value)) + " ppb, "

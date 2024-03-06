@@ -261,7 +261,7 @@ def do_levelling(
             print(
                 f"Luminosity optimization failed with target {config_lumi_leveling['ip8']['luminosity']}."
             )
-            config_lumi_leveling["ip8"]["luminosity"] -= 1e32
+            config_lumi_leveling["ip8"]["luminosity"] -= 5e31
 
     # Update configuration
     config_bb["num_particles_per_bunch_before_optimization"] = float(initial_I)

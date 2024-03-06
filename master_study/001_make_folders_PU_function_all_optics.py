@@ -60,7 +60,7 @@ d_config_mad["links"]["acc-models-lhc"] = "../../../../modules/runIII"
 # ! updated later
 # d_config_mad["optics_file"] = "acc-models-lhc/RunIII_dev/Proton_2024/opticsfile.43"
 array_optics = [
-    f"acc-models-lhc/RunIII_dev/Proton_2024/opticsfile.{x}" for x in [43, 46]
+    f"acc-models-lhc/RunIII_dev/Proton_2024/opticsfile.{x}" for x in [43, 45, 47]
 ]  # range(43, 49)]
 d_config_mad["ver_hllhc_optics"] = None
 d_config_mad["ver_lhc_run"] = 3.0
@@ -127,8 +127,8 @@ d_config_knobs["on_sep8v"] = 0.000
 d_config_knobs["phi_IR8"] = 180.000
 
 # Octupoles
-d_config_knobs["i_oct_b1"] = 300.0
-d_config_knobs["i_oct_b2"] = 300.0
+d_config_knobs["i_oct_b1"] = None  # ! Defined during scanning
+d_config_knobs["i_oct_b2"] = None
 
 ### leveling configuration
 
@@ -167,7 +167,7 @@ d_config_beambeam["nemitt_y"] = 2.5e-6
 # The scheme should consist of a json file containing two lists of booleans (one for each beam),
 # representing each bucket of the LHC.
 filling_scheme_path = os.path.abspath(
-    "master_jobs/filling_scheme/25ns_2604b_2592_2310_2421_4x48bpi_16inj.json"
+    "master_jobs/filling_scheme/25ns_2556b_2544_2211_2327_3x48bpi_20inj.json.json"
 )
 
 
@@ -295,8 +295,8 @@ dump_config_in_collider = False
 # ==================================================================================================
 # Scan tune with step of 0.001 (need to round to correct for numpy numerical instabilities)
 array_angle = np.linspace(100, 170, 29, endpoint=True)
-array_nb = np.linspace(0.7, 1.4, 29, endpoint=True) * 1e11
-
+array_nb = np.linspace(0.6, 1.4, 33, endpoint=True) * 1e11
+array_current = [300, 250, 196]
 
 # ==================================================================================================
 # --- Make tree for the simulations (generation 1)
@@ -308,7 +308,7 @@ array_nb = np.linspace(0.7, 1.4, 29, endpoint=True) * 1e11
 
 # Build empty tree: first generation (later added to the root), and second generation
 children = {}
-for idx_optics, optics in enumerate(array_optics):
+for idx_optics, (optics, current) in enumerate(zip(array_optics, array_current)):
     # Update optics and beam energy
     d_config_mad["optics_file"] = optics
     # Copy optics with a deep copy to avoid mutating the dictionnary for all the children
@@ -317,7 +317,8 @@ for idx_optics, optics in enumerate(array_optics):
         "config_mad": copy.deepcopy(d_config_mad),
         "children": {},
     }
-
+    d_config_collider["config_knobs_and_tuning"]["knob_settings"]["i_oct_b1"] = float(current)
+    d_config_collider["config_knobs_and_tuning"]["knob_settings"]["i_oct_b2"] = float(current)
     # ==================================================================================================
     # --- Complete tree for the simulations (generation 2)
     #
