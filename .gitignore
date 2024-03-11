@@ -55,3 +55,4 @@ master_study/output.txt
 
 # Docker/singulatiry images
 *.sif
+master_study/analysis/nb_angle_scan/core.44001
