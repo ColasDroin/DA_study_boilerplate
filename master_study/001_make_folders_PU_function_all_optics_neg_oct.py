@@ -296,7 +296,7 @@ dump_config_in_collider = False
 # Scan tune with step of 0.001 (need to round to correct for numpy numerical instabilities)
 array_angle = np.linspace(110, 160, 11, endpoint=True)
 array_nb = np.linspace(0.6, 1.4, 33, endpoint=True) * 1e11
-array_current = [300, 250, 196]
+array_current = [-590, -590, -590]
 
 # ==================================================================================================
 # --- Make tree for the simulations (generation 1)
@@ -378,7 +378,7 @@ set_context(children, 1, config)
 # --- Build tree and write it to the filesystem
 # ==================================================================================================
 # Define study name
-study_name = "PU_function_all_optics_neg_oct"
+study_name = "PU_function_all_optics_neg_oct_corr"
 
 # Creade folder that will contain the tree
 if not os.path.exists("scans/" + study_name):
