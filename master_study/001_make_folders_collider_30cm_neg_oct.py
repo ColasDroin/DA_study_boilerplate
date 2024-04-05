@@ -123,8 +123,8 @@ d_config_knobs["on_sep8v"] = 0.000
 d_config_knobs["phi_IR8"] = 180.000
 
 # Octupoles
-d_config_knobs["i_oct_b1"] = 300.0
-d_config_knobs["i_oct_b2"] = 300.0
+d_config_knobs["i_oct_b1"] = -590.0
+d_config_knobs["i_oct_b2"] = -590.0
 
 ### leveling configuration
 
@@ -371,7 +371,7 @@ set_context(children, 1, config)
 # --- Build tree and write it to the filesystem
 # ==================================================================================================
 # Define study name
-study_name = "collider_30cm"
+study_name = "collider_30cm_neg_oct"
 
 # Creade folder that will contain the tree
 if not os.path.exists("scans/" + study_name):
