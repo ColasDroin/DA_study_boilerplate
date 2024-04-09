@@ -57,7 +57,7 @@ d_config_mad = {"beam_config": {"lhcb1": {}, "lhcb2": {}}, "links": {}}
 
 ### For run III
 d_config_mad["links"]["acc-models-lhc"] = "/afs/cern.ch/eng/lhc/optics/runIII"
-d_config_mad["optics_file"] = "acc-models-lhc/RunIII_dev/Proton_2024/V0/opticsfile.40"
+d_config_mad["optics_file"] = "acc-models-lhc/RunIII_dev/Proton_2024/opticsfile.43"
 d_config_mad["ver_hllhc_optics"] = None
 d_config_mad["ver_lhc_run"] = 3.0
 
@@ -93,7 +93,7 @@ for beam in ["lhcb1", "lhcb2"]:
     d_config_tune_and_chroma["dqy"][beam] = 15.0
 
 # Value to be added to linear coupling knobs
-d_config_tune_and_chroma["delta_cmr"] = 0.001
+d_config_tune_and_chroma["delta_cmr"] = 0.00
 d_config_tune_and_chroma["delta_cmi"] = 0.0
 
 ### Knobs configuration
@@ -102,19 +102,19 @@ d_config_tune_and_chroma["delta_cmi"] = 0.0
 d_config_knobs = {}
 
 # Exp. configuration in IR1, IR2, IR5 and IR8
-d_config_knobs["on_x1"] = -145.000
+d_config_knobs["on_x1"] = 160.000
 d_config_knobs["on_sep1"] = 0.0
-d_config_knobs["phi_IR1"] = 180.000
+d_config_knobs["phi_IR1"] = 90.000
 
 d_config_knobs["on_x2h"] = 0.000
-d_config_knobs["on_sep2h"] = 1.0  # 1.000
+d_config_knobs["on_sep2h"] = -0.01  # 1.000
 d_config_knobs["on_x2v"] = 200.000
 d_config_knobs["on_sep2v"] = 0.000
 d_config_knobs["phi_IR2"] = 90.000
 
-d_config_knobs["on_x5"] = 145.000
+d_config_knobs["on_x5"] = 160.000
 d_config_knobs["on_sep5"] = 0.0
-d_config_knobs["phi_IR5"] = 90.000
+d_config_knobs["phi_IR5"] = 0.000
 
 d_config_knobs["on_x8h"] = 0.000
 d_config_knobs["on_sep8h"] = -0.01  # -1.000
@@ -129,7 +129,8 @@ d_config_knobs["i_oct_b2"] = 300.0
 ### leveling configuration
 
 # Leveling in IP 1/5
-d_config_leveling_ip1_5 = {"constraints": {}}
+skip_leveling = False
+d_config_leveling_ip1_5 = {"constraints": {}, "skip_leveling": skip_leveling}
 d_config_leveling_ip1_5["luminosity"] = 2.0e34
 d_config_leveling_ip1_5["constraints"]["max_intensity"] = 1.8e11
 d_config_leveling_ip1_5["constraints"]["max_PU"] = 70
@@ -146,23 +147,23 @@ d_config_leveling = {
 
 # Leveling parameters (ignored if skip_leveling is True)
 d_config_leveling["ip2"]["separation_in_sigmas"] = 5
-d_config_leveling["ip8"]["luminosity"] = 2.0e32
+d_config_leveling["ip8"]["luminosity"] = 2.0e33
 
 ### Beam beam configuration
 
 # Define dictionary for the beam beam settings
-d_config_beambeam = {"mask_with_filling_pattern": {}}
+d_config_beambeam = {"mask_with_filling_pattern": {}, "skip_beambeam": False}
 
 # Beam settings
 d_config_beambeam["num_particles_per_bunch"] = 1.15e11
-d_config_beambeam["nemitt_x"] = 2.2e-6
-d_config_beambeam["nemitt_y"] = 2.2e-6
+d_config_beambeam["nemitt_x"] = 2.5e-6
+d_config_beambeam["nemitt_y"] = 2.5e-6
 
 # Filling scheme (in json format)
 # The scheme should consist of a json file containing two lists of booleans (one for each beam),
 # representing each bucket of the LHC.
 filling_scheme_path = os.path.abspath(
-    "master_jobs/filling_scheme/25ns_2464b_2452_1842_1821_236bpi_12inj_hybrid.json"
+    "master_jobs/filling_scheme/25ns_2556b_2544_2211_2327_3x48bpi_20inj.json"
 )
 
 # Alternatively, one can get a fill directly from LPC from, e.g.:
@@ -190,9 +191,9 @@ else:
 
 
 # Add to config file
-d_config_beambeam["mask_with_filling_pattern"][
-    "pattern_fname"
-] = filling_scheme_path  # If None, a full fill is assumed
+d_config_beambeam["mask_with_filling_pattern"]["pattern_fname"] = (
+    filling_scheme_path  # If None, a full fill is assumed
+)
 
 # Initialize bunch number to None (will be set later)
 d_config_beambeam["mask_with_filling_pattern"]["i_bunch_b1"] = None
@@ -288,13 +289,13 @@ dump_config_in_collider = False
 # optimal DA (e.g. tune, chroma, etc).
 # ==================================================================================================
 # Scan tune with step of 0.001 (need to round to correct for numpy numerical instabilities)
-array_qx = np.round(np.arange(62.305, 62.330, 0.001), decimals=4)[:5]
-array_qy = np.round(np.arange(60.305, 60.330, 0.001), decimals=4)[:5]
+array_qx = np.round(np.arange(62.305, 62.330, 0.001), decimals=4)[:1]
+array_qy = np.round(np.arange(60.305, 60.330, 0.001), decimals=4)[:1]
 
 # In case one is doing a tune-tune scan, to decrease the size of the scan, we can ignore the
 # working points too close to resonance. Otherwise just delete this variable in the loop at the end
 # of the script
-keep = "upper_triangle"  # 'lower_triangle', 'all'
+keep = "all"  # "upper_triangle"  # 'lower_triangle', 'all'
 # ==================================================================================================
 # --- Make tree for the simulations (generation 1)
 #
