@@ -2,6 +2,7 @@
 import json
 import logging
 
+import numpy as np
 import xtrack as xt
 from scipy.constants import c as clight
 from scipy.optimize import minimize_scalar
@@ -427,6 +428,199 @@ def luminosity_leveling_ip1_5(
             f"Optimization for leveling in IP 1/5 succeeded with I={res.x:.2e} particles per bunch"
         )
     return res.x
+
+
+def install_wire(collider, config_wire):
+    for beam in ["b1", "b2"]:
+        line = collider[f"lhc{beam}"]
+
+        # Create the knob for wire current and wire distance to the beam
+        line.vars[f"i_wire_ip1.{beam}"] = 0.0
+        line.vars[f"d_wire_ip1.{beam}"] = 0.01
+        line.vars[f"i_wire_ip5.{beam}"] = 0.0
+        line.vars[f"d_wire_ip5.{beam}"] = 0.01
+
+        # Insert unconfigured wires on the line
+        side = "r" if beam == "b2" else "l"
+        sign = 1 if beam == "b2" else -1
+        l_name_wire = [
+            f"bbwc.t.4{side}1",
+            f"bbwc.b.4{side}1",
+            f"bbwc.e.4{side}5",
+            f"bbwc.i.4{side}5",
+        ]
+        l_name_tct = [f"tctpv.4{side}1", f"tctpv.4{side}1", f"tctph.4{side}5", f"tctph.4{side}5"]
+        l_h_dist = sign * np.array([0.0, 0.0, 1.0, -1.0])
+        l_v_dist = sign * np.array([1.0, -1.0, 0.0, 0.0])
+
+        # Tw to get the position of the tct, but need to discard tracker afterwards to unfreeze the line
+        tw = line.twiss()
+        l_s_tct = [
+            ((tw.rows[f"{name_tct}.{beam}_entry"].s + tw.rows[f"{name_tct}.{beam}_exit"].s) / 2)[0]
+            for name_tct in l_name_tct
+        ]
+        line.discard_tracker()
+        for name_wire, name_tct, h_dist, v_dist, s_tct in zip(
+            l_name_wire, l_name_tct, l_h_dist, l_v_dist, l_s_tct
+        ):
+            line.insert_element(
+                name=f"{name_wire}.{beam}",
+                element=xt.Wire(
+                    L_phy=1,
+                    L_int=2,
+                    current=0.0,
+                    xma=h_dist,
+                    yma=v_dist,  # very far from the beam
+                ),
+                at_s=s_tct,
+            )
+
+        # Get closed orbit position at the location of the wire
+        tw = line.twiss()
+        # Careful, tct are repeated so only take one out of two
+        x_tct_ip1, x_tct_ip5 = [
+            ((tw.rows[f"{name_tct}.{beam}_entry"].x + tw.rows[f"{name_tct}.{beam}_exit"].x) / 2)[0]
+            for name_tct in l_name_tct[::2]
+        ]
+        y_tct_ip1, y_tct_ip5 = [
+            ((tw.rows[f"{name_tct}.{beam}_entry"].y + tw.rows[f"{name_tct}.{beam}_exit"].y) / 2)[0]
+            for name_tct in l_name_tct[::2]
+        ]
+
+        # Create corresponding knob for closed orbit
+        for co_wire, co in zip(
+            [
+                f"co_y_wire_ip1.{beam}",
+                f"co_x_wire_ip1.{beam}",
+                f"co_y_wire_ip5.{beam}",
+                f"co_x_wire_ip5.{beam}",
+            ],
+            [y_tct_ip1, x_tct_ip1, y_tct_ip5, x_tct_ip5],
+        ):
+            line.vars[co_wire] = co
+
+        # Create knob for current scaling, and wire distance scaling
+        for name_wire in l_name_wire:
+            # Check IP
+            if "r1" in name_wire or "l1" in name_wire:
+                ip = 1
+            elif "r5" in name_wire or "l5" in name_wire:
+                ip = 5
+            else:
+                raise ValueError("Invalid wire name")
+
+            # Check plane
+            if ".t." in name_wire or ".b." in name_wire:
+                plane = "y"
+                sign = 1 if ".t." in name_wire else -1
+            elif ".e." in name_wire or ".i." in name_wire:
+                plane = "x"
+                sign = 1 if ".e." in name_wire else -1
+            else:
+                raise ValueError("Invalid wire name")
+
+            # Assign knob
+            line.element_refs[f"{name_wire}.{beam}"].current = line.vars[f"i_wire_ip{ip}.{beam}"]
+            if plane == "y":
+                line.element_refs[f"{name_wire}.{beam}"].yma = (
+                    line.vars[f"d_wire_ip{ip}.{beam}"] + line.vars[f"co_y_wire_ip{ip}.{beam}"]
+                )
+            else:
+                line.element_refs[f"{name_wire}.{beam}"].xma = (
+                    sign * line.vars[f"d_wire_ip{ip}.{beam}"]
+                    + line.vars[f"co_x_wire_ip{ip}.{beam}"]
+                )
+
+        # Lod knob for both IPs
+        with open(config_wire["ip1"][beam]["path_knob"]) as f:
+            data_ip1 = json.load(f)
+
+        with open(config_wire["ip5"][beam]["path_knob"]) as f:
+            data_ip5 = json.load(f)
+
+        # Update wire distance
+        side = "r" if beam == "b2" else "l"
+        line.vars[f"d_wire_ip1.{beam}"] = (
+            data_ip1["tct_opening_in_sigma"] * data_ip1[f"sigma_y_at_tctpv_4{side}1_{beam}"]
+            + data_ip1["wire_retraction"]
+        )
+        line.vars[f"d_wire_ip5.{beam}"] = (
+            data_ip5["tct_opening_in_sigma"] * data_ip5[f"sigma_x_at_tctph_4{side}5_{beam}"]
+            + data_ip5["wire_retraction"]
+        )
+
+        # Assert initial k are correct in the knob
+        for k0 in data_ip1["k_0"]:
+            assert data_ip1["k_0"][k0] == line.vars[k0]._get_value()
+
+        # Define list of k for the matching
+        k_list_for_matching = [
+            f"kq5.l1{beam}",
+            f"kq5.r1{beam}",
+            f"kq6.l1{beam}",
+            f"kq6.r1{beam}",
+            f"kq7.l1{beam}",
+            f"kq7.r1{beam}",
+            f"kq8.l1{beam}",
+            f"kq8.r1{beam}",
+            f"kq9.l1{beam}",
+            f"kq9.r1{beam}",
+            f"kq10.l1{beam}",
+            f"kq10.r1{beam}",
+            f"kqtl11.r1{beam}",
+            f"kqt12.r1{beam}",
+            f"kqt13.r1{beam}",
+            f"kq4.l5{beam}",
+            f"kq4.r5{beam}",
+            f"kq5.l5{beam}",
+            f"kq5.r5{beam}",
+            f"kq6.l5{beam}",
+            f"kq6.r5{beam}",
+            f"kq7.l5{beam}",
+            f"kq7.r5{beam}",
+            f"kq8.l5{beam}",
+            f"kq8.r5{beam}",
+            f"kq9.l5{beam}",
+            f"kq9.r5{beam}",
+            f"kq10.l5{beam}",
+            f"kq10.r5{beam}",
+            f"kqtl11.r5{beam}",
+            f"kqt12.r5{beam}",
+            f"kqt13.r5{beam}",
+        ]
+
+        # Define/reset the delta_k as knobs, used to scale the knob with current
+        def reset_delta_k(k_list):
+            for kk in k_list:
+                collider.vars[f"{kk}_delta"] = 0.000000
+
+        reset_delta_k(k_list_for_matching)
+
+        # Set the delta_k
+        for data in [data_ip1, data_ip5]:
+            for delta_k in data["k_delta"]:
+                collider.vars[f"{delta_k}_delta"] = data["k_delta"][delta_k]
+
+        # Set the k
+        for k in k_list_for_matching:
+            collider.vars[f"{k}_0"] = collider.vars[k]._get_value()
+            # collider.vars[f'{k}_delta'] = 0.000000
+            if "r1" in k or "l1" in k:
+                collider.vars[k] = (
+                    collider.vars[f"{k}_0"]
+                    + collider.vars[f"{k}_delta"] * collider.vars[f"i_wire_ip1.{beam}"] / 350
+                )
+            elif "r5" in k or "l5" in k:
+                collider.vars[k] = (
+                    collider.vars[f"{k}_0"]
+                    + collider.vars[f"{k}_delta"] * collider.vars[f"i_wire_ip5.{beam}"] / 350
+                )
+
+        # Set the current
+        line.vars[f"i_wire_ip1.{beam}"] = config_wire["ip1"][beam]["i"]
+        line.vars[f"i_wire_ip5.{beam}"] = config_wire["ip5"][beam]["i"]
+
+    return collider
 
 
 if __name__ == "__main__":

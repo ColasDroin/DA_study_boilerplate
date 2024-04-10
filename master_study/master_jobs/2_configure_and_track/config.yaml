@@ -179,6 +179,23 @@ config_collider:
         - corr_co_acbyvs5.r8b1
         - corr_co_acbyhs5.r8b1
 
+  config_wire:
+    skip_wire: false
+    ip1:
+      b1:
+        i: 350.0
+        path_knob: /afs/cern.ch/work/c/cdroin/private/example_DA_study_runIII_wire/master_study/master_jobs/knobs_wire/knob_dict_350A_8sigma@30cm_ip1_beta30_b1.json
+      b2:
+        i: 350.0
+        path_knob: /afs/cern.ch/work/c/cdroin/private/example_DA_study_runIII_wire/master_study/master_jobs/knobs_wire/knob_dict_350A_8sigma@30cm_ip1_beta30_b2.json
+    ip5:
+      b1:
+        i: 350.0
+        path_knob: /afs/cern.ch/work/c/cdroin/private/example_DA_study_runIII_wire/master_study/master_jobs/knobs_wire/knob_dict_350A_8sigma@30cm_ip5_beta30_b1.json
+      b2:
+        i: 350.0
+        path_knob: /afs/cern.ch/work/c/cdroin/private/example_DA_study_runIII_wire/master_study/master_jobs/knobs_wire/knob_dict_350A_8sigma@30cm_ip5_beta30_b2.json
+
 # Configuration for the track job
 config_simulation:
   # Collider file

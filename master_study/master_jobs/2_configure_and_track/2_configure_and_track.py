@@ -25,6 +25,7 @@ import xtrack as xt
 from misc import (
     compute_PU,
     generate_orbit_correction_setup,
+    install_wire,
     luminosity_leveling,
     luminosity_leveling_ip1_5,
 )
@@ -94,10 +95,10 @@ def generate_configuration_correction_files(output_folder="correction"):
 # ==================================================================================================
 def install_beam_beam(collider, config_collider):
     # Load config
-    config_bb = config_collider["config_beambeam"]
+    config_bb = config_collider["config_beam"]
 
     # Install beam-beam lenses (inactive and not configured)
-    collider.install_beambeam_interactions(
+    collider.install_beam_interactions(
         clockwise_line="lhcb1",
         anticlockwise_line="lhcb2",
         ip_names=["ip1", "ip2", "ip5", "ip8"],
@@ -248,7 +249,7 @@ def do_levelling(
     collider = luminosity_leveling(
         collider,
         config_lumi_leveling=config_lumi_leveling,
-        config_beambeam=config_bb,
+        config_beam=config_bb,
         additional_targets_lumi=additional_targets_lumi,
         crab=crab,
     )
@@ -339,7 +340,7 @@ def assert_tune_chroma_coupling(collider, conf_knobs_and_tuning):
 # --- Function to configure beam-beam
 # ==================================================================================================
 def configure_beam_beam(collider, config_bb):
-    collider.configure_beambeam_interactions(
+    collider.configure_beam_interactions(
         num_particles=config_bb["num_particles_per_bunch"],
         nemitt_x=config_bb["nemitt_x"],
         nemitt_y=config_bb["nemitt_y"],
@@ -458,6 +459,10 @@ def configure_collider(
         collider, conf_knobs_and_tuning, match_linear_coupling_to_zero=True
     )
 
+    # Install wire if needed
+    if "config_wire" in config_collider and not config_collider["config_wire"]["skip_wire"]:
+        collider = install_wire(collider, config_collider["config_wire"])
+
     # Compute the number of collisions in the different IPs
     (
         n_collisions_ip1_and_5,
@@ -506,7 +511,7 @@ def configure_collider(
         print("Saving collider before beam-beam configuration")
         collider_before_bb = xt.Multiline.from_dict(collider.to_dict())
 
-    if not config_bb["skip_beambeam"]:
+    if not config_bb["skip_beam"]:
         # Configure beam-beam
         collider = configure_beam_beam(collider, config_bb)
 
