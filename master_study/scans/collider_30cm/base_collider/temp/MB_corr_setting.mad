@@ -1,0 +1,35 @@
+ option,-echo;
+
+ !!! b2-correction for beam           0
+
+ !!! a2-correction for beam           0
+    CMRSKEW=0.;
+    CMISKEW=0.;
+ B11 :=         0.00000000E+00 ;
+ B12 :=         0.00000000E+00 ;
+ B21 :=         -.27026511E-01 ;
+ B22 :=         0.18032495E-01 ;
+ B31 :=         0.28618931E-01 ;
+ B32 :=         -.21418247E-01 ;
+ B41 :=         0.00000000E+00 ;
+ B42 :=         0.00000000E+00 ;
+ B51 :=         0.00000000E+00 ;
+ B52 :=         0.00000000E+00 ;
+ B61 :=         0.14380291E-01 ;
+ B62 :=         -.77283803E-01 ;
+ B71 :=         0.19378706E-01 ;
+ B72 :=         0.40549784E-02 ;
+ B81 :=         0.00000000E+00 ;
+ B82 :=         0.00000000E+00 ;
+
+
+ !!! b3-correction for beam           0
+
+ !!! a3-correction for beam           0
+
+
+ !!! b4-correction for beam           0
+
+ !!! b5-correction for beam           0
+
+ Return;
