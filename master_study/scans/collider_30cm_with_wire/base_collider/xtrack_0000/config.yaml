@@ -90,7 +90,7 @@ config_collider:
       ip5: 25
       ip8: 20
     sigma_z: 0.09
-    num_particles_per_bunch: 122690693725.47906
+    num_particles_per_bunch: 125408376550.35469
     nemitt_x: 2.5e-06
     nemitt_y: 2.5e-06
     mask_with_filling_pattern:
@@ -100,14 +100,14 @@ config_collider:
       i_bunch_b2: 1006 # Same. A value for i_bunch_b1 and i_bunch_b2 must be specified if pattern_fname is specified
 
     num_particles_per_bunch_before_optimization: 115000000000.0
-    luminosity_ip1_after_optimization: 1.8334146767134186e+34
-    Pile-up_ip1_after_optimization: 51.90986131695977
-    luminosity_ip2_after_optimization: 1.3680834680192722e+30
-    Pile-up_ip2_after_optimization: 0.004456871618609218
-    luminosity_ip5_after_optimization: 1.8631960441252838e+34
-    Pile-up_ip5_after_optimization: 52.75306753310646
-    luminosity_ip8_after_optimization: 9.499873772908399e+32
-    Pile-up_ip8_after_optimization: 2.940544279074432
+    luminosity_ip1_after_optimization: 2.0357888859705768e+34
+    Pile-up_ip1_after_optimization: 57.63972552613046
+    luminosity_ip2_after_optimization: 1.668156516021957e+30
+    Pile-up_ip2_after_optimization: 0.005434434086408799
+    luminosity_ip5_after_optimization: 1.980709134912277e+34
+    Pile-up_ip5_after_optimization: 56.08024077064983
+    luminosity_ip8_after_optimization: 2.0091897342519604e+33
+    Pile-up_ip8_after_optimization: 6.219147243280585
   config_lumi_leveling_ip1_5:
     skip_leveling: false
     luminosity: 2.0e+34
@@ -153,8 +153,8 @@ config_collider:
       - corr_co_acbcvs5.r2b1
 
       num_colliding_bunches: 2211
-      final_on_sep2h: -0.14880503965977518
-      final_on_sep2v: 6.027016616130252e-13
+      final_on_sep2h: -0.14716602254003278
+      final_on_sep2v: 7.919461772507052e-15
     ip8:
       luminosity: 2e+33
       num_colliding_bunches: 2327 # This will be set automatically according to the filling scheme
@@ -192,8 +192,8 @@ config_collider:
       - corr_co_acbyvs5.r8b1
       - corr_co_acbyhs5.r8b1
 
-      final_on_sep8h: -0.015514873179345301
-      final_on_sep8v: 0.019476518818963586
+      final_on_sep8h: -0.01672904641580905
+      final_on_sep8v: 0.01149710131592261
   config_wire:
     skip_wire: false
     ip1:

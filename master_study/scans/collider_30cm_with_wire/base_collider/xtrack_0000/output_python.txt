@@ -6,6 +6,8 @@ Insert: bb_ho.c1b1_00     Insert: bb_ho.c2b1_00     Insert: bb_ho.c5b1_00     
 Found suitable prebuilt kernel `default_bb3d`.
 Found suitable prebuilt kernel `default_only_xtrack`.
 Found suitable prebuilt kernel `default_only_xtrack`.
+Found suitable prebuilt kernel `default_bb3d`.
+Found suitable prebuilt kernel `default_bb3d`.
 Correcting closed orbit
 Correcting IR1 left
 Found suitable prebuilt kernel `only_xtrack_frozen_energy`.
@@ -26,7 +28,7 @@ Matching: model call n. 0               Matching: model call n. 1              
 
 Correcting IP1
 Found suitable prebuilt kernel `default_only_xtrack`.
-Matching: model call n. 0               Matching: model call n. 1               
+Matching: model call n. 0               Matching: model call n. 1               Matching: model call n. 2               Matching: model call n. 3               Matching: model call n. 4               Matching: model call n. 5               Matching: model call n. 6               Matching: model call n. 7               Matching: model call n. 8               Matching: model call n. 9               Matching: model call n. 10               
 
 Correcting IP2
 Found suitable prebuilt kernel `default_only_xtrack`.
@@ -34,7 +36,7 @@ Matching: model call n. 0               Matching: model call n. 1
 
 Correcting IP5
 Found suitable prebuilt kernel `default_only_xtrack`.
-Matching: model call n. 0               Matching: model call n. 1               
+Matching: model call n. 0               Matching: model call n. 1               Matching: model call n. 2               Matching: model call n. 3               Matching: model call n. 4               Matching: model call n. 5               Matching: model call n. 6               Matching: model call n. 7               Matching: model call n. 8               Matching: model call n. 9               Matching: model call n. 10               
 
 Correcting IP8
 Found suitable prebuilt kernel `default_only_xtrack`.
@@ -66,7 +68,7 @@ Matching: model call n. 0               Matching: model call n. 1              
 
 Correcting IP1
 Found suitable prebuilt kernel `default_only_xtrack`.
-Matching: model call n. 0               Matching: model call n. 1               
+Matching: model call n. 0               Matching: model call n. 1               Matching: model call n. 2               Matching: model call n. 3               Matching: model call n. 4               Matching: model call n. 5               Matching: model call n. 6               Matching: model call n. 7               Matching: model call n. 8               Matching: model call n. 9               Matching: model call n. 10               
 
 Correcting IP2
 Found suitable prebuilt kernel `default_only_xtrack`.
@@ -74,7 +76,7 @@ Matching: model call n. 0               Matching: model call n. 1
 
 Correcting IP5
 Found suitable prebuilt kernel `default_only_xtrack`.
-Matching: model call n. 0               Matching: model call n. 1               
+Matching: model call n. 0               Matching: model call n. 1               Matching: model call n. 2               Matching: model call n. 3               Matching: model call n. 4               Matching: model call n. 5               Matching: model call n. 6               Matching: model call n. 7               Matching: model call n. 8               Matching: model call n. 9               Matching: model call n. 10               
 
 Correcting IP8
 Found suitable prebuilt kernel `default_only_xtrack`.
@@ -86,17 +88,15 @@ Matching: model call n. 0               Matching: model call n. 1
 Matching tune and chromaticity
 Matching: model call n. 0               Matching: model call n. 1               Matching: model call n. 2               Matching: model call n. 3               Matching: model call n. 4               Matching: model call n. 5               Matching: model call n. 6               
 
-Found suitable prebuilt kernel `default_bb3d`.
-Found suitable prebuilt kernel `default_bb3d`.
 Leveling luminosity in IP 1/5 varying the intensity
-Optimization for leveling in IP 1/5 succeeded with I=1.23e+11 particles per bunch
+Optimization for leveling in IP 1/5 succeeded with I=1.25e+11 particles per bunch
 
  --- Leveling in ip2 ---
 Matching: model call n. 0               Matching: model call n. 1               Matching: model call n. 2               Matching: model call n. 3               Matching: model call n. 4               Matching: model call n. 5               Matching: model call n. 6               Matching: model call n. 7               Matching: model call n. 8               Matching: model call n. 9               Matching: model call n. 10               Matching: model call n. 11               Matching: model call n. 12               Matching: model call n. 13               Matching: model call n. 14               Matching: model call n. 15               Matching: model call n. 16               
 
 
  --- Leveling in ip8 ---
-Matching: model call n. 0               Matching: model call n. 1               Matching: model call n. 2               Matching: model call n. 3               Matching: model call n. 4               Matching: model call n. 5               Matching: model call n. 6               Matching: model call n. 7               Matching: model call n. 8               Matching: model call n. 9               Matching: model call n. 10               Matching: model call n. 11               Matching: model call n. 12               Matching: model call n. 13               Matching: model call n. 14               Matching: model call n. 15               Matching: model call n. 16               Matching: model call n. 17               Matching: model call n. 18               Matching: model call n. 19               Matching: model call n. 20               Matching: model call n. 21               Matching: model call n. 22               Matching: model call n. 23               Matching: model call n. 24               Matching: model call n. 25               Matching: model call n. 26               Matching: model call n. 27               Matching: model call n. 28               Matching: model call n. 29               Matching: model call n. 30               Matching: model call n. 31               Matching: model call n. 32               Matching: model call n. 33               Matching: model call n. 34               Matching: model call n. 35               Matching: model call n. 36               Matching: model call n. 37               Matching: model call n. 38               Matching: model call n. 39               Matching: model call n. 40               Matching: model call n. 41               Matching: model call n. 42               Matching: model call n. 43               Matching: model call n. 44               Matching: model call n. 45               Matching: model call n. 46               Matching: model call n. 47               Matching: model call n. 48               Matching: model call n. 49               Matching: model call n. 50               Matching: model call n. 51               Matching: model call n. 52               Matching: model call n. 53               Matching: model call n. 54               Matching: model call n. 55               Matching: model call n. 56               Matching: model call n. 57               Matching: model call n. 58               Matching: model call n. 59               Matching: model call n. 60               Matching: model call n. 61               Matching: model call n. 62               Matching: model call n. 63               Matching: model call n. 64               Matching: model call n. 65               Matching: model call n. 66               Matching: model call n. 67               Matching: model call n. 68               Matching: model call n. 69               Matching: model call n. 70               Matching: model call n. 71               Matching: model call n. 72               Matching: model call n. 73               Matching: model call n. 74               Matching: model call n. 75               Matching: model call n. 76               Matching: model call n. 77               Matching: model call n. 78               Matching: model call n. 79               Matching: model call n. 80               Matching: model call n. 81               Matching: model call n. 82               Matching: model call n. 83               Matching: model call n. 84               Matching: model call n. 85               Matching: model call n. 86               Matching: model call n. 87               Matching: model call n. 88               Matching: model call n. 89               Matching: model call n. 90               Matching: model call n. 91               Matching: model call n. 92               Matching: model call n. 93               Matching: model call n. 94               Matching: model call n. 95               Matching: model call n. 96               
+Matching: model call n. 0               Matching: model call n. 1               Matching: model call n. 2               Matching: model call n. 3               Matching: model call n. 4               Matching: model call n. 5               Matching: model call n. 6               Matching: model call n. 7               Matching: model call n. 8               Matching: model call n. 9               Matching: model call n. 10               Matching: model call n. 11               Matching: model call n. 12               Matching: model call n. 13               Matching: model call n. 14               Matching: model call n. 15               Matching: model call n. 16               Matching: model call n. 17               Matching: model call n. 18               Matching: model call n. 19               Matching: model call n. 20               Matching: model call n. 21               Matching: model call n. 22               Matching: model call n. 23               Matching: model call n. 24               Matching: model call n. 25               Matching: model call n. 26               Matching: model call n. 27               Matching: model call n. 28               Matching: model call n. 29               Matching: model call n. 30               Matching: model call n. 31               Matching: model call n. 32               Matching: model call n. 33               Matching: model call n. 34               Matching: model call n. 35               Matching: model call n. 36               Matching: model call n. 37               Matching: model call n. 38               Matching: model call n. 39               Matching: model call n. 40               Matching: model call n. 41               Matching: model call n. 42               Matching: model call n. 43               Matching: model call n. 44               Matching: model call n. 45               Matching: model call n. 46               Matching: model call n. 47               Matching: model call n. 48               Matching: model call n. 49               Matching: model call n. 50               Matching: model call n. 51               Matching: model call n. 52               Matching: model call n. 53               Matching: model call n. 54               Matching: model call n. 55               Matching: model call n. 56               Matching: model call n. 57               Matching: model call n. 58               Matching: model call n. 59               Matching: model call n. 60               Matching: model call n. 61               Matching: model call n. 62               Matching: model call n. 63               Matching: model call n. 64               Matching: model call n. 65               Matching: model call n. 66               Matching: model call n. 67               Matching: model call n. 68               Matching: model call n. 69               Matching: model call n. 70               Matching: model call n. 71               Matching: model call n. 72               Matching: model call n. 73               Matching: model call n. 74               Matching: model call n. 75               Matching: model call n. 76               Matching: model call n. 77               Matching: model call n. 78               Matching: model call n. 79               Matching: model call n. 80               
 
 Correcting closed orbit
 Correcting IR1 left
@@ -117,7 +117,7 @@ Matching: model call n. 0               Matching: model call n. 1
 
 Correcting IP1
 Found suitable prebuilt kernel `default_only_xtrack`.
-Matching: model call n. 0               Matching: model call n. 1               Matching: model call n. 2               Matching: model call n. 3               Matching: model call n. 4               Matching: model call n. 5               Matching: model call n. 6               Matching: model call n. 7               Matching: model call n. 8               Matching: model call n. 9               Matching: model call n. 10               
+Matching: model call n. 0               Matching: model call n. 1               
 
 Correcting IP2
 Found suitable prebuilt kernel `default_only_xtrack`.
@@ -125,14 +125,14 @@ Matching: model call n. 0               Matching: model call n. 1
 
 Correcting IP5
 Found suitable prebuilt kernel `default_only_xtrack`.
-Matching: model call n. 0               Matching: model call n. 1               Matching: model call n. 2               Matching: model call n. 3               Matching: model call n. 4               Matching: model call n. 5               Matching: model call n. 6               Matching: model call n. 7               Matching: model call n. 8               Matching: model call n. 9               Matching: model call n. 10               
+Matching: model call n. 0               Matching: model call n. 1               
 
 Correcting IP8
 Found suitable prebuilt kernel `default_only_xtrack`.
 Matching: model call n. 0               Matching: model call n. 1               
 
 Matching tune and chromaticity
-Matching: model call n. 0               Matching: model call n. 1               Matching: model call n. 2               Matching: model call n. 3               Matching: model call n. 4               Matching: model call n. 5               Matching: model call n. 6               
+Matching: model call n. 0               Matching: model call n. 1               
 
 Correcting closed orbit
 Correcting IR1 left
@@ -141,7 +141,7 @@ Matching: model call n. 0               Matching: model call n. 1
 
 Correcting IR1 right
 Found suitable prebuilt kernel `default_only_xtrack`.
-Matching: model call n. 0               Matching: model call n. 1               Matching: model call n. 2               Matching: model call n. 3               Matching: model call n. 4               Matching: model call n. 5               Matching: model call n. 6               
+Matching: model call n. 0               Matching: model call n. 1               
 
 Correcting IR5 left
 Found suitable prebuilt kernel `default_only_xtrack`.
@@ -149,11 +149,11 @@ Matching: model call n. 0               Matching: model call n. 1
 
 Correcting IR5 right
 Found suitable prebuilt kernel `default_only_xtrack`.
-Matching: model call n. 0               Matching: model call n. 1               Matching: model call n. 2               Matching: model call n. 3               Matching: model call n. 4               Matching: model call n. 5               Matching: model call n. 6               
+Matching: model call n. 0               Matching: model call n. 1               
 
 Correcting IP1
 Found suitable prebuilt kernel `default_only_xtrack`.
-Matching: model call n. 0               Matching: model call n. 1               Matching: model call n. 2               Matching: model call n. 3               Matching: model call n. 4               Matching: model call n. 5               Matching: model call n. 6               Matching: model call n. 7               Matching: model call n. 8               Matching: model call n. 9               Matching: model call n. 10               
+Matching: model call n. 0               Matching: model call n. 1               
 
 Correcting IP2
 Found suitable prebuilt kernel `default_only_xtrack`.
@@ -161,14 +161,14 @@ Matching: model call n. 0               Matching: model call n. 1
 
 Correcting IP5
 Found suitable prebuilt kernel `default_only_xtrack`.
-Matching: model call n. 0               Matching: model call n. 1               Matching: model call n. 2               Matching: model call n. 3               Matching: model call n. 4               Matching: model call n. 5               Matching: model call n. 6               Matching: model call n. 7               Matching: model call n. 8               Matching: model call n. 9               Matching: model call n. 10               
+Matching: model call n. 0               Matching: model call n. 1               
 
 Correcting IP8
 Found suitable prebuilt kernel `default_only_xtrack`.
 Matching: model call n. 0               Matching: model call n. 1               
 
 Matching tune and chromaticity
-Matching: model call n. 0               Matching: model call n. 1               Matching: model call n. 2               Matching: model call n. 3               Matching: model call n. 4               Matching: model call n. 5               Matching: model call n. 6               
+Matching: model call n. 0               Matching: model call n. 1               
 
 Crabbing at bb_ho.l1b1_01     Compiling ContextCpu kernels...
 Done compiling ContextCpu kernels.
@@ -411,5 +411,5 @@ Use simple bends
 Use simple quadrupoles
 Rebuild tracker data
 Found suitable prebuilt kernel `default_bb3d`.
-Elapsed time: 64.35179018974304 s
-Elapsed time per particle per turn: 251.3741804286838 us
+Elapsed time: 60.982659339904785 s
+Elapsed time per particle per turn: 238.21351304650307 us

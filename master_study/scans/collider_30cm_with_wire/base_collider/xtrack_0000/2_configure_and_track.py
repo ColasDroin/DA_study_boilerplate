@@ -454,14 +454,14 @@ def configure_collider(
     # Set knobs
     collider, conf_knobs_and_tuning = set_knobs(config_collider, collider)
 
+    # Install wire if needed
+    if "config_wire" in config_collider and not config_collider["config_wire"]["skip_wire"]:
+        collider = install_wire(collider, config_collider["config_wire"])
+
     # Match tune and chromaticity
     collider = match_tune_and_chroma(
         collider, conf_knobs_and_tuning, match_linear_coupling_to_zero=True
     )
-
-    # Install wire if needed
-    if "config_wire" in config_collider and not config_collider["config_wire"]["skip_wire"]:
-        collider = install_wire(collider, config_collider["config_wire"])
 
     # Compute the number of collisions in the different IPs
     (

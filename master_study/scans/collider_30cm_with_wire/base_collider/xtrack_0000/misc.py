@@ -442,7 +442,6 @@ def install_wire(collider, config_wire):
 
         # Insert unconfigured wires on the line
         side = "r" if beam == "b2" else "l"
-        sign = 1 if beam == "b2" else -1
         l_name_wire = [
             f"bbwc.t.4{side}1",
             f"bbwc.b.4{side}1",
@@ -450,8 +449,8 @@ def install_wire(collider, config_wire):
             f"bbwc.i.4{side}5",
         ]
         l_name_tct = [f"tctpv.4{side}1", f"tctpv.4{side}1", f"tctph.4{side}5", f"tctph.4{side}5"]
-        l_h_dist = sign * np.array([0.0, 0.0, 1.0, -1.0])
-        l_v_dist = sign * np.array([1.0, -1.0, 0.0, 0.0])
+        l_h_dist = np.array([0.0, 0.0, 1.0, -1.0])
+        l_v_dist = np.array([1.0, -1.0, 0.0, 0.0])
 
         # Tw to get the position of the tct, but need to discard tracker afterwards to unfreeze the line
         tw = line.twiss()
@@ -504,18 +503,18 @@ def install_wire(collider, config_wire):
             # Check IP
             if "r1" in name_wire or "l1" in name_wire:
                 ip = 1
+                plane = "y"
             elif "r5" in name_wire or "l5" in name_wire:
                 ip = 5
+                plane = "x"
             else:
                 raise ValueError("Invalid wire name")
 
-            # Check plane
-            if ".t." in name_wire or ".b." in name_wire:
-                plane = "y"
-                sign = 1 if ".t." in name_wire else -1
-            elif ".e." in name_wire or ".i." in name_wire:
-                plane = "x"
-                sign = 1 if ".e." in name_wire else -1
+            # Check sign
+            if ".t." in name_wire or ".e." in name_wire:
+                sign = 1
+            elif ".b." in name_wire or ".i." in name_wire:
+                sign = -1
             else:
                 raise ValueError("Invalid wire name")
 
@@ -523,7 +522,8 @@ def install_wire(collider, config_wire):
             line.element_refs[f"{name_wire}.{beam}"].current = line.vars[f"i_wire_ip{ip}.{beam}"]
             if plane == "y":
                 line.element_refs[f"{name_wire}.{beam}"].yma = (
-                    line.vars[f"d_wire_ip{ip}.{beam}"] + line.vars[f"co_y_wire_ip{ip}.{beam}"]
+                    sign * line.vars[f"d_wire_ip{ip}.{beam}"]
+                    + line.vars[f"co_y_wire_ip{ip}.{beam}"]
                 )
             else:
                 line.element_refs[f"{name_wire}.{beam}"].xma = (
@@ -570,6 +570,9 @@ def install_wire(collider, config_wire):
             f"kqtl11.r1{beam}",
             f"kqt12.r1{beam}",
             f"kqt13.r1{beam}",
+            f"kqtl11.l1{beam}",
+            f"kqt12.l1{beam}",
+            f"kqt13.l1{beam}",
             f"kq4.l5{beam}",
             f"kq4.r5{beam}",
             f"kq5.l5{beam}",
@@ -587,6 +590,9 @@ def install_wire(collider, config_wire):
             f"kqtl11.r5{beam}",
             f"kqt12.r5{beam}",
             f"kqt13.r5{beam}",
+            f"kqtl11.l5{beam}",
+            f"kqt12.l5{beam}",
+            f"kqt13.l5{beam}",
         ]
 
         # Define/reset the delta_k as knobs, used to scale the knob with current
