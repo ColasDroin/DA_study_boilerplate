@@ -17,7 +17,7 @@ print("Analysis of output simulation files started")
 start = time.time()
 
 # Load Data
-study_name = "PU_function_all_optics_neg_oct_corr"
+study_name = "oct_scan_22cm_145murad"
 fix = "/scans/" + study_name
 root = tree_maker.tree_from_json(fix[1:] + "/tree_maker.json")
 # Add suffix to the root node path to handle scans that are not in the root directory
@@ -127,6 +127,7 @@ group_by_parameters = [
     "crossing_angle",
     "qx",
     "qy",
+    "i_oct_b1",
 ]
 # group_by_parameters = ["name base collider"]
 
@@ -142,6 +143,7 @@ l_parameters_to_keep = [
     "i_bunch_b2",
     "num_particles_per_bunch",
     "crossing_angle",
+    "i_oct_b1",
 ]
 
 # Min is computed in the groupby function, but values should be identical
