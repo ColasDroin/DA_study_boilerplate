@@ -17,7 +17,7 @@ print("Analysis of output simulation files started")
 start = time.time()
 
 # Load Data
-study_name = "oct_scan_32cm_160murad"
+study_name = "tune_scan_30cm_neg_oct_correct_scheme"
 fix = "/scans/" + study_name
 root = tree_maker.tree_from_json(fix[1:] + "/tree_maker.json")
 # Add suffix to the root node path to handle scans that are not in the root directory
@@ -111,7 +111,7 @@ for node in root.generation(1):
 # Merge the dataframes from all simulations together
 df_all_sim = pd.concat(l_df_to_merge)
 
-print(df_all_sim)
+# df_all_sim.to_parquet(f"scans/{study_name}/da_all.parquet")
 
 # Extract the particles that were lost for DA computation
 df_lost_particles = df_all_sim[df_all_sim["state"] != 1]  # Lost particles
