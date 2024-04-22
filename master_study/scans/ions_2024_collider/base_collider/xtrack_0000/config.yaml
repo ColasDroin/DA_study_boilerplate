@@ -4,12 +4,12 @@ config_collider:
     knob_settings:
       # Orbit knobs
       on_x1: 170 # [urad]
-      on_sep1: 0.001 # [mm]
+      on_sep1: 1e-3 # [mm]
       on_x2v: -170 # [urad]
       on_sep2h: 1e-3 # [mm]
       on_sep2v: 0 # [mm]
       on_x5: 170 # [urad]
-      on_sep5: 0.001 # [mm]
+      on_sep5: 1e-3 # [mm]
       on_x8h: -170 # [urad]
       on_sep8h: 0 # [mm]
       on_sep8v: 1e-10 # [mm]
@@ -32,8 +32,8 @@ config_collider:
       lagrf400.b2: 0. # [rad]
 
       # Octupoles
-      i_oct_b1: 100.0 # [A]
-      i_oct_b2: 100.0 # [A]
+      i_oct_b1: 100. # [A]
+      i_oct_b2: 100. # [A]
 
     closed_orbit_correction:
       lhcb1: correction/corr_co_lhcb1.json
@@ -94,13 +94,13 @@ config_collider:
 
     num_particles_per_bunch_before_optimization: 180000000.0
     luminosity_ip1_after_optimization: 6.410545893700791e+27
-    Pile-up_ip1_after_optimization: 2.687848329489669e-05
+    Pile-up_ip1_after_optimization: 0.14722911902272848
     luminosity_ip2_after_optimization: 6.411562041653069e+27
-    Pile-up_ip2_after_optimization: 2.688274385495091e-05
+    Pile-up_ip2_after_optimization: 0.14725245659339584
     luminosity_ip5_after_optimization: 6.410164288015614e+27
-    Pile-up_ip5_after_optimization: 2.6876883277955177e-05
+    Pile-up_ip5_after_optimization: 0.1472203547973763
     luminosity_ip8_after_optimization: 8.065197934266959e+26
-    Pile-up_ip8_after_optimization: 9.24422693623305e-06
+    Pile-up_ip8_after_optimization: 0.050636018890477336
   skip_leveling: false
   config_lumi_leveling:
     ip1:

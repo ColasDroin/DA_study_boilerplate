@@ -211,5 +211,5 @@ Use simple bends
 Use simple quadrupoles
 Rebuild tracker data
 Found suitable prebuilt kernel `default_bb3d`.
-Elapsed time: 39.32999038696289 s
-Elapsed time per particle per turn: 307.2655498981476 us
+Elapsed time: 39.48195004463196 s
+Elapsed time per particle per turn: 308.4527347236872 us

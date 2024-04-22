@@ -17,13 +17,13 @@ config_mad:
   beam_config:
     lhcb1:
       # Lead ions
-      beam_energy_tot: 557600           # [GeV] corresponds to 6.8 Z TeV
-      particle_mass: 193.6872729        # [GeV]
+      beam_energy_tot: 557600 # [GeV] corresponds to 6.8 Z TeV
+      particle_mass: 193.6872729 # [GeV]
       particle_charge: 82
     lhcb2:
       # Lead ions
-      beam_energy_tot: 557600           # [GeV] corresponds to 6.8 Z TeV
-      particle_mass: 193.6872729        # [GeV]
+      beam_energy_tot: 557600 # [GeV] corresponds to 6.8 Z TeV
+      particle_mass: 193.6872729 # [GeV]
       particle_charge: 82
 
   # Enable machine imperfections
