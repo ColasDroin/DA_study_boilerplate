@@ -1,5 +1,6 @@
 # Imports
 import json
+
 import xmask.lhc as xlhc
 
 
@@ -247,10 +248,9 @@ def generate_orbit_correction_setup():
     return correction_setup
 
 
-
-
-def compute_PU(luminosity, num_colliding_bunches, T_rev0, cross_section=513e-28):
+def compute_PU(luminosity, num_colliding_bunches, T_rev0, cross_section=281e-24):
     return luminosity / num_colliding_bunches * cross_section * T_rev0
+
 
 if __name__ == "__main__":
     correction_setup = generate_orbit_correction_setup()
