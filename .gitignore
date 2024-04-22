@@ -13,18 +13,18 @@ modules/*
 !modules/.gitkeep
 
 # Filling scheme
-master_study/master_jobs/filling_scheme/custom_schemes/*
-!master_study/master_jobs/filling_scheme/.gitkeep
+# master_study/master_jobs/filling_scheme/custom_schemes/*
+# !master_study/master_jobs/filling_scheme/.gitkeep
 
 # Scans
 #master_study/scans/*
-*.parquet
-*.json
-!master_study/scans/.gitkeep
+# *.parquet
+# *.json
+# !master_study/scans/.gitkeep
 
 # Analysis
-master_study/analysis/*
-!master_study/analysis/.gitkeep
+# master_study/analysis/*
+# !master_study/analysis/.gitkeep
 
 # Other make_folder studies
 # master_study/001_make_folders_*
