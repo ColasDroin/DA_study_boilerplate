@@ -17,7 +17,7 @@ modules/*
 # !master_study/master_jobs/filling_scheme/.gitkeep
 
 # Scans
-#master_study/scans/*
+master_study/scans/*
 # *.parquet
 # *.json
 # !master_study/scans/.gitkeep
