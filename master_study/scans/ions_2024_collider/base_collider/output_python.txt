@@ -3,14 +3,14 @@
   +     MAD-X 5.09.01  (64 bit, Linux)       +
   + Support: mad@cern.ch, http://cern.ch/mad +
   + Release   date: 2023.12.04               +
-  + Execution date: 2024.04.22 14:32:25      +
+  + Execution date: 2024.05.07 11:40:39      +
   ++++++++++++++++++++++++++++++++++++++++++++
 
   ++++++++++++++++++++++++++++++++++++++++++++
   +     MAD-X 5.09.01  (64 bit, Linux)       +
   + Support: mad@cern.ch, http://cern.ch/mad +
   + Release   date: 2023.12.04               +
-  + Execution date: 2024.04.22 14:32:25      +
+  + Execution date: 2024.05.07 11:40:40      +
   ++++++++++++++++++++++++++++++++++++++++++++
 ++++++ warning: implicit element re-definition ignored: ip1
 ++++++ warning: implicit element re-definition ignored: mbas2.1r1
@@ -839,7 +839,7 @@ The line already has an associated tracker
 The line already has an associated tracker
 The line already has an associated tracker
 The line already has an associated tracker
---- Now displaying Twiss result at all IPS for line <xtrack.line.Line object at 0x7f19c8b66350>---
+--- Now displaying Twiss result at all IPS for line <xtrack.line.Line object at 0x7f31a1462fe0>---
 TwissTable: 9 rows, 47 cols
 name                           s            x           px            y           py         zeta ...
 ip3                            0  -3.0589e-07 -6.71233e-09  2.62661e-07  1.93553e-09  8.69922e-07
@@ -851,9 +851,9 @@ ip8                      16650.7 -1.10173e-10 -0.000170002  -0.00349998  9.08115
 ip1.l1                   19994.2  9.59729e-09  5.93041e-09   1.0176e-08 -2.09155e-08  5.43344e-06
 ip1                      19994.2  9.59729e-09  5.93041e-09   1.0176e-08 -2.09155e-08  5.43344e-06
 ip2                      23326.6   0.00350001  -1.1064e-08 -5.95566e-09  0.000170017  4.70944e-06
---- Now displaying Qx and Qy for line <xtrack.line.Line object at 0x7f19c8b66350>---
+--- Now displaying Qx and Qy for line <xtrack.line.Line object at 0x7f31a1462fe0>---
 62.30997841172339 60.3199384664545
---- Now displaying Twiss result at all IPS for line <xtrack.line.Line object at 0x7f19acbe10f0>---
+--- Now displaying Twiss result at all IPS for line <xtrack.line.Line object at 0x7f3199f7dd50>---
 TwissTable: 9 rows, 47 cols
 name                           s            x           px            y           py         zeta ...
 ip3                            0  3.10328e-07  2.74283e-09  -1.5156e-07 -1.16978e-09  -5.2576e-07
@@ -865,5 +865,5 @@ ip7                      13329.4 -7.96779e-08  1.75437e-09 -5.26848e-08 -1.59356
 ip6                      16661.7  1.98589e-07 -4.51352e-10 -1.91254e-07  6.81064e-10  1.07309e-06
 ip5                        19994 -3.13707e-09  1.61025e-08 -2.86578e-09 -1.92184e-08  5.36329e-07
 ip4                      23326.4 -1.54577e-07   -1.112e-10 -1.29608e-07  4.79926e-10  7.91119e-10
---- Now displaying Qx and Qy for line <xtrack.line.Line object at 0x7f19acbe10f0>---
+--- Now displaying Qx and Qy for line <xtrack.line.Line object at 0x7f3199f7dd50>---
 62.30997912435214 60.319938933091294

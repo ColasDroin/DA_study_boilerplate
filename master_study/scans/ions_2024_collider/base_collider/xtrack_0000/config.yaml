@@ -10,7 +10,7 @@ config_collider:
       on_sep2v: 0 # [mm]
       on_x5: 170 # [urad]
       on_sep5: 1e-3 # [mm]
-      on_x8h: -170 # [urad]
+      on_x8h: -135 # [urad]
       on_sep8h: 0 # [mm]
       on_sep8v: 1e-10 # [mm]
       on_ov2: 0 # [mm]
@@ -93,14 +93,14 @@ config_collider:
       i_bunch_b2: 1363 # Same. A value for i_bunch_b1 and i_bunch_b2 must be specified if pattern_fname is specified
 
     num_particles_per_bunch_before_optimization: 180000000.0
-    luminosity_ip1_after_optimization: 6.410545893700791e+27
-    Pile-up_ip1_after_optimization: 0.14722911902272848
-    luminosity_ip2_after_optimization: 6.411562041653069e+27
-    Pile-up_ip2_after_optimization: 0.14725245659339584
-    luminosity_ip5_after_optimization: 6.410164288015614e+27
-    Pile-up_ip5_after_optimization: 0.1472203547973763
-    luminosity_ip8_after_optimization: 8.065197934266959e+26
-    Pile-up_ip8_after_optimization: 0.050636018890477336
+    luminosity_ip1_after_optimization: 6.410580714385339e+27
+    Pile-up_ip1_after_optimization: 0.14722991873913246
+    luminosity_ip2_after_optimization: 6.411387334471268e+27
+    Pile-up_ip2_after_optimization: 0.14724844414501934
+    luminosity_ip5_after_optimization: 6.41030257839957e+27
+    Pile-up_ip5_after_optimization: 0.14722353087188492
+    luminosity_ip8_after_optimization: 8.395769080867117e+26
+    Pile-up_ip8_after_optimization: 0.052711455471242875
   skip_leveling: false
   config_lumi_leveling:
     ip1:
@@ -132,7 +132,7 @@ config_collider:
       - corr_co_acbcv5.r1b2
       - corr_co_acbch5.l1b2
 
-      final_on_sep1: 0.00408311120738429
+      final_on_sep1: 0.0040854421171722536
     ip5:
       luminosity: 6.4e+27
       num_colliding_bunches: 1088
@@ -162,7 +162,7 @@ config_collider:
       - corr_co_acbyvs4.l5b2
       - corr_co_acbyvs4.r5b2
 
-      final_on_sep5: 0.004036128077662579
+      final_on_sep5: 0.00403674923502341
     ip2:
       luminosity: 6.4e+27
       num_colliding_bunches: 1088

@@ -109,7 +109,7 @@ d_config_knobs["on_sep2h"] = 1e-3
 d_config_knobs["on_sep2v"] = 0
 d_config_knobs["on_x5"] = 170
 d_config_knobs["on_sep5"] = 1e-3
-d_config_knobs["on_x8h"] = -170
+d_config_knobs["on_x8h"] = -135
 d_config_knobs["on_sep8v"] = 1e-10
 d_config_knobs["on_sep8h"] = 0
 d_config_knobs["on_disp"] = 1
@@ -138,7 +138,7 @@ d_config_leveling = {
 d_config_leveling["ip1"]["luminosity"] = 6.4e27
 d_config_leveling["ip2"]["luminosity"] = 6.4e27
 d_config_leveling["ip5"]["luminosity"] = 6.4e27
-d_config_leveling["ip8"]["luminosity"] = 1.4e27
+d_config_leveling["ip8"]["luminosity"] = 1.0e27
 
 ### Beam beam configuration
 

@@ -42,7 +42,7 @@
                   "on_x1": 170,
                   "on_x2v": -170,
                   "on_x5": 170,
-                  "on_x8h": -170
+                  "on_x8h": -135
                 },
                 "qx": {
                   "lhcb1": 62.305,
@@ -133,7 +133,7 @@
         "files_to_clone": [
           "misc.py"
         ],
-        "htc_job_flavor": "microcentury",
+        "htc_job_flavor": "tomorrow",
         "job_executable": "2_configure_and_track.py",
         "job_folder": "../../master_jobs/2_configure_and_track",
         "run_on": "local_pc",
