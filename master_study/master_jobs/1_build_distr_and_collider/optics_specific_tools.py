@@ -94,3 +94,22 @@ def apply_optics(mad, optics_file):
     mad.call("ir7_strengths.madx")
     mad.input("on_alice := on_alice_normalized * 7000. / nrj;")
     mad.input("on_lhcb := on_lhcb_normalized * 7000. / nrj;")
+
+
+def apply_BFPP(mad):
+    mad.input("""acbch8.r2b1        :=   6.336517325e-05 * ON_BFPP.R2 / 7.8;
+                acbch10.r2b1       :=   2.102863759e-05 * ON_BFPP.R2 / 7.8;
+                acbh12.r2b1        :=   4.404997133e-05 * ON_BFPP.R2 / 7.8;
+
+                acbch7.r1b1        :=   4.259479019e-06 * ON_BFPP.R1 / 2.5;
+                acbch9.r1b1        :=   1.794045373e-05 * ON_BFPP.R1 / 2.5;
+                acbh13.r1b1        :=   1.371178403e-05 * ON_BFPP.R1 / 2.5;
+
+                acbch7.r5b1        :=   2.153161387e-06 * ON_BFPP.R5 / 1.3;
+                acbch9.r5b1        :=   9.314782805e-06 * ON_BFPP.R5 / 1.3;
+                acbh13.r5b1        :=   7.12996247e-06 * ON_BFPP.R5 / 1.3;
+
+                acbch8.r8b1        :=   3.521812667e-05 * ON_BFPP.R8 / 4.6;
+                acbch10.r8b1       :=   1.064966564e-05 * ON_BFPP.R8 / 4.6;
+                acbh12.r8b1        :=   2.786990521e-05 * ON_BFPP.R8 / 4.6;
+            """)

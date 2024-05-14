@@ -107,11 +107,14 @@ def build_collider_from_mad(config_mad, sanity_checks=True):
     mad_b4 = Madx(command_log="mad_b4.log")
 
     # Build sequences
-    ost.build_sequence(mad_b1b2, mylhcbeam=1, beam_config = config_mad["beam_config"])
-    ost.build_sequence(mad_b4, mylhcbeam=4, beam_config =  config_mad["beam_config"])
+    ost.build_sequence(mad_b1b2, mylhcbeam=1, beam_config=config_mad["beam_config"])
+    ost.build_sequence(mad_b4, mylhcbeam=4, beam_config=config_mad["beam_config"])
 
     # Apply optics (only for b1b2, b4 will be generated from b1b2)
     ost.apply_optics(mad_b1b2, optics_file=config_mad["optics_file"])
+
+    if "BFPP" in config_mad and config_mad["BFPP"]:
+        ost.apply_BFPP(mad_b1b2)
 
     if sanity_checks:
         mad_b1b2.use(sequence="lhcb1")
