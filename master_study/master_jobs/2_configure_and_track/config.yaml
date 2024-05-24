@@ -78,10 +78,10 @@ config_collider:
     bunch_spacing_buckets: 10
     num_slices_head_on: 11
     num_long_range_encounters_per_side:
-      ip1: 10
-      ip2: 9
-      ip5: 10
-      ip8: 9
+      ip1: 20
+      ip2: 18
+      ip5: 20
+      ip8: 18
     sigma_z: 0.0824
     num_particles_per_bunch: 180000000.0
     nemitt_x: 1.65e-6

@@ -207,7 +207,7 @@ if check_bunch_number:
     if d_config_beambeam["mask_with_filling_pattern"]["i_bunch_b1"] is None:
         # Case the bunch number has not been provided
         worst_bunch_b1 = get_worst_bunch(
-            filling_scheme_path, numberOfLRToConsider=10, beam="beam_1"
+            filling_scheme_path, numberOfLRToConsider=20, beam="beam_1"
         )
         while d_config_beambeam["mask_with_filling_pattern"]["i_bunch_b1"] is None:
             bool_inp = input(
@@ -225,7 +225,7 @@ if check_bunch_number:
 
     if d_config_beambeam["mask_with_filling_pattern"]["i_bunch_b2"] is None:
         worst_bunch_b2 = get_worst_bunch(
-            filling_scheme_path, numberOfLRToConsider=10, beam="beam_2"
+            filling_scheme_path, numberOfLRToConsider=20, beam="beam_2"
         )
         # For beam 2, just select the worst bunch by default, as the tracking of b2 is not available yet anyway
         print(
