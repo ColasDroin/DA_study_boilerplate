@@ -65,10 +65,13 @@ def build_sequence(mad, mylhcbeam, beam_config, ignore_cycling=False, slice_fact
         # the variable in the macro is slice_factor
         mad.input(f"slicefactor={slice_factor};")
         mad.call("acc-models-lhc/runII/2018/toolkit/myslice.madx")
-        for my_sequence in list(mad.sequence):
-            xm.attach_beam_to_sequence(
-                mad.sequence[my_sequence], int(my_sequence[-1]), beam_config[my_sequence]
-            )
+        if mylhcbeam == 1:
+            xm.attach_beam_to_sequence(mad.sequence["lhcb1"], 1, beam_config["lhcb1"])
+            xm.attach_beam_to_sequence(mad.sequence["lhcb2"], 2, beam_config["lhcb2"])
+        elif mylhcbeam == 4:
+            xm.attach_beam_to_sequence(mad.sequence["lhcb2"], 4, beam_config["lhcb2"])
+        else:
+            raise ValueError("Invalid mylhcbeam")
         # mad.beam()
         for my_sequence in ["lhcb1", "lhcb2"]:
             if my_sequence in list(mad.sequence):
