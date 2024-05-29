@@ -21,8 +21,8 @@ def generate_orbit_correction_setup():
             targets=("e.ds.l1.b1",),
         ),
         "IR1 right": dict(
-            ref_with_knobs={"on_corr_co": 0, "on_disp": 0},
-            start="s.ds.r1.b1",
+            ref_with_knobs={"on_corr_co": 0, "on_disp": 0, "on_bfpp.r1": 0},
+            start="mqm.b7r1.b1",  # "s.ds.r1.b1",
             end="s.ds.l2.b1",
             vary=(
                 "corr_co_acbh13.r1b1",
@@ -45,8 +45,8 @@ def generate_orbit_correction_setup():
             targets=("e.ds.l5.b1",),
         ),
         "IR5 right": dict(
-            ref_with_knobs={"on_corr_co": 0, "on_disp": 0},
-            start="s.ds.r5.b1",
+            ref_with_knobs={"on_corr_co": 0, "on_disp": 0, "on_bfpp.r5": 0},
+            start="mqm.b7r5.b1",  # "s.ds.r5.b1",
             end="s.ds.l6.b1",
             vary=(
                 "corr_co_acbh13.r5b1",
@@ -57,9 +57,9 @@ def generate_orbit_correction_setup():
             targets=("s.ds.l6.b1",),
         ),
         "IP1": dict(
-            ref_with_knobs={"on_corr_co": 0, "on_disp": 0},
+            ref_with_knobs={"on_corr_co": 0, "on_disp": 0, "on_bfpp.r1": 0},
             start="e.ds.l1.b1",
-            end="s.ds.r1.b1",
+            end="mqm.b7r1.b1",  # "s.ds.r1.b1",
             vary=(
                 "corr_co_acbch6.l1b1",
                 "corr_co_acbcv5.l1b1",
@@ -70,7 +70,7 @@ def generate_orbit_correction_setup():
                 "corr_co_acbyvs4.l1b1",
                 "corr_co_acbyvs4.r1b1",
             ),
-            targets=("ip1", "s.ds.r1.b1"),
+            targets=("ip1", "mqm.b7r1.b1"),  # "s.ds.r1.b1"),
         ),
         "IP2": dict(
             ref_with_knobs={"on_corr_co": 0, "on_disp": 0},
@@ -89,9 +89,9 @@ def generate_orbit_correction_setup():
             targets=("ip2", "s.ds.r2.b1"),
         ),
         "IP5": dict(
-            ref_with_knobs={"on_corr_co": 0, "on_disp": 0},
+            ref_with_knobs={"on_corr_co": 0, "on_disp": 0, "on_bfpp.r5": 0},
             start="e.ds.l5.b1",
-            end="s.ds.r5.b1",
+            end="mqm.b7r5.b1",  # "s.ds.r5.b1",
             vary=(
                 "corr_co_acbch6.l5b1",
                 "corr_co_acbcv5.l5b1",
@@ -102,7 +102,7 @@ def generate_orbit_correction_setup():
                 "corr_co_acbyvs4.l5b1",
                 "corr_co_acbyvs4.r5b1",
             ),
-            targets=("ip5", "s.ds.r5.b1"),
+            targets=("ip5", "mqm.b7r5.b1"),  # "s.ds.r5.b1"),
         ),
         "IP8": dict(
             ref_with_knobs={"on_corr_co": 0, "on_disp": 0},

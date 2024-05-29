@@ -164,7 +164,7 @@ def activate_RF_and_twiss(collider, config_mad, sanity_checks=True):
         for knob, val in dic_rf.items():
             print(f"    {knob} = {val}")
     elif config_mad["ver_lhc_run"] == 3.0:
-        dic_rf = {"vrf400": 12.0, "lagrf400.b1": 0.5, "lagrf400.b2": 0.0}
+        dic_rf = {"vrf400": 1148, "lagrf400.b1": 0.5, "lagrf400.b2": 0.0}
         for knob, val in dic_rf.items():
             print(f"    {knob} = {val}")
     else:

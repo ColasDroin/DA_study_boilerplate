@@ -102,7 +102,7 @@ config_collider:
       bump_range:
         lhcb1:
           - e.ds.l1.b1
-          - s.ds.r1.b1
+          - mqm.b7r1.b1 # s.ds.r1.b1
         lhcb2:
           - s.ds.r1.b2
           - e.ds.l1.b2
@@ -131,7 +131,7 @@ config_collider:
       bump_range:
         lhcb1:
           - e.ds.l5.b1
-          - s.ds.r5.b1
+          - mqm.b7r5.b1 # s.ds.r5.b1
         lhcb2:
           - s.ds.r5.b2
           - e.ds.l5.b2
@@ -160,7 +160,7 @@ config_collider:
       bump_range:
         lhcb1:
           - e.ds.l2.b1
-          - mb.b14r2.b1 #s.ds.r2.b1
+          - s.ds.r2.b1
         lhcb2:
           - s.ds.r2.b2
           - e.ds.l2.b2
@@ -191,7 +191,7 @@ config_collider:
       bump_range:
         lhcb1:
           - e.ds.l8.b1
-          - mb.c14r8.b1 # s.ds.r8.b1
+          - s.ds.r8.b1
         lhcb2:
           - s.ds.r8.b2
           - e.ds.l8.b2
