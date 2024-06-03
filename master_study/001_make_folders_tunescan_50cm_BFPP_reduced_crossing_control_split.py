@@ -38,7 +38,7 @@ d_config_particles["n_r"] = 8 * (d_config_particles["r_max"] - d_config_particle
 d_config_particles["n_angles"] = 5
 
 # Number of split for parallelization
-d_config_particles["n_split"] = 10
+d_config_particles["n_split"] = 3
 
 # ==================================================================================================
 # --- Optics collider parameters (generation 1)
@@ -57,16 +57,18 @@ d_config_mad = {"beam_config": {"lhcb1": {}, "lhcb2": {}}, "links": {}}
 
 ### For run III ions
 d_config_mad["links"]["acc-models-lhc"] = "/afs/cern.ch/eng/lhc/optics"
-d_config_mad["optics_file"] = "acc-models-lhc/runIII/RunIII_dev/ION_2022/opticsfile.21"
+d_config_mad["optics_file"] = "acc-models-lhc/runIII/RunIII_dev/ION_2024/opticsfile.21"
 d_config_mad["ver_hllhc_optics"] = None
 d_config_mad["ver_lhc_run"] = 3.0
 
 
 # Beam energy (for both beams)
-beam_energy_tot = 7000 * 82
+beam_energy_tot = 6800 * 82
 d_config_mad["beam_config"]["lhcb1"]["beam_energy_tot"] = beam_energy_tot
 d_config_mad["beam_config"]["lhcb2"]["beam_energy_tot"] = beam_energy_tot
 
+# BFPP
+d_config_mad["BFPP"] = True
 
 # ==================================================================================================
 # --- Base collider parameters (generation 2)
@@ -102,24 +104,30 @@ d_config_tune_and_chroma["delta_cmi"] = 0.0
 d_config_knobs = {}
 
 # Knobs at IPs
-d_config_knobs["on_x1"] = 170
+d_config_knobs["on_x1"] = 130
 d_config_knobs["on_sep1"] = 1e-3
-d_config_knobs["on_x2v"] = 170
+d_config_knobs["on_x2v"] = 130
 d_config_knobs["on_sep2h"] = 1e-3
 d_config_knobs["on_sep2v"] = 0
-d_config_knobs["on_x5"] = 170
+d_config_knobs["on_x5"] = 130
 d_config_knobs["on_sep5"] = 1e-3
-d_config_knobs["on_x8h"] = -170
+d_config_knobs["on_x8h"] = +235
 d_config_knobs["on_sep8v"] = 1e-10
 d_config_knobs["on_sep8h"] = 0
 d_config_knobs["on_disp"] = 1
 
-d_config_knobs["on_alice_normalized"] = -1
+d_config_knobs["on_alice_normalized"] = 1
 d_config_knobs["on_lhcb_normalized"] = -1
 
 # Octupoles
-d_config_knobs["i_oct_b1"] = 250.0
-d_config_knobs["i_oct_b2"] = 250.0
+d_config_knobs["i_oct_b1"] = 100.0
+d_config_knobs["i_oct_b2"] = 100.0
+
+# BFPP
+d_config_knobs["on_bfpp.r1"] = -2.5
+d_config_knobs["on_bfpp.r2"] = -7.8
+d_config_knobs["on_bfpp.r5"] = -1.3
+d_config_knobs["on_bfpp.r8"] = -4.6
 
 ### leveling configuration
 
@@ -147,8 +155,8 @@ d_config_beambeam = {"mask_with_filling_pattern": {}}
 
 # Beam settings
 d_config_beambeam["num_particles_per_bunch"] = 1.8e8
-d_config_beambeam["nemitt_x"] = 1.65e-6
-d_config_beambeam["nemitt_y"] = 1.65e-6
+d_config_beambeam["nemitt_x"] = 2.2e-6
+d_config_beambeam["nemitt_y"] = 2.2e-6
 
 # Filling scheme (in json format)
 # The scheme should consist of a json file containing two lists of booleans (one for each beam),
@@ -278,13 +286,13 @@ dump_config_in_collider = False
 # optimal DA (e.g. tune, chroma, etc).
 # ==================================================================================================
 # Scan tune with step of 0.001 (need to round to correct for numpy numerical instabilities)
-array_qx = np.round(np.arange(62.305, 62.330, 0.01), decimals=4)
-array_qy = np.round(np.arange(60.305, 60.330, 0.01), decimals=4)
+array_qx = np.round(np.arange(62.305, 62.330, 0.001), decimals=4)
+array_qy = np.round(np.arange(60.305, 60.330, 0.001), decimals=4)
 
 # In case one is doing a tune-tune scan, to decrease the size of the scan, we can ignore the
 # working points too close to resonance. Otherwise just delete this variable in the loop at the end
 # of the script
-keep = "all"  # 'lower_triangle', 'all'
+keep = "upper_triangle"  # 'lower_triangle', 'all'
 # ==================================================================================================
 # --- Make tree for the simulations (generation 1)
 #
@@ -369,7 +377,7 @@ set_context(children, 1, config)
 # --- Build tree and write it to the filesystem
 # ==================================================================================================
 # Define study name
-study_name = "tunescan_50cm_control_sofia_debug"
+study_name = "tunescan_50cm_BFPP_reduced_crossing_control_split"
 
 # Creade folder that will contain the tree
 if not os.path.exists("scans/" + study_name):
