@@ -38,7 +38,7 @@ d_config_particles["n_r"] = 8 * (d_config_particles["r_max"] - d_config_particle
 d_config_particles["n_angles"] = 5
 
 # Number of split for parallelization
-d_config_particles["n_split"] = 1
+d_config_particles["n_split"] = 2
 
 # ==================================================================================================
 # --- Optics collider parameters (generation 1)
@@ -61,13 +61,12 @@ d_config_mad["optics_file"] = "acc-models-lhc/runIII/RunIII_dev/ION_2022/opticsf
 d_config_mad["ver_hllhc_optics"] = None
 d_config_mad["ver_lhc_run"] = 3.0
 
+
 # Beam energy (for both beams)
 beam_energy_tot = 6800 * 82
 d_config_mad["beam_config"]["lhcb1"]["beam_energy_tot"] = beam_energy_tot
 d_config_mad["beam_config"]["lhcb2"]["beam_energy_tot"] = beam_energy_tot
 
-# BFPP
-d_config_mad["BFPP"] = True
 
 # ==================================================================================================
 # --- Base collider parameters (generation 2)
@@ -121,12 +120,6 @@ d_config_knobs["on_lhcb_normalized"] = -1
 # Octupoles
 d_config_knobs["i_oct_b1"] = 100.0
 d_config_knobs["i_oct_b2"] = 100.0
-
-# BFPP
-d_config_knobs["on_bfpp.r1"] = -2.5
-d_config_knobs["on_bfpp.r2"] = -7.8
-d_config_knobs["on_bfpp.r5"] = -1.3
-d_config_knobs["on_bfpp.r8"] = -4.6
 
 ### leveling configuration
 
@@ -261,7 +254,7 @@ d_config_collider["config_beambeam"] = d_config_beambeam
 d_config_simulation = {}
 
 # Number of turns to track
-d_config_simulation["n_turns"] = 200
+d_config_simulation["n_turns"] = 100
 
 # Initial off-momentum
 d_config_simulation["delta_max"] = 24.0e-5
@@ -275,8 +268,8 @@ d_config_simulation["beam"] = "lhcb1"
 # Below, the user chooses if the gen 2 collider must be dumped, along with the corresponding
 # configuration.
 # ==================================================================================================
-dump_collider = True
-dump_config_in_collider = True
+dump_collider = False
+dump_config_in_collider = False
 
 # ==================================================================================================
 # --- Machine parameters being scanned (generation 2)
@@ -285,13 +278,13 @@ dump_config_in_collider = True
 # optimal DA (e.g. tune, chroma, etc).
 # ==================================================================================================
 # Scan tune with step of 0.001 (need to round to correct for numpy numerical instabilities)
-array_qx = [62.305]
-array_qy = [60.315]
+array_qx = np.round(np.arange(62.305, 62.330, 0.001), decimals=4)[:2]
+array_qy = np.round(np.arange(60.305, 60.330, 0.001), decimals=4)[:2]
 
 # In case one is doing a tune-tune scan, to decrease the size of the scan, we can ignore the
 # working points too close to resonance. Otherwise just delete this variable in the loop at the end
 # of the script
-keep = "upper_triangle"  # 'lower_triangle', 'all'
+keep = "all"  # 'lower_triangle', 'all'
 # ==================================================================================================
 # --- Make tree for the simulations (generation 1)
 #
@@ -321,15 +314,15 @@ children["base_collider"]["config_mad"] = d_config_mad
 # ==================================================================================================
 track_array = np.arange(d_config_particles["n_split"])
 for idx_job, (track, qx, qy) in enumerate(itertools.product(track_array, array_qx, array_qy)):
-    # # If requested, ignore conditions below the upper diagonal as they can't be reached in the LHC
-    # if keep == "upper_triangle":
-    #     if qy < (qx - 2 + 0.0039):  # 0.039 instead of 0.04 to avoid rounding errors
-    #         continue
-    # elif keep == "lower_triangle":
-    #     if qy >= (qx - 2 - 0.0039):
-    #         continue
-    # else:
-    #     pass
+    # If requested, ignore conditions below the upper diagonal as they can't be reached in the LHC
+    if keep == "upper_triangle":
+        if qy < (qx - 2 + 0.0039):  # 0.039 instead of 0.04 to avoid rounding errors
+            continue
+    elif keep == "lower_triangle":
+        if qy >= (qx - 2 - 0.0039):
+            continue
+    else:
+        pass
 
     # Mutate the appropriate collider parameters
     for beam in ["lhcb1", "lhcb2"]:
@@ -376,7 +369,7 @@ set_context(children, 1, config)
 # --- Build tree and write it to the filesystem
 # ==================================================================================================
 # Define study name
-study_name = "ions_2022_collider_BFPP_debug"
+study_name = "tunescan_50cm_test"
 
 # Creade folder that will contain the tree
 if not os.path.exists("scans/" + study_name):

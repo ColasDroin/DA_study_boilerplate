@@ -377,7 +377,7 @@ set_context(children, 1, config)
 # --- Build tree and write it to the filesystem
 # ==================================================================================================
 # Define study name
-study_name = "tunescan_50cm_BFPP_reduced_crossing_control_split"
+study_name = "tunescan_50cm_BFPP_reduced_crossing"
 
 # Creade folder that will contain the tree
 if not os.path.exists("scans/" + study_name):
