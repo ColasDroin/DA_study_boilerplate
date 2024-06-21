@@ -100,8 +100,10 @@ def _generate_run_sh_htc_gen_2(node, python_command):
         # Run the job
         f"python {node.get_abs_path()}/{python_command} > output_python.txt 2>"
         " error_python.txt\n"
-        # Delete the config so it's not copied back
+        # Delete the config of first gen so it's not copied back
         f"rm -f ../config.yaml\n"
+        # Change name of config 2nd gen to config_final.yaml
+        f"mv config.yaml config_final.yaml\n"
         # Copy back output
         f"cp -f *.txt *.parquet *.yaml {abs_path}\n"
     )
