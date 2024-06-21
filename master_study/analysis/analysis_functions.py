@@ -314,6 +314,7 @@ def plot_heatmap(
     levelling="",
     CC=False,
     extended_diagonal=False,
+    smooth_symmetry=False,
     vmin=3.5,
     vmax=8,
 ):
@@ -344,29 +345,33 @@ def plot_heatmap(
     # make the matrix symmetric by replacing the lower triangle with the upper triangle
     data_smoothed = np.copy(data_array)
     data_smoothed[np.isnan(data_array)] = 0.0
-    if not extended_diagonal:
-        data_smoothed = data_smoothed + data_smoothed.T - np.diag(data_array.diagonal())
-    else:
-        # sum the upper and lower triangle, but not the intersection of the two matrices
-        intersection = np.zeros_like(data_smoothed)
-        for x in range(data_smoothed.shape[0]):
-            for y in range(data_smoothed.shape[1]):
-                if np.min((data_smoothed[x, y], data_smoothed[y, x])) == 0.0:
-                    intersection[x, y] = 0.0
-                else:
-                    intersection[x, y] = data_smoothed[y, x]
-        data_smoothed = data_smoothed + data_smoothed.T - intersection
+    if smooth_symmetry:
+        if not extended_diagonal:
+            data_smoothed = data_smoothed + data_smoothed.T - np.diag(data_array.diagonal())
+        else:
+            # sum the upper and lower triangle, but not the intersection of the two matrices
+            intersection = np.zeros_like(data_smoothed)
+            for x in range(data_smoothed.shape[0]):
+                for y in range(data_smoothed.shape[1]):
+                    if np.min((data_smoothed[x, y], data_smoothed[y, x])) == 0.0:
+                        intersection[x, y] = 0.0
+                    else:
+                        intersection[x, y] = data_smoothed[y, x]
+            data_smoothed = data_smoothed + data_smoothed.T - intersection
 
     data_smoothed = gaussian_filter(data_smoothed, 0.7)
 
-    # Mask the lower triangle of the smoothed matrix
-    if not extended_diagonal:
-        mask = np.tri(data_smoothed.shape[0], k=-1)
-        mx = np.ma.masked_array(data_smoothed, mask=mask.T)
+    if smooth_symmetry:
+        # Mask the lower triangle of the smoothed matrix
+        if not extended_diagonal:
+            mask = np.tri(data_smoothed.shape[0], k=-1)
+            mx = np.ma.masked_array(data_smoothed, mask=mask.T)
+        else:
+            mask = np.tri(data_smoothed.shape[0], k=-5)
+            mx = np.ma.masked_array(data_smoothed, mask=mask.T)
+
     else:
-        mask = np.tri(data_smoothed.shape[0], k=-5)
-        mx = np.ma.masked_array(data_smoothed, mask=mask.T)
-        # mx = data_smoothed
+        mx = data_smoothed
 
     # Plot contours if requested
     if plot_contours:
