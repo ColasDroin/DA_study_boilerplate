@@ -554,7 +554,7 @@ def configure_collider(
 
     if save_collider:
         # Save the final collider before tracking
-        print('Saving "collider.json')
+        print('Saving "collider_final.json')
         if save_config:
             config_dict = {
                 "config_mad": config_mad,
