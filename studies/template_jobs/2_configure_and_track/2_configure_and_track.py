@@ -23,6 +23,7 @@ import tree_maker
 
 # Import user-defined modules
 import xmask as xm
+import xmask.lhc as xlhc
 import xobjects as xo
 import xtrack as xt
 from misc import (
