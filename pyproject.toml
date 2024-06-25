@@ -10,8 +10,9 @@ package-mode = false
 [tool.poetry.dependencies]
 python = "^3.9"
 xmask = {path = "external_dependencies/xmask", develop = true}
+xtrack = {path = "external_dependencies/xtrack", develop = true}
 tree-maker = {git = "https://github.com/xsuite/tree_maker.git"}
-xsuite = "0.14"
+xsuite = "^0.16"
 fastparquet = "^2024.5.0"
 cupy-cuda11x = "^13.1.0"
 psutil = "^5.9.8"
