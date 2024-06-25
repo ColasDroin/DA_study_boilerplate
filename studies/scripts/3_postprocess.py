@@ -16,7 +16,7 @@ print("Analysis of output simulation files started")
 start = time.time()
 
 # Load Data
-study_name = "tunescan_50cm_2024"
+study_name = "tunescan_50cm_2024_agressive"
 fix = f"/../scans/{study_name}"
 root = tree_maker.tree_from_json(fix[1:] + "/tree_maker.json")
 # Add suffix to the root node path to handle scans that are not in the root directory
