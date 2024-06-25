@@ -23,6 +23,7 @@ import tree_maker
 
 # Import user-defined modules
 import xmask as xm
+import xmask.lhc as xlhc
 import xobjects as xo
 import xtrack as xt
 from misc import (
@@ -30,7 +31,6 @@ from misc import (
     generate_orbit_correction_setup,
     get_worst_bunch,
     load_and_check_filling_scheme,
-    luminosity_leveling,
     luminosity_leveling_ip1_5,
 )
 
@@ -291,27 +291,9 @@ def do_levelling(
 
         config_bb["num_particles_per_bunch"] = float(bunch_intensity)
 
-    # Set up the constraints for lumi optimization in IP8
-    additional_targets_lumi = []
-    if "constraints" in config_lumi_leveling["ip8"]:
-        for constraint in config_lumi_leveling["ip8"]["constraints"]:
-            obs, beam, sign, val, at = constraint.split("_")
-            if sign == "<":
-                ineq = xt.LessThan(float(val))
-            elif sign == ">":
-                ineq = xt.GreaterThan(float(val))
-            else:
-                raise ValueError(f"Unsupported sign for luminosity optimization constraint: {sign}")
-            target = xt.Target(obs, ineq, at=at, line=beam, tol=1e-6)
-            additional_targets_lumi.append(target)
-
-    # Then level luminosity in IP 2/8 changing the separation
-    collider = luminosity_leveling(
-        collider,
-        config_lumi_leveling=config_lumi_leveling,
-        config_beambeam=config_bb,
-        additional_targets_lumi=additional_targets_lumi,
-        crab=crab,
+    # Do levelling in IP2 and IP8
+    xlhc.luminosity_leveling(
+        collider, config_lumi_leveling=config_lumi_leveling, config_beambeam=config_bb
     )
 
     # Update configuration
