@@ -13,7 +13,7 @@
       # Following parameter is ignored when run_on is not htc or htc_docker
       htc_job_flavor: "espresso" # optional parameter to define job flavor, default is espresso
       # Following parameter is ignored when run_on is not htc_docker or slurm_docker
-      singularity_image: "/cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cdroin/da-study-docker:df9f2e53"
+      singularity_image: "/cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cdroin/da-study-docker:1cc34bf6"
     2: # Launch the pymask and prepare the colliders
       job_folder: "../../template_jobs/2_configure_and_track"
       job_executable: 2_configure_and_track.py # has to be a python file
@@ -24,4 +24,4 @@
       # Following parameter is ignored when run_on is not htc or htc_docker
       htc_job_flavor: "tomorrow" # optional parameter to define job flavor, default is espresso
       # Following parameter is ignored when run_on is not htc_docker or slurm_docker
-      singularity_image: "/cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cdroin/da-study-docker:df9f2e53"
+      singularity_image: "/cvmfs/unpacked.cern.ch/gitlab-registry.cern.ch/cdroin/da-study-docker:1cc34bf6"
