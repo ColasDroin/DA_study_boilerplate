@@ -588,9 +588,9 @@ def submit_jobs(study_name, print_uncompleted_jobs=False):
 if __name__ == "__main__":
     # Define study
     l_study_name = [
-        "tunescan_flathv_75_180_1500",
-        "tunescan_flatvh_75_180_1500",
-        "tunescan_flatvh_75_300_1500",
+        "tunescan_flathv_75_180_1500_lower_chroma",
+        "tunescan_flatvh_75_180_1500_lower_chroma",
+        "tunescan_flatvh_75_300_1500_lower_chroma",
     ]
     # study_name = "tunescan_flatvh_75_300_1500"
     # Submit jobs
