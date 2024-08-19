@@ -12,14 +12,15 @@ import yaml
 # ==================================================================================================
 
 
-l_study_name = [
-    "tunescan_50cm_2024",
-    "tunescan_50cm_2024_larger_IP8",
-    "tunescan_50cm_2024_agressive",
-    "tunescan_50cm_2024_agressive_2",
-    "tunescan_50cm_2024_agressive_3",
-    "tunescan_50cm_control_sofia_IPAC",
-]
+# l_study_name = [
+#     "tunescan_50cm_2024",
+#     "tunescan_50cm_2024_larger_IP8",
+#     "tunescan_50cm_2024_agressive",
+#     "tunescan_50cm_2024_agressive_2",
+#     "tunescan_50cm_2024_agressive_3",
+#     "tunescan_50cm_control_sofia_IPAC",
+# ]
+l_study_name = ["fig5_sofia"]
 
 # study_name = "collider_50cm_2024"
 for study_name in l_study_name:
@@ -97,14 +98,24 @@ for study_name in l_study_name:
             df_sim["num_particles_per_bunch"] = dic_child_collider["config_beambeam"][
                 "num_particles_per_bunch"
             ]
+            df_sim["sigma_z"] = dic_child_collider["config_beambeam"]["sigma_z"]
             df_sim["i_oct_b1"] = dic_child_collider["config_knobs_and_tuning"]["knob_settings"][
                 "i_oct_b1"
             ]
             df_sim["i_oct_b2"] = dic_child_collider["config_knobs_and_tuning"]["knob_settings"][
                 "i_oct_b2"
             ]
-            df_sim["crossing_angle"] = abs(
+            df_sim["on_x1"] = abs(
                 float(dic_child_collider["config_knobs_and_tuning"]["knob_settings"]["on_x1"])
+            )
+            df_sim["on_x2v"] = abs(
+                float(dic_child_collider["config_knobs_and_tuning"]["knob_settings"]["on_x2v"])
+            )
+            df_sim["on_x5"] = abs(
+                float(dic_child_collider["config_knobs_and_tuning"]["knob_settings"]["on_x5"])
+            )
+            df_sim["on_x8h"] = abs(
+                float(dic_child_collider["config_knobs_and_tuning"]["knob_settings"]["on_x8h"])
             )
 
             # Merge with particle data
@@ -126,7 +137,8 @@ for study_name in l_study_name:
         print("No unstable particles found, the output dataframe will be empty.")
 
     # Group by working point (Update this with the knobs you want to group by !)
-    group_by_parameters = ["name base collider", "qx", "qy"]
+    # group_by_parameters = ["name base collider", "qx", "qy"]
+    group_by_parameters = ["name base collider", "on_x1"]
 
     # We always want to keep beam in the final result
     group_by_parameters = ["beam"] + group_by_parameters
@@ -141,7 +153,11 @@ for study_name in l_study_name:
         "i_oct_b1",
         "i_oct_b2",
         "num_particles_per_bunch",
-        "crossing_angle",
+        "on_x1",
+        "on_x2v",
+        "on_x5",
+        "on_x8h",
+        "sigma_z",
     ]
 
     # Min is computed in the groupby function, but values should be identical
