@@ -587,14 +587,15 @@ def submit_jobs(study_name, print_uncompleted_jobs=False):
 # Load the tree from a yaml and submit the jobs that haven't been completed yet
 if __name__ == "__main__":
     # Define study
-    l_study_name = [
-        "tunescan_50cm_2024",
-        "tunescan_50cm_2024_larger_IP8",
-        "tunescan_50cm_2024_agressive",
-        "tunescan_50cm_2024_agressive_2",
-        "tunescan_50cm_2024_agressive_3",
-        "tunescan_50cm_control_sofia_IPAC",
-    ]
+    # l_study_name = [
+    #     "tunescan_50cm_2024",
+    #     "tunescan_50cm_2024_larger_IP8",
+    #     "tunescan_50cm_2024_agressive",
+    #     "tunescan_50cm_2024_agressive_2",
+    #     "tunescan_50cm_2024_agressive_3",
+    #     "tunescan_50cm_control_sofia_IPAC",
+    # ]
+    l_study_name = ["fig5_sofia"]
 
     # study_name = "collider_50cm_2024"
     for study_name in l_study_name:
