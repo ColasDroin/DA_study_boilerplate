@@ -138,7 +138,14 @@ for study_name in l_study_name:
 
     # Group by working point (Update this with the knobs you want to group by !)
     # group_by_parameters = ["name base collider", "qx", "qy"]
-    group_by_parameters = ["name base collider", "on_x1"]
+    group_by_parameters = [
+        "name base collider",
+        "on_x1",
+        "on_x2v",
+        "on_x5",
+        "on_x8h",
+        "num_particles_per_bunch",
+    ]
 
     # We always want to keep beam in the final result
     group_by_parameters = ["beam"] + group_by_parameters
