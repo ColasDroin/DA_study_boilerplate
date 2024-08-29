@@ -595,7 +595,7 @@ if __name__ == "__main__":
     #     "tunescan_50cm_2024_agressive_3",
     #     "tunescan_50cm_control_sofia_IPAC",
     # ]
-    l_study_name = ["tunescan_50cm_2024_agressive_2_and_half"]
+    l_study_name = ["collider_50cm_2024_140murad"]
 
     # study_name = "collider_50cm_2024"
     for study_name in l_study_name:
