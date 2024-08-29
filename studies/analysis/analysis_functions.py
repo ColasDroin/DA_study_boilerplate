@@ -46,6 +46,7 @@ def get_title_from_conf(
     display_xing=True,
     display_tune=False,
     ignore_lumi_1_5=True,
+    display_chroma=True,
 ):
     # LHC version
     LHC_version = "HL-LHC v1.6"
@@ -239,6 +240,9 @@ def get_title_from_conf(
         chroma_value = conf_collider["config_knobs_and_tuning"]["dqx"]["lhcb1"]
         chroma = r"$Q'$" + f"$= {{{chroma_value}}}$"
 
+        if not display_chroma:
+            chroma = ""
+
         # Intensity
         if display_intensity:
             intensity_value = conf_collider["config_knobs_and_tuning"]["knob_settings"]["i_oct_b1"]
@@ -339,6 +343,7 @@ def plot_heatmap(
     title=None,
     add_vline=None,
     display_intensity=True,
+    display_chroma=True,
     PU=True,
     display_xing=True,
     display_tune=False,
@@ -347,6 +352,7 @@ def plot_heatmap(
     vmax=7.5,
     extended_diagonal=False,
     green_contour=6,
+    figsize=None,
 ):
     # Get numpy array from dataframe
     data_array = df_to_plot.to_numpy()
@@ -357,6 +363,8 @@ def plot_heatmap(
 
     # Build heatmap, with inverted y axis
     fig, ax = plt.subplots()
+    if figsize is not None:
+        fig.set_size_inches(figsize)
     im = ax.imshow(data_array, cmap=cmap, vmin=vmin, vmax=vmax)
     ax.invert_yaxis()
 
@@ -465,6 +473,7 @@ def plot_heatmap(
                 display_tune=display_tune,
                 ignore_lumi_1_5=ignore_lumi_1_5,
                 PU=PU,
+                display_chroma=display_chroma,
             ),
             fontsize=10,
         )

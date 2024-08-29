@@ -16,23 +16,15 @@ print("Analysis of output simulation files started")
 start = time.time()
 
 # Load Data
-l_study_name = [
-    "tunescan_flathv_75_180_1500",
-    "tunescan_flatvh_75_180_1500",
-    "tunescan_flatvh_75_300_1500",
-    "tunescan_flathv_75_180_1500_lower_chroma",
-    "tunescan_flatvh_75_180_1500_lower_chroma",
-    "tunescan_flatvh_75_300_1500_lower_chroma",
-]
+l_study_name = ["xing_scan_flatvh_75_180_1500"]
 # study_name = "tunescan_flatvh_75_300_1500"
 # Submit jobs
 for study_name in l_study_name:
-    #study_name = "example_tunescan"
+    # study_name = "example_tunescan"
     fix = f"/../scans/{study_name}"
     root = tree_maker.tree_from_json(fix[1:] + "/tree_maker.json")
     # Add suffix to the root node path to handle scans that are not in the root directory
     root.add_suffix(suffix=fix)
-
 
     # ==================================================================================================
     # --- # Browse simulations folder and extract relevant observables
@@ -54,7 +46,9 @@ for study_name in l_study_name:
                     )
 
                 except Exception:
-                    particle = pd.read_parquet(f"{config_child['config_simulation']['particle_file']}")
+                    particle = pd.read_parquet(
+                        f"{config_child['config_simulation']['particle_file']}"
+                    )
 
                 df_sim = pd.read_parquet(f"{node_child.get_abs_path()}/output_particles.parquet")
 
@@ -86,12 +80,12 @@ for study_name in l_study_name:
             df_sim["qy"] = dic_child_collider["config_knobs_and_tuning"]["qy"]["lhcb1"]
             df_sim["dqx"] = dic_child_collider["config_knobs_and_tuning"]["dqx"]["lhcb1"]
             df_sim["dqy"] = dic_child_collider["config_knobs_and_tuning"]["dqy"]["lhcb1"]
-            df_sim["i_bunch_b1"] = dic_child_collider["config_beambeam"]["mask_with_filling_pattern"][
-                "i_bunch_b1"
-            ]
-            df_sim["i_bunch_b2"] = dic_child_collider["config_beambeam"]["mask_with_filling_pattern"][
-                "i_bunch_b2"
-            ]
+            df_sim["i_bunch_b1"] = dic_child_collider["config_beambeam"][
+                "mask_with_filling_pattern"
+            ]["i_bunch_b1"]
+            df_sim["i_bunch_b2"] = dic_child_collider["config_beambeam"][
+                "mask_with_filling_pattern"
+            ]["i_bunch_b2"]
             df_sim["num_particles_per_bunch"] = dic_child_collider["config_beambeam"][
                 "num_particles_per_bunch"
             ]
@@ -124,7 +118,7 @@ for study_name in l_study_name:
         print("No unstable particles found, the output dataframe will be empty.")
 
     # Group by working point (Update this with the knobs you want to group by !)
-    group_by_parameters = ["name base collider", "qx", "qy"]
+    group_by_parameters = ["name base collider", "crossing_angle", "qx", "qy"]
 
     # We always want to keep beam in the final result
     group_by_parameters = ["beam"] + group_by_parameters
