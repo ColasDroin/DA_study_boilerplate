@@ -34,7 +34,7 @@ d_config_particles["n_r"] = 16 * (d_config_particles["r_max"] - d_config_particl
 d_config_particles["n_angles"] = 5
 
 # Number of split for parallelization
-d_config_particles["n_split"] = 1
+d_config_particles["n_split"] = 5
 
 # ==================================================================================================
 # --- Optics collider parameters (generation 1)
@@ -139,10 +139,10 @@ d_config_leveling["ip8"]["luminosity"] = 1.0e27
 ### Beam beam configuration
 
 # Define dictionary for the beam beam settings
-d_config_beambeam = {"mask_with_filling_pattern": {}, "skip_beambeam": True}
+d_config_beambeam = {"mask_with_filling_pattern": {}, "skip_beambeam": False}
 
 # Beam settings
-d_config_beambeam["num_particles_per_bunch"] = 1.8e8  # ! Need to find the correct value here
+d_config_beambeam["num_particles_per_bunch"] = 171100000.0  # type: ignore
 d_config_beambeam["nemitt_x"] = 2.2e-6  # type: ignore
 d_config_beambeam["nemitt_y"] = 2.2e-6  # type: ignore
 
@@ -190,7 +190,7 @@ d_config_collider["config_beambeam"] = d_config_beambeam
 d_config_simulation = {}
 
 # Number of turns to track
-d_config_simulation["n_turns"] = 100
+d_config_simulation["n_turns"] = 1000000
 
 # Initial off-momentum
 d_config_simulation["delta_max"] = 24.0e-5
@@ -204,8 +204,8 @@ d_config_simulation["beam"] = "lhcb1"
 # Below, the user chooses if the gen 2 collider must be dumped, along with the corresponding
 # configuration.
 # ==================================================================================================
-dump_collider = True
-dump_config_in_collider = True
+dump_collider = False
+dump_config_in_collider = False
 
 # ==================================================================================================
 # --- Machine parameters being scanned (generation 2)
@@ -214,8 +214,8 @@ dump_config_in_collider = True
 # optimal DA (e.g. tune, chroma, etc).
 # ==================================================================================================
 # Scan tune with step of 0.001 (need to round to correct for numpy numerical instabilities)
-# array_qx = np.round(np.arange(62.305, 62.330, 0.001), decimals=4)
-# array_qy = np.round(np.arange(60.305, 60.330, 0.001), decimals=4)
+array_qx = np.round(np.arange(62.305, 62.330, 0.001), decimals=4)
+array_qy = np.round(np.arange(60.305, 60.330, 0.001), decimals=4)
 
 # In case one is doing a tune-tune scan, to decrease the size of the scan, we can ignore the
 # working points too close to resonance. Otherwise just delete this variable in the loop at the end
@@ -249,7 +249,22 @@ children["base_collider"]["config_mad"] = d_config_mad
 # ! otherwise the dictionnary will be mutated for all the children.
 # ==================================================================================================
 track_array = np.arange(d_config_particles["n_split"])
-for idx_job, (track) in enumerate(track_array):
+for idx_job, (track, qx, qy) in enumerate(itertools.product(track_array, array_qx, array_qy)):
+    # If requested, ignore conditions below the upper diagonal as they can't be reached in the LHC
+    if keep == "upper_triangle":
+        if qy < (qx - 2 - 0.0039):  # 0.039 instead of 0.04 to avoid rounding errors
+            continue
+    elif keep == "lower_triangle":
+        if qy >= (qx - 2 - 0.0039):
+            continue
+    else:
+        pass
+
+    # Mutate the appropriate collider parameters
+    for beam in ["lhcb1", "lhcb2"]:
+        d_config_collider["config_knobs_and_tuning"]["qx"][beam] = float(qx)
+        d_config_collider["config_knobs_and_tuning"]["qy"][beam] = float(qy)
+
     # Complete the dictionnary for the tracking
     d_config_simulation["particle_file"] = f"../particles/{track:02}.parquet"
     d_config_simulation["collider_file"] = "../collider.json.zip"
@@ -289,7 +304,7 @@ set_context(children, 1, config)
 # --- Build tree and write it to the filesystem
 # ==================================================================================================
 # Define study name
-study_name = "collider_50cm_2024_140murad"
+study_name = "tunescan_50cm_2024_agressive_2_and_half_HO"
 
 # Creade folder that will contain the tree
 if not os.path.exists(f"../scans/{study_name}"):
