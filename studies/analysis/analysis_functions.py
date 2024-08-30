@@ -163,15 +163,9 @@ def get_title_from_conf(
             PU_8 = ""
 
         # Beta star # ! Manually encoded for now
-        if "flathv" in conf_mad["optics_file"]:
-            bet1 = r"$\beta^{*}_{y,1}$"
-            bet2 = r"$\beta^{*}_{x,1}$"
-        # If betas are given, we always define betx first, whatever the crossing
-        elif "flatvh" in conf_mad["optics_file"] or (betx is not None and bety is not None):
-            bet1 = r"$\beta^{*}_{x,1}$"
-            bet2 = r"$\beta^{*}_{y,1}$"
-        if betx is not None and bety is not None:
-            beta = bet1 + f"$= {{{betx}}}$" + " m, " + bet2 + f"$= {{{bety}}}$" + " m"
+        bet1 = r"$\beta^{*}_{x,1}$"
+        bet2 = r"$\beta^{*}_{y,1}$"
+        beta = bet1 + f"$= {{{betx}}}$" + " m, " + bet2 + f"$= {{{bety}}}$" + " m"
 
         # Crossing angle at IP1/5
         if "flathv" in conf_mad["optics_file"] or type_crossing == "flathv":
