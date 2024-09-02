@@ -20,7 +20,10 @@ import yaml
 #     "tunescan_50cm_2024_agressive_3",
 #     "tunescan_50cm_control_sofia_IPAC",
 # ]
-l_study_name = ["fig5_sofia"]
+l_study_name = [
+    "tunescan_50cm_2024_agressive_2_and_half",
+    "tunescan_50cm_2024_agressive_2_and_half_HO",
+]
 
 # study_name = "collider_50cm_2024"
 for study_name in l_study_name:
@@ -98,7 +101,7 @@ for study_name in l_study_name:
             df_sim["num_particles_per_bunch"] = dic_child_collider["config_beambeam"][
                 "num_particles_per_bunch"
             ]
-            df_sim["sigma_z"] = dic_child_collider["config_beambeam"]["sigma_z"]
+            # df_sim["sigma_z"] = dic_child_collider["config_beambeam"]["sigma_z"]
             df_sim["i_oct_b1"] = dic_child_collider["config_knobs_and_tuning"]["knob_settings"][
                 "i_oct_b1"
             ]
@@ -140,10 +143,8 @@ for study_name in l_study_name:
     # group_by_parameters = ["name base collider", "qx", "qy"]
     group_by_parameters = [
         "name base collider",
-        "on_x1",
-        "on_x2v",
-        "on_x5",
-        "on_x8h",
+        "qx",
+        "qy",
         "num_particles_per_bunch",
     ]
 
@@ -160,11 +161,6 @@ for study_name in l_study_name:
         "i_oct_b1",
         "i_oct_b2",
         "num_particles_per_bunch",
-        "on_x1",
-        "on_x2v",
-        "on_x5",
-        "on_x8h",
-        "sigma_z",
     ]
 
     # Min is computed in the groupby function, but values should be identical
