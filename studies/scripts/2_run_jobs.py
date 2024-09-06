@@ -587,7 +587,17 @@ def submit_jobs(study_name, print_uncompleted_jobs=False):
 # Load the tree from a yaml and submit the jobs that haven't been completed yet
 if __name__ == "__main__":
     # Define study
-    l_study_name = ["xing_scan_flatvh_75_180_1500"]
+    l_study_name = [
+        "oct_chroma_tune_scan_flatvh_75_180_1500",
+        "tunescan_flathv_75_180_1500_lower_chroma_neg_oct",
+        "tunescan_flathv_75_180_1500_neg_oct",
+        "tunescan_flatvh_75_180_1500_lower_chroma_neg_oct",
+        "tunescan_flatvh_75_180_1500_neg_oct",
+        "xing_scan_flatvh_75_180_1500_higher_chroma_neg_oct",
+        "xing_scan_flatvh_75_180_1500_higher_chroma",
+        "xing_scan_flatvh_75_180_1500_neg_oct",
+    ]
+
     # Submit jobs
     for study_name in l_study_name:
         submit_jobs(study_name)
