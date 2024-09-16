@@ -101,7 +101,7 @@ d_config_knobs = {}
 d_config_knobs["on_x1"] = 140
 d_config_knobs["on_sep1"] = 0
 d_config_knobs["on_x2v"] = -140
-d_config_knobs["on_sep2h"] = 0.008856849816850922
+d_config_knobs["on_sep2h"] = 0.0
 d_config_knobs["on_sep2v"] = 0
 d_config_knobs["on_x5"] = 140
 d_config_knobs["on_sep5"] = 0
@@ -128,7 +128,7 @@ d_config_leveling = {
 }
 
 # Luminosity and particles
-skip_leveling = False
+skip_leveling = True
 
 # Leveling parameters (ignored if skip_leveling is True)
 d_config_leveling["ip1"]["luminosity"] = 6.4e27
@@ -142,7 +142,7 @@ d_config_leveling["ip8"]["luminosity"] = 1.0e27
 d_config_beambeam = {"mask_with_filling_pattern": {}, "skip_beambeam": False}
 
 # Beam settings
-d_config_beambeam["num_particles_per_bunch"] = 171100000.0  # type: ignore
+d_config_beambeam["num_particles_per_bunch"] = 162370000  # type: ignore
 d_config_beambeam["nemitt_x"] = 2.2e-6  # type: ignore
 d_config_beambeam["nemitt_y"] = 2.2e-6  # type: ignore
 
