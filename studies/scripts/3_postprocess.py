@@ -16,8 +16,17 @@ print("Analysis of output simulation files started")
 start = time.time()
 
 # Load Data
-l_study_name = ["xing_scan_flatvh_75_180_1500"]
-# study_name = "tunescan_flatvh_75_300_1500"
+# l_study_name = ["xing_scan_flatvh_75_180_1500"]
+l_study_name = [
+    "oct_chroma_tune_scan_flatvh_75_180_1500",
+    # "tunescan_flathv_75_180_1500_lower_chroma_neg_oct",
+    # "tunescan_flathv_75_180_1500_neg_oct",
+    # "tunescan_flatvh_75_180_1500_lower_chroma_neg_oct",
+    # "tunescan_flatvh_75_180_1500_neg_oct",
+    # "xing_scan_flatvh_75_180_1500_higher_chroma_neg_oct",
+    # "xing_scan_flatvh_75_180_1500_higher_chroma",
+    # "xing_scan_flatvh_75_180_1500_neg_oct",
+]
 # Submit jobs
 for study_name in l_study_name:
     # study_name = "example_tunescan"
@@ -118,7 +127,7 @@ for study_name in l_study_name:
         print("No unstable particles found, the output dataframe will be empty.")
 
     # Group by working point (Update this with the knobs you want to group by !)
-    group_by_parameters = ["name base collider", "crossing_angle", "qx", "qy"]
+    group_by_parameters = ["name base collider", "i_oct_b1", "i_oct_b2", "dqx", "dqy", "qx", "qy"]
 
     # We always want to keep beam in the final result
     group_by_parameters = ["beam"] + group_by_parameters
