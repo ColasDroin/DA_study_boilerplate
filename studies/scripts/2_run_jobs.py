@@ -588,14 +588,9 @@ def submit_jobs(study_name, print_uncompleted_jobs=False):
 if __name__ == "__main__":
     # Define study
     l_study_name = [
-        # "oct_chroma_tune_scan_flatvh_75_180_1500",
-        "tunescan_flathv_75_180_1500_lower_chroma_neg_oct",
-        # "tunescan_flathv_75_180_1500_neg_oct",
-        # "tunescan_flatvh_75_180_1500_lower_chroma_neg_oct",
-        # "tunescan_flatvh_75_180_1500_neg_oct",
-        # "xing_scan_flatvh_75_180_1500_higher_chroma_neg_oct",
-        # "xing_scan_flatvh_75_180_1500_higher_chroma",
-        # "xing_scan_flatvh_75_180_1500_neg_oct",
+        "xing_nb_scan_round_150_1500",
+        "xing_oct_scan_round_150_1500",
+        "xing_emitt_scan_round_150_1500",
     ]
 
     # Submit jobs

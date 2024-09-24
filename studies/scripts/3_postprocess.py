@@ -18,7 +18,7 @@ start = time.time()
 # Load Data
 # l_study_name = ["xing_scan_flatvh_75_180_1500"]
 l_study_name = [
-    "oct_chroma_tune_scan_flatvh_75_180_1500",
+    # "oct_chroma_tune_scan_flatvh_75_180_1500",
     # "tunescan_flathv_75_180_1500_lower_chroma_neg_oct",
     # "tunescan_flathv_75_180_1500_neg_oct",
     # "tunescan_flatvh_75_180_1500_lower_chroma_neg_oct",
