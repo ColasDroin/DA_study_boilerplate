@@ -588,9 +588,11 @@ def submit_jobs(study_name, print_uncompleted_jobs=False):
 if __name__ == "__main__":
     # Define study
     l_study_name = [
-        "xing_nb_scan_round_150_1500",
-        "xing_oct_scan_round_150_1500",
-        "xing_emitt_scan_round_150_1500",
+        # "xing_nb_scan_round_150_1500_higher_chroma",
+        # "xing_oct_scan_round_150_1500_higher_chroma",
+        # "xing_emitt_scan_round_150_1500_higher_chroma",
+        "xing_nb_scan_round_150_1500_higher_chroma_pos_oct",
+        "xing_emitt_scan_round_150_1500_higher_chroma_pos_oct",
     ]
 
     # Submit jobs

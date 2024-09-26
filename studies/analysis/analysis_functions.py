@@ -47,6 +47,7 @@ def get_title_from_conf(
     display_tune=False,
     ignore_lumi_1_5=True,
     display_chroma=True,
+    display_emit=True,
 ):
     # LHC version
     LHC_version = "HL-LHC v1.6"
@@ -229,6 +230,8 @@ def get_title_from_conf(
         # Normalized emittance
         emittance_value = round(conf_collider["config_beambeam"]["nemitt_x"] / 1e-6, 2)
         emittance = f"$\epsilon_{{n}} = {{{emittance_value}}}$ $\mu m$"
+        if not display_emit:
+            emittance = ""
 
         # Chromaticity
         chroma_value = conf_collider["config_knobs_and_tuning"]["dqx"]["lhcb1"]
@@ -341,6 +344,7 @@ def plot_heatmap(
     PU=True,
     display_xing=True,
     display_tune=False,
+    display_emit=True,
     ignore_lumi_1_5=False,
     vmin=4.5,
     vmax=7.5,
@@ -422,8 +426,8 @@ def plot_heatmap(
             np.arange(0.5, data_array.shape[0]),
             mx,
             colors="black",
-            levels=list(np.arange(3, green_contour, 0.5))
-            + list(np.arange(green_contour + 0.5, 10, 0.5)),
+            levels=list(np.arange(1, green_contour, 0.5))
+            + list(np.arange(green_contour + 0.5, 15, 0.5)),
             linewidths=0.2,
         )
         ax.clabel(CSS, inline=True, fontsize=6)
@@ -468,6 +472,7 @@ def plot_heatmap(
                 ignore_lumi_1_5=ignore_lumi_1_5,
                 PU=PU,
                 display_chroma=display_chroma,
+                display_emit=display_emit,
             ),
             fontsize=10,
         )

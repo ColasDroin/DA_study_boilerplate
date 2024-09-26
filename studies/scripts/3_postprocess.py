@@ -17,16 +17,11 @@ start = time.time()
 
 # Load Data
 # l_study_name = ["xing_scan_flatvh_75_180_1500"]
+
 l_study_name = [
-    # "oct_chroma_tune_scan_flatvh_75_180_1500",
-    # "tunescan_flathv_75_180_1500_lower_chroma_neg_oct",
-    # "tunescan_flathv_75_180_1500_neg_oct",
-    # "tunescan_flatvh_75_180_1500_lower_chroma_neg_oct",
-    # "tunescan_flatvh_75_180_1500_neg_oct",
-    # "xing_scan_flatvh_75_180_1500_higher_chroma_neg_oct",
-    # "xing_scan_flatvh_75_180_1500_higher_chroma",
-    # "xing_scan_flatvh_75_180_1500_neg_oct",
+    "xing_nb_scan_round_150_1500",
 ]
+
 # Submit jobs
 for study_name in l_study_name:
     # study_name = "example_tunescan"
@@ -44,8 +39,12 @@ for study_name in l_study_name:
         with open(f"{node.get_abs_path()}/config.yaml", "r") as fid:
             config_parent = yaml.safe_load(fid)
         for node_child in node.children:
-            with open(f"{node_child.get_abs_path()}/config.yaml", "r") as fid:
-                config_child = yaml.safe_load(fid)
+            try:
+                with open(f"{node_child.get_abs_path()}/config_final.yaml", "r") as fid:
+                    config_child = yaml.safe_load(fid)
+            except Exception:
+                print(f"Problem with node {node_child.get_abs_path()}")
+                continue
 
             try:
                 # Read the particle path as relative
@@ -107,6 +106,11 @@ for study_name in l_study_name:
             df_sim["crossing_angle"] = abs(
                 float(dic_child_collider["config_knobs_and_tuning"]["knob_settings"]["on_x1"])
             )
+            df_sim["n_emitt_x"] = dic_child_collider["config_beambeam"]["nemitt_x"] * 1e6
+            df_sim["n_emitt_y"] = dic_child_collider["config_beambeam"]["nemitt_y"] * 1e6
+            df_sim["lumi_ip_1_5"] = config_child["config_collider"]["config_beambeam"][
+                "luminosity_ip1_after_optimization"
+            ]
 
             # Merge with particle data
             df_sim_with_particle = pd.merge(df_sim, particle, on=["particle_id"])
@@ -127,7 +131,19 @@ for study_name in l_study_name:
         print("No unstable particles found, the output dataframe will be empty.")
 
     # Group by working point (Update this with the knobs you want to group by !)
-    group_by_parameters = ["name base collider", "i_oct_b1", "i_oct_b2", "dqx", "dqy", "qx", "qy"]
+    group_by_parameters = [
+        "name base collider",
+        "i_oct_b1",
+        "i_oct_b2",
+        "dqx",
+        "dqy",
+        "qx",
+        "qy",
+        "num_particles_per_bunch",
+        "n_emitt_x",
+        "n_emitt_y",
+        "crossing_angle",
+    ]
 
     # We always want to keep beam in the final result
     group_by_parameters = ["beam"] + group_by_parameters
@@ -143,6 +159,9 @@ for study_name in l_study_name:
         "i_oct_b2",
         "num_particles_per_bunch",
         "crossing_angle",
+        "n_emitt_x",
+        "n_emitt_y",
+        "lumi_ip_1_5",
     ]
 
     # Min is computed in the groupby function, but values should be identical
