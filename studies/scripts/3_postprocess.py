@@ -19,7 +19,11 @@ start = time.time()
 # l_study_name = ["xing_scan_flatvh_75_180_1500"]
 
 l_study_name = [
-    "xing_nb_scan_round_150_1500",
+    "xing_nb_scan_round_150_1500_higher_chroma",
+    "xing_oct_scan_round_150_1500_higher_chroma",
+    "xing_emitt_scan_round_150_1500_higher_chroma",
+    "xing_nb_scan_round_150_1500_higher_chroma_pos_oct",
+    "xing_emitt_scan_round_150_1500_higher_chroma_pos_oct",
 ]
 
 # Submit jobs
