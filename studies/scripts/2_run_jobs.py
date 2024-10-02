@@ -590,7 +590,7 @@ if __name__ == "__main__":
     l_study_name = [
         # "tunescan_round_150_1500_pos_oct_higher_lumi",
         # "tunescan_round_150_1500_neg_oct_higher_lumi",
-        "emitt_scan_round_150_1500_higher_chroma"
+        # "emitt_scan_round_150_1500_higher_chroma"
     ]
 
     # Submit jobs

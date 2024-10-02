@@ -351,6 +351,7 @@ def plot_heatmap(
     extended_diagonal=False,
     green_contour=6,
     figsize=None,
+    label_cbar="Minimum DA (" + r"$\sigma$" + ")",
 ):
     # Get numpy array from dataframe
     data_array = df_to_plot.to_numpy()
@@ -496,7 +497,7 @@ def plot_heatmap(
 
     # Create colorbar
     cbar = ax.figure.colorbar(im, ax=ax, fraction=0.026, pad=0.04)
-    cbar.ax.set_ylabel("Minimum DA (" + r"$\sigma$" + ")", rotation=90, va="bottom", labelpad=15)
+    cbar.ax.set_ylabel(label_cbar, rotation=90, va="bottom", labelpad=15)
     plt.grid(visible=None)
 
     if add_vline is not None:
