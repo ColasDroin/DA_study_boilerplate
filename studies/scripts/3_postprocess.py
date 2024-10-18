@@ -21,7 +21,7 @@ import yaml
 #     "tunescan_50cm_control_sofia_IPAC",
 # ]
 l_study_name = [
-    "tunescan_50cm_2024_agressive_2_and_half_HO_fixed",
+    "new_tunescan_50cm_2024_agressive",
 ]
 
 # study_name = "collider_50cm_2024"
