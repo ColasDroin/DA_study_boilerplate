@@ -20,7 +20,7 @@ import yaml
 #     "tunescan_50cm_2024_agressive_3",
 #     "tunescan_50cm_control_sofia_IPAC",
 # ]
-l_study_name = ["new_tunescan_50cm_2024_agressive", "new_tunescan_50cm_2024_agressive_alt"]
+l_study_name = ["tune_xing_scan_50cm_2024_agressive"]
 
 # study_name = "collider_50cm_2024"
 for study_name in l_study_name:
@@ -142,6 +142,7 @@ for study_name in l_study_name:
         "name base collider",
         "qx",
         "qy",
+        "on_x1",
         "num_particles_per_bunch",
     ]
 

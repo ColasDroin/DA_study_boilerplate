@@ -322,8 +322,12 @@ def plot_heatmap(
     extended_diagonal=False,
     small_ext_diagonal=False,
     smooth_symmetry=True,
+    plot_diagonal=True,
     vmin=3.5,
     vmax=8,
+    xlabel="Horizontal tune " + r"$Q_x$",
+    ylabel="Vertical tune " + r"$Q_y$",
+    xaxis_on_top=True,
 ):
     # Get numpy array from dataframe
     data_array = df_to_plot.to_numpy()
@@ -413,7 +417,7 @@ def plot_heatmap(
         ax.plot([0, 1000], [0, 1000], color="tab:blue", linestyle="--", linewidth=1)
         ax.plot([0, 1000], [-10, 990], color="tab:blue", linestyle="--", linewidth=1)
         ax.plot([0, 1000], [-5, 995], color="black", linestyle="--", linewidth=1)
-    else:
+    elif plot_diagonal:
         ax.plot([0, 1000], [1, 1001], color="tab:blue", linestyle="--", linewidth=1)
         ax.plot([0, 1000], [-9, 991], color="tab:blue", linestyle="--", linewidth=1)
         ax.plot([0, 1000], [-4, 996], color="black", linestyle="--", linewidth=1)
@@ -433,15 +437,17 @@ def plot_heatmap(
             ),
             fontsize=10,
         )
-    ax.set_xlabel("Horizontal tune " + r"$Q_x$")
-    ax.set_ylabel("Vertical tune " + r"$Q_y$")
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
     ax.set_xlim(0 - 0.5, data_array.shape[1] - 0.5)
     ax.set_ylim(0 - 0.5, data_array.shape[0] - 0.5)
 
     # Ticks on top
-    ax.xaxis.tick_top()
+    if xaxis_on_top:
+        ax.xaxis.tick_top()
     # Rotate the tick labels and set their alignment.
-    plt.setp(ax.get_xticklabels(), rotation=-30, ha="right", rotation_mode="anchor")
+    # plt.setp(ax.get_xticklabels(), rotation=-30, ha="right", rotation_mode="anchor")
+    plt.setp(ax.get_xticklabels(), rotation=-30, rotation_mode="anchor")
 
     # Create colorbar
     cbar = ax.figure.colorbar(im, ax=ax, fraction=0.026, pad=0.04)
