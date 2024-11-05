@@ -20,7 +20,7 @@ import yaml
 #     "tunescan_50cm_2024_agressive_3",
 #     "tunescan_50cm_control_sofia_IPAC",
 # ]
-l_study_name = ["tune_xing_scan_50cm_2024_agressive"]
+l_study_name = ["emit_nb_scan_50cm_2024_very_agressive"]
 
 # study_name = "collider_50cm_2024"
 for study_name in l_study_name:
@@ -117,6 +117,7 @@ for study_name in l_study_name:
             df_sim["on_x8h"] = abs(
                 float(dic_child_collider["config_knobs_and_tuning"]["knob_settings"]["on_x8h"])
             )
+            df_sim["nemitt_x"] = dic_child_collider["config_beambeam"]["nemitt_x"]
 
             # Merge with particle data
             df_sim_with_particle = pd.merge(df_sim, particle, on=["particle_id"])
@@ -144,6 +145,7 @@ for study_name in l_study_name:
         "qy",
         "on_x1",
         "num_particles_per_bunch",
+        "nemitt_x",
     ]
 
     # We always want to keep beam in the final result
@@ -159,6 +161,7 @@ for study_name in l_study_name:
         "i_oct_b1",
         "i_oct_b2",
         "num_particles_per_bunch",
+        "nemitt_x",
     ]
 
     # Min is computed in the groupby function, but values should be identical

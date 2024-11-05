@@ -269,12 +269,12 @@ def get_title_from_conf(
         + ". "
         + levelling
         + crab_cavities
-        + bunch_intensity
+        # + bunch_intensity
         + "\n"
-        + luminosity_1_5
-        + luminosity_2
-        + luminosity_8
-        + "\n"
+        # + luminosity_1_5
+        # + luminosity_2
+        # + luminosity_8
+        # + "\n"
         + beta
         + ", "
         + polarity
@@ -289,8 +289,8 @@ def get_title_from_conf(
         + "\n"
         + bunch_length
         + ", "
-        + emittance
-        + ", "
+        # + emittance
+        # + ", "
         + chroma
         + ", "
         + intensity
